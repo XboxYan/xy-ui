@@ -1,0 +1,118 @@
+/**
+ * 
+ * @Radio.css
+ * 
+ *
+**/
+.ui_radio{
+  display: inline-block;
+}
+.ui_radio input[type=radio] {
+	position: absolute;
+	clip: rect(0,0,0,0); /* IE8+ */
+	*left: -999px;
+}
+
+.ui_radio span{
+  display: inline-block;
+  vertical-align: middle;
+  height: 20px; 
+  padding-left: 25px;
+  position: relative;
+  cursor: pointer;
+}
+
+.ui_radio span::before{
+  content: '';
+	position: absolute;
+  left: 0;
+  top: 1px;
+	width: 18px;
+	height: 18px;
+	border: 2px solid rgba(208, 208, 213, 1); 
+	border-radius: 20px;
+	background-color: #fff;
+	box-sizing: border-box;
+	-webkit-transition: border-color .2s;
+    transition: border-color .2s;
+}
+
+.ui_radio:hover :not(:disabled) + span::before{
+	border-color: #ababaf;
+}
+
+.ui_radio span::after {
+	content: '';
+	position: absolute;
+  left: 5px;
+  top: 6px;
+	width: 8px;
+	height: 8px;
+	border-radius: 10px;
+	background-color: rebeccapurple;
+	-webkit-transform: scale(0,0);
+  -moz-transform: scale(0,0);
+  -ms-transform: scale(0,0);
+  -o-transform: scale(0,0);
+  transform: scale(0,0);
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+
+.ui_radio input[type=radio]:checked + span::before {
+  border-color: rebeccapurple;
+}
+
+.ui_radio input[type=radio]:checked + span::after {
+	-webkit-transform: scale(1,1);
+  -moz-transform: scale(1,1);
+  -ms-transform: scale(1,1);
+  -o-transform: scale(1,1);
+  transform: scale(1,1);
+}
+
+.ui_radio input[type=radio]:disabled + span {
+	/* 与设计师沟通，这里边框色值提高，否则不怎么好的显示器和背景色混在一起都看不出来 */
+	opacity: .7;
+  cursor: default;
+}
+
+/* error */
+.error.ui_radio {
+	border-color: #f4615c;
+}
+
+/*IE7, IE8 使用图片作UI*/
+@media \0screen\,screen\9 {
+	.ui_radio span:before{
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20px;
+    height: 20px;
+		background: url(../img/form_icon.png) no-repeat;
+	}
+	.ui_radio:hover span:before{
+		background-position: 0 -20px;
+	}
+	.ui_radio input[type=radio][checked] + span:before {
+		background-position: 0 -40px;
+	}
+	.ui_radio input[type=radio][defaultChecked] + span:before {
+		background-position: 0 -40px;
+	}
+	.ui_radio:hover input[type=radio][checked] + span {
+    background-position: 0 -40px;
+		
+	}
+  .ui_radio input[type=radio][disabled] + span,
+  .ui_radio:hover input[type=radio][disabled] + span {
+    cursor: default;
+    filter:alpha(opacity=50);
+  }
+  .ui_radio:hover input[type=radio][disabled] + span:before {
+    background-position: 0 0;
+  }
+
+}

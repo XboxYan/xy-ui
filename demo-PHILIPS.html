@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>测试</title>
+    <link href="css/reset.css" type="text/css" rel="stylesheet">
+    <link href="css/layout.css" type="text/css" rel="stylesheet">
+    <link href="css/animate.css" type="text/css" rel="stylesheet">
+    <link href="css/tips.css" type="text/css" rel="stylesheet">
+    <link href="css/radio.css" type="text/css" rel="stylesheet">
+    <link href="css/checkbox.css" type="text/css" rel="stylesheet">
+    <link href="css/select.css" type="text/css" rel="stylesheet">
+    <style>
+        .p {
+            display: inline-block;
+            padding: 10px;
+            background: rebeccapurple;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body class="ml30">
+    <p><br><br><br><br></p>
+    <span class="p ui_tips" data-tips="我是提示提示提示提示提示~~">提示提示提示提示提示</span>
+    <p><br><br><br><br></p>
+    <label class="ui_radio mr10"><input type="radio" name="item" disabled><span>不可选</span></label>
+    <label class="ui_radio mr10"><input type="radio" name="item"><span>单选1</span></label>
+    <label class="ui_radio mr10"><input type="radio" name="item"><span>单选1</span></label>
+    <label class="ui_radio mr10"><input type="radio" name="item"><span>单选1</span></label>
+    <p><br><br><br><br></p>
+    <label class="ui_radio mr10"><input type="radio" name="item2"><span>单选2</span></label>
+    <label class="ui_radio mr10"><input type="radio" name="item2"><span>单选2</span></label>
+    <label class="ui_radio mr10"><input type="radio" name="item2"><span>单选2</span></label>
+    <label class="ui_radio mr10"><input type="radio" name="item2"><span>单选2</span></label>
+    <p><br><br><br><br></p>
+    <p id="check_form">
+        <label class="ui_checkbox mr10"><input type="checkbox" disabled><span>不可选</span></label>
+        <label class="ui_checkbox mr10"><input type="checkbox" class="check_item"><span>多选</span></label>
+        <label class="ui_checkbox mr10"><input type="checkbox" class="check_item"><span>多选</span></label>
+        <label class="ui_checkbox mr10"><input type="checkbox" class="check_item"><span>多选</span></label>
+        <label class="ui_checkbox mr10"><input type="checkbox" class="check_all"><span>全选</span></label>
+    </p>
+    <p><br><br><br><br></p>
+    <label class="ui_select active" onchange="alert(3)">
+        <select >
+            <option value="4">44444444444</option>
+            <option value="5">555555555555</option>
+            <option value="6">66666666</option>
+            <option value="7">77777</option>
+            <option value="8">888888888</option>
+            <option value="9">99999</option>
+        </select>
+    </label>
+    <label class="ui_select active">
+        <select onchange="alert(5)">
+            <option value="4">44444444444</option>
+            <option value="5">555555555555</option>
+            <option value="6">66666666</option>
+            <option value="7">77777</option>
+            <option value="8">888888888</option>
+        </select>
+    </label>
+    <p>
+        <button id="butn">设置select</button>
+    </p>
+</body>
+
+</html>
+
+<script src="js/Agility.js"></script>
+
+<!--[if lte IE 8]>
+<script src="js/form.js"></script>
+<![endif]-->
+<script src="js/checkAll.js"></script>
+<script src="js/select.js"></script>
