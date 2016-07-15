@@ -52,45 +52,7 @@ $.fn.each = function (fn) {
     }
     return this;
 };
-//事件
-$.fn.addEvent = function (type, fn, capture) {
-    var el = this.el;
 
-    if (window.addEventListener) {
-        el.addEventListener(type, fn, capture);
-
-        var ev = document.createEvent("HTMLEvents");
-        ev.initEvent(type, capture || false, false);
-        // 在元素上存储创建的事件，方便自定义触发
-        if (!el["ev" + type]) {
-            el["ev" + type] = ev;
-        }
-
-    } else if (window.attachEvent) {
-        el.attachEvent("on" + type, fn);
-        if (isNaN(el["cu" + type])) {
-            // 自定义属性，触发事件用
-            el["cu" + type] = 0;
-        }
-
-        var fnEv = function (event) {
-            if (event.propertyName == "cu" + type) {
-                fn.call(el);
-            }
-        };
-
-        el.attachEvent("onpropertychange", fnEv);
-
-        // 在元素上存储绑定的propertychange事件，方便删除
-        if (!el["ev" + type]) {
-            el["ev" + type] = [fnEv];
-        } else {
-            el["ev" + type].push(fnEv);
-        }
-    }
-
-    return this;
-}
 //添加事件
 $.fn.on = function (events, selector, fn) {
     if (arguments.length === 2) {
