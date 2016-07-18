@@ -1,16 +1,16 @@
 var opt = [];
 $('.ui_select select').each(function (i, el) {
-    if(opt[i] === el.innerHTML ) return;
+    if (opt[i] === el.innerHTML) return;
     opt[i] = el.innerHTML;
     el.opt = '';
     el.sel = el.options[el.selectedIndex].text || el.options[0].text;
     $.toArray(el).each(function (j) {
         el.opt += '<li class="ui_select_li ' + ((j === el.selectedIndex) ? 'selected' : "") + '" data-value="' + (el.options[j].value || el.options[j].text) + '">' + el.options[j].text + '</li>\n'
     })
-    if($(el).next()){  
+    if ($(el).next()) {
         el.parentNode.children[1].innerHTML = el.opt;
-        el.parentNode.children[2].children[0].innerHTML = el.sel;        
-    }else{
+        el.parentNode.children[2].children[0].innerHTML = el.sel;
+    } else {
         var ul = document.createElement('ul');
         var a = document.createElement('a');
         ul.className = 'ui_select_datalist';
@@ -19,15 +19,15 @@ $('.ui_select select').each(function (i, el) {
         ul.innerHTML = el.opt;
         el.parentNode.appendChild(ul);
         el.parentNode.appendChild(a);
-    }    
+    }
 })
-$('.ui_select select').on('change',function () {
+$('.ui_select select').on('change', function () {
     var index = this.selectedIndex;
     console.log('自定义change')
     $(this.parentNode.children[1].children[index]).addClass('selected').siblings().removeClass('selected');//1取一即可
     this.parentNode.children[2].children[0].innerHTML = this.options[index].text;//2取一即可    
 })
-$('.ui_select').on('click','li',function(i,el){
+$('.ui_select li').on('click', 'li', function (i, el) {
     var index = $(this).index();
     $(this.parentNode.parentNode).removeClass('active');
     $(this.parentNode.parentNode.children[0]).selectedIndex(index).trigger('change');

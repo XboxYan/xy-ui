@@ -49,7 +49,7 @@ input[disabled], input[readonly] {
   position: relative;
 }
 
-input.ui_input, .ui_input > input {
+input.ui_input, .ui_input > input ,.ui_input > textarea {
   height: 20px;
   line-height: 20px;
   padding: 9px 8px;
@@ -62,7 +62,9 @@ input.ui_input, .ui_input > input {
   -webkit-transition: border-color .15s, background-color .15s;
   transition: border-color .15s, background-color .15s;
 }
-
+.ui_input > textarea {
+  height: auto;
+}
 
 /*ie  placeholder */
 @media screen\0 {
@@ -95,11 +97,11 @@ input.ui_input, .ui_input > input {
   }
 }
 
-.ui_input:hover, .ui_input:hover > input {
+.ui_input:hover, .ui_input:hover > input  .ui_input:hover > textarea {
   border-color: #ababaf;
 }
 
-.ui_input:focus, .ui_input > input:focus {
+.ui_input:focus, .ui_input > input:focus,.ui_input > textarea:focus {
   border-color: rebeccapurple;
 }
 
@@ -112,6 +114,11 @@ div.ui_input{
 div.ui_input > input {
   width: 100%;
   height: 40px;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+div.ui_input > textarea {
+  width: 100%;
   -ms-box-sizing: border-box;
   box-sizing: border-box;
 }
