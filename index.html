@@ -74,7 +74,7 @@ scrollbar-darkshadow-color:#fff; /*滚动条暗边框（ThreedDarkShadow）颜�
 <body class="ml30">
     <h1 class="h1">XYUI表单元素美化</h1>
     <h2 class="h2">#data-tip</h2>
-    <span class="p ui_tips" disabled data-tips="我是提示提示提示提示提示~~" onclick='alert(3)'>提示提示提示提示提示</span>
+    <span class="p ui_tips" data-tips="我是提示提示提示提示提示~~" onclick='alert(3)'>提示提示提示提示提示</span>
     <h2 class="h2">#ui_radio</h2>
     <label class="ui_radio mr10"><input type="radio" name="item" disabled><span>不可选</span></label>
     <label class="ui_radio mr10"><input type="radio" name="item"><span>单选1</span></label>
@@ -87,7 +87,7 @@ scrollbar-darkshadow-color:#fff; /*滚动条暗边框（ThreedDarkShadow）颜�
     <label class="ui_radio mr10"><input type="radio" name="item2"><span>单选2</span></label>
     <h2 class="h2">#ui_checkbox</h2>
     <p id="check_form">
-        <label class="ui_checkbox mr10"><input type="checkbox" disabled><span>不可选 </span></label>
+        <label class="ui_checkbox mr10"><input type="checkbox" disabled><span>不可选</span></label>
         <label class="ui_checkbox mr10"><input type="checkbox" class="check_item"><span>多选</span></label>
         <label class="ui_checkbox mr10"><input type="checkbox" class="check_item"><span>多选</span></label>
         <label class="ui_checkbox mr10"><input type="checkbox" class="check_item"><span>多选</span></label>
@@ -125,7 +125,7 @@ scrollbar-darkshadow-color:#fff; /*滚动条暗边框（ThreedDarkShadow）颜�
     </label>
     <h2 class="h2">#ui_input</h2>
     <label class="ui_input mr10">
-        <input type="text" placeholder="请输入点什么...">
+        <input type="text" placeholder="请输入点什么吧...">
     </label>
     <label class="ui_input ui_search_input" placeholder>
         <input type="search" placeholder="请搜索点什么.."><a class="ui_icon_search" onclick="alert(2)"></a>
@@ -137,20 +137,11 @@ scrollbar-darkshadow-color:#fff; /*滚动条暗边框（ThreedDarkShadow）颜�
         <input type="search" placeholder="请搜索点什么.."><a class="ui_icon_search"></a>
     </div>
     <div class="ui_input mt10" placeholder>
-        <textarea type="search" placeholder="请输入点什么.." rows='5'></textarea>
+        <textarea type="search" placeholder="请输入点什么吧.." rows='5'></textarea>
     </div>
     <h2 class="h2">#ui_input</h2>
 </body>
 
 </html>
 
-<script src="js/Agility.js"></script>
-<!--<script src="js/jquery.js"></script>-->
-<!--[if lte IE 8]>
-<script src="js/form.js"></script>
-<![endif]-->
-<script src="js/checkAll.js"></script>
-<script src="js/select.js"></script>
-<!--[if lte IE 9]>
-<script src="js/placeholder.js"></script>
-<![endif]-->
+<script src='./build/index.bundle.js'></script>

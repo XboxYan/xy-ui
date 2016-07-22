@@ -73,7 +73,7 @@
 	position: absolute;
 	width: 20px;
 	height: 20px;	
-	background: url(images/Select/icon_arrow.png) no-repeat center;
+	/*background: url(img/Select/icon_arrow.png) no-repeat center;*/
 	background-size: 20px 20px;
 	right: 7px;
 	top: 10px;

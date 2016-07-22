@@ -1,14 +1,16 @@
+var $ = require('./Agility');
+var Form = function(){};
 
-
-$('input[type=radio]').on('propertychange',function() {    
-    ischecked('input[type=radio]');
-})
-
-
-$('input[type=checkbox]').on('propertychange',function() {   
-    ischecked('input[type=checkbox]');
-})
-
+Form.prototype.Radio = function(){
+    $('input[type=radio]').on('propertychange',function() {    
+        ischecked('input[type=radio]');
+    })
+}
+Form.prototype.Checkbox = function () {
+    $('input[type=checkbox]').on('propertychange',function() {   
+        ischecked('input[type=checkbox]');
+    })
+}
 
 function ischecked(obj){
     
@@ -22,3 +24,5 @@ function ischecked(obj){
         }
     })
 }
+
+module.exports = Form;

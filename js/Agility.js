@@ -409,3 +409,4 @@ if (!Array.prototype.indexOf) {
     }
 }
 
+module.exports = $;
