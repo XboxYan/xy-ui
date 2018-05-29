@@ -16,7 +16,7 @@ textarea{ overflow:auto; resize: vertical;}
 input::-ms-clear{display:none;}
 @media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 2dppx){ 
     /* Retina 下仍使用默认字体渲染 */
-	body { -webkit-font-smoothing: subpixel-antialiased; }
+	body { -webkit-font-smoothing : subpixel-antialiased; }
 }
 
 
