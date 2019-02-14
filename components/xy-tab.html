@@ -1,0 +1,100 @@
+<template id="tab-template">
+    <style>
+        details {
+            font-family: "Open Sans Light", Helvetica, Arial
+        }
+
+        .name {
+            font-weight: bold;
+            color: #217ac0;
+            font-size: 30px
+        }
+
+        h4 {
+            margin: 10px 0 -8px 0;
+        }
+
+        h4 span {
+            background: #217ac0;
+            padding: 2px 6px 2px 6px
+        }
+
+        h4 span {
+            border: 1px solid #cee9f9;
+            border-radius: 4px
+        }
+
+        h4 span {
+            color: white
+        }
+
+        .attributes {
+            margin-left: 22px;
+            font-size: 90%
+        }
+
+        .attributes p {
+            margin-left: 16px;
+            font-style: italic
+        }
+        .tab-content{
+            color:red
+        }
+
+    </style>
+    <div class="tab">
+        <div class="tab-content">
+            <slot name="element-name" class="tab-content">NEED NAME</slot>
+        </div>
+    </div>
+    <!-- 
+        <details>
+        <summary>
+            <span>
+                <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+                <i class="desc">
+                    <slot name="description">NEED DESCRIPTION</slot>
+                </i>
+            </span>
+        </summary>
+        <div class="attributes">
+            <h4><span>Attributes</span></h4>
+            <slot name="attributes">
+                <p>None</p>
+            </slot>
+        </div>
+    </details>
+     -->
+</template>
+<script>
+    (function () {
+        class XyTab extends HTMLElement {
+            constructor() {
+                super();
+                const template = document.querySelector("#tab").import.getElementById('tab-template').content;
+                const tab = Array.from(this.children).map(d=>d.getAttribute('tab-name'))
+                console.log(tab)
+                //const template = document.currentScript.ownerDocument.getElementById('tab-template').content;
+                const root = template.cloneNode(true);
+                root.querySelector('.tab-content').innerHTML+='<a>5545454</a>'
+                const shadowRoot = this.attachShadow({ mode: 'open' })
+                    .appendChild(root);
+            }
+        }
+        class XyTabContent extends HTMLElement {
+            constructor() {
+                super();
+                const slot = document.createElement('slot');
+                const frag = document.createElement('div');
+                frag.className = 'tab-content';
+                frag.appendChild(slot)
+                //const template = document.querySelector("#tab").import.getElementById('element-details-template').content;
+                // const template = document.currentScript.ownerDocument.getElementById('element-details-template').content;
+                const shadowRoot = this.attachShadow({ mode: 'open' })
+                    .appendChild(frag)
+            }
+        }
+        customElements.define('xy-tab',XyTab);
+        customElements.define('xy-tab-content',XyTabContent);
+    })()
+</script>

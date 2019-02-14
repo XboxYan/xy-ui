@@ -1,4 +1,5 @@
-# XYUI&javacript
-##### 模拟jQuery库
-##### 兼容IE8+
-##### 表单元素UI美化
+# XYUI
+
+原生 Web Components UI组件库
+
+正在进行中...
