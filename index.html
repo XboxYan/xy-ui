@@ -4,40 +4,91 @@
 <head>
     <meta charset="UTF-8">
     <title>xy-ui</title>
-    <link id="tab" rel="import" href="./components/xy-tab.html">
+    <link id="xy-tab" rel="import" href="./components/xy-tab.html">
     <style>
-    span{color: red; }
-    h4 span {
+        div {}
+
+        .box {
+            padding: 10px;
+            height: 500px;
+        }
+
+        dl {
             font-size: 30px;
         }
-        dl{
-          font-size: 30px;
+
+        .aa {
+            height: 200px;
+            background: wheat
+        }
+
+        xy-tab /deep/ .tab {
+            color: red
         }
     </style>
 </head>
 
 <body>
-    <div class="tab-content">
-        NEED NAME
-    </div>
-    <xy-tab>
-        <xy-tab-content tab-name="tab1"  slot="element-name" >
-            <div>
+    <h2>Web Components Tab</h2>
+    <div class="box">
+        <xy-tab index="1">
+            <xy-tab-content tab-name="tab1">
+                <div class="aa"></div>
                 111A placeholder inside a web
                 component that users can fill with their own markup,
                 with the effect of composing different DOM trees
                 together.
                 <dl>好好计划</dl>
-            </div>
-        </xy-tab-content>
-        <xy-tab-content tab-name="tab2"  slot="element-name" >
-            <div>
+                111A placeholder inside a web
+                component that users can fill with their own markup,
+                with the effect of composing different DOM trees
+                together.
+
+            </xy-tab-content>
+            <xy-tab-content tab-name="tab222">
                 222A placeholder inside a web
                 component that users can fill with their own markup,
                 with the effect of composing different DOM trees
                 together.
-            </div>
-        </xy-tab-content>
-      </xy-tab>
+                <div class="aa"></div>
+            </xy-tab-content>
+            <xy-tab-content tab-name="tab3">
+                <xy-tab index="0">
+                    <xy-tab-content tab-name="tab1">
+                        <div class="aa"></div>
+                        111A placeholder inside a web
+                        component that users can fill with their own markup,
+                        with the effect of composing different DOM trees
+                        together.
+                        <dl>好好计划</dl>
+                        111A placeholder inside a web
+                        component that users can fill with their own markup,
+                        with the effect of composing different DOM trees
+                        together.
+
+                    </xy-tab-content>
+                    <xy-tab-content tab-name="tab222">
+                        222A placeholder inside a web
+                        component that users can fill with their own markup,
+                        with the effect of composing different DOM trees
+                        together.
+                        <div class="aa"></div>
+                    </xy-tab-content>
+                    <xy-tab-content tab-name="tab3">
+                        33A placeholder inside a web
+                        <div class="aa"></div>
+                        component that users can fill with their own markup,
+                        with the effect of composing different DOM trees
+                        together.
+
+                    </xy-tab-content>
+                </xy-tab>
+            </xy-tab-content>
+        </xy-tab>
+    </div>
 </body>
+<script>
+
+</script>
+
 </html>

@@ -1,100 +1,168 @@
 <template id="tab-template">
     <style>
-        details {
-            font-family: "Open Sans Light", Helvetica, Arial
+        .tab {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
 
-        .name {
-            font-weight: bold;
-            color: #217ac0;
-            font-size: 30px
+        .tab-nav {
+            position: relative;
+            display: flex;
+            overflow: auto;
+            flex-wrap: nowrap;
+            transition: .3s;
         }
 
-        h4 {
-            margin: 10px 0 -8px 0;
+        .nav-item {
+            height: 38px;
+            line-height: 38px;
+            font-size: 16px;
+            padding: 0 10px;
+            cursor: pointer;
         }
 
-        h4 span {
-            background: #217ac0;
-            padding: 2px 6px 2px 6px
+        .nav-item.on{
+            color: royalblue;
         }
 
-        h4 span {
-            border: 1px solid #cee9f9;
-            border-radius: 4px
+        .tab-content {
+            padding-top: 10px;
+            flex: 1;
+            overflow: hidden;
         }
 
-        h4 span {
-            color: white
-        }
+        .tab-wrap {
+            height: 100%;
+            transition: .3s;
+            display: flex;
+            flex-wrap: nowrap;
 
-        .attributes {
-            margin-left: 22px;
-            font-size: 90%
-        }
 
-        .attributes p {
-            margin-left: 16px;
-            font-style: italic
         }
-        .tab-content{
-            color:red
+        .tabline{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            border-radius: 4px;
+            background: royalblue;
+            transition: .3s;
         }
-
     </style>
     <div class="tab">
+        <div class="tab-nav">
+            <div class="tab-nav-wrap"></div>
+            <i class="tabline" id="tabline"></i>
+        </div>
         <div class="tab-content">
-            <slot name="element-name" class="tab-content">NEED NAME</slot>
+            <div class="tab-wrap" id="tab-wrap">
+                <slot>NEED CONTENT</slot>
+            </div>
         </div>
     </div>
-    <!-- 
-        <details>
-        <summary>
-            <span>
-                <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
-                <i class="desc">
-                    <slot name="description">NEED DESCRIPTION</slot>
-                </i>
-            </span>
-        </summary>
-        <div class="attributes">
-            <h4><span>Attributes</span></h4>
-            <slot name="attributes">
-                <p>None</p>
-            </slot>
-        </div>
-    </details>
-     -->
+</template>
+<template id="tab-content-template">
+    <style>
+        .tab-con {
+            display: inline-block;
+            box-sizing: border-box;
+            padding: 10px;
+            height: 100%;
+            overflow: auto;
+            font-size: 1rem;
+            white-space: normal;
+        }
+    </style>
+    <div class="tab-con" id="tab-con">
+        <slot></slot>
+    </div>
 </template>
 <script>
     (function () {
+        //XyTab
         class XyTab extends HTMLElement {
+
+            static get observedAttributes() { return ['index']; }
+
             constructor() {
                 super();
-                const template = document.querySelector("#tab").import.getElementById('tab-template').content;
-                const tab = Array.from(this.children).map(d=>d.getAttribute('tab-name'))
-                console.log(tab)
-                //const template = document.currentScript.ownerDocument.getElementById('tab-template').content;
+                const template = document.querySelector("#xy-tab").import.getElementById('tab-template').content;
                 const root = template.cloneNode(true);
-                root.querySelector('.tab-content').innerHTML+='<a>5545454</a>'
-                const shadowRoot = this.attachShadow({ mode: 'open' })
-                    .appendChild(root);
+                this.tabCon = root.getElementById('tab-wrap');
+                this.tabline = root.getElementById('tabline');
+                this.tabs = root.querySelector('.tab-nav-wrap');
+                const shadowRoot = this.attachShadow({ mode: 'open' }).appendChild(root);
+            }
+
+            init(){
+                const child = Array.from(this.children);
+                const tabnav = child.map((d, i) => '<span class="nav-item" data-index=' + i + '>' + (d.getAttribute('tab-name') || 'tab') + '</span>').join('');
+                //this.tabs = this.shadowRoot.querySelector('.tab-nav-wrap');
+                this.tabs.innerHTML = tabnav;
+                this.tabItems = Array.from(this.tabs.querySelectorAll(".nav-item"));
+                this.tabPos = this.tabItems.map(d=>([d.offsetWidth,d.offsetLeft]));
+                this._setTabs();
+            }
+
+            connectedCallback() {
+                //this.tabs = this.shadowRoot.querySelector('.tab-nav-wrap');
+                this.tabs.addEventListener('click', (ev) => {
+                    if (ev.target.tagName == 'SPAN') {
+                        const index = ev.target.dataset.index;
+                        this.setAttribute('index', index); 
+                    }
+                }, false)
+                //this._setTabs();
+            }
+
+            get index() {
+                return this.getAttribute('index')||0;
+            }
+
+            _setTabs(oldIndex){
+                if(oldIndex!=undefined){
+                    this.tabItems[oldIndex].classList.remove('on');
+                }
+                this.tabItems[this.index].classList.add('on');
+                this.tabline.style = `width:${this.tabPos[this.index][0]}px;transform:translateX(${this.tabPos[this.index][1]}px)`;
+                this.tabCon.style.transform = `translateX(${-this.index * 100}%)`;
+            }
+
+            attributeChangedCallback (name, oldValue, newValue) {
+                if(oldValue && oldValue!==newValue){
+                    this._setTabs(oldValue)
+                }
             }
         }
+        //XyTabContent
         class XyTabContent extends HTMLElement {
+            static get observedAttributes() { return ['tab-name']; }
             constructor() {
                 super();
-                const slot = document.createElement('slot');
-                const frag = document.createElement('div');
-                frag.className = 'tab-content';
-                frag.appendChild(slot)
-                //const template = document.querySelector("#tab").import.getElementById('element-details-template').content;
-                // const template = document.currentScript.ownerDocument.getElementById('element-details-template').content;
-                const shadowRoot = this.attachShadow({ mode: 'open' })
-                    .appendChild(frag)
+                const template = document.querySelector("#xy-tab").import.getElementById('tab-content-template').content;
+                //const template = document.currentScript.ownerDocument.getElementById('tab-content-template').content;
+                const root = template.cloneNode(true);
+                const shadowRoot = this.attachShadow({ mode: 'open' }).appendChild(root);
+                //console.log(this.parentNode.index);
+            }
+            init(){
+                const width = this.parentNode.shadowRoot.querySelector('.tab').offsetWidth;
+                this.shadowRoot.getElementById('tab-con').style.width = width + 'px';
+            }
+            connectedCallback() {
+                this.init()
+                window.addEventListener('resize',()=>{
+                    this.init()
+                })
+            }
+            attributeChangedCallback (name, oldValue, newValue) {
+                if(oldValue!==newValue){
+                    this.parentNode.init();
+                }
             }
         }
-        customElements.define('xy-tab',XyTab);
-        customElements.define('xy-tab-content',XyTabContent);
+        customElements.define('xy-tab', XyTab);
+        customElements.define('xy-tab-content', XyTabContent);
     })()
 </script>
