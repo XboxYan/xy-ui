@@ -1,0 +1,38 @@
+h2{
+    padding: 10px 0;
+    background: #fff;
+    position: sticky;
+    top: 0;
+    margin: 0;
+}
+h3{
+    margin: 0;
+}
+pre{
+    font-family: 'Courier New', Courier, monospace;
+    background: #f1f1f1;
+    padding: 10px;
+}
+code{
+    font-family: 'Courier New', Courier, monospace;
+    border: 1px solid #ddd;
+    background: #fff;
+    padding: 1px 3px;
+    border-radius: 3px;
+    margin: 0 3px;
+}
+.table{
+    border: 1px solid #f1f1f1;
+    border-collapse:collapse
+}
+.table th,.table td{
+    padding:5px 10px;
+}
+.table th{
+    background: #f1f1f1;
+}
+
+.content {
+    padding: 10px;
+    background: #f1f1f1
+}

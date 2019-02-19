@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>xy-ui</title>
+    <link type="text/css" rel="stylesheet" href="../css/common.css" >
+    <link id="xy-select" rel="import" href="../components/xy-select.html">
+    
+</head>
+
+<body>
+    <h2>xy-select</h2>
+    <h3>code</h3>
+    <pre class="pre">
+&lt;xy-tab index=&quot;1&quot; theme=&quot;royalblue&quot;&gt;
+    &lt;xy-tab-content tab-name=&quot;tab1&quot;&gt;
+        contents1
+        &lt;div&gt;
+            contents1 div
+        &lt;/div&gt;
+    &lt;/xy-tab-content&gt;
+    &lt;xy-tab-content tab-name=&quot;tab1&quot;&gt;
+        contents2
+    &lt;/xy-tab-content&gt;
+    &lt;xy-tab-content tab-name=&quot;tab1&quot;&gt;
+        contents3
+    &lt;/xy-tab-content&gt;
+&lt;/xy-tab&gt;</pre>
+    <h3>props</h3>
+    <table class="table">
+        <tr>
+            <th>属性</th>
+            <th>描述</th>
+            <th>示例</th>
+        </tr>
+        <tr>
+            <td><code>index</code></td>
+            <td><code>tab</code>初始位置，可随时修改</td>
+            <td><code>&lt;xy-tab index=&quot;1&quot;&gt;</code></td>
+        </tr>
+        <tr>
+            <td><code>theme</code></td>
+            <td>主题颜色，可改变<code>tabline</code>和当前选中颜色</td>
+            <td><code>&lt;xy-tab theme=&quot;royalblue&quot;&gt;</code></td>
+        </tr>
+    </table>
+    <h3>api</h3>
+    <pre class="pre">
+//setTabs 主动设置
+document.querySelector('#tab01').setTabs(2)
+
+//onChange tab切换时的回调
+document.querySelector('#tab01').onChange = function(index){
+    console.log(index)
+} 
+    </pre>
+    <h3>demo</h3>
+    <div class="content">
+        <xy-select>
+            <xy-option value="1">option1</xy-option>
+            <xy-option value="2">option2</xy-option>
+            <xy-option value="3">option3</xy-option>
+        </xy-select>
+    </div>
+    <script>
+        
+    </script>
+</body>
+
+
+</html>

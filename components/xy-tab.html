@@ -11,7 +11,7 @@
             display: flex;
             overflow: auto;
             flex-wrap: nowrap;
-            transition: .3s;
+            background: #fff;
         }
 
         .nav-item {
@@ -20,10 +20,11 @@
             font-size: 16px;
             padding: 0 10px;
             cursor: pointer;
+            transition: .3s;
         }
 
         .nav-item.on{
-            color: royalblue;
+            color: var(--theme,royalblue);
         }
 
         .tab-content {
@@ -46,11 +47,11 @@
             left: 0;
             height: 4px;
             border-radius: 4px;
-            background: royalblue;
+            background-color: var(--theme,royalblue);
             transition: .3s;
         }
     </style>
-    <div class="tab">
+    <div class="tab" id="tab-root">
         <div class="tab-nav">
             <div class="tab-nav-wrap"></div>
             <i class="tabline" id="tabline"></i>
@@ -80,62 +81,79 @@
 </template>
 <script>
     (function () {
+
+        const _handleClick = Symbol('_handleClick');
+        const _init = Symbol('_init');
+        const _setTabs = Symbol('_setTabs');
         //XyTab
         class XyTab extends HTMLElement {
 
-            static get observedAttributes() { return ['index']; }
+            static get observedAttributes() { return ['index','theme','onChange']; }
 
             constructor() {
                 super();
                 const template = document.querySelector("#xy-tab").import.getElementById('tab-template').content;
                 const root = template.cloneNode(true);
+                this.tabRoot = root.getElementById('tab-root');
                 this.tabCon = root.getElementById('tab-wrap');
                 this.tabline = root.getElementById('tabline');
                 this.tabs = root.querySelector('.tab-nav-wrap');
                 const shadowRoot = this.attachShadow({ mode: 'open' }).appendChild(root);
             }
 
-            init(){
-                const child = Array.from(this.children);
-                const tabnav = child.map((d, i) => '<span class="nav-item" data-index=' + i + '>' + (d.getAttribute('tab-name') || 'tab') + '</span>').join('');
-                //this.tabs = this.shadowRoot.querySelector('.tab-nav-wrap');
-                this.tabs.innerHTML = tabnav;
-                this.tabItems = Array.from(this.tabs.querySelectorAll(".nav-item"));
-                this.tabPos = this.tabItems.map(d=>([d.offsetWidth,d.offsetLeft]));
-                this._setTabs();
+            connectedCallback() {
+                this.tabs.addEventListener('click', (ev)=>{
+                    this[_handleClick](ev);
+                }, false)
             }
 
-            connectedCallback() {
-                //this.tabs = this.shadowRoot.querySelector('.tab-nav-wrap');
-                this.tabs.addEventListener('click', (ev) => {
-                    if (ev.target.tagName == 'SPAN') {
-                        const index = ev.target.dataset.index;
-                        this.setAttribute('index', index); 
+            attributeChangedCallback (name, oldValue, newValue) {
+                if(name=='index'){
+                    if(oldValue && oldValue!==newValue){
+                        this[_setTabs](oldValue)
                     }
-                }, false)
-                //this._setTabs();
+                }else if(name=='theme'){
+                    this.tabRoot.style.setProperty('--theme',newValue)
+                }
             }
 
             get index() {
                 return this.getAttribute('index')||0;
             }
 
-            _setTabs(oldIndex){
+            set index(index) {
+                this.setAttribute('index', index);
+            }
+
+            [_handleClick](ev){
+                if (ev.target.tagName == 'SPAN') {
+                    const index = ev.target.dataset.index;
+                    this.index = index; 
+                }
+            }
+
+            [_init](){
+                const child = Array.from(this.children);
+                const tabnav = child.map((d, i) => '<span class="nav-item" data-index=' + i + '>' + (d.getAttribute('tab-name') || 'tab') + '</span>').join('');
+                this.tabs.innerHTML = tabnav;
+                this.tabItems = Array.from(this.tabs.querySelectorAll(".nav-item"));
+                this.tabPos = this.tabItems.map(d=>([d.offsetWidth,d.offsetLeft]));
+                this[_setTabs]();
+            }
+
+            [_setTabs](oldIndex){
                 if(oldIndex!=undefined){
                     this.tabItems[oldIndex].classList.remove('on');
                 }
                 this.tabItems[this.index].classList.add('on');
                 this.tabline.style = `width:${this.tabPos[this.index][0]}px;transform:translateX(${this.tabPos[this.index][1]}px)`;
                 this.tabCon.style.transform = `translateX(${-this.index * 100}%)`;
+                this.onChange&&this.onChange(this.index)
             }
-
-            attributeChangedCallback (name, oldValue, newValue) {
-                if(oldValue && oldValue!==newValue){
-                    this._setTabs(oldValue)
-                }
-            }
+ 
         }
         //XyTabContent
+        const _load = Symbol('_load');
         class XyTabContent extends HTMLElement {
             static get observedAttributes() { return ['tab-name']; }
             constructor() {
@@ -145,22 +163,27 @@
                 const root = template.cloneNode(true);
                 const shadowRoot = this.attachShadow({ mode: 'open' }).appendChild(root);
                 //console.log(this.parentNode.index);
+            } 
+            
+            connectedCallback() {
+                this[_load]()
+                window.addEventListener('resize',()=>{
+                    this[_load]()
+                })
             }
-            init(){
+
+            attributeChangedCallback (name, oldValue, newValue) {
+                if(oldValue!==newValue){
+                    this.parentNode[_init]&&this.parentNode[_init]();
+                }
+            }
+
+            [_load](){
                 const width = this.parentNode.shadowRoot.querySelector('.tab').offsetWidth;
                 this.shadowRoot.getElementById('tab-con').style.width = width + 'px';
             }
-            connectedCallback() {
-                this.init()
-                window.addEventListener('resize',()=>{
-                    this.init()
-                })
-            }
-            attributeChangedCallback (name, oldValue, newValue) {
-                if(oldValue!==newValue){
-                    this.parentNode.init();
-                }
-            }
+
+            
         }
         customElements.define('xy-tab', XyTab);
         customElements.define('xy-tab-content', XyTabContent);

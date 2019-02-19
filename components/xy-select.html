@@ -1,0 +1,131 @@
+<template id="tab-template">
+    <style>
+        .tab {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .tab-nav {
+            position: relative;
+            display: flex;
+            overflow: auto;
+            flex-wrap: nowrap;
+            transition: .3s;
+        }
+
+        .nav-item {
+            height: 38px;
+            line-height: 38px;
+            font-size: 16px;
+            padding: 0 10px;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .nav-item.on{
+            color: var(--theme);
+        }
+
+        .tab-content {
+            padding-top: 10px;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .tab-wrap {
+            height: 100%;
+            transition: .3s;
+            display: flex;
+            flex-wrap: nowrap;
+
+
+        }
+        .tabline{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            border-radius: 4px;
+            background-color: var(--theme);
+            transition: .3s;
+        }
+    </style>
+    <div class="tab" id="tab-root">
+        <div class="tab-nav">
+            <div class="tab-nav-wrap"></div>
+            <i class="tabline" id="tabline"></i>
+        </div>
+        <div class="tab-content">
+            <div class="tab-wrap" id="tab-wrap">
+                <slot>NEED CONTENT</slot>
+            </div>
+        </div>
+    </div>
+</template>
+<template id="option-template">
+    <style>
+        .option {
+            box-sizing: border-box;
+            padding: 10px;
+            white-space: normal;
+        }
+    </style>
+    <div class="option" id="option">
+        <slot></slot>
+    </div>
+</template>
+<script>
+    (function () {
+
+        const _handleClick = Symbol('_handleClick');
+        const _init = Symbol('_init');
+        const _setTabs = Symbol('_setTabs');
+        //XyTab
+        class XySelect extends HTMLElement {
+
+            static get observedAttributes() { return ['index','theme','onChange']; }
+
+            constructor() {
+                super();
+                
+            }
+
+            connectedCallback() {
+                
+            }
+
+            attributeChangedCallback (name, oldValue, newValue) {
+                
+            }
+
+            get index() {
+                
+            }
+            
+        }
+        //XyOption
+        const _load = Symbol('_load');
+        class XyOption extends HTMLElement {
+            static get observedAttributes() { return ['tab-name']; }
+            constructor() {
+                super();
+                //const template = document.querySelector("#xy-select").import.getElementById('option-template').content;
+                const template = document.currentScript.ownerDocument.getElementById('option-template').content;
+                const root = template.cloneNode(true);
+                const shadowRoot = this.attachShadow({ mode: 'open' }).appendChild(root);
+            }
+            
+            connectedCallback() {
+                
+            }
+
+            attributeChangedCallback (name, oldValue, newValue) {
+                
+            }
+            
+        }
+        customElements.define('xy-select', XySelect);
+        customElements.define('xy-option', XyOption);
+    })()
+</script>
