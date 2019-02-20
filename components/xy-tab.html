@@ -88,7 +88,7 @@
         //XyTab
         class XyTab extends HTMLElement {
 
-            static get observedAttributes() { return ['index','theme','onChange']; }
+            static get observedAttributes() { return ['index','theme']; }
 
             constructor() {
                 super();
@@ -123,7 +123,9 @@
 
             set index(index) {
                 this.setAttribute('index', index);
+                this.dispatchEvent(new CustomEvent('onChange', { detail: index }));
             }
+
 
             [_handleClick](ev){
                 if (ev.target.tagName == 'SPAN') {
@@ -148,12 +150,11 @@
                 this.tabItems[this.index].classList.add('on');
                 this.tabline.style = `width:${this.tabPos[this.index][0]}px;transform:translateX(${this.tabPos[this.index][1]}px)`;
                 this.tabCon.style.transform = `translateX(${-this.index * 100}%)`;
-                this.onChange&&this.onChange(this.index)
             }
  
         }
         //XyTabContent
-        const _load = Symbol('_load');
+        const _resize = Symbol('_resize');
         class XyTabContent extends HTMLElement {
             static get observedAttributes() { return ['tab-name']; }
             constructor() {
@@ -166,9 +167,9 @@
             } 
             
             connectedCallback() {
-                this[_load]()
+                this[_resize]()
                 window.addEventListener('resize',()=>{
-                    this[_load]()
+                    this[_resize]()
                 })
             }
 
@@ -178,7 +179,7 @@
                 }
             }
 
-            [_load](){
+            [_resize](){
                 const width = this.parentNode.shadowRoot.querySelector('.tab').offsetWidth;
                 this.shadowRoot.getElementById('tab-con').style.width = width + 'px';
             }

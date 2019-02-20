@@ -52,17 +52,18 @@
     </table>
     <h3>api</h3>
     <pre class="pre">
-//setTabs 主动设置
+//设置
 document.querySelector('#tab01').index = 2;
 
 //onChange tab切换时的回调
-document.querySelector('#tab01').onChange = function(index){
-    console.log(index)
-} 
+document.querySelector('#tab01').addEventListener('onChange',(e)=>{
+    console.log(e.detail)//2
+})
     </pre>
     <h3>demo</h3>
+    
     <div class="content">
-        <xy-tab id="tab01" index="1" theme="royalblue">
+        <xy-tab id="tab01" index="1" theme="royalblue" onChange="alert(5)">
             <xy-tab-content tab-name="tab1">
                 <xy-tab index="0"  theme="red">
                     <xy-tab-content tab-name="tab1">
@@ -110,10 +111,11 @@ document.querySelector('#tab01').onChange = function(index){
         </xy-tab>
     </div>
     <script>
-        document.querySelector('#tab01').index = 2;
-        document.querySelector('#tab01').onChange = function(index){
-            console.log(index)
-        }
+        document.querySelector('#tab01').addEventListener('onChange',(a)=>{console.log(a)})
+        // document.querySelector('#tab01').index = 2;
+        // document.querySelector('#tab01').onChange = function(index){
+        //     console.log(index)
+        // }
     </script>
 </body>
 

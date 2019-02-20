@@ -82,14 +82,11 @@
         const _init = Symbol('_init');
         const _setTabs = Symbol('_setTabs');
         //XyTab
-        class XySelect extends HTMLElement {
+        class XySelect extends HTMLSelectElement {
 
             static get observedAttributes() { return ['index','theme','onChange']; }
 
-            constructor() {
-                super();
-                
-            }
+           
 
             connectedCallback() {
                 
@@ -125,7 +122,7 @@
             }
             
         }
-        customElements.define('xy-select', XySelect);
+        customElements.define('xy-select', XySelect, {extends:'select'});
         customElements.define('xy-option', XyOption);
     })()
 </script>
