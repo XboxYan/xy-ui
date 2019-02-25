@@ -52,13 +52,13 @@
     </table>
     <h3>api</h3>
     <pre class="pre">
-//设置
+//index 主动设置
 document.querySelector('#tab01').index = 2;
 
-//onChange tab切换时的回调
-document.querySelector('#tab01').addEventListener('onChange',(e)=>{
-    console.log(e.detail)//2
-})
+//onChange 事件监听
+document.querySelector('#tab01').onChange = function(index){
+    console.log(index)
+} 
     </pre>
     <h3>demo</h3>
     

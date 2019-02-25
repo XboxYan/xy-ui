@@ -1,4 +1,4 @@
-<template id="tab-template">
+<template id="select-template">
     <style>
         .tab {
             display: flex;
@@ -6,60 +6,28 @@
             height: 100%;
         }
 
-        .tab-nav {
-            position: relative;
-            display: flex;
-            overflow: auto;
-            flex-wrap: nowrap;
-            transition: .3s;
-        }
-
-        .nav-item {
-            height: 38px;
-            line-height: 38px;
-            font-size: 16px;
-            padding: 0 10px;
-            cursor: pointer;
-            transition: .3s;
-        }
-
-        .nav-item.on{
-            color: var(--theme);
-        }
-
-        .tab-content {
-            padding-top: 10px;
-            flex: 1;
-            overflow: hidden;
-        }
-
-        .tab-wrap {
-            height: 100%;
-            transition: .3s;
-            display: flex;
-            flex-wrap: nowrap;
-
-
-        }
-        .tabline{
+        .select-content{
             position: absolute;
-            bottom: 0;
-            left: 0;
-            height: 4px;
-            border-radius: 4px;
-            background-color: var(--theme);
             transition: .3s;
+        }
+
+        .select-content[data-visible=false] {
+            visibility: hidden;
+            opacity: 0;
+        }
+
+        .select-content[data-visible=true] {
+            visibility: visible;
+            opacity: 1;
         }
     </style>
-    <div class="tab" id="tab-root">
-        <div class="tab-nav">
-            <div class="tab-nav-wrap"></div>
-            <i class="tabline" id="tabline"></i>
+    <div class="select" id="select-root">
+        <div class="select-label">
+            <div class="select-curret" id="select-current"></div>
+            <i class="select-arrow" id="select-arrow"></i>
         </div>
-        <div class="tab-content">
-            <div class="tab-wrap" id="tab-wrap">
-                <slot>NEED CONTENT</slot>
-            </div>
+        <div class="select-content" id="select-content" data-visible="false">
+            <slot>NEED CONTENT</slot>
         </div>
     </div>
 </template>
@@ -71,58 +39,116 @@
             white-space: normal;
         }
     </style>
-    <div class="option" id="option">
+    <div class="option" id="option" data-selected="false">
         <slot></slot>
     </div>
 </template>
 <script>
     (function () {
 
-        const _handleClick = Symbol('_handleClick');
-        const _init = Symbol('_init');
-        const _setTabs = Symbol('_setTabs');
         //XyTab
-        class XySelect extends HTMLSelectElement {
+        class XySelect extends HTMLElement {
 
-            static get observedAttributes() { return ['index','theme','onChange']; }
+            static get observedAttributes() { return ["selected"]; }
 
-           
+            constructor() {
+                super();
+                //const template = document.currentScript.ownerDocument.getElementById('select-template').content;
+                const template = document.querySelector("#xy-select").import.getElementById('select-template').content;
+                const root = template.cloneNode(true);
+                this.selectRoot = root.getElementById('select-root');
+                this.selectContent = root.getElementById('select-content');
+                this.selectCurrent = root.getElementById('select-current');
+                // this.tabCon = root.getElementById('tab-wrap');
+                // this.tabline = root.getElementById('tabline');
+                // this.tabs = root.querySelector('.tab-nav-wrap');
+                const shadowRoot = this.attachShadow({ mode: 'open' }).appendChild(root);
+                this._render();
+            }
 
             connectedCallback() {
-                
+                document.addEventListener('click',(ev)=>{
+                    this.visible = false;
+                },false)
+                this.selectRoot.addEventListener('click',(ev)=>{
+                    ev.stopPropagation();
+                    if (ev.target.tagName == 'XY-OPTION') {
+                        this.selected = ev.target.getAttribute("value");
+                        this.visible = false;
+                    }else{
+                        this.visible = true;
+                    }
+                },false)
             }
 
-            attributeChangedCallback (name, oldValue, newValue) {
-                
+            attributeChangedCallback(name, oldValue, newValue) {
+                if (name == 'selected') {
+                    if (oldValue !== newValue) {
+                        this._render(oldValue);
+                    }
+                }
+
             }
 
-            get index() {
-                
+            _render(pre) {
+                const child = Array.from(this.children);
+                const current = child.find(el => this.selected == el.getAttribute("value"))||child[0];
+                const preChild = child.find(el => pre == el.getAttribute("value"));
+                if(preChild){
+                    preChild.selected = false;
+                }
+                current.option&&(current.selected = true);
+                this.selectCurrent.innerHTML = current.innerHTML;
             }
-            
+
+            get selected() {
+                return this.getAttribute('selected');
+            }
+
+            set selected(selected) {
+                this.setAttribute('selected', selected);
+                this.dispatchEvent(new CustomEvent('onSelect', { detail: selected }));
+            }
+
+            get visible() {
+                return this._visible || false;
+            }
+
+            set visible(_visible) {
+                this._visible = _visible;
+                this.selectContent.dataset.visible = _visible;
+            }
+
         }
         //XyOption
         const _load = Symbol('_load');
         class XyOption extends HTMLElement {
-            static get observedAttributes() { return ['tab-name']; }
+            static get observedAttributes() { return ["selected"]; }
             constructor() {
                 super();
-                //const template = document.querySelector("#xy-select").import.getElementById('option-template').content;
-                const template = document.currentScript.ownerDocument.getElementById('option-template').content;
+                const template = document.querySelector("#xy-select").import.getElementById('option-template').content;
+                //const template = document.currentScript.ownerDocument.getElementById('option-template').content;
                 const root = template.cloneNode(true);
+                this.option = root.getElementById('option');
                 const shadowRoot = this.attachShadow({ mode: 'open' }).appendChild(root);
-            }
-            
-            connectedCallback() {
-                
+                this._selected = false;
             }
 
-            attributeChangedCallback (name, oldValue, newValue) {
-                
+            connectedCallback() {
+
             }
-            
+
+            get selected() {
+                return this._selected;
+            }
+
+            set selected(selected) {
+                this._selected = selected;
+                this.option.dataset.selected = selected;
+            }
+
         }
-        customElements.define('xy-select', XySelect, {extends:'select'});
+        customElements.define('xy-select', XySelect);
         customElements.define('xy-option', XyOption);
     })()
 </script>

@@ -47,17 +47,17 @@
     </table>
     <h3>api</h3>
     <pre class="pre">
-//setTabs 主动设置
-document.querySelector('#tab01').setTabs(2)
+//index 主动设置
+document.querySelector('#tab01').index = 2;
 
-//onChange tab切换时的回调
+//onChange 事件监听
 document.querySelector('#tab01').onChange = function(index){
     console.log(index)
 } 
     </pre>
     <h3>demo</h3>
     <div class="content">
-        <xy-select onchange="alert(5)">
+        <xy-select>
             <xy-option value="1">option1</xy-option>
             <xy-option value="2">option2</xy-option>
             <xy-option value="3">option3</xy-option>
