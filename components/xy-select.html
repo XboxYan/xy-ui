@@ -1,32 +1,67 @@
 <template id="select-template">
     <style>
-        .tab {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
+        .select{
+            display: inline-block;
+            position: relative;
+        }
+        .select-label{
+            white-space: nowrap;
+            border: 1px solid var(--theme,royalblue);
+            background: #fff;
+            line-height: 34px;
+            padding: 0 5px;
+            font-size: 14px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .select-current{
+            display: inline-block;
+        }
+
+        .select-arrow{
+            display: inline-block;
+            border-style: solid;
+            border-width:5px 5px 0;
+            transition: .3s;
+            vertical-align: middle;
+            border-color: var(--theme,royalblue) transparent transparent transparent;
         }
 
         .select-content{
             position: absolute;
+            border: 1px solid var(--theme,royalblue);
+            box-sizing: border-box;
+            min-width: 100%;
             transition: .3s;
+            border-radius: 3px;
+            background: #fff;
+            z-index: 2;
         }
 
-        .select-content[data-visible=false] {
+        .select[data-visible=false] .select-content{
             visibility: hidden;
+            transform: scale(0);
+            transform-origin: left top;
             opacity: 0;
         }
 
-        .select-content[data-visible=true] {
+        .select[data-visible=true] .select-content{
             visibility: visible;
+            transform: scale(1);
             opacity: 1;
         }
+
+        .select[data-visible=true] .select-arrow{
+            transform: rotate(180deg);
+        }
     </style>
-    <div class="select" id="select-root">
+    <div class="select" id="select-root" data-visible="false">
         <div class="select-label">
-            <div class="select-curret" id="select-current"></div>
+            <div class="select-current" id="select-current"></div>
             <i class="select-arrow" id="select-arrow"></i>
         </div>
-        <div class="select-content" id="select-content" data-visible="false">
+        <div class="select-content" id="select-content">
             <slot>NEED CONTENT</slot>
         </div>
     </div>
@@ -35,8 +70,15 @@
     <style>
         .option {
             box-sizing: border-box;
-            padding: 10px;
+            line-height: 34px;
+            padding: 0 5px;
             white-space: normal;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .option:hover{
+            background: var(--theme,royalblue);
+            color: #fff;
         }
     </style>
     <div class="option" id="option" data-selected="false">
@@ -116,7 +158,7 @@
 
             set visible(_visible) {
                 this._visible = _visible;
-                this.selectContent.dataset.visible = _visible;
+                this.selectRoot.dataset.visible = _visible;
             }
 
         }
