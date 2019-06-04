@@ -55,6 +55,12 @@
         .select[data-visible=true] .select-arrow{
             transform: rotate(180deg);
         }
+        :host(.red) .select-label{
+            background: red
+        }
+        ::slotted(a){
+            background: blue
+        }
     </style>
     <div class="select" id="select-root" data-visible="false">
         <div class="select-label">
@@ -62,7 +68,7 @@
             <i class="select-arrow" id="select-arrow"></i>
         </div>
         <div class="select-content" id="select-content">
-            <slot>NEED CONTENT</slot>
+            <slot class="slot-content">NEED CONTENT</slot>
         </div>
     </div>
 </template>
@@ -74,11 +80,18 @@
             padding: 0 5px;
             white-space: normal;
             cursor: pointer;
+            background: var(--color);
             font-size: 14px;
         }
         .option:hover{
             background: var(--theme,royalblue);
             color: #fff;
+        }
+        ::slotted(a){
+            color: red;
+        }
+        .option a{
+            color: #000;
         }
     </style>
     <div class="option" id="option" data-selected="false">

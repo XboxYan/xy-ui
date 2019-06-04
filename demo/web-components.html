@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>xy-ui</title>
+    <link type="text/css" rel="stylesheet" href="../css/common.css">
+    <script type="module">
+        import XyButton from '../components/xy-button.js';
+        import XySlider from '../components/xy-slider.js';
+        customElements.define('xy-button', XyButton);
+        customElements.define('xy-slider', XySlider);
+    </script>
+
+</head>
+
+<body>
+    <h2>button</h2>
+    <xy-button>button</xy-button>
+    <xy-button>button</xy-button>
+    <xy-button>button</xy-button>
+    <xy-button>button</xy-button>
+    <xy-button>button</xy-button>
+    <xy-button onclick="console.log(event)">button</xy-button>
+    <h2>slider</h2>
+    <xy-slider value="30"></xy-slider>
+</body>
+
+
+</html>

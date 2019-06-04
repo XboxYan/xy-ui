@@ -1,5 +1,8 @@
 <template id="tab-template">
     <style>
+        :host{
+            background: red
+        }
         .tab {
             display: flex;
             flex-direction: column;
@@ -51,7 +54,7 @@
             transition: .3s;
         }
     </style>
-    <div class="tab" id="tab-root">
+    <div class="tab" id="tab-root" pseudo="xy-tab">
         <div class="tab-nav">
             <div class="tab-nav-wrap"></div>
             <i class="tabline" id="tabline"></i>
