@@ -1,4 +1,4 @@
-export default class XySlider extends HTMLElement {
+export default class XySelect extends HTMLElement {
 
     static get observedAttributes() { return ['value','min','max','step','disabled'] }
 

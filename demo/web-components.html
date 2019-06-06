@@ -5,34 +5,45 @@
     <meta charset="UTF-8">
     <title>xy-ui</title>
     <link type="text/css" rel="stylesheet" href="../css/common.css">
-    <script type="module">
-        import XyButton from '../components/xy-button.js';
+
+    <script type="module" async>
+        //import XyButton from '../components/xy-button.js';
         import XySlider from '../components/xy-slider.js';
-        customElements.define('xy-button', XyButton);
+        import XySelect from '../components/xy-select.js';
+        //customElements.define('xy-button', XyButton);
         customElements.define('xy-slider', XySlider);
+        customElements.define('xy-select', XySelect);
+    
     </script>
 
 </head>
 
 <body>
     <h2>button</h2>
-    <xy-button id="btn" type="primary"><a>primary-button</a></xy-button>
-    <xy-button onclick="console.log(121)" type="dashed">dashed-button</xy-button>
-    <xy-button>button</xy-button>
-    <xy-button>button</xy-button>
-    <xy-button>button</xy-button>
+    <xy-button id="btn" type="primary" ><a>primary-button</a></xy-button>
+    <xy-button type="dashed">dashed-button</xy-button>
+    <xy-button type="flat">flat-button</xy-button>
     <xy-button>button</xy-button>
     <xy-button disabled>disabled-button</xy-button>
     <h2>slider</h2>
     <xy-slider ></xy-slider>
     <xy-slider value="100" min="0" max="300" step="5"></xy-slider>
     <xy-slider value="30" min="-100" max="100" step="1"></xy-slider>
-    <xy-slider value="150" min="10" max="200" step="2"></xy-slider>
+    <xy-slider value="100" min="10" max="200" step="2"></xy-slider>
     <xy-slider value="150" min="10" max="200" step="2" disabled></xy-slider>
+    <h2>select</h2>
+    <xy-select>
+        <xy-option value="1">Option1</xy-option>
+        <xy-option value="2">Option2</xy-option>
+        <xy-option value="3">Option3</xy-option>
+    </xy-select>
     <script>
         document.getElementById('btn').addEventListener('click',function(ev){
-            console.log(121)
+            console.log(ev)
         })
+        document.getElementById('btn').onclick = function(ev){
+            
+        }
     </script>
 </body>
 
