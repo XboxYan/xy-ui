@@ -59,6 +59,10 @@ export default class XyButton extends HTMLElement {
         `
     }
 
+    focus() {
+        this.btn.focus();
+    }
+
     get disabled() {
         return this.getAttribute('disabled');
     }
