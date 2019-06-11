@@ -58,7 +58,7 @@ export default class XySelect extends HTMLElement {
         input[type="range"]::-webkit-slider-thumb:active,
         input[type="range"]:focus::-webkit-slider-thumb{
             transform:scale(1.2);
-            box-shadow:0 0 3px var(--themeColor,dodgerblue)
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
         input[type="range"]::-moz-range-thumb:active,
         input[type="range"]:focus::-moz-range-thumb{
@@ -66,7 +66,7 @@ export default class XySelect extends HTMLElement {
             box-shadow:0 0 3px var(--themeColor,dodgerblue)
         }
         </style>
-        <input id='slider' value=${this.value} min=${this.min} max=${this.max} step=${this.step} ${this.disabled==""?"disabled":""} type='range'>
+        <input id='slider' style="--percent:${(this.value-this.min)/(this.max-this.min)}" value=${this.value} min=${this.min} max=${this.max} step=${this.step} ${this.disabled==""?"disabled":""} type='range'>
         `
     } 
     
@@ -121,7 +121,7 @@ export default class XySelect extends HTMLElement {
     }
 
     attributeChangedCallback (name, oldValue, newValue) {
-        this.style.setProperty('--percent',(this.value-this.min)/(this.max-this.min));
+        this.slider && this.slider.style.setProperty('--percent',(this.value-this.min)/(this.max-this.min));
         if( this.slider && oldValue!==newValue && !this._oninput){
             if(name == 'disabled'){
                 if(newValue==""){

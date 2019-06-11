@@ -7,24 +7,25 @@
     <link type="text/css" rel="stylesheet" href="../css/common.css">
 
     <script type="module" async>
-        //import XyButton from '../components/xy-button.js';
+        import XyButton from '../components/xy-button.js';
         import XySlider from '../components/xy-slider.js';
         import XySelect from '../components/xy-select.js';
-        //customElements.define('xy-button', XyButton);
-        customElements.define('xy-slider', XySlider);
+        import XyLoading from '../components/xy-loading.js';
+        
         customElements.define('xy-select', XySelect);
-    
+        customElements.define('xy-slider', XySlider);
+        customElements.define('xy-loading', XyLoading);
     </script>
 
 </head>
 
 <body>
     <h2>button</h2>
-    <xy-button id="btn" type="primary" ><a>primary-button</a></xy-button>
+    <xy-button type="primary" ><a>primary-button</a></xy-button>
     <xy-button type="dashed">dashed-button</xy-button>
     <xy-button type="flat">flat-button</xy-button>
     <xy-button>button</xy-button>
-    <xy-button disabled>disabled-button</xy-button>
+    <xy-button id="btn"  disabled>disabled-button</xy-button>
     <h2>slider</h2>
     <xy-slider ></xy-slider>
     <xy-slider value="100" min="0" max="300" step="5"></xy-slider>
@@ -32,17 +33,54 @@
     <xy-slider value="100" min="10" max="200" step="2"></xy-slider>
     <xy-slider value="150" min="10" max="200" step="2" disabled></xy-slider>
     <h2>select</h2>
-    <xy-select>
+    <xy-select placeholder="请选择option">
         <xy-option value="1">Option1</xy-option>
         <xy-option value="2"><a>Option2</a></xy-option>
         <xy-option value="3">Option3</xy-option>
     </xy-select>
-    <xy-select>
+    <xy-select value="2">
         <xy-option value="1">Option1</xy-option>
         <xy-option value="2">Option2</xy-option>
         <xy-option value="3">Option3</xy-option>
         <xy-option value="4">Option4444</xy-option>
     </xy-select>
+    <xy-select value="2" disabled>
+        <xy-option value="1">Option1</xy-option>
+        <xy-option value="2">Option2</xy-option>
+        <xy-option value="3">Option3</xy-option>
+        <xy-option value="4">Option4444</xy-option>
+    </xy-select>
+    <h2>tab</h2>
+    <xy-tab index="0">
+        <xy-tab-content tab-name="tab111">
+            111A placeholder inside a web
+            component that users can fill with their own markup,
+            with the effect of composing different DOM trees
+            together.
+            <dl>好好计划</dl>
+            111A placeholder inside a web
+            component that users can fill with their own markup,
+            with the effect of composing different DOM trees
+            together.
+        </xy-tab-content>
+        <xy-tab-content tab-name="tab222">
+            222A placeholder inside a web
+            component that users can fill with their own markup,
+            with the effect of composing different DOM trees
+            together.
+        </xy-tab-content>
+        <xy-tab-content tab-name="tab3">
+            33A placeholder inside a web
+            component that users can fill with their own markup,
+            with the effect of composing different DOM trees
+            together.
+        </xy-tab-content>
+    </xy-tab>
+    <h2>loading</h2>
+    <xy-loading></xy-loading>
+    <xy-loading size="40" color="green"></xy-loading>
+    <xy-loading size="60" color="olivedrab"></xy-loading>
+    <xy-loading size="80" color="orange"></xy-loading>
     <script>
         document.getElementById('btn').addEventListener('click',function(ev){
             console.log(ev)

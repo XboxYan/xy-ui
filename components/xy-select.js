@@ -1,5 +1,7 @@
 import XyButton from './xy-button.js';
-customElements.define('xy-button', XyButton);
+if(!customElements.get('xy-button')){
+    customElements.define('xy-button', XyButton);
+}
 
 class XyOption extends HTMLElement {
     static get observedAttributes() { return ["value","selected"]; }
@@ -20,8 +22,13 @@ class XyOption extends HTMLElement {
         `
     }
 
+    
     connectedCallback() {
         this.option = this.shadowRoot.getElementById('option');
+    }
+    
+    focus() {
+        this.option.focus();
     }
 
     get value() {
@@ -45,16 +52,32 @@ customElements.define('xy-option', XyOption);
 
 export default class XySelect extends HTMLElement {
 
-    static get observedAttributes() { return ['value','show','disabled'] }
+    static get observedAttributes() { return ['value','show','disabled','placeholder'] }
 
     constructor() {
         super();
         const shadowRoot = this.attachShadow({ mode: 'open' });
+        const selected = this.querySelector(`xy-option[value='${this.value}']`);
+
         shadowRoot.innerHTML = `
         <style>
         :host{
             display:inline-block;
-            transform:translateZ(0)
+            line-height:2.4;
+            font-size: 14px;
+        }
+        :host xy-button{
+            line-height: inherit;
+            font-size: inherit;
+        }
+        .root{
+            position:relative;
+            line-height: inherit;
+            font-size: inherit;
+            z-index: 1;
+        }
+        :host(:focus-within) .root{ 
+            z-index: 2;
         }
         #select{
             width:100%;
@@ -69,19 +92,30 @@ export default class XySelect extends HTMLElement {
             border-radius:3px;
             overflow:hidden;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background-color:#fff;
             margin-top:5px;
-            transition:.3s;
             visibility:hidden;
             transform:scale(0);
             transform-origin: top;
+            transition:.3s;
         }
-        .options[data-show=true]{
+        #select[data-show=true]+.options{
             visibility:visible;
             transform:scale(1);
+        }
+        #select[data-show=true] .arrow::before{
+            transform: rotate(45deg) translateX(2px);
+        }
+        #select[data-show=true] .arrow::after{
+            transform: rotate(-45deg) translateX(-2px);
+        }
+        #select[data-show=true] .arrow{
+            transform: translateY(-2px);
         }
         .arrow{
             position:relative;
             width: 10px;
+            transition: transform .3s cubic-bezier(.645, .045, .355, 1);
         }
         .arrow::before,.arrow::after{
             position: absolute;
@@ -99,27 +133,34 @@ export default class XySelect extends HTMLElement {
         .arrow::after{
             transform: rotate(45deg) translateX(-2px);
         }
+        .placeholder{
+            font-style:normal;
+            opacity:.6
+        }
         
         </style>
-        <xy-button id="select"><span id="value">请选择</span><i class="arrow"></i></xy-button>
-        <div class="options" id="options">
-            <slot></slot>
+        <div class="root">
+            <xy-button id="select" ${this.disabled==""?"disabled":""}><span id="value">${selected?selected.textContent:'<i class="placeholder">'+this.placeholder+'</i>'}</span><i class="arrow"></i></xy-button>
+            <div class="options" id="options">
+                <slot></slot>
+            </div>
         </div>
         `
     }
 
     setVisible(show) {
         this.show = show;
-        this.options.dataset.show = show;
+        this.select.dataset.show = show;
     }
 
-    onfocus(ev,visible) {
+    onshow(ev,visible) {
+        this.focusIndex = Array.from(this.nodes).findIndex(el=>el.value === this.value);
         ev.stopPropagation();
         document.querySelectorAll('xy-select').forEach((item)=>{
             if(this === item ){
                 if(!visible){
                     this.show = !this.show;
-                    this.options.dataset.show = this.show;
+                    this.select.dataset.show = this.show;
                 }
             }else{
                 item.setVisible(false);
@@ -127,22 +168,55 @@ export default class XySelect extends HTMLElement {
         })
     }
 
+    move(dir) {
+        const focusIndex = dir+this.focusIndex;
+        const current = this.nodes[focusIndex];
+        if(current){
+            current.focus();
+            current.onfocus = ()=>{
+                this.focusIndex = focusIndex;
+            }
+            this.focusIndex = focusIndex;
+        }
+    }
+
     connectedCallback() {
         this.show = false;
         this.select = this.shadowRoot.getElementById('select');
         this.options = this.shadowRoot.getElementById('options');
+        this.nodes = this.querySelectorAll(`xy-option`);
         this.txt = this.shadowRoot.getElementById('value');
+        this.focusIndex = 0;
         this.select.addEventListener('click',(ev)=>{
-            this.onfocus(ev);
+            this.onshow(ev);
         })
         this.select.addEventListener('focus',(ev)=>{
-            this.onfocus(ev,true);
+            this.onshow(ev,true);
         })
         this.options.addEventListener('click',(ev)=>{
-            if( ev.target.tagName === 'XY-OPTION' ){
-                this.value = ev.target.value;
+            const item = ev.target.closest('xy-option');
+            if( item ){
+                this.value = item.value;
                 this.setVisible(false);
                 this.select.focus();
+            }
+        })
+        this.addEventListener('keydown',(ev)=>{
+            if(this.show){
+                switch (ev.keyCode) {
+                    case 38://ArrowUp
+                        this.move(-1);
+                        break;
+                    case 40://ArrowDown
+                        this.move(1);
+                        break;
+                    case 8://Backspace
+                        this.setVisible(false);
+                        this.select.focus();
+                        break;
+                    default:
+                        break;
+                }
             }
         })
         document.addEventListener('click',()=>{
@@ -154,21 +228,36 @@ export default class XySelect extends HTMLElement {
         return this.getAttribute('value');
     }
 
+    get disabled() {
+        return this.getAttribute('disabled');
+    }
+
+    get placeholder() {
+        return this.getAttribute('placeholder')||'请选择';
+    }
+
     set value(value) {
         this.setAttribute('value', value);
     }
 
     attributeChangedCallback (name, oldValue, newValue) {
-        if( this.select && oldValue!==newValue ){
+        if( oldValue!==newValue ){
             if( name === 'value' ){
                 Array.from(this.querySelectorAll('xy-option')).forEach((item)=>{
                     if(item.value === newValue){
                         item.selected = true;
-                        this.txt.innerText = item.textContent;
+                        this.txt && (this.txt.innerText = item.textContent);
                     }else{
                         item.selected = false;
                     }
                 })
+            }
+            if( name == 'disabled' && this.select){
+                if(newValue==""){
+                    this.select.setAttribute('disabled', 'disabled');
+                }else{
+                    this.select.removeAttribute('disabled');
+                }
             }
         }
     }
