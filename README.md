@@ -4,7 +4,22 @@
 
 正在进行中...
 
-
 ## Web Components
 
-* [xy-tab](./demo/web-components-tab.html)
+[在线演示](https://xboxyan.codelabo.cn/XYUI/demo/web-components.html)
+
+### Components
+- [x] xy-button
+- [x] xy-slider
+- [x] xy-select
+- [x] xy-loading
+- [ ] xy-tab
+- [ ] xy-switch
+- [ ] xy-checkbox
+- [ ] xy-radio
+- [ ] xy-tips
+- [ ] xy-input[color/number/search等等]
+
+### API
+- [ ] xyui.toast
+- [ ] xyui.alert
