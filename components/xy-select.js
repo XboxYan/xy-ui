@@ -10,6 +10,9 @@ class XyOption extends HTMLElement {
         const shadowRoot = this.attachShadow({ mode: 'open' });
         shadowRoot.innerHTML = `
         <style>
+            :host{
+                display: block;
+            }
             .option {
                 display:block;
                 border-radius:0;
@@ -142,7 +145,7 @@ export default class XySelect extends HTMLElement {
         <div class="root">
             <xy-button id="select" ${this.disabled==""?"disabled":""}><span id="value">${selected?selected.textContent:'<i class="placeholder">'+this.placeholder+'</i>'}</span><i class="arrow"></i></xy-button>
             <div class="options" id="options">
-                <slot></slot>
+                <slot id="slot"></slot>
             </div>
         </div>
         `
@@ -184,7 +187,7 @@ export default class XySelect extends HTMLElement {
         this.show = false;
         this.select = this.shadowRoot.getElementById('select');
         this.options = this.shadowRoot.getElementById('options');
-        this.nodes = this.querySelectorAll(`xy-option`);
+        this.slots = this.shadowRoot.getElementById('slot');
         this.txt = this.shadowRoot.getElementById('value');
         this.focusIndex = 0;
         this.select.addEventListener('click',(ev)=>{
@@ -211,6 +214,7 @@ export default class XySelect extends HTMLElement {
                         this.move(1);
                         break;
                     case 8://Backspace
+                    case 27://Esc
                         this.setVisible(false);
                         this.select.focus();
                         break;
@@ -222,10 +226,18 @@ export default class XySelect extends HTMLElement {
         document.addEventListener('click',()=>{
             this.setVisible(false);
         })
+        this.slots.addEventListener('slotchange', ()=>{
+            this.nodes = this.querySelectorAll(`xy-option`);
+        });
     }
 
     get value() {
         return this.getAttribute('value');
+    }
+
+    get text() {
+        const item = this.querySelector(`xy-option[value='${this.value}']`);
+        return item?item.textContent:null;
     }
 
     get disabled() {
@@ -243,17 +255,27 @@ export default class XySelect extends HTMLElement {
     attributeChangedCallback (name, oldValue, newValue) {
         if( oldValue!==newValue ){
             if( name === 'value' ){
+                let textContent = '';
                 Array.from(this.querySelectorAll('xy-option')).forEach((item)=>{
                     if(item.value === newValue){
                         item.selected = true;
-                        this.txt && (this.txt.innerText = item.textContent);
+                        if( this.txt ){
+                            textContent = item.textContent;
+                            this.txt.innerText = textContent;
+                        }
                     }else{
                         item.selected = false;
                     }
                 })
+                if(this.txt){
+                    this.dispatchEvent(new CustomEvent('change',{detail:{
+                        value:newValue,
+                        text:textContent
+                    }}));
+                }
             }
             if( name == 'disabled' && this.select){
-                if(newValue==""){
+                if(newValue!=null){
                     this.select.setAttribute('disabled', 'disabled');
                 }else{
                     this.select.removeAttribute('disabled');
@@ -261,4 +283,5 @@ export default class XySelect extends HTMLElement {
             }
         }
     }
+    
 }

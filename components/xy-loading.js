@@ -41,7 +41,7 @@ export default class XyButton extends HTMLElement {
             } 
         }
         </style>
-        <svg class="loading" id="loading" style="width:${this.size}px;height:${this.size}px;--themeColor:${this.color}" viewBox="22 22 44 44"><circle class="circle" cx="44" cy="44" r="20.2" fill="none" stroke-width="3.6"></circle></svg>
+        <svg class="loading" id="loading" viewBox="22 22 44 44"><circle class="circle" cx="44" cy="44" r="20.2" fill="none" stroke-width="3.6"></circle></svg>
         `
     }
 
@@ -52,9 +52,19 @@ export default class XyButton extends HTMLElement {
     get color() {
         return this.getAttribute('color')||'';
     }
+
+    set size(value) {
+        this.setAttribute('size', value);
+    }
+
+    set color(value) {
+        this.setAttribute('color', value);
+    }
     
     connectedCallback() {
         this.loading = this.shadowRoot.getElementById('loading');
+        this.size = this.size;
+        this.color = this.color;
     }
 
     attributeChangedCallback (name, oldValue, newValue) {

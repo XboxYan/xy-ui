@@ -11,17 +11,25 @@
         import XySlider from '../components/xy-slider.js';
         import XySelect from '../components/xy-select.js';
         import XyLoading from '../components/xy-loading.js';
+        import XyTab from '../components/xy-tab.js';
         
         customElements.define('xy-select', XySelect);
         customElements.define('xy-slider', XySlider);
         customElements.define('xy-loading', XyLoading);
+        customElements.define('xy-tab', XyTab);
     </script>
 
 </head>
 
 <body>
+    <h2>theme</h2>
+    <xy-button type="primary" class="theme-button" style="--themeColor:#1E90FF">#1E90FF</xy-button>
+    <xy-button type="primary" class="theme-button" style="--themeColor:#F44336">#F44336</xy-button>
+    <xy-button type="primary" class="theme-button" style="--themeColor:#9c27b0">#9c27b0</xy-button>
+    <xy-button type="primary" class="theme-button" style="--themeColor:#009688">#009688</xy-button>
+    <xy-button type="primary" class="theme-button" style="--themeColor:#3F51B5">#3F51B5</xy-button>
     <h2>button</h2>
-    <xy-button type="primary" ><a>primary-button</a></xy-button>
+    <xy-button type="primary"><a>primary-button</a></xy-button>
     <xy-button type="dashed">dashed-button</xy-button>
     <xy-button type="flat">flat-button</xy-button>
     <xy-button>button</xy-button>
@@ -33,12 +41,12 @@
     <xy-slider value="100" min="10" max="200" step="2"></xy-slider>
     <xy-slider value="150" min="10" max="200" step="2" disabled></xy-slider>
     <h2>select</h2>
-    <xy-select placeholder="请选择option">
+    <xy-select placeholder="请选择option" onchange="console.log(event)">
         <xy-option value="1">Option1</xy-option>
         <xy-option value="2"><a>Option2</a></xy-option>
         <xy-option value="3">Option3</xy-option>
     </xy-select>
-    <xy-select value="2">
+    <xy-select value="2" id="select">
         <xy-option value="1">Option1</xy-option>
         <xy-option value="2">Option2</xy-option>
         <xy-option value="3">Option3</xy-option>
@@ -51,30 +59,37 @@
         <xy-option value="4">Option4444</xy-option>
     </xy-select>
     <h2>tab</h2>
-    <xy-tab index="0">
-        <xy-tab-content tab-name="tab111">
-            111A placeholder inside a web
-            component that users can fill with their own markup,
-            with the effect of composing different DOM trees
-            together.
-            <dl>好好计划</dl>
-            111A placeholder inside a web
+    <xy-tab activekey="aaa" onchange="console.log(event)">
+        <xy-tab-content label="tab1">
+            A placeholder inside a web
             component that users can fill with their own markup,
             with the effect of composing different DOM trees
             together.
         </xy-tab-content>
-        <xy-tab-content tab-name="tab222">
-            222A placeholder inside a web
+        <xy-tab-content label="tab2" disabled>
+            A placeholder inside a web
             component that users can fill with their own markup,
             with the effect of composing different DOM trees
             together.
         </xy-tab-content>
-        <xy-tab-content tab-name="tab3">
-            33A placeholder inside a web
+        <xy-tab-content label="tab3" key="aaa">
+            A placeholder inside a web
             component that users can fill with their own markup,
             with the effect of composing different DOM trees
             together.
         </xy-tab-content>
+    </xy-tab>
+    <xy-tab>
+        <xy-tab-content label="tab1">tab1</xy-tab-content>
+        <xy-tab-content label="tab2">tab2</xy-tab-content>
+        <xy-tab-content label="tab3">tab3</xy-tab-content>
+        <xy-tab-content label="tab4">tab4</xy-tab-content>
+        <xy-tab-content label="tab5">tab5</xy-tab-content>
+        <xy-tab-content label="tab6">tab6</xy-tab-content>
+        <xy-tab-content label="tab7">tab7</xy-tab-content>
+        <xy-tab-content label="tab8">tab8</xy-tab-content>
+        <xy-tab-content label="tab9">tab9</xy-tab-content>
+        <xy-tab-content label="tab10">tab10</xy-tab-content>
     </xy-tab>
     <h2>loading</h2>
     <xy-loading></xy-loading>
@@ -85,9 +100,19 @@
         document.getElementById('btn').addEventListener('click',function(ev){
             console.log(ev)
         })
+        
+        document.getElementById('select').onchange = function(ev){
+            console.log(ev)
+        }
         document.getElementById('btn').onclick = function(ev){
             
         }
+        document.querySelectorAll('.theme-button').forEach(el=>{
+            el.addEventListener('click',function(){
+                const themeColor = window.getComputedStyle(el).getPropertyValue('--themeColor');
+                document.body.style.setProperty('--themeColor',themeColor);
+            })
+        })
     </script>
 </body>
 

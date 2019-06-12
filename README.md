@@ -13,7 +13,8 @@
 - [x] xy-slider
 - [x] xy-select
 - [x] xy-loading
-- [ ] xy-tab
+- [x] xy-tab
+- [x] themeColor
 - [ ] xy-switch
 - [ ] xy-checkbox
 - [ ] xy-radio
@@ -21,5 +22,5 @@
 - [ ] xy-input[color/number/search等等]
 
 ### API
-- [ ] xyui.toast
-- [ ] xyui.alert
+- [ ] xy.toast
+- [ ] xy.alert
