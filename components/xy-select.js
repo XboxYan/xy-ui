@@ -1,10 +1,7 @@
-import XyButton from './xy-button.js';
-if(!customElements.get('xy-button')){
-    customElements.define('xy-button', XyButton);
-}
+import './xy-button.js';
 
 class XyOption extends HTMLElement {
-    static get observedAttributes() { return ["value","selected"]; }
+    static get observedAttributes() { return ["value", "selected"]; }
     constructor() {
         super();
         const shadowRoot = this.attachShadow({ mode: 'open' });
@@ -25,11 +22,11 @@ class XyOption extends HTMLElement {
         `
     }
 
-    
+
     connectedCallback() {
         this.option = this.shadowRoot.getElementById('option');
     }
-    
+
     focus() {
         this.option.focus();
     }
@@ -42,9 +39,9 @@ class XyOption extends HTMLElement {
      * @param {boolean} value
      */
     set selected(value) {
-        if(value){
+        if (value) {
             this.setAttribute('selected', value);
-        }else{
+        } else {
             this.removeAttribute('selected');
         }
     }
@@ -55,12 +52,11 @@ customElements.define('xy-option', XyOption);
 
 export default class XySelect extends HTMLElement {
 
-    static get observedAttributes() { return ['value','show','disabled','placeholder'] }
+    static get observedAttributes() { return ['value', 'show', 'disabled', 'placeholder'] }
 
     constructor() {
         super();
         const shadowRoot = this.attachShadow({ mode: 'open' });
-        const selected = this.querySelector(`xy-option[value='${this.value}']`);
 
         shadowRoot.innerHTML = `
         <style>
@@ -143,7 +139,7 @@ export default class XySelect extends HTMLElement {
         
         </style>
         <div class="root">
-            <xy-button id="select" ${this.disabled==""?"disabled":""}><span id="value">${selected?selected.textContent:'<i class="placeholder">'+this.placeholder+'</i>'}</span><i class="arrow"></i></xy-button>
+            <xy-button id="select" ${this.disabled? "disabled" : ""}><span id="value"></span><i class="arrow"></i></xy-button>
             <div class="options" id="options">
                 <slot id="slot"></slot>
             </div>
@@ -156,27 +152,27 @@ export default class XySelect extends HTMLElement {
         this.select.dataset.show = show;
     }
 
-    onshow(ev,visible) {
-        this.focusIndex = Array.from(this.nodes).findIndex(el=>el.value === this.value);
+    onshow(ev, visible) {
+        this.focusIndex = Array.from(this.nodes).findIndex(el => el.value === this.value);
         ev.stopPropagation();
-        document.querySelectorAll('xy-select').forEach((item)=>{
-            if(this === item ){
-                if(!visible){
+        document.querySelectorAll('xy-select').forEach((item) => {
+            if (this === item) {
+                if (!visible) {
                     this.show = !this.show;
                     this.select.dataset.show = this.show;
                 }
-            }else{
+            } else {
                 item.setVisible(false);
             }
         })
     }
 
     move(dir) {
-        const focusIndex = dir+this.focusIndex;
+        const focusIndex = dir + this.focusIndex;
         const current = this.nodes[focusIndex];
-        if(current){
+        if (current) {
             current.focus();
-            current.onfocus = ()=>{
+            current.onfocus = () => {
                 this.focusIndex = focusIndex;
             }
             this.focusIndex = focusIndex;
@@ -190,22 +186,22 @@ export default class XySelect extends HTMLElement {
         this.slots = this.shadowRoot.getElementById('slot');
         this.txt = this.shadowRoot.getElementById('value');
         this.focusIndex = 0;
-        this.select.addEventListener('click',(ev)=>{
+        this.select.addEventListener('click', (ev) => {
             this.onshow(ev);
         })
-        this.select.addEventListener('focus',(ev)=>{
-            this.onshow(ev,true);
+        this.select.addEventListener('focus', (ev) => {
+            this.onshow(ev, true);
         })
-        this.options.addEventListener('click',(ev)=>{
+        this.options.addEventListener('click', (ev) => {
             const item = ev.target.closest('xy-option');
-            if( item ){
+            if (item) {
                 this.value = item.value;
                 this.setVisible(false);
                 this.select.focus();
             }
         })
-        this.addEventListener('keydown',(ev)=>{
-            if(this.show){
+        this.addEventListener('keydown', (ev) => {
+            if (this.show) {
                 switch (ev.keyCode) {
                     case 38://ArrowUp
                         this.move(-1);
@@ -223,11 +219,16 @@ export default class XySelect extends HTMLElement {
                 }
             }
         })
-        document.addEventListener('click',()=>{
+        document.addEventListener('click', () => {
             this.setVisible(false);
         })
-        this.slots.addEventListener('slotchange', ()=>{
+        this.slots.addEventListener('slotchange', () => {
             this.nodes = this.querySelectorAll(`xy-option`);
+            if (this.value === null) {
+                this.value = this.nodes[0].value;
+            } else {
+                this.value = this.value;
+            }
         });
     }
 
@@ -235,53 +236,53 @@ export default class XySelect extends HTMLElement {
         return this.getAttribute('value');
     }
 
-    get text() {
-        const item = this.querySelector(`xy-option[value='${this.value}']`);
-        return item?item.textContent:null;
-    }
-
     get disabled() {
-        return this.getAttribute('disabled');
+        return this.getAttribute('disabled')!==null;
     }
 
-    get placeholder() {
-        return this.getAttribute('placeholder')||'请选择';
+    set disabled(value) {
+        if (value === null || value === false) {
+            this.removeAttribute('disabled');
+        } else {
+            this.setAttribute('disabled', '');
+        }
     }
 
     set value(value) {
         this.setAttribute('value', value);
     }
 
-    attributeChangedCallback (name, oldValue, newValue) {
-        if( oldValue!==newValue ){
-            if( name === 'value' ){
-                let textContent = '';
-                Array.from(this.querySelectorAll('xy-option')).forEach((item)=>{
-                    if(item.value === newValue){
-                        item.selected = true;
-                        if( this.txt ){
-                            textContent = item.textContent;
-                            this.txt.innerText = textContent;
-                        }
-                    }else{
-                        item.selected = false;
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (name === 'value' && this.select) {
+            let textContent = '';
+            Array.from(this.querySelectorAll('xy-option')).forEach((item) => {
+                if (item.value === newValue) {
+                    item.selected = true;
+                    textContent = item.textContent;
+                    this.txt.innerText = textContent;
+                } else {
+                    item.selected = false;
+                }
+            })
+            if (oldValue !== newValue) {
+                this.dispatchEvent(new CustomEvent('change', {
+                    detail: {
+                        value: newValue,
+                        text: textContent
                     }
-                })
-                if(this.txt){
-                    this.dispatchEvent(new CustomEvent('change',{detail:{
-                        value:newValue,
-                        text:textContent
-                    }}));
-                }
+                }));
             }
-            if( name == 'disabled' && this.select){
-                if(newValue!=null){
-                    this.select.setAttribute('disabled', 'disabled');
-                }else{
-                    this.select.removeAttribute('disabled');
-                }
+        }
+        if (name == 'disabled' && this.select) {
+            if (newValue != null) {
+                this.select.setAttribute('disabled', 'disabled');
+            } else {
+                this.select.removeAttribute('disabled');
             }
         }
     }
-    
+}
+
+if (!customElements.get('xy-select')) {
+    customElements.define('xy-select', XySelect);
 }

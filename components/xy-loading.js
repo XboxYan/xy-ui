@@ -1,4 +1,4 @@
-export default class XyButton extends HTMLElement {
+export default class XyLoading extends HTMLElement {
 
     static get observedAttributes() { return ['color','size'] }
 
@@ -76,4 +76,8 @@ export default class XyButton extends HTMLElement {
             this.loading.style.height = newValue + 'px';
         }
     }
+}
+
+if(!customElements.get('xy-loading')){
+    customElements.define('xy-loading', XyLoading);
 }

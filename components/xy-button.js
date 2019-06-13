@@ -9,9 +9,9 @@ export default class XyButton extends HTMLElement {
         <style>
         :host{ display:inline-block; box-sizing:border-box; vertical-align: middle; overflow:hidden; line-height: 2.4; border:1px solid #ddd; font-size: 14px; color: #333;  border-radius: 3px; transition:background .3s,box-shadow .3s,border-color .3s,color .3s; transform: translateZ(0);}
         :host([disabled]){ pointer-events: none; opacity:.6; }
-        :host([disabled]:not([type="flat"])){ background:#f1f1f1; }
+        :host([disabled]:not([type])){ background:#f1f1f1; }
         :host([disabled]) .btn{ pointer-events: all;  cursor: not-allowed; }
-        :host([disabled]) ::slotted(*){ pointer-events: none; }
+        :host([disabled]) slot{ pointer-events: none; }
         :host(:not([type="primary"]):not([disabled]):hover),
         :host(:not([type="primary"]):focus-within){ color:var(--themeColor,dodgerblue); border-color: var(--themeColor,dodgerblue); }
         :host(:not([type="primary"])) .btn::after{ background-image: radial-gradient(circle, var(--themeColor,dodgerblue) 10%, transparent 10.01%); }
@@ -56,14 +56,14 @@ export default class XyButton extends HTMLElement {
     }
 
     get disabled() {
-        return this.getAttribute('disabled');
+        return this.getAttribute('disabled')!==null;
     }
 
     set disabled(value) {
-        if(value===null){
+        if(value===null||value===false){
             this.removeAttribute('disabled');
         }else{
-            this.setAttribute('disabled', value);
+            this.setAttribute('disabled', '');
         }
     }
 

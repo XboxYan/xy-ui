@@ -1,10 +1,7 @@
-import XyButton from './xy-button.js';
-if(!customElements.get('xy-button')){
-    customElements.define('xy-button', XyButton);
-}
+import './xy-button.js';
 
 class XyTabContent extends HTMLElement {
-    static get observedAttributes() { return ["label","key"]; }
+    static get observedAttributes() { return ["label","key","disabled"]; }
     constructor() {
         super();
         const shadowRoot = this.attachShadow({ mode: 'open' });
@@ -36,24 +33,38 @@ class XyTabContent extends HTMLElement {
         return this.getAttribute('disabled');
     }
 
+    set disabled(value) {
+        if(value===null||value===false){
+            this.removeAttribute('disabled');
+        }else{
+            this.setAttribute('disabled', value);
+        }
+    }
+
+    set label(value) {
+        this.setAttribute('label', value);
+    }
+
     set key(value) {
         this.setAttribute('key', value);
     }
 
-    /**
-     * @param {boolean} value
-     */
-    set selected(value) {
-        if(value){
-            this.setAttribute('selected', value);
-        }else{
-            this.removeAttribute('selected');
+    attributeChangedCallback (name, oldValue, newValue) {
+        if( oldValue!==newValue && newValue!==undefined){
+            if( name === 'label'){
+                this.parentNode.updatalabel && this.parentNode.updatalabel(this.key,newValue);
+            }
+            if( name === 'disabled'){
+                this.parentNode.updatadisabled && this.parentNode.updatadisabled(this.key,newValue);
+            }
         }
     }
 
 }
 
-customElements.define('xy-tab-content', XyTabContent);
+if(!customElements.get('xy-tab-content')){
+    customElements.define('xy-tab-content', XyTabContent);
+}
 
 export default class XyTab extends HTMLElement {
 
@@ -137,6 +148,15 @@ export default class XyTab extends HTMLElement {
             };
         })
     }
+
+    updatalabel(key,label) {
+        this.nav.querySelector(`.nav-item[data-key='${key}']`).innerHTML = label;
+        this.init();
+    }
+
+    updatadisabled(key,disabled) {
+        this.nav.querySelector(`.nav-item[data-key='${key}']`).disabled = disabled;
+    }
     
     connectedCallback() {
         this.tabPos = {};
@@ -163,7 +183,7 @@ export default class XyTab extends HTMLElement {
         });
         this.nav.addEventListener('click',(ev)=>{
             const item = ev.target.closest('xy-button');
-            if(item && item.disabled===null){
+            if(item){
                 this.activekey = item.dataset.key;
             }
         })
@@ -190,4 +210,8 @@ export default class XyTab extends HTMLElement {
             }
         }
     }
+}
+
+if(!customElements.get('xy-tab')){
+    customElements.define('xy-tab', XyTab);
 }

@@ -15,12 +15,16 @@
 - [x] xy-loading
 - [x] xy-tab
 - [x] themeColor
-- [ ] xy-switch
+- [x] xy-switch
 - [ ] xy-checkbox
 - [ ] xy-radio
 - [ ] xy-tips
+- [ ] xy-icon
+- [ ] xy-dialog
 - [ ] xy-input[color/number/search等等]
 
 ### API
-- [ ] xy.toast
+- [ ] xy.message
 - [ ] xy.alert
+- [ ] xy.comfirm
+- [ ]...

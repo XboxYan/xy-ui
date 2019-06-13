@@ -1,4 +1,4 @@
-export default class XySelect extends HTMLElement {
+export default class XySlider extends HTMLElement {
 
     static get observedAttributes() { return ['value','min','max','step','disabled'] }
 
@@ -22,7 +22,7 @@ export default class XySelect extends HTMLElement {
             display: flex;
             align-items: center;
             position: relative;
-            height: 4px;
+            height: 2px;
             border-radius:2px;
             background:linear-gradient(to right, var(--themeColor,dodgerblue) calc(100% * var(--percent)), transparent 0% )
         }
@@ -30,14 +30,14 @@ export default class XySelect extends HTMLElement {
             display: flex;
             align-items: center;
             position: relative;
-            height: 4px;
+            height: 2px;
             border-radius:2px;
             outline : 0;
             background:var(--themeColor,dodgerblue)
         }
         input[type="range"]::-webkit-slider-thumb{
             -webkit-appearance: none;
-            border:0;
+            border:2px solid var(--themeColor,dodgerblue);
             position: relative;
             width:10px;
             height:10px;
@@ -47,7 +47,7 @@ export default class XySelect extends HTMLElement {
         }
         input[type="range"]::-moz-range-thumb{
             pointer-events:none;
-            border:0;
+            border:2px solid var(--themeColor,dodgerblue);
             position: relative;
             width:10px;
             height:10px;
@@ -59,6 +59,7 @@ export default class XySelect extends HTMLElement {
         input[type="range"]:focus::-webkit-slider-thumb{
             transform:scale(1.2);
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background: #fff;
         }
         input[type="range"]::-moz-range-thumb:active,
         input[type="range"]:focus::-moz-range-thumb{
@@ -66,7 +67,7 @@ export default class XySelect extends HTMLElement {
             box-shadow:0 0 3px var(--themeColor,dodgerblue)
         }
         </style>
-        <input id='slider' style="--percent:${(this.value-this.min)/(this.max-this.min)}" value=${this.value} min=${this.min} max=${this.max} step=${this.step} ${this.disabled==""?"disabled":""} type='range'>
+        <input id='slider' style="--percent:${(this.value-this.min)/(this.max-this.min)}" value=${this.value} min=${this.min} max=${this.max} step=${this.step} ${this.disabled?"disabled":""} type='range'>
         `
     } 
     
@@ -97,7 +98,15 @@ export default class XySelect extends HTMLElement {
     }
 
     get disabled() {
-        return this.getAttribute('disabled');
+        return this.getAttribute('disabled')!==null;
+    }
+
+    set disabled(value) {
+        if(value===null||value===false){
+            this.removeAttribute('disabled');
+        }else{
+            this.setAttribute('disabled', '');
+        }
     }
 
     get step() {
@@ -124,7 +133,7 @@ export default class XySelect extends HTMLElement {
         this.slider && this.slider.style.setProperty('--percent',(this.value-this.min)/(this.max-this.min));
         if( this.slider && oldValue!==newValue && !this._oninput){
             if(name == 'disabled'){
-                if(newValue==""){
+                if(newValue!==null){
                     this.slider.setAttribute('disabled', 'disabled');
                 }else{
                     this.slider.removeAttribute('disabled');
@@ -136,4 +145,8 @@ export default class XySelect extends HTMLElement {
         }
     }
     
+}
+
+if(!customElements.get('xy-slider')){
+    customElements.define('xy-slider', XySlider);
 }
