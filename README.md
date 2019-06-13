@@ -6,7 +6,7 @@
 
 ## Web Components
 
-[在线演示](https://xboxyan.codelabo.cn/XYUI/demo/web-components.html)
+[在线演示](https://xboxyan.codelabo.cn/XYUI)
 
 ### Components
 - [x] xy-button
