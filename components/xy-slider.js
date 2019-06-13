@@ -15,7 +15,7 @@ export default class XySlider extends HTMLElement {
             -webkit-appearance: none;
             outline : 0;
             background: rgba(0,0,0,.1);
-            height: 4px;
+            height: 2px;
             border-radius:2px;
         }
         input[type="range"]::-webkit-slider-runnable-track{
