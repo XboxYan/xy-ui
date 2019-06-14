@@ -6,15 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>xy-ui</title>
-    <link type="text/css" rel="stylesheet" href="../css/common.css">
-    <script type="module" async>
+    <script type="module" src="./components/xy-button.js" async></script>
+    <script type="module" src="./components/xy-slider.js" async></script>
+    <script type="module" src="./components/xy-select.js" async></script>
+    <script type="module" src="./components/xy-loading.js" async></script>
+    <script type="module" src="./components/xy-tab.js" async></script>
+    <script type="module" src="./components/xy-switch.js" async></script>
+    <script type="module" src="./components/xy-checkbox.js" async></script>
+    <script type="module" src="./components/xy-radio.js" async></script>
+    
+    <!-- <script type="module" async>
         import './components/xy-button.js';
         import './components/xy-slider.js';
         import './components/xy-select.js';
         import './components/xy-loading.js';
         import './components/xy-tab.js';
         import './components/xy-switch.js';
-    </script>
+        import './components/xy-checkbox.js';
+        import './components/xy-radio.js';
+    </script> -->
 
 </head>
 
@@ -37,7 +47,7 @@
     <xy-button disabled type="flat">flat</xy-button>
     <xy-button disabled >default</xy-button>
     <h2>slider</h2>
-    <xy-slider ></xy-slider>
+    <xy-slider onchange="console.log(event)"></xy-slider>
     <xy-slider value="100" min="0" max="300" step="5"></xy-slider>
     <xy-slider value="30" min="-100" max="100" step="1"></xy-slider>
     <xy-slider value="100" min="10" max="200" step="2"></xy-slider>
@@ -48,7 +58,7 @@
         <xy-option value="2"><a>Option2</a></xy-option>
         <xy-option value="3">Option3</xy-option>
     </xy-select>
-    <xy-select value="2" id="select">
+    <xy-select value="2" id="select" type="flat">
         <xy-option value="1">Option1</xy-option>
         <xy-option value="2">Option2</xy-option>
         <xy-option value="3">Option3</xy-option>
@@ -99,9 +109,32 @@
     <xy-loading size="60" color="olivedrab"></xy-loading>
     <xy-loading size="80" color="orange"></xy-loading>
     <h2>switch</h2>
-    <xy-switch onchange="console.log(event)"></xy-switch>
-    <xy-switch disabled></xy-switch>
-    <xy-switch checked></xy-switch>
+    <xy-switch onchange="console.log(event)" checked></xy-switch>
+    <xy-switch></xy-switch>
+    <xy-switch disabled checked></xy-switch>
+    <h2>checkbox</h2>
+    <xy-checkbox name="lang" onchange="console.log(event)" checked>Html</xy-checkbox>
+    <xy-checkbox name="lang">Css</xy-checkbox>
+    <xy-checkbox name="lang" checked>Javascript</xy-checkbox>
+    <xy-checkbox name="lang">Typescript</xy-checkbox>
+    <xy-checkbox name="lang">Dart</xy-checkbox>
+    <xy-checkbox name="lang">Swift</xy-checkbox>
+    <xy-checkbox name="lang" disabled>Other</xy-checkbox>
+    <h2>radio</h2>
+    <p>javascript</p>
+    <xy-radio onchange="console.log(event)" name="library" checked>React</xy-radio>
+    <xy-radio name="library">Vue</xy-radio>
+    <xy-radio name="library">Angular</xy-radio>
+    <xy-radio name="library">Other</xy-radio>
+    <xy-radio name="library" disabled>disabled</xy-radio>
+    <p>display</p>
+    <xy-radio onchange="console.log(event)" name="display" checked>block</xy-radio>
+    <xy-radio name="display" value="inline-block">inline-block</xy-radio>
+    <xy-radio name="display" value="inline">inline</xy-radio>
+    <xy-radio name="display" value="flex">flex</xy-radio>
+    <xy-radio name="display" value="grid">grid</xy-radio>
+    <xy-radio name="display" value="table">table</xy-radio>
+    <xy-radio name="display" value="other">other</xy-radio>
     <script>
         document.getElementById('btn').addEventListener('click',function(ev){
             console.log(ev)

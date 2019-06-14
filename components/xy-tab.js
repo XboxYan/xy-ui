@@ -104,7 +104,7 @@ export default class XyTab extends HTMLElement {
             height:2px;
             border-radius:2px;
             background:var(--themeColor,dodgerblue);
-            transition:.3s;
+            transition:.2s;
         }
         .tab-content{
             overflow:hidden;
@@ -114,7 +114,7 @@ export default class XyTab extends HTMLElement {
             display:flex;
             width:100%;
             height:100%;
-            transition:.3s;
+            transition:.2s;
         }
         </style>
         <div class="tab">

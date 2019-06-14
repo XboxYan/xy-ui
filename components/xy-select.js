@@ -52,7 +52,7 @@ customElements.define('xy-option', XyOption);
 
 export default class XySelect extends HTMLElement {
 
-    static get observedAttributes() { return ['value', 'show', 'disabled', 'placeholder'] }
+    static get observedAttributes() { return ['value', 'show', 'disabled', 'placeholder','type'] }
 
     constructor() {
         super();
@@ -69,6 +69,10 @@ export default class XySelect extends HTMLElement {
             line-height: inherit;
             font-size: inherit;
         }
+        :host(:active:not([disabled])) xy-button{
+            border-color:var(--themeColor,dodgerblue);
+            color:var(--themeColor,dodgerblue);
+        }
         .root{
             position:relative;
             line-height: inherit;
@@ -79,6 +83,7 @@ export default class XySelect extends HTMLElement {
             z-index: 2;
         }
         #select{
+            display:block;
             width:100%;
         }
         #select span{
@@ -96,7 +101,7 @@ export default class XySelect extends HTMLElement {
             visibility:hidden;
             transform:scale(0);
             transform-origin: top;
-            transition:.3s;
+            transition:.3s cubic-bezier(.12, .4, .29, 1.46);
         }
         #select[data-show=true]+.options{
             visibility:visible;
@@ -139,7 +144,7 @@ export default class XySelect extends HTMLElement {
         
         </style>
         <div class="root">
-            <xy-button id="select" ${this.disabled? "disabled" : ""}><span id="value"></span><i class="arrow"></i></xy-button>
+            <xy-button id="select" ${this.disabled? "disabled" : ""} ${this.type?("type="+this.type):""}><span id="value"></span><i class="arrow"></i></xy-button>
             <div class="options" id="options">
                 <slot id="slot"></slot>
             </div>
@@ -234,6 +239,18 @@ export default class XySelect extends HTMLElement {
 
     get value() {
         return this.getAttribute('value');
+    }
+
+    get text() {
+        return this.select.textContent;
+    }
+
+    get name() {
+        return this.getAttribute('name');
+    }
+
+    get type() {
+        return this.getAttribute('type');
     }
 
     get disabled() {

@@ -59,6 +59,10 @@ export default class XyButton extends HTMLElement {
         return this.getAttribute('disabled')!==null;
     }
 
+    get name() {
+        return this.getAttribute('name');
+    }
+
     set disabled(value) {
         if(value===null||value===false){
             this.removeAttribute('disabled');

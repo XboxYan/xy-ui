@@ -43,9 +43,10 @@ export default class XySlider extends HTMLElement {
             height:10px;
             border-radius: 50%;
             background:var(--themeColor,dodgerblue);
-            transition:.2s;
+            transition:.2s cubic-bezier(.12, .4, .29, 1.46);
         }
         input[type="range"]::-moz-range-thumb{
+            box-sizing:border-box;
             pointer-events:none;
             border:2px solid var(--themeColor,dodgerblue);
             position: relative;
@@ -53,7 +54,7 @@ export default class XySlider extends HTMLElement {
             height:10px;
             border-radius: 50%;
             background:var(--themeColor,dodgerblue);
-            transition:.2s;
+            transition:.2s cubic-bezier(.12, .4, .29, 1.46);
         }
         input[type="range"]::-webkit-slider-thumb:active,
         input[type="range"]:focus::-webkit-slider-thumb{
@@ -64,7 +65,8 @@ export default class XySlider extends HTMLElement {
         input[type="range"]::-moz-range-thumb:active,
         input[type="range"]:focus::-moz-range-thumb{
             transform:scale(1.2);
-            box-shadow:0 0 3px var(--themeColor,dodgerblue)
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background: #fff;
         }
         </style>
         <input id='slider' style="--percent:${(this.value-this.min)/(this.max-this.min)}" value=${this.value} min=${this.min} max=${this.max} step=${this.step} ${this.disabled?"disabled":""} type='range'>
@@ -81,7 +83,11 @@ export default class XySlider extends HTMLElement {
         this.slider.addEventListener('change',function(ev){
             _this.value = this.value;
             _this._oninput = false;
-            _this.dispatchEvent(new CustomEvent('change'));
+            _this.dispatchEvent(new CustomEvent('change',{
+                detail:{
+                    value:this.value
+                }
+            }));
         })
     }
 
@@ -142,6 +148,11 @@ export default class XySlider extends HTMLElement {
                 this.slider[name] = newValue;
                 this[name] = newValue;
             }
+            this.dispatchEvent(new CustomEvent('change',{
+                detail:{
+                    value:this.value
+                }
+            }));
         }
     }
     

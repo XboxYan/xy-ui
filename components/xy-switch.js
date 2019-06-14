@@ -22,7 +22,7 @@ export default class XySwitch extends HTMLElement {
             position:absolute;
             clip:rect(0,0,0,0);
         }
-        :host(:focus-within) label::after{ 
+        :host(:focus-within) label::after,:host(:active) ::after{ 
             background:var(--themeColor,dodgerblue);
         }
         :host(:focus-within) label{ 
@@ -42,7 +42,7 @@ export default class XySwitch extends HTMLElement {
         label::before{
             content:'';
             flex:0;
-            transition:.3s;
+            transition:.2s cubic-bezier(.12, .4, .29, 1.46);
         }
         label::after{
             content:'';
@@ -64,7 +64,7 @@ export default class XySwitch extends HTMLElement {
             flex:1;
         }
         </style>
-        <input type="checkbox" id="switch"><label for="switch"><slot></slot></label>
+        <input type="checkbox" id="switch"><label for="switch"></label>
         `
     }
 
@@ -74,6 +74,10 @@ export default class XySwitch extends HTMLElement {
 
     get checked() {
         return this.getAttribute('checked')!==null;
+    }
+
+    get name() {
+        return this.getAttribute('name');
     }
 
     set disabled(value) {
@@ -98,11 +102,6 @@ export default class XySwitch extends HTMLElement {
         this.checked = this.checked;
         this.switch.addEventListener('change',(ev)=>{
             this.checked = ev.target.checked;
-            this.dispatchEvent(new CustomEvent('change', {
-                detail: {
-                    checked: this.checked
-                }
-            }));
         })
         this.switch.addEventListener('keydown', (ev) => {
             switch (ev.keyCode) {
@@ -128,6 +127,13 @@ export default class XySwitch extends HTMLElement {
                 this.switch.checked = true;
             }else{
                 this.switch.checked = false;
+            }
+            if (oldValue !== newValue) {
+                this.dispatchEvent(new CustomEvent('change', {
+                    detail: {
+                        checked: this.checked
+                    }
+                }));
             }
         }
     }

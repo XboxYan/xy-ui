@@ -16,10 +16,11 @@
 - [x] xy-tab
 - [x] themeColor
 - [x] xy-switch
-- [ ] xy-checkbox
-- [ ] xy-radio
+- [x] xy-checkbox
+- [x] xy-radio
 - [ ] xy-tips
 - [ ] xy-icon
+- [ ] xy-layout
 - [ ] xy-dialog
 - [ ] xy-input[color/number/search等等]
 
