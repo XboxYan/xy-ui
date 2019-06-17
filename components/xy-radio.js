@@ -12,6 +12,7 @@ export default class XyRadio extends HTMLElement {
             display:inline-block;
             font-size:14px;
             color:#333;
+            -webkit-tap-highlight-color: transparent;
         }
         :host([disabled]){ 
             pointer-events: none; 
@@ -27,9 +28,8 @@ export default class XyRadio extends HTMLElement {
         }
         :host(:focus-within) .cheked,:host(:not([disabled])) label:hover .cheked{ 
             border-color:var(--themeColor,dodgerblue);
-        }
-        :host(:focus-within) .cheked{ 
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            z-index:1;
         }
         :host([disabled]) .cheked{ 
             background-color:#ddd
@@ -39,6 +39,7 @@ export default class XyRadio extends HTMLElement {
             cursor:pointer;
             display:flex;
             align-items:center;
+            outline:0;
         }
         .cheked{
             position:relative;
@@ -46,7 +47,6 @@ export default class XyRadio extends HTMLElement {
             width: 16px;
             height: 16px;
             display: flex;
-            background-color: #fff;
             border-radius:50%;
             border: 1px solid #d9d9d9;
             transition:.3s;
@@ -74,7 +74,12 @@ export default class XyRadio extends HTMLElement {
             z-index:-1;
             transition: .2s cubic-bezier(.12, .4, .29, 1.46) .1s;
         }
+        /*
         :host(:focus-within) .cheked::after,:host(:not([disabled]):active) .cheked::after{ 
+            transform:scale(2.5);
+        }
+        */
+        #radio:focus-visible+label .cheked::after{
             transform:scale(2.5);
         }
         #radio:checked+label .cheked::before{
@@ -84,7 +89,7 @@ export default class XyRadio extends HTMLElement {
             border-color:var(--themeColor,dodgerblue);
         }
         </style>
-        <input type="radio" id="radio"><label for="radio"><span class="cheked"></span><slot></slot></label>
+        <input type="checkbox" id="radio" ><label id="label" for="radio"><span class="cheked"></span><slot></slot></label>
         `
     }
 
@@ -129,7 +134,7 @@ export default class XyRadio extends HTMLElement {
             if( prev ){
                 prev.checked = false;
             }
-            this.checked = ev.target.checked;
+            this.checked = true;
         })
         this.radio.addEventListener('keydown', (ev) => {
             switch (ev.keyCode) {
@@ -138,7 +143,7 @@ export default class XyRadio extends HTMLElement {
                     if( prev ){
                         prev.checked = false;
                     }
-                    this.checked = !this.checked;
+                    this.checked = true;
                     break;
                 default:
                     break;

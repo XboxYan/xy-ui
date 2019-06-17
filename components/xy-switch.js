@@ -9,6 +9,7 @@ export default class XySwitch extends HTMLElement {
         <style>
         :host{ 
             display:inline-block; 
+            -webkit-tap-highlight-color: transparent;
         }
         :host([disabled]){ 
             pointer-events: none; 

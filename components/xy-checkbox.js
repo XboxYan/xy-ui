@@ -11,6 +11,7 @@ export default class XyCheckbox extends HTMLElement {
             display:inline-block;
             font-size:14px;
             color:#333;
+            -webkit-tap-highlight-color: transparent;
         }
         :host([disabled]){ 
             pointer-events: none; 
@@ -26,9 +27,8 @@ export default class XyCheckbox extends HTMLElement {
         }
         :host(:focus-within) .cheked,:host(:not([disabled])) label:hover .cheked{ 
             border-color:var(--themeColor,dodgerblue);
-        }
-        :host(:focus-within) .cheked{ 
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            z-index:1;
         }
         :host([disabled]) .cheked{ 
             background-color:#ddd
@@ -44,7 +44,6 @@ export default class XyCheckbox extends HTMLElement {
             box-sizing: border-box;
             width: 16px;
             height: 16px;
-            background-color: #fff;
             border: 1px solid #d9d9d9;
             border-radius: 2px;
             transition:.3s;
@@ -74,7 +73,13 @@ export default class XyCheckbox extends HTMLElement {
             z-index:-1;
             transition: .2s cubic-bezier(.12, .4, .29, 1.46) .1s;
         }
-        :host(:focus-within) .cheked::after,:host(:active) .cheked::after{ 
+        /*
+        :host(:focus-within) .cheked::after,:host(:active:not([disabled])) .cheked::after{ 
+            transform:scale(2.5);
+        }
+        */
+
+        #checkbox:focus-visible+label .cheked::after{
             transform:scale(2.5);
         }
         #checkbox:checked+label .cheked::before{

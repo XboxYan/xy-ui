@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>xy-ui</title>
+    <style>
+        xy-button,xy-checkbox,xy-radio{ margin: 0 10px 10px 0; }
+        xy-tips xy-button{ margin: 0;}
+        xy-tips{ margin: 0 10px 10px 0; }
+    </style>
+    <!-- <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.2.10/webcomponents-bundle.js" async></!-->
     <script type="module" src="./components/xy-button.js" async></script>
     <script type="module" src="./components/xy-slider.js" async></script>
     <script type="module" src="./components/xy-select.js" async></script>
@@ -14,6 +20,7 @@
     <script type="module" src="./components/xy-switch.js" async></script>
     <script type="module" src="./components/xy-checkbox.js" async></script>
     <script type="module" src="./components/xy-radio.js" async></script>
+    <script type="module" src="./components/xy-tips.js" async></script>
     
     <!-- <script type="module" async>
         import './components/xy-button.js';
@@ -41,6 +48,11 @@
     <xy-button type="dashed">dashed</xy-button>
     <xy-button type="flat">flat</xy-button>
     <xy-button>default</xy-button>
+    <p>block</p>
+    <xy-button type="primary" id="btn" block><a>primary</a></xy-button>
+    <xy-button type="dashed" block>dashed</xy-button>
+    <xy-button type="flat" block>flat</xy-button>
+    <xy-button block>default</xy-button>
     <p>disabled</p>
     <xy-button disabled type="primary"><a>primary</a></xy-button>
     <xy-button disabled type="dashed">dashed</xy-button>
@@ -116,7 +128,8 @@
     <xy-checkbox name="lang" onchange="console.log(event)" checked>Html</xy-checkbox>
     <xy-checkbox name="lang">Css</xy-checkbox>
     <xy-checkbox name="lang" checked>Javascript</xy-checkbox>
-    <xy-checkbox name="lang">Typescript</xy-checkbox>
+    <xy-checkbox name="lang">Python</xy-checkbox>
+    <xy-checkbox name="lang">Php</xy-checkbox>
     <xy-checkbox name="lang">Dart</xy-checkbox>
     <xy-checkbox name="lang">Swift</xy-checkbox>
     <xy-checkbox name="lang" disabled>Other</xy-checkbox>
@@ -135,6 +148,19 @@
     <xy-radio name="display" value="grid">grid</xy-radio>
     <xy-radio name="display" value="table">table</xy-radio>
     <xy-radio name="display" value="other">other</xy-radio>
+    <h2>tips</h2>
+    <p>normal</p>
+    <xy-tips tips="some tips"><xy-button>auto</xy-button></xy-tips>
+    <xy-tips tips="some tips" dir="up"><xy-button>up</xy-button></xy-tips>
+    <xy-tips tips="some tips" dir="right"><xy-button>right</xy-button></xy-tips>
+    <xy-tips tips="some tips" dir="down"><xy-button>down</xy-button></xy-tips>
+    <xy-tips tips="some tips" dir="left"><xy-button>left</xy-button></xy-tips>
+    <xy-tips tips="some some some some some some some some some some some some some some tips"><xy-button>some tips</xy-button></xy-tips>
+    <p>status</p>
+    <xy-tips tips="some tips" type="success"><xy-button>success</xy-button></xy-tips>
+    <xy-tips tips="some tips" type="warn"><xy-button>warn</xy-button></xy-tips>
+    <xy-tips tips="some tips" type="error"><xy-button>error</xy-button></xy-tips>
+    <xy-tips tips="some tips" color="orangered"><xy-button>custom color</xy-button></xy-tips>
     <script>
         document.getElementById('btn').addEventListener('click',function(ev){
             console.log(ev)
@@ -146,7 +172,7 @@
         document.getElementById('btn').onclick = function(ev){
             
         }
-        document.querySelectorAll('.theme-button').forEach(el=>{
+        document.querySelectorAll('.theme-button').forEach((el)=>{
             el.addEventListener('click',function(){
                 const themeColor = window.getComputedStyle(el).getPropertyValue('--themeColor');
                 document.body.style.setProperty('--themeColor',themeColor);

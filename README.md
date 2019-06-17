@@ -18,7 +18,7 @@
 - [x] xy-switch
 - [x] xy-checkbox
 - [x] xy-radio
-- [ ] xy-tips
+- [x] xy-tips
 - [ ] xy-icon
 - [ ] xy-layout
 - [ ] xy-dialog
