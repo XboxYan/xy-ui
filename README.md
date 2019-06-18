@@ -19,8 +19,8 @@
 - [x] xy-checkbox
 - [x] xy-radio
 - [x] xy-tips
-- [ ] xy-icon
-- [ ] xy-layout
+- [x] xy-icon
+- [x] xy-layout
 - [ ] xy-dialog
 - [ ] xy-input[color/number/search等等]
 

@@ -7,15 +7,19 @@ export default class XyLoading extends HTMLElement {
         const shadowRoot = this.attachShadow({ mode: 'open' });
         shadowRoot.innerHTML = `
         <style>
-        :host{ 
-            display:inline-block; 
+        :host{
+            font-size:inherit;
+            display:inline-block;
+            color:var(--themeColor,dodgerblue);
         }
         .loading{
-            vertical-align: top;
+            display: block;
+            width: 1em;
+            height: 1em;
             animation: rotate 1.4s linear infinite;
         }
         .circle {
-            stroke: var(--themeColor,dodgerblue);
+            stroke: currentColor;
             animation:  progress 1.4s ease-in-out infinite;
             stroke-dasharray: 80px, 200px;
             stroke-dashoffset: 0px;
@@ -46,7 +50,7 @@ export default class XyLoading extends HTMLElement {
     }
 
     get size() {
-        return this.getAttribute('size')||20;
+        return this.getAttribute('size')||'';
     }
 
     get color() {
@@ -69,11 +73,10 @@ export default class XyLoading extends HTMLElement {
 
     attributeChangedCallback (name, oldValue, newValue) {
         if( name == 'color' && this.loading){
-            this.loading.style.setProperty('--themeColor',newValue);
+            this.loading.style.color = newValue;
         }
         if( name == 'size' && this.loading){
-            this.loading.style.width = newValue + 'px';
-            this.loading.style.height = newValue + 'px';
+            this.loading.style.fontSize = newValue + 'px';
         }
     }
 }

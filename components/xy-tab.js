@@ -1,7 +1,7 @@
 import './xy-button.js';
 
 class XyTabContent extends HTMLElement {
-    static get observedAttributes() { return ["label","key","disabled"]; }
+    static get observedAttributes() { return ["label","key","disabled","icon"]; }
     constructor() {
         super();
         const shadowRoot = this.attachShadow({ mode: 'open' });
@@ -22,7 +22,11 @@ class XyTabContent extends HTMLElement {
 
 
     get label() {
-        return this.getAttribute('label');
+        return this.getAttribute('label')||'';
+    }
+
+    get icon() {
+        return this.getAttribute('icon');
     }
 
     get key() {
@@ -93,6 +97,7 @@ export default class XyTab extends HTMLElement {
             display:flex;
         }
         .nav-item{
+            font-size:inherit;
             border-radius:0;
             box-shadow:none;
             flex-shrink: 0;
@@ -171,7 +176,7 @@ export default class XyTab extends HTMLElement {
                 if(item.key===null){
                     item.key = index;
                 }
-                html += `<xy-button class="nav-item" type="flat" ${item.disabled!==null?"disabled":""} data-key=${item.key}>${item.label}</xy-button>`;
+                html += `<xy-button class="nav-item" icon=${item.icon} type="flat" ${item.disabled!==null?"disabled":""} data-key=${item.key}>${item.label}</xy-button>`;
             })
             this.nav.innerHTML = html;
             this.init();

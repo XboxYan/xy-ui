@@ -7,7 +7,6 @@ export default class XyTips extends HTMLElement {
         const shadowRoot = this.attachShadow({ mode: 'open' });
         shadowRoot.innerHTML = `
         <style>
-        
         :host {
             display:inline-block;
             position: relative;
@@ -30,7 +29,7 @@ export default class XyTips extends HTMLElement {
             pointer-events: none;
         }
         
-        :host::before {
+        :host([tips]:not([tips='']))::before {
             content: attr(tips);
             border-radius: 3px;
             padding: 6px 10px;
@@ -44,8 +43,10 @@ export default class XyTips extends HTMLElement {
             max-width: 200px;
         }
         
-        :host::after {
+        :host([tips]:not([tips='']))::after {
             content: '';
+        }
+        :host::after {
             width: 0;
             height: 0;
             margin-bottom: -12px;
