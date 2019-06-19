@@ -173,17 +173,17 @@ export default class XyTips extends HTMLElement {
             const w = document.body.scrollWidth;
             const h = document.body.scrollHeight;
             const TIP_SIZE = 50;
-            if( left < TIP_SIZE ){
-                this.dir = 'right';
-            }
             if( top < TIP_SIZE ){
                 this.dir = 'down';
             }
-            if( w-left-width < TIP_SIZE ){
-                this.dir = 'left';
-            }
             if( h-top-height < TIP_SIZE ){
                 this.dir = 'up';
+            }
+            if( left < TIP_SIZE ){
+                this.dir = 'right';
+            }
+            if( w-left-width < TIP_SIZE ){
+                this.dir = 'left';
             }
         }
     }

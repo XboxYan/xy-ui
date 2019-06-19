@@ -30,6 +30,7 @@
     <script type="module" src="./components/xy-tips.js" async></script>
     <script type="module" src="./components/xy-icon.js" async></script>
     <script type="module" src="./components/xy-layout.js" async></script>
+    <script type="module" src="./components/xy-dialog.js" async></script>
     
     <!-- <script type="module" async>
         import './components/xy-button.js';
@@ -218,6 +219,9 @@
         </xy-layout>
         <xy-layout class="footer">FOOTER</xy-layout>
     </xy-layout>
+    <h2>dialog</h2>
+    <xy-button type="primary" onclick="showDialog()">open dialog</xy-button>
+    <xy-dialog id="dialog01">232</xy-dialog>
     <script>
         document.getElementById('btn').addEventListener('click',function(ev){
             console.log(ev)
@@ -235,6 +239,10 @@
                 document.body.style.setProperty('--themeColor',themeColor);
             })
         })
+
+        function showDialog(){
+            document.getElementById('dialog01').open = true;
+        }
     </script>
 </body>
 
