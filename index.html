@@ -58,6 +58,7 @@
     <xy-button type="dashed">dashed</xy-button>
     <xy-button type="flat">flat</xy-button>
     <xy-button>default</xy-button>
+    <xy-button type="primary" loading>loading</xy-button>
     <p>with icon</p>
     <xy-button type="primary" icon="heart" shape="circle"></xy-button>
     <xy-button type="dashed" icon="heart" shape="circle"></xy-button>
@@ -221,7 +222,21 @@
     </xy-layout>
     <h2>dialog</h2>
     <xy-button type="primary" onclick="showDialog()">open dialog</xy-button>
-    <xy-dialog id="dialog01">232</xy-dialog>
+    <xy-dialog id="dialog02">232</xy-dialog>
+    <xy-dialog id="dialog01" header="标题" oktext="确 定" canceltext="取消" >
+        <xy-tab>
+            <xy-tab-content label="tab1">tab1</xy-tab-content>
+            <xy-tab-content label="tab2">tab2</xy-tab-content>
+            <xy-tab-content label="tab3">tab3</xy-tab-content>
+            <xy-tab-content label="tab4">tab4</xy-tab-content>
+            <xy-tab-content label="tab5">tab5</xy-tab-content>
+            <xy-tab-content label="tab6">tab6</xy-tab-content>
+            <xy-tab-content label="tab7">tab7</xy-tab-content>
+            <xy-tab-content label="tab8">tab8</xy-tab-content>
+            <xy-tab-content label="tab9">tab9</xy-tab-content>
+            <xy-tab-content label="tab10">tab10</xy-tab-content>
+        </xy-tab>
+    </xy-dialog>
     <script>
         document.getElementById('btn').addEventListener('click',function(ev){
             console.log(ev)
@@ -229,6 +244,20 @@
         
         document.getElementById('select').onchange = function(ev){
             console.log(ev)
+        }
+        document.getElementById('dialog01').addEventListener('submit',function(){
+            
+        })
+        document.getElementById('dialog01').onsubmit = function(){
+            this.loading = true;
+            new Promise((resolve, reject) => {
+                setTimeout(resolve, 1000);
+            }).then(()=>{
+                this.open = false
+            })
+        }
+        document.getElementById('dialog01').oncancel = function(){
+            console.log('2')
         }
         document.getElementById('btn').onclick = function(ev){
             

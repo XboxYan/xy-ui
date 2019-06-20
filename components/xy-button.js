@@ -1,8 +1,9 @@
+import './xy-loading.js';
 import './xy-icon.js';
 
 export default class XyButton extends HTMLElement {
     //https://mladenplavsic.github.io/css-ripple-effect
-    static get observedAttributes() { return ['disabled','icon'] }
+    static get observedAttributes() { return ['disabled','icon','loading'] }
 
     constructor() {
         super();
@@ -28,8 +29,10 @@ export default class XyButton extends HTMLElement {
         :host([type="flat"]:not([disabled]):hover) .btn::before{ opacity:.1 }
         :host([type="flat"]:focus-within) .btn:before{ opacity:.2; }
         :host(:focus-within){ box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        .btn{ display:flex; width:100%; align-items:center; color: inherit; line-height: inherit; font-size: inherit;  background:none; outline:0; border:0; position: relative; padding:0 .8em; user-select: none; }
+        .btn{ display:flex; width:100%; height: 100%; align-items:center; color: inherit; line-height: inherit; font-size: inherit;  background:none; outline:0; border:0; position: relative; padding:0 .8em; user-select: none; }
         :host([block]) .btn{ justify-content: center;  }
+        :host([loading]) .btn{ direction:rtl;  }
+        :host([loading]) xy-loading{ margin-right: 5px;  }
         ::-moz-focus-inner{border:0;}
         .btn::after {
             content: "";
@@ -63,7 +66,7 @@ export default class XyButton extends HTMLElement {
             padding:.8em;
         }
         </style>
-        <button class="btn" id="btn" >${this.icon && this.icon!='null'?'<xy-icon id="icon" name='+this.icon+'></xy-icon>':''}<slot></slot></button>
+        <button class="btn" id="btn">${!this.loading && this.icon && this.icon!='null'?'<xy-icon id="icon" name='+this.icon+'></xy-icon>':''}<slot></slot></button>
         `
     }
 
@@ -83,6 +86,10 @@ export default class XyButton extends HTMLElement {
         return this.getAttribute('icon');
     }
 
+    get loading() {
+        return this.getAttribute('loading')!==null;
+    }
+
     set icon(value) {
         this.setAttribute('icon', value);
     }
@@ -95,9 +102,21 @@ export default class XyButton extends HTMLElement {
         }
     }
 
+    set loading(value) {
+        if(value===null||value===false){
+            this.removeAttribute('loading');
+            this.disabled = false;
+        }else{
+            this.setAttribute('loading', '');
+            this.disabled = true;
+        }
+    }
+
     connectedCallback() {
         this.btn = this.shadowRoot.getElementById('btn');
         this.ico = this.shadowRoot.getElementById('icon');
+        this.load = document.createElement('xy-loading');
+        this.load.style.color = 'inherit';
         this.btn.addEventListener('mousedown',function(ev){
             //ev.preventDefault();
             ev.stopPropagation();
@@ -109,6 +128,7 @@ export default class XyButton extends HTMLElement {
             this.focus();
         })
         this.disabled = this.disabled;
+        this.loading = this.loading;
     }
 
     attributeChangedCallback (name, oldValue, newValue) {
@@ -117,6 +137,13 @@ export default class XyButton extends HTMLElement {
                 this.btn.setAttribute('disabled', 'disabled');
             }else{
                 this.btn.removeAttribute('disabled');
+            }
+        }
+        if( name == 'loading' && this.btn){
+            if(newValue!==null){
+                this.btn.appendChild(this.load);
+            }else{
+                this.btn.removeChild(this.load);
             }
         }
         if( name == 'icon' && this.ico){
