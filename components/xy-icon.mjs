@@ -18,6 +18,7 @@ export default class XyIcon extends HTMLElement {
             display:block;
             width: 1em;
             height: 1em;
+            margin: auto;
             fill: currentColor;
             overflow: hidden;
             transition:inherit;

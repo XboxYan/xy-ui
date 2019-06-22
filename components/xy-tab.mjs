@@ -1,4 +1,4 @@
-import './xy-button.js';
+import './xy-button.mjs';
 
 class XyTabContent extends HTMLElement {
     static get observedAttributes() { return ["label","key","disabled","icon"]; }

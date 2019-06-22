@@ -1,5 +1,5 @@
-import './xy-loading.js';
-import './xy-icon.js';
+import './xy-loading.mjs';
+import './xy-icon.mjs';
 
 export default class XyButton extends HTMLElement {
     //https://mladenplavsic.github.io/css-ripple-effect
@@ -12,11 +12,11 @@ export default class XyButton extends HTMLElement {
         <style>
         :host{ display:inline-block; box-sizing:border-box; vertical-align: middle; overflow:hidden; line-height: 2.4; border:1px solid #ddd; font-size: 14px; color: #333;  border-radius: 3px; transition:background .3s,box-shadow .3s,border-color .3s,color .3s; transform: translateZ(0);}
         :host([shape="circle"]){ border-radius:50%; }
-        :host([disabled]){ pointer-events: none; opacity:.6; }
+        :host([disabled]),:host([loading]){ pointer-events: none; opacity:.6; }
         :host([block]){ display:block; }
         :host([disabled]:not([type])){ background:#f1f1f1; }
-        :host([disabled]) .btn{ pointer-events: all;  cursor: not-allowed; }
-        :host([disabled]) slot{ pointer-events: none; }
+        :host([disabled]) .btn,:host([loading]) .btn{ pointer-events: all;  cursor: not-allowed; }
+        :host([disabled]) slot,:host([loading]) slot{ pointer-events: none; }
         :host(:not([type="primary"]):not([disabled]):hover),
         :host(:not([type="primary"]):focus-within){ color:var(--themeColor,dodgerblue); border-color: var(--themeColor,dodgerblue); }
         :host(:not([type="primary"])) .btn::after{ background-image: radial-gradient(circle, var(--themeColor,dodgerblue) 10%, transparent 10.01%); }
@@ -105,10 +105,8 @@ export default class XyButton extends HTMLElement {
     set loading(value) {
         if(value===null||value===false){
             this.removeAttribute('loading');
-            this.disabled = false;
         }else{
             this.setAttribute('loading', '');
-            this.disabled = true;
         }
     }
 
@@ -142,8 +140,10 @@ export default class XyButton extends HTMLElement {
         if( name == 'loading' && this.btn){
             if(newValue!==null){
                 this.btn.appendChild(this.load);
+                this.btn.setAttribute('disabled', 'disabled');
             }else{
                 this.btn.removeChild(this.load);
+                this.btn.removeAttribute('disabled');
             }
         }
         if( name == 'icon' && this.ico){

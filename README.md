@@ -21,11 +21,12 @@
 - [x] xy-tips
 - [x] xy-icon
 - [x] xy-layout
-- [ ] xy-dialog
+- [x] xy-dialog
 - [ ] xy-input[color/number/search等等]
 
 ### API
 - [ ] xy.message
-- [ ] xy.alert
-- [ ] xy.comfirm
+- [ ] new XyDialog().alert
+- [ ] new XyDialog().comfirm
+- [ ] new XyDialog().prompt
 - [ ] ...
