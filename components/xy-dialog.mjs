@@ -1,6 +1,6 @@
 import './xy-button.mjs';
 
-export default class XyDialog extends HTMLElement {
+class XyDialog extends HTMLElement {
 
     static get observedAttributes() { return ['open','header','oktext','canceltext','loading','type'] }
 
@@ -199,70 +199,6 @@ export default class XyDialog extends HTMLElement {
             color:color
         }
     }
-
-    alert (text) {
-        this.innerText = text||'';
-        document.body.appendChild(this);
-        this.header = 'Alert';
-        this.btnCancel.parentNode.removeChild(this.btnCancel);
-        this.remove = true;
-        this.open = true;
-    }
-
-    info (text) {
-        this.innerText = text||'';
-        document.body.appendChild(this);
-        this.header = 'Info';
-        this.type = 'info';
-        this.oktext = '知道了';
-        this.btnCancel.parentNode.removeChild(this.btnCancel);
-        this.remove = true;
-        this.open = true;
-    }
-
-    success (text) {
-        this.innerText = text||'';
-        document.body.appendChild(this);
-        this.header = 'Success';
-        this.type = 'success';
-        this.oktext = '知道了';
-        this.btnCancel.parentNode.removeChild(this.btnCancel);
-        this.remove = true;
-        this.open = true;
-    }
-
-    error (text) {
-        this.innerText = text||'';
-        document.body.appendChild(this);
-        this.header = 'Error';
-        this.type = 'error';
-        this.oktext = '知道了';
-        this.btnCancel.parentNode.removeChild(this.btnCancel);
-        this.remove = true;
-        this.open = true;
-    }
-
-    warning (text) {
-        this.innerText = text||'';
-        document.body.appendChild(this);
-        this.header = 'Warning';
-        this.type = 'warning';
-        this.oktext = '知道了';
-        this.btnCancel.parentNode.removeChild(this.btnCancel);
-        this.remove = true;
-        this.open = true;
-    }
-
-    confirm (text,ok,cancel) {
-        this.innerText = text||'';
-        document.body.appendChild(this);
-        this.header = 'Confirm';
-        this.type = 'confirm';
-        this.remove = true;
-        this.onsubmit = ok;
-        this.oncancel = cancel;
-        this.open = true;
-    }
     
     connectedCallback() {
         this.remove = false;
@@ -348,4 +284,131 @@ export default class XyDialog extends HTMLElement {
 
 if(!customElements.get('xy-dialog')){
     customElements.define('xy-dialog', XyDialog);
+}
+
+export default {
+
+    alert: function() {
+        const dialog = document.createElement('xy-dialog');
+        document.body.appendChild(dialog);
+        dialog.btnCancel.parentNode.removeChild(dialog.btnCancel);
+        dialog.remove = true;
+        if( typeof arguments[0] === 'object' ){
+            const { header, oktext, content, ok} = arguments[0];
+            dialog.header = header||'Alert';
+            dialog.oktext = oktext||'确 定';
+            dialog.onsubmit = ok||null;
+            dialog.innerText = content||'';
+        }else{
+            dialog.header = 'Alert';
+            dialog.oktext = '确 定';
+            dialog.innerText = arguments[0]||'';
+        }
+        dialog.open = true;
+    },
+
+    info: function() {
+        const dialog = document.createElement('xy-dialog');
+        document.body.appendChild(dialog);
+        dialog.btnCancel.parentNode.removeChild(dialog.btnCancel);
+        dialog.type = 'info';
+        dialog.remove = true;
+        if( typeof arguments[0] === 'object' ){
+            const { header, oktext, content, ok} = arguments[0];
+            dialog.header = header||'Info';
+            dialog.oktext = oktext||'知道了';
+            dialog.onsubmit = ok||null;
+            dialog.innerText = content||'';
+        }else{
+            dialog.header = 'Info';
+            dialog.oktext = '知道了';
+            dialog.innerText = arguments[0]||'';
+        }
+        dialog.open = true;
+    },
+
+    success: function() {
+        const dialog = document.createElement('xy-dialog');
+        document.body.appendChild(dialog);
+        dialog.btnCancel.parentNode.removeChild(dialog.btnCancel);
+        dialog.type = 'success';
+        dialog.remove = true;
+        if( typeof arguments[0] === 'object' ){
+            const { header, oktext, content, ok} = arguments[0];
+            dialog.header = header||'Success';
+            dialog.oktext = oktext||'知道了';
+            dialog.onsubmit = ok||null;
+            dialog.innerText = content||'';
+        }else{
+            dialog.header = 'Success';
+            dialog.oktext = '知道了';
+            dialog.innerText = arguments[0]||'';
+        }
+        dialog.open = true;
+    },
+
+    error: function() {
+        const dialog = document.createElement('xy-dialog');
+        document.body.appendChild(dialog);
+        dialog.btnCancel.parentNode.removeChild(dialog.btnCancel);
+        dialog.type = 'error';
+        dialog.remove = true;
+        if( typeof arguments[0] === 'object' ){
+            const { header, oktext, content, ok} = arguments[0];
+            dialog.header = header||'Error';
+            dialog.oktext = oktext||'知道了';
+            dialog.onsubmit = ok||null;
+            dialog.innerText = content||'';
+        }else{
+            dialog.header = 'Error';
+            dialog.oktext = '知道了';
+            dialog.innerText = arguments[0]||'';
+        }
+        dialog.open = true;
+    },
+
+    warning: function() {
+        const dialog = document.createElement('xy-dialog');
+        document.body.appendChild(dialog);
+        dialog.btnCancel.parentNode.removeChild(dialog.btnCancel);
+        dialog.type = 'warning';
+        dialog.remove = true;
+        if( typeof arguments[0] === 'object' ){
+            const { header, oktext, content, ok} = arguments[0];
+            dialog.header = header||'Warning';
+            dialog.oktext = oktext||'知道了';
+            dialog.onsubmit = ok||null;
+            dialog.innerText = content||'';
+        }else{
+            dialog.header = 'Warning';
+            dialog.oktext = '知道了';
+            dialog.innerText = arguments[0]||'';
+        }
+        dialog.open = true;
+    },
+
+    confirm: function(text,ok,cancel) {
+        const dialog = document.createElement('xy-dialog');
+        document.body.appendChild(dialog);
+        dialog.remove = true;
+        if( typeof arguments[0] === 'object' ){
+            const { type, header, content, oktext, canceltext, ok, cancel} = arguments[0];
+            dialog.type = type||'confirm';
+            dialog.header = header||'Confirm';
+            dialog.oktext = oktext||'确 定';
+            dialog.canceltext = oktext||'取 消';
+            dialog.onsubmit = ok||null;
+            dialog.oncancel = oncancel||null;
+            dialog.innerText = content||'';
+        }else{
+            dialog.type = 'confirm';
+            dialog.header = 'Confirm';
+            dialog.oktext = '确 定';
+            dialog.canceltext = '取 消';
+            dialog.innerText = arguments[0]||'';
+            dialog.onsubmit = arguments[1]||null;
+            dialog.oncancel = arguments[2]||null;
+        }
+        dialog.open = true;
+    }
 }

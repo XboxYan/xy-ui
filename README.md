@@ -25,8 +25,6 @@
 - [ ] xy-input[color/number/search等等]
 
 ### API
-- [ ] xy.message
-- [ ] new XyDialog().alert
-- [ ] new XyDialog().comfirm
-- [ ] new XyDialog().prompt
+- [x] XyDialog[XyDialog.alert/comfirm/info/success/error/warning]
+- [ ] XyMessage
 - [ ] ...

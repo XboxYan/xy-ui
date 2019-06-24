@@ -230,12 +230,12 @@
     </xy-layout>
     <h2>dialog</h2>
     <xy-button type="primary" onclick="showDialog()">open dialog</xy-button>
-    <xy-button onclick="new XyDialog().alert('assdd')">alert</xy-button>
+    <xy-button onclick="XyDialog.alert('assdd')">alert</xy-button>
     <xy-button id="confirm-btn">confirm</xy-button>
-    <xy-button onclick="new XyDialog().info('assdd')">info</xy-button>
-    <xy-button onclick="new XyDialog().success('assdd')">success</xy-button>
-    <xy-button onclick="new XyDialog().error('assdd')">error</xy-button>
-    <xy-button onclick="new XyDialog().warning('assdd')">warning</xy-button>
+    <xy-button onclick="XyDialog.info('assdd')">info</xy-button>
+    <xy-button onclick="XyDialog.success({header:'成功',content:'success',oktext:'send'})">success</xy-button>
+    <xy-button onclick="XyDialog.error('assdd')">error</xy-button>
+    <xy-button onclick="XyDialog.warning('assdd')">warning</xy-button>
     <xy-dialog id="dialog02">232</xy-dialog>
     <xy-dialog id="dialog01" header="标题" oktext="确 定" canceltext="取消" >
         <xy-tab>
@@ -274,7 +274,7 @@
             console.log('2')
         }
         document.getElementById('confirm-btn').onclick = function(ev){
-            new XyDialog().confirm('assdd',function(){
+            XyDialog.confirm('assdd',function(){
                 console.log('ok')
             },function(){
                 console.log('cancel')
