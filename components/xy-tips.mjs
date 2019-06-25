@@ -11,7 +11,6 @@ export default class XyTips extends HTMLElement {
             display:inline-block;
             position: relative;
             overflow: visible;
-            cursor: pointer;
         }
         
         :host::before,
@@ -19,11 +18,11 @@ export default class XyTips extends HTMLElement {
             display: block;
             position: absolute;
             z-index: 1;
-            left: 50%;
+            left: calc( var(--percent,.5) * 100% );
             bottom: 100%;
             transform: translate(-50%, -20px);
             opacity: 0;
-            transition: .15s .15s;
+            transition: transfrom .15s .15s,opacity .15s .15s;
             color: var(--color,rgba(0,0,0,0.75));
             visibility: hidden;
             pointer-events: none;
@@ -56,8 +55,10 @@ export default class XyTips extends HTMLElement {
         }
         
         :host(:hover)::before,
+        :host([show])::before,
         :host(:focus-within)::before,
         :host(:hover)::after,
+        :host([show])::after,
         :host(:focus-within)::after {
             visibility: visible;
             transform: translate(-50%, -10px);
@@ -159,12 +160,32 @@ export default class XyTips extends HTMLElement {
         return this.getAttribute('dir')||'auto';
     }
 
+    get tips() {
+        return this.getAttribute('tips');
+    }
+
+    get show() {
+        return this.getAttribute('show')!==null;
+    }
+
     set color(value) {
         this.setAttribute('color', value);
     }
 
     set dir(value) {
         this.setAttribute('dir', value);
+    }
+
+    set tips(value) {
+        this.setAttribute('tips', value);
+    }
+
+    set show(value) {
+        if(value===null||value===false){
+            this.removeAttribute('show');
+        }else{
+            this.setAttribute('show', '');
+        }
     }
     
     connectedCallback() {

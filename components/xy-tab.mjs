@@ -102,6 +102,9 @@ export default class XyTab extends HTMLElement {
             box-shadow:none;
             flex-shrink: 0;
         }
+        .nav-item.active{
+            color:var(--themeColor,dodgerblue);
+        }
         .tab-line{
             position:absolute;
             width:0;
@@ -205,6 +208,11 @@ export default class XyTab extends HTMLElement {
             this.tab.style.transform = `translateX(${-(active.index) * 100}%)`;
             if( oldValue!==newValue ){
                 this.nav.parentNode.scrollLeft = active.left+active.width/2-this.nav.parentNode.offsetWidth/2;
+                const pre = this.nav.querySelector(`.nav-item.active`);
+                if(pre){
+                    pre.classList.remove('active');
+                }
+                this.nav.querySelector(`.nav-item[data-key='${newValue}']`).classList.add('active');
                 this.dispatchEvent(new CustomEvent('change',{
                     detail:{
                         key:this.activekey,

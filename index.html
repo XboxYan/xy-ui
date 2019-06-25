@@ -48,7 +48,9 @@
         import './components/xy-icon.mjs';
         import './components/xy-layout.mjs';
         import XyDialog from './components/xy-dialog.mjs';
+        import XyMessage from './components/xy-message.mjs';
         window.XyDialog = XyDialog;
+        window.XyMessage = XyMessage;
     </script>
 
 </head>
@@ -90,7 +92,7 @@
     <xy-slider onchange="console.log(event)"></xy-slider>
     <xy-slider value="100" min="0" max="300" step="5"></xy-slider>
     <xy-slider value="30" min="-100" max="100" step="1"></xy-slider>
-    <xy-slider value="100" min="10" max="200" step="2"></xy-slider>
+    <xy-slider value="100" min="10" max="200" step="2" showtips></xy-slider>
     <xy-slider value="150" min="10" max="200" step="2" disabled></xy-slider>
     <h2>loading</h2>
     <xy-loading></xy-loading>
@@ -230,12 +232,12 @@
     </xy-layout>
     <h2>dialog</h2>
     <xy-button type="primary" onclick="showDialog()">open dialog</xy-button>
-    <xy-button onclick="XyDialog.alert('assdd')">alert</xy-button>
+    <xy-button onclick="XyDialog.alert('alert')">alert</xy-button>
     <xy-button id="confirm-btn">confirm</xy-button>
-    <xy-button onclick="XyDialog.info('assdd')">info</xy-button>
+    <xy-button onclick="XyDialog.info('info')">info</xy-button>
     <xy-button onclick="XyDialog.success({header:'成功',content:'success',oktext:'send'})">success</xy-button>
-    <xy-button onclick="XyDialog.error('assdd')">error</xy-button>
-    <xy-button onclick="XyDialog.warning('assdd')">warning</xy-button>
+    <xy-button onclick="XyDialog.error('error')">error</xy-button>
+    <xy-button onclick="XyDialog.warning('warning')">warning</xy-button>
     <xy-dialog id="dialog02">232</xy-dialog>
     <xy-dialog id="dialog01" header="标题" oktext="确 定" canceltext="取消" >
         <xy-tab>
@@ -251,6 +253,12 @@
             <xy-tab-content label="tab10">tab10</xy-tab-content>
         </xy-tab>
     </xy-dialog>
+    <h2>message</h2>
+    <xy-button onclick="XyMessage.info('This a info message')">info</xy-button>
+    <xy-button onclick="XyMessage.success('This a success message')">success</xy-button>
+    <xy-button onclick="XyMessage.error('This a error message')">error</xy-button>
+    <xy-button onclick="XyMessage.warning('This a warning message')">warning</xy-button>
+    <xy-button onclick="XyMessage.loading('This a loading message')">loading</xy-button>
     <script>
         document.getElementById('btn').addEventListener('click',function(ev){
             console.log(ev)
@@ -274,10 +282,19 @@
             console.log('2')
         }
         document.getElementById('confirm-btn').onclick = function(ev){
+            /*
             XyDialog.confirm('assdd',function(){
                 console.log('ok')
             },function(){
                 console.log('cancel')
+            })
+            */
+            XyDialog.confirm({
+                header:'确定要删除吗',
+                type:'error',
+                content:'一旦删除无法还原',
+                oktext:'删除',
+
             })
         }
         document.querySelectorAll('.theme-button').forEach((el)=>{

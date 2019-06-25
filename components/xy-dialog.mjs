@@ -289,7 +289,7 @@ if(!customElements.get('xy-dialog')){
 export default {
 
     alert: function() {
-        const dialog = document.createElement('xy-dialog');
+        const dialog = new XyDialog();
         document.body.appendChild(dialog);
         dialog.btnCancel.parentNode.removeChild(dialog.btnCancel);
         dialog.remove = true;
@@ -305,10 +305,11 @@ export default {
             dialog.innerText = arguments[0]||'';
         }
         dialog.open = true;
+        return dialog;
     },
 
     info: function() {
-        const dialog = document.createElement('xy-dialog');
+        const dialog = new XyDialog();
         document.body.appendChild(dialog);
         dialog.btnCancel.parentNode.removeChild(dialog.btnCancel);
         dialog.type = 'info';
@@ -325,10 +326,11 @@ export default {
             dialog.innerText = arguments[0]||'';
         }
         dialog.open = true;
+        return dialog;
     },
 
     success: function() {
-        const dialog = document.createElement('xy-dialog');
+        const dialog = new XyDialog();
         document.body.appendChild(dialog);
         dialog.btnCancel.parentNode.removeChild(dialog.btnCancel);
         dialog.type = 'success';
@@ -345,10 +347,11 @@ export default {
             dialog.innerText = arguments[0]||'';
         }
         dialog.open = true;
+        return dialog;
     },
 
     error: function() {
-        const dialog = document.createElement('xy-dialog');
+        const dialog = new XyDialog();
         document.body.appendChild(dialog);
         dialog.btnCancel.parentNode.removeChild(dialog.btnCancel);
         dialog.type = 'error';
@@ -365,10 +368,11 @@ export default {
             dialog.innerText = arguments[0]||'';
         }
         dialog.open = true;
+        return dialog;
     },
 
     warning: function() {
-        const dialog = document.createElement('xy-dialog');
+        const dialog = new XyDialog();
         document.body.appendChild(dialog);
         dialog.btnCancel.parentNode.removeChild(dialog.btnCancel);
         dialog.type = 'warning';
@@ -385,10 +389,12 @@ export default {
             dialog.innerText = arguments[0]||'';
         }
         dialog.open = true;
+        return dialog;
     },
 
     confirm: function(text,ok,cancel) {
-        const dialog = document.createElement('xy-dialog');
+        //const dialog = document.createElement('xy-dialog');
+        const dialog = new XyDialog();
         document.body.appendChild(dialog);
         dialog.remove = true;
         if( typeof arguments[0] === 'object' ){
@@ -396,10 +402,10 @@ export default {
             dialog.type = type||'confirm';
             dialog.header = header||'Confirm';
             dialog.oktext = oktext||'确 定';
-            dialog.canceltext = oktext||'取 消';
+            dialog.canceltext = canceltext||'取 消';
+            dialog.innerText = content||'';
             dialog.onsubmit = ok||null;
             dialog.oncancel = oncancel||null;
-            dialog.innerText = content||'';
         }else{
             dialog.type = 'confirm';
             dialog.header = 'Confirm';
@@ -410,5 +416,6 @@ export default {
             dialog.oncancel = arguments[2]||null;
         }
         dialog.open = true;
+        return dialog;
     }
 }

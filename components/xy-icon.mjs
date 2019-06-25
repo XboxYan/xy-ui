@@ -35,7 +35,7 @@ export default class XyIcon extends HTMLElement {
     }
 
     get name() {
-        return this.getAttribute('name')||'question';
+        return this.getAttribute('name');
     }
 
     get path() {

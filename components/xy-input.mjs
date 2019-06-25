@@ -1,6 +1,6 @@
 import './xy-tips.mjs';
 
-export default class XySlider extends HTMLElement {
+export default class XyInput extends HTMLElement {
 
     static get observedAttributes() { return ['value','min','max','step','disabled','showtips'] }
 
@@ -78,7 +78,7 @@ export default class XySlider extends HTMLElement {
             background: #fff;
         }
         </style>
-        <xy-tips id='slider-con' dir="top" style="--percent:${(this.value-this.min)/(this.max-this.min)}" tips="${this.showtips&&!this.disabled?this.value:''}"><input id='slider' value=${this.value} min=${this.min} max=${this.max} step=${this.step} ${this.disabled?"disabled":""} type='range'></xy-tips>
+        <xy-tips id='slider-con' dir="top" style="--percent:${(this.value-this.min)/(this.max-this.min)}" tips="${this.showtips&&!this.disabled?this.value:''}"><input id='slider' value=${this.value} min=${this.min} max=${this.max} step=${this.step} ${this.disabled?"disabled":""} type='text'></xy-tips>
         `
     } 
     
@@ -187,6 +187,6 @@ export default class XySlider extends HTMLElement {
     
 }
 
-if(!customElements.get('xy-slider')){
-    customElements.define('xy-slider', XySlider);
+if(!customElements.get('xy-input')){
+    customElements.define('xy-input', XyInput);
 }
