@@ -179,7 +179,7 @@ export default class XyTab extends HTMLElement {
                 if(item.key===null){
                     item.key = index;
                 }
-                html += `<xy-button class="nav-item" icon=${item.icon} type="flat" ${item.disabled!==null?"disabled":""} data-key=${item.key}>${item.label}</xy-button>`;
+                html += `<xy-button class="nav-item ${item.key===this.activekey?'active':''}" icon=${item.icon} type="flat" ${item.disabled!==null?"disabled":""} data-key=${item.key}>${item.label}</xy-button>`;
             })
             this.nav.innerHTML = html;
             this.init();

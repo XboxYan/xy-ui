@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>xy-ui</title>
     <style>
-        xy-button,xy-checkbox,xy-radio{ margin: 0 10px 10px 0; }
+        xy-button,xy-checkbox,xy-radio,xy-input{ margin: 0 10px 15px 0; }
         xy-tips xy-button{ margin: 0;}
         xy-tips{ margin: 0 10px 10px 0; }
         p{  padding: 5px 10px; border-left: 4px solid olive; color: #666 }
@@ -47,6 +47,7 @@
         import './components/xy-tips.mjs';
         import './components/xy-icon.mjs';
         import './components/xy-layout.mjs';
+        import './components/xy-input.mjs';
         import XyDialog from './components/xy-dialog.mjs';
         import XyMessage from './components/xy-message.mjs';
         window.XyDialog = XyDialog;
@@ -259,6 +260,11 @@
     <xy-button onclick="XyMessage.error('This a error message')">error</xy-button>
     <xy-button onclick="XyMessage.warning('This a warning message')">warning</xy-button>
     <xy-button onclick="XyMessage.loading('This a loading message')">loading</xy-button>
+    <h2>input</h2>
+    <xy-input placeholder="location"></xy-input>
+    <xy-input label="user"></xy-input>
+    <xy-input label="location"></xy-input>
+    <xy-input label="info" block></xy-input>
     <script>
         document.getElementById('btn').addEventListener('click',function(ev){
             console.log(ev)

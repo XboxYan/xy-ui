@@ -13,6 +13,7 @@ class XyOption extends HTMLElement {
             .option {
                 display:block;
                 border-radius:0;
+                font-size: inherit;
             }
             :host([selected="true"]) .option{
                 color:var(--themeColor,dodgerblue)
@@ -61,6 +62,7 @@ export default class XySelect extends HTMLElement {
         shadowRoot.innerHTML = `
         <style>
         :host{
+            position:relative;
             display:inline-block;
             line-height:2.4;
             font-size: 14px;
@@ -73,13 +75,7 @@ export default class XySelect extends HTMLElement {
             border-color:var(--themeColor,dodgerblue);
             color:var(--themeColor,dodgerblue);
         }
-        .root{
-            position:relative;
-            line-height: inherit;
-            font-size: inherit;
-            z-index: 1;
-        }
-        :host(:focus-within) .root{ 
+        :host(:focus-within){ 
             z-index: 2;
         }
         #select{
@@ -143,11 +139,9 @@ export default class XySelect extends HTMLElement {
         }
         
         </style>
-        <div class="root">
-            <xy-button id="select" ${this.disabled? "disabled" : ""} ${this.type?("type="+this.type):""}><span id="value"></span><i class="arrow"></i></xy-button>
-            <div class="options" id="options">
-                <slot id="slot"></slot>
-            </div>
+        <xy-button id="select" ${this.disabled? "disabled" : ""} ${this.type?("type="+this.type):""}><span id="value"></span><i class="arrow"></i></xy-button>
+        <div class="options" id="options">
+            <slot id="slot"></slot>
         </div>
         `
     }
