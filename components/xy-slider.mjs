@@ -2,7 +2,7 @@ import './xy-tips.mjs';
 
 export default class XySlider extends HTMLElement {
 
-    static get observedAttributes() { return ['value','min','max','step','disabled','showtips'] }
+    static get observedAttributes() { return ['min','max','step','disabled','showtips'] }
 
     constructor() {
         super();
@@ -78,7 +78,7 @@ export default class XySlider extends HTMLElement {
             background: #fff;
         }
         </style>
-        <xy-tips id='slider-con' dir="top" style="--percent:${(this.value-this.min)/(this.max-this.min)}" tips="${this.showtips&&!this.disabled?this.value:''}"><input id='slider' value=${this.value} min=${this.min} max=${this.max} step=${this.step} ${this.disabled?"disabled":""} type='range'></xy-tips>
+        <xy-tips id='slider-con' dir="top" style="--percent:${(this.defaultvalue-this.min)/(this.max-this.min)}" tips="${this.showtips&&!this.disabled?this.defaultvalue:''}"><input id='slider' value=${this.defaultvalue} min=${this.min} max=${this.max} step=${this.step} ${this.disabled?"disabled":""} type='range'></xy-tips>
         `
     } 
     
@@ -102,7 +102,11 @@ export default class XySlider extends HTMLElement {
     }
 
     get value() {
-        return this.getAttribute('value')||0;
+        return this.slider.value;
+    }
+
+    get defaultvalue() {
+        return this.getAttribute('defaultvalue')||0;
     }
 
     get min() {
@@ -142,7 +146,13 @@ export default class XySlider extends HTMLElement {
     }
 
     set value(value) {
-        this.setAttribute('value', value);
+        this.slider.value = value;
+        this.sliderCon.style.setProperty('--percent',(this.value-this.min)/(this.max-this.min));
+        if( this.showtips&&!this.disabled){
+            this.sliderCon.tips = this.value;
+        }else{
+            this.sliderCon.tips = '';
+        }
     }
 
     set min(value) {
@@ -158,14 +168,6 @@ export default class XySlider extends HTMLElement {
     }
 
     attributeChangedCallback (name, oldValue, newValue) {
-        if(this.sliderCon){
-            this.sliderCon.style.setProperty('--percent',(this.value-this.min)/(this.max-this.min));
-            if( this.showtips&&!this.disabled){
-                this.sliderCon.tips = newValue;
-            }else{
-                this.sliderCon.tips = '';
-            }
-        }
         if( this.slider && oldValue!==newValue && !this._oninput){
             if(name == 'disabled'){
                 if(newValue!==null){

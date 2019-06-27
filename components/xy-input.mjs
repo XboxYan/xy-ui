@@ -2,7 +2,7 @@ import './xy-tips.mjs';
 
 export default class XyInput extends HTMLElement {
 
-    static get observedAttributes() { return ['value','type','label'] }
+    static get observedAttributes() { return ['type','label'] }
 
     constructor() {
         super();
@@ -18,9 +18,10 @@ export default class XyInput extends HTMLElement {
             transition:border-color .3s,box-shadow .3s;
             padding: 4px 10px;
             color: #333;
+            font-size: 14px;
         }
         :host(:focus-within){
-            /*box-shadow: 0 0 10px rgba(0,0,0,0.1);*/
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
         :host([block]){
             display:block
@@ -30,7 +31,7 @@ export default class XyInput extends HTMLElement {
         }
         :host([disabled]){ 
             opacity:.8; 
-            --themeColor:#999; 
+            --themeColor:#999;
             cursor:not-allowed; 
         }
         :host([label]) .input::placeholder{
@@ -71,16 +72,43 @@ export default class XyInput extends HTMLElement {
         }
         .input:not(:placeholder-shown) ~ .input-label,
         .input:focus ~ .input-label{
-            background-color: #fff;
-            color:var(--themeColor,dodgerblue);
             transform: translateY( calc( -50% - 6px ) ) scale(0.8);
+        }
+        .input:not(:placeholder-shown) ~ .input-label::after,
+        .input:focus ~ .input-label::after{
+            background:#fff;
+        }
+        .input-label::after{
+            content:'';
+            position:absolute;
+            z-index:-1;
+            left:0;
+            right:0;
+            height:1px;
+            top:50%;
+            transform:translateY( calc(-50% + 2px ) ) scaleY(1.5);
+        }
+        .icon-pre{
+            margin-right:4px;
+            transition:none;
+            color:#999;
+        }
+
+        :host(:focus-within) .icon-pre,:host(:hover) .icon-pre,:host(:hover) .input-label,:host(:focus-within) .input-label{
+            color:var(--themeColor,dodgerblue);
         }
 
         </style>
         <xy-tips id="input-con" dir="top">
-            <input id="input" class="input" min=${this.min} max=${this.max} step=${this.step} ${this.disabled?"disabled":""} type="text" placeholder=${this.placeholder}>
             ${
-                this.label?
+                this.icon?
+                '<xy-icon class="icon-pre" name='+this.icon+'></xy-icon>'
+                :
+                ''
+            }
+            <input id="input" class="input" min=${this.min} max=${this.max} step=${this.step} ${this.disabled?"disabled":""} value="${this.defaultvalue}" type="text" placeholder=${this.placeholder}>
+            ${
+                this.label&&!this.icon?
                 '<label class="input-label">'+this.label+'</label>'
                 :
                 ''
@@ -90,19 +118,37 @@ export default class XyInput extends HTMLElement {
     } 
     
     connectedCallback() {
-        
+        this.input = this.shadowRoot.getElementById('input');
+        this.input.addEventListener('input',()=>{
+            this.dispatchEvent(new CustomEvent('input',{
+                detail:{
+                    value:this.value
+                }
+            }));
+        })
+        this.input.addEventListener('change',()=>{
+            this.dispatchEvent(new CustomEvent('change',{
+                detail:{
+                    value:this.value
+                }
+            }));
+        })
     }
 
     get value() {
-        return this.getAttribute('value')||0;
+        return this.input.value;
     }
 
-    get min() {
-        return this.getAttribute('min')||0;
+    get defaultvalue() {
+        return this.getAttribute('defaultvalue')||'';
     }
 
-    get max() {
-        return this.getAttribute('max')||100;
+    get icon() {
+        return this.getAttribute('icon');
+    }
+
+    get type() {
+        return this.getAttribute('type');
     }
 
     get disabled() {
@@ -110,7 +156,7 @@ export default class XyInput extends HTMLElement {
     }
 
     get label() {
-        return this.getAttribute('label');
+        return this.getAttribute('label')||'';
     }
 
     get placeholder() {
@@ -129,28 +175,16 @@ export default class XyInput extends HTMLElement {
         this.setAttribute('label', value);
     }
 
+    set icon(value) {
+        this.setAttribute('icon', value);
+    }
+
     set placeholder(value) {
         this.setAttribute('placeholder', value);
     }
 
-    get step() {
-        return this.getAttribute('step')||1;
-    }
-
     set value(value) {
-        this.setAttribute('value', value);
-    }
-
-    set min(value) {
-        this.setAttribute('min', value);
-    }
-
-    set max(value) {
-        this.setAttribute('max', value);
-    }
-
-    set step(value) {
-        this.setAttribute('step', value);
+        this.input.value = value;
     }
 
     attributeChangedCallback (name, oldValue, newValue) {

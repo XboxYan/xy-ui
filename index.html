@@ -91,10 +91,10 @@
     <xy-button disabled >default</xy-button>
     <h2>slider</h2>
     <xy-slider onchange="console.log(event)"></xy-slider>
-    <xy-slider value="100" min="0" max="300" step="5"></xy-slider>
-    <xy-slider value="30" min="-100" max="100" step="1"></xy-slider>
-    <xy-slider value="100" min="10" max="200" step="2" showtips></xy-slider>
-    <xy-slider value="150" min="10" max="200" step="2" disabled></xy-slider>
+    <xy-slider defaultvalue="100" min="0" max="300" step="5"></xy-slider>
+    <xy-slider defaultvalue="30" min="-100" max="100" step="1"></xy-slider>
+    <xy-slider defaultvalue="100" min="10" max="200" step="2" showtips></xy-slider>
+    <xy-slider defaultvalue="150" min="10" max="200" step="2" disabled></xy-slider>
     <h2>loading</h2>
     <xy-loading></xy-loading>
     <xy-loading size="40" color="green"></xy-loading>
@@ -147,13 +147,13 @@
         <xy-option value="2"><a>Option2</a></xy-option>
         <xy-option value="3">Option3</xy-option>
     </xy-select>
-    <xy-select value="2" id="select" type="flat">
+    <xy-select defaultvalue="2" id="select" type="flat">
         <xy-option value="1">Option1</xy-option>
         <xy-option value="2">Option2</xy-option>
         <xy-option value="3">Option3</xy-option>
         <xy-option value="4">Option4444</xy-option>
     </xy-select>
-    <xy-select value="2" disabled>
+    <xy-select defaultvalue="2" disabled>
         <xy-option value="1">Option1</xy-option>
         <xy-option value="2">Option2</xy-option>
         <xy-option value="3">Option3</xy-option>
@@ -262,8 +262,8 @@
     <xy-button onclick="XyMessage.loading('This a loading message')">loading</xy-button>
     <h2>input</h2>
     <xy-input placeholder="location"></xy-input>
-    <xy-input label="user"></xy-input>
-    <xy-input label="location"></xy-input>
+    <xy-input label="user" defaultvalue="xboxyan"></xy-input>
+    <xy-input icon="location" onchange="console.log(event)"></xy-input>
     <xy-input label="info" block></xy-input>
     <script>
         document.getElementById('btn').addEventListener('click',function(ev){

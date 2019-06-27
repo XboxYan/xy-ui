@@ -223,16 +223,22 @@ export default class XySelect extends HTMLElement {
         })
         this.slots.addEventListener('slotchange', () => {
             this.nodes = this.querySelectorAll(`xy-option`);
-            if (this.value === null) {
+            if (!this.defaultvalue) {
                 this.value = this.nodes[0].value;
             } else {
-                this.value = this.value;
+                this.value = this.defaultvalue;
             }
         });
     }
 
+    
+
+    get defaultvalue() {
+        return this.getAttribute('defaultvalue');
+    }
+
     get value() {
-        return this.getAttribute('value');
+        return this.select.value;
     }
 
     get text() {
@@ -260,14 +266,11 @@ export default class XySelect extends HTMLElement {
     }
 
     set value(value) {
-        this.setAttribute('value', value);
-    }
-
-    attributeChangedCallback(name, oldValue, newValue) {
-        if (name === 'value' && this.select) {
-            let textContent = '';
+        let textContent = '';
+        if (value !== this.value) {
+            this.select.value = value;
             Array.from(this.querySelectorAll('xy-option')).forEach((item) => {
-                if (item.value === newValue) {
+                if (item.value === value) {
                     item.selected = true;
                     textContent = item.textContent;
                     this.txt.innerText = textContent;
@@ -275,15 +278,16 @@ export default class XySelect extends HTMLElement {
                     item.selected = false;
                 }
             })
-            if (oldValue !== newValue) {
-                this.dispatchEvent(new CustomEvent('change', {
-                    detail: {
-                        value: newValue,
-                        text: textContent
-                    }
-                }));
-            }
+            this.dispatchEvent(new CustomEvent('change', {
+                detail: {
+                    value: value,
+                    text: textContent
+                }
+            }));
         }
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
         if (name == 'disabled' && this.select) {
             if (newValue != null) {
                 this.select.setAttribute('disabled', 'disabled');
