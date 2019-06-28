@@ -21,7 +21,7 @@ export default class XyIcon extends HTMLElement {
             margin: auto;
             fill: currentColor;
             overflow: hidden;
-            transition:inherit;
+            /*transition:inherit;*/
         }
         </style>
         <svg class="icon" id="icon" aria-hidden="true" viewBox="0 0 ${this.view} ${this.view}">

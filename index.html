@@ -261,10 +261,19 @@
     <xy-button onclick="XyMessage.warning('This a warning message')">warning</xy-button>
     <xy-button onclick="XyMessage.loading('This a loading message')">loading</xy-button>
     <h2>input</h2>
+    <p>placeholder</p>
+    <xy-input placeholder="user" defaultvalue="xboxyan"></xy-input>
     <xy-input placeholder="location"></xy-input>
+    <p>label</p>
     <xy-input label="user" defaultvalue="xboxyan"></xy-input>
+    <xy-input label="location"></xy-input>
+    <p>icon</p>
+    <xy-input icon="user"></xy-input>
     <xy-input icon="location" onchange="console.log(event)"></xy-input>
+    <p>block</p>
     <xy-input label="info" block></xy-input>
+    <p>type[password]</p>
+    <xy-input icon="lock" type="password"></xy-input>
     <script>
         document.getElementById('btn').addEventListener('click',function(ev){
             console.log(ev)

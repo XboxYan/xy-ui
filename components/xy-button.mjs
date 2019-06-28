@@ -60,10 +60,14 @@ export default class XyButton extends HTMLElement {
             transition: none;
         }
         :host(:empty) xy-icon{
-            margin-inline-end: 0;
+            margin: auto;
         }
         :host(:empty) .btn{
-            padding:.8em;
+            padding:0;
+        }
+        :host(:empty){
+            width:2.4em;
+            height:2.4em;
         }
         </style>
         <button class="btn" id="btn">${!this.loading && this.icon && this.icon!='null'?'<xy-icon id="icon" name='+this.icon+'></xy-icon>':''}<slot></slot></button>

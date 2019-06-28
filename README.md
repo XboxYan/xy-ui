@@ -26,5 +26,5 @@
 
 ### API
 - [x] XyDialog[XyDialog.alert/comfirm/info/success/error/warning]
-- [x] XyMessage[XyDialog.info/success/error/warning/loading]
+- [x] XyMessage[XyMessage.info/success/error/warning/loading]
 - [ ] ...

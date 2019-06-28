@@ -1,4 +1,5 @@
 import './xy-tips.mjs';
+import './xy-button.mjs';
 
 export default class XyInput extends HTMLElement {
 
@@ -94,6 +95,18 @@ export default class XyInput extends HTMLElement {
             color:#999;
         }
 
+        .btn-right{
+            width:2em;
+            height:2em;
+            margin-right:-6px;
+            color:#999;
+            font-size:inherit;
+        }
+
+        .btn-right:hover{
+            color:var(--themeColor,dodgerblue);
+        }
+
         :host(:focus-within) .icon-pre,:host(:hover) .icon-pre,:host(:hover) .input-label,:host(:focus-within) .input-label{
             color:var(--themeColor,dodgerblue);
         }
@@ -106,10 +119,16 @@ export default class XyInput extends HTMLElement {
                 :
                 ''
             }
-            <input id="input" class="input" min=${this.min} max=${this.max} step=${this.step} ${this.disabled?"disabled":""} value="${this.defaultvalue}" type="text" placeholder=${this.placeholder}>
+            <input id="input" class="input" min=${this.min} max=${this.max} step=${this.step} ${this.disabled?"disabled":""} value="${this.defaultvalue}" type="${this.type}" placeholder=${this.placeholder}>
             ${
                 this.label&&!this.icon?
                 '<label class="input-label">'+this.label+'</label>'
+                :
+                ''
+            }
+            ${
+                this.type === 'password'?
+                '<xy-button id="btn-pass" class="btn-right" icon="eye-close" type="flat" shape="circle"></xy-button>'
                 :
                 ''
             }
@@ -119,6 +138,7 @@ export default class XyInput extends HTMLElement {
     
     connectedCallback() {
         this.input = this.shadowRoot.getElementById('input');
+        this.btnPass = this.shadowRoot.getElementById('btn-pass');
         this.input.addEventListener('input',()=>{
             this.dispatchEvent(new CustomEvent('input',{
                 detail:{
@@ -133,6 +153,31 @@ export default class XyInput extends HTMLElement {
                 }
             }));
         })
+        if(this.btnPass){
+            this.btnPass.addEventListener('click',()=>{
+                this.password = !this.password;
+                if(this.password){
+                    this.input.setAttribute('type','text');
+                    this.btnPass.icon = 'eye';
+                }else{
+                    this.input.setAttribute('type','password');
+                    this.btnPass.icon = 'eye-close';
+                }
+                this.input.focus();
+            })
+        }
+    }
+
+    typeMap(type) {
+        switch (type) {
+            case 'password':
+            case 'number':
+                break;
+            default:
+                type = 'text'
+                break;
+        }
+        return type;
     }
 
     get value() {
@@ -148,7 +193,7 @@ export default class XyInput extends HTMLElement {
     }
 
     get type() {
-        return this.getAttribute('type');
+        return this.typeMap(this.getAttribute('type'));
     }
 
     get disabled() {
