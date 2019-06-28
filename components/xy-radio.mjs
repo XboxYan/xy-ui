@@ -32,7 +32,7 @@ export default class XyRadio extends HTMLElement {
             z-index:1;
         }
         :host([disabled]) .cheked{ 
-            background-color:#ddd
+            background:rgba(0,0,0,.1);
         }
         label{
             box-sizing:border-box;

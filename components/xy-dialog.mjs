@@ -405,7 +405,7 @@ export default {
             dialog.canceltext = canceltext||'取 消';
             dialog.innerText = content||'';
             dialog.onsubmit = ok||null;
-            dialog.oncancel = oncancel||null;
+            dialog.oncancel = cancel||null;
         }else{
             dialog.type = 'confirm';
             dialog.header = 'Confirm';

@@ -14,7 +14,7 @@ export default class XyButton extends HTMLElement {
         :host([shape="circle"]){ border-radius:50%; }
         :host([disabled]),:host([loading]){ pointer-events: none; opacity:.6; }
         :host([block]){ display:block; }
-        :host([disabled]:not([type])){ background:#f1f1f1; }
+        :host([disabled]:not([type])){ background:rgba(0,0,0,.1); }
         :host([disabled]) .btn,:host([loading]) .btn{ pointer-events: all;  cursor: not-allowed; }
         :host([disabled]) slot,:host([loading]) slot{ pointer-events: none; }
         :host(:not([type="primary"]):not([disabled]):hover),
