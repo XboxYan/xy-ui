@@ -179,11 +179,6 @@ export default class XySlider extends HTMLElement {
                 this.slider[name] = newValue;
                 this[name] = newValue;
             }
-            this.dispatchEvent(new CustomEvent('change',{
-                detail:{
-                    value:this.value
-                }
-            }));
         }
     }
     

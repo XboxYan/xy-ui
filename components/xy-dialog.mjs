@@ -2,7 +2,7 @@ import './xy-button.mjs';
 
 class XyDialog extends HTMLElement {
 
-    static get observedAttributes() { return ['open','header','oktext','canceltext','loading','type'] }
+    static get observedAttributes() { return ['open','title','oktext','canceltext','loading','type'] }
 
     constructor() {
         super();
@@ -42,7 +42,9 @@ class XyDialog extends HTMLElement {
             transition:.3s transform cubic-bezier(.645, .045, .355, 1);
         }
         .dialog-contnet{
+            box-sizing: border-box;
             display:flex;
+            width: 100%;
             padding:0 20px;
             flex:1;
             flex-direction:column;
@@ -50,7 +52,7 @@ class XyDialog extends HTMLElement {
         :host([open]) .dialog{
             transform:scale(1);
         }
-        .dialog-header {
+        .dialog-title {
             line-height: 30px;
             padding: 15px 30px 0 0;
             font-weight: 700;
@@ -92,7 +94,7 @@ class XyDialog extends HTMLElement {
         <div class="dialog">
             <xy-icon id="dialog-type" class="dialog-type"></xy-icon>
             <div class="dialog-contnet">
-                <div class="dialog-header" id="header">${this.header}</div>
+                <div class="dialog-title" id="title">${this.title}</div>
                 <xy-button class="btn-close" id="btn-close" type="flat" icon="close"></xy-button>
                 <div class="dialog-body">
                     <slot></slot>
@@ -110,8 +112,8 @@ class XyDialog extends HTMLElement {
         return this.getAttribute('open')!==null;
     }
 
-    get header() {
-        return this.getAttribute('header')||'dialog';
+    get title() {
+        return this.getAttribute('title')||'dialog';
     }
 
     get type() {
@@ -134,8 +136,8 @@ class XyDialog extends HTMLElement {
         this.setAttribute('color', value);
     }
 
-    set header(value) {
-        this.setAttribute('header', value);
+    set title(value) {
+        this.setAttribute('title', value);
     }
 
     set type(value) {
@@ -202,7 +204,7 @@ class XyDialog extends HTMLElement {
     
     connectedCallback() {
         this.remove = false;
-        this.headers = this.shadowRoot.getElementById('header');
+        this.titles = this.shadowRoot.getElementById('title');
         this.btnClose = this.shadowRoot.getElementById('btn-close');
         this.btnCancel = this.shadowRoot.getElementById('btn-cancel');
         this.btnSubmit = this.shadowRoot.getElementById('btn-submit');
@@ -258,9 +260,9 @@ class XyDialog extends HTMLElement {
                 this.btnSubmit.loading = false;
             }
         }
-        if( name == 'header' && this.headers){
+        if( name == 'title' && this.titles){
             if(newValue!==null){
-                this.headers.innerHTML = newValue;
+                this.titles.innerHTML = newValue;
             }
         }
         if( name == 'oktext' && this.btnSubmit){
@@ -294,13 +296,13 @@ export default {
         dialog.btnCancel.parentNode.removeChild(dialog.btnCancel);
         dialog.remove = true;
         if( typeof arguments[0] === 'object' ){
-            const { header, oktext, content, ok} = arguments[0];
-            dialog.header = header||'Alert';
+            const { title, oktext, content, ok} = arguments[0];
+            dialog.title = title||'Alert';
             dialog.oktext = oktext||'确 定';
             dialog.onsubmit = ok||null;
             dialog.innerText = content||'';
         }else{
-            dialog.header = 'Alert';
+            dialog.title = 'Alert';
             dialog.oktext = '确 定';
             dialog.innerText = arguments[0]||'';
         }
@@ -315,13 +317,13 @@ export default {
         dialog.type = 'info';
         dialog.remove = true;
         if( typeof arguments[0] === 'object' ){
-            const { header, oktext, content, ok} = arguments[0];
-            dialog.header = header||'Info';
+            const { title, oktext, content, ok} = arguments[0];
+            dialog.title = title||'Info';
             dialog.oktext = oktext||'知道了';
             dialog.onsubmit = ok||null;
             dialog.innerText = content||'';
         }else{
-            dialog.header = 'Info';
+            dialog.title = 'Info';
             dialog.oktext = '知道了';
             dialog.innerText = arguments[0]||'';
         }
@@ -336,13 +338,13 @@ export default {
         dialog.type = 'success';
         dialog.remove = true;
         if( typeof arguments[0] === 'object' ){
-            const { header, oktext, content, ok} = arguments[0];
-            dialog.header = header||'Success';
+            const { title, oktext, content, ok} = arguments[0];
+            dialog.title = title||'Success';
             dialog.oktext = oktext||'知道了';
             dialog.onsubmit = ok||null;
             dialog.innerText = content||'';
         }else{
-            dialog.header = 'Success';
+            dialog.title = 'Success';
             dialog.oktext = '知道了';
             dialog.innerText = arguments[0]||'';
         }
@@ -357,13 +359,13 @@ export default {
         dialog.type = 'error';
         dialog.remove = true;
         if( typeof arguments[0] === 'object' ){
-            const { header, oktext, content, ok} = arguments[0];
-            dialog.header = header||'Error';
+            const { title, oktext, content, ok} = arguments[0];
+            dialog.title = title||'Error';
             dialog.oktext = oktext||'知道了';
             dialog.onsubmit = ok||null;
             dialog.innerText = content||'';
         }else{
-            dialog.header = 'Error';
+            dialog.title = 'Error';
             dialog.oktext = '知道了';
             dialog.innerText = arguments[0]||'';
         }
@@ -378,13 +380,13 @@ export default {
         dialog.type = 'warning';
         dialog.remove = true;
         if( typeof arguments[0] === 'object' ){
-            const { header, oktext, content, ok} = arguments[0];
-            dialog.header = header||'Warning';
+            const { title, oktext, content, ok} = arguments[0];
+            dialog.title = title||'Warning';
             dialog.oktext = oktext||'知道了';
             dialog.onsubmit = ok||null;
             dialog.innerText = content||'';
         }else{
-            dialog.header = 'Warning';
+            dialog.title = 'Warning';
             dialog.oktext = '知道了';
             dialog.innerText = arguments[0]||'';
         }
@@ -398,9 +400,9 @@ export default {
         document.body.appendChild(dialog);
         dialog.remove = true;
         if( typeof arguments[0] === 'object' ){
-            const { type, header, content, oktext, canceltext, ok, cancel} = arguments[0];
+            const { type, title, content, oktext, canceltext, ok, cancel} = arguments[0];
             dialog.type = type||'confirm';
-            dialog.header = header||'Confirm';
+            dialog.title = title||'Confirm';
             dialog.oktext = oktext||'确 定';
             dialog.canceltext = canceltext||'取 消';
             dialog.innerText = content||'';
@@ -408,7 +410,7 @@ export default {
             dialog.oncancel = cancel||null;
         }else{
             dialog.type = 'confirm';
-            dialog.header = 'Confirm';
+            dialog.title = 'Confirm';
             dialog.oktext = '确 定';
             dialog.canceltext = '取 消';
             dialog.innerText = arguments[0]||'';

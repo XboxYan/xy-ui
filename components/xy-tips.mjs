@@ -22,7 +22,7 @@ export default class XyTips extends HTMLElement {
             bottom: 100%;
             transform: translate(-50%, -20px);
             opacity: 0;
-            transition: transfrom .15s .15s,opacity .15s .15s;
+            transition: .15s .15s;
             color: var(--color,rgba(0,0,0,0.75));
             visibility: hidden;
             pointer-events: none;
@@ -54,12 +54,12 @@ export default class XyTips extends HTMLElement {
             border-top-color: currentColor;
         }
         
-        :host(:hover)::before,
-        :host([show])::before,
-        :host(:focus-within)::before,
-        :host(:hover)::after,
-        :host([show])::after,
-        :host(:focus-within)::after {
+        :host(:hover:not([show=false]))::before,
+        :host([show=true])::before,
+        :host(:focus-within:not([show=false]))::before,
+        :host(:hover:not([show=false]))::after,
+        :host([show=true])::after,
+        :host(:focus-within:not([show=false]))::after {
             visibility: visible;
             transform: translate(-50%, -10px);
             opacity: 1;
@@ -181,11 +181,7 @@ export default class XyTips extends HTMLElement {
     }
 
     set show(value) {
-        if(value===null||value===false){
-            this.removeAttribute('show');
-        }else{
-            this.setAttribute('show', '');
-        }
+        this.setAttribute('show', value);
     }
     
     connectedCallback() {

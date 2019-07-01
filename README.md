@@ -22,7 +22,7 @@
 - [x] xy-icon
 - [x] xy-layout
 - [x] xy-dialog
-- [ ] xy-input[password/number/email/tel/search等等]
+- [x] xy-input[password/number/email/search/validity]
 
 ### API
 - [x] XyDialog[XyDialog.alert/comfirm/info/success/error/warning]

@@ -53,7 +53,12 @@ export default class XyInput extends HTMLElement {
             line-height: inherit;
             font-size:inherit;
             flex:1;
+            -webkit-appearance: none;
+            -moz-appearance: textfield;
             background: none;
+        }
+        input[type="number"]::-webkit-inner-spin-button{
+            display:none;
         }
         ::-moz-focus-inner,::-moz-focus-outer{
             border:0;
@@ -79,6 +84,9 @@ export default class XyInput extends HTMLElement {
         .input:focus ~ .input-label::after{
             background:#fff;
         }
+        .input:-moz-ui-invalid{
+            box-shadow:none;
+        }
         .input-label::after{
             content:'';
             position:absolute;
@@ -91,19 +99,35 @@ export default class XyInput extends HTMLElement {
         }
         .icon-pre{
             margin-right:4px;
-            transition:none;
             color:#999;
         }
 
         .btn-right{
             width:2em;
             height:2em;
-            margin-right:-6px;
+            margin-right:-5px;
             color:#999;
             font-size:inherit;
         }
+        .btn-number{
+            display:flex;
+            flex-direction:column;
+            width:1em;
+        }
+        .btn-number xy-button{
+            display: block;
+            color: #999;
+            border-radius:0;
+            width:1em;
+            flex:1;
+            transition:.2s;
+        }
 
-        .btn-right:hover{
+        .btn-number xy-button:hover{
+            flex:1.5;
+        }
+
+        xy-button:hover,xy-button:focus-within{
             color:var(--themeColor,dodgerblue);
         }
 
@@ -112,14 +136,14 @@ export default class XyInput extends HTMLElement {
         }
 
         </style>
-        <xy-tips id="input-con" dir="top">
+        <xy-tips id="input-con" dir="top" type="error">
             ${
                 this.icon?
                 '<xy-icon class="icon-pre" name='+this.icon+'></xy-icon>'
                 :
                 ''
             }
-            <input id="input" class="input" min=${this.min} max=${this.max} step=${this.step} ${this.disabled?"disabled":""} value="${this.defaultvalue}" type="${this.type}" placeholder=${this.placeholder}>
+            <input id="input" class="input" ${this.type === 'number'?'min="'+this.min+'" max="'+this.max+'" step="'+this.step+'"':""} ${this.disabled?"disabled":""} ${this.required?"required":""} ${this.pattern?"pattern='"+this.pattern+"'":""} value="${this.defaultvalue}" type="${this.typeMap(this.type)}" placeholder="${this.placeholder}" minlength="${this.minlength}" maxlength="${this.maxlength}">
             ${
                 this.label&&!this.icon?
                 '<label class="input-label">'+this.label+'</label>'
@@ -132,27 +156,80 @@ export default class XyInput extends HTMLElement {
                 :
                 ''
             }
+            ${
+                this.type === 'search'?
+                '<xy-button id="btn-search" class="btn-right" icon="search" type="flat" shape="circle"></xy-button>'
+                :
+                ''
+            }
+            ${
+                this.type === 'number'?
+                '<div class="btn-right btn-number"><xy-button id="btn-add" icon="caret-up" type="flat"></xy-button><xy-button id="btn-sub" icon="caret-down" type="flat"></xy-button></div>'
+                :
+                ''
+            }
         </xy-tips>
         `
-    } 
+    }
+
+    checkValidity(){
+        if(this.input.checkValidity()){
+            this.inputCon.show = false;
+        }else{
+            this.inputCon.show = true;
+            if(this.input.validity.valueMissing){
+                this.inputCon.tips = this.input.validationMessage;
+            }else{
+                this.inputCon.tips = this.errortips||this.input.validationMessage;
+            }
+        }
+    }
     
     connectedCallback() {
         this.input = this.shadowRoot.getElementById('input');
+        this.inputCon = this.shadowRoot.getElementById('input-con');
         this.btnPass = this.shadowRoot.getElementById('btn-pass');
+        this.btnAdd = this.shadowRoot.getElementById('btn-add');
+        this.btnSub = this.shadowRoot.getElementById('btn-sub');
+        this.btnSearch = this.shadowRoot.getElementById('btn-search');
         this.input.addEventListener('input',()=>{
+            this.checkValidity();
             this.dispatchEvent(new CustomEvent('input',{
                 detail:{
                     value:this.value
                 }
             }));
         })
-        this.input.addEventListener('change',()=>{
-            this.dispatchEvent(new CustomEvent('change',{
+        this.input.addEventListener('focus',()=>{
+            this.checkValidity();
+            this.dispatchEvent(new CustomEvent('focus',{
                 detail:{
                     value:this.value
                 }
             }));
         })
+        this.input.addEventListener('keydown',(ev)=>{
+            switch (ev.keyCode) {
+                case 13://Enter
+                    this.dispatchEvent(new CustomEvent('submit',{
+                        detail:{
+                            value:this.value
+                        }
+                    }));
+                    break;
+                default:
+                    break;
+            }
+        })
+        if(this.btnSearch){
+            this.btnSearch.addEventListener('click',()=>{
+                this.dispatchEvent(new CustomEvent('submit',{
+                    detail:{
+                        value:this.value
+                    }
+                }));
+            })
+        }
         if(this.btnPass){
             this.btnPass.addEventListener('click',()=>{
                 this.password = !this.password;
@@ -166,12 +243,28 @@ export default class XyInput extends HTMLElement {
                 this.input.focus();
             })
         }
+        if(this.btnAdd){
+            this.btnAdd.addEventListener('click',()=>{
+                if(this.value<this.max){
+                    this.value = Number(this.value)+Number(this.step); 
+                }
+            })
+        }
+        if(this.btnSub){
+            this.btnSub.addEventListener('click',()=>{
+                if(this.value>this.min){
+                    this.value = Number(this.value)-Number(this.step);
+                }
+            })
+        }
     }
 
     typeMap(type) {
         switch (type) {
             case 'password':
             case 'number':
+            case 'email':
+            case 'tel':
                 break;
             default:
                 type = 'text'
@@ -184,6 +277,10 @@ export default class XyInput extends HTMLElement {
         return this.input.value;
     }
 
+    get validity() {
+        return this.input.checkValidity();
+    }
+
     get defaultvalue() {
         return this.getAttribute('defaultvalue')||'';
     }
@@ -193,7 +290,7 @@ export default class XyInput extends HTMLElement {
     }
 
     get type() {
-        return this.typeMap(this.getAttribute('type'));
+        return this.getAttribute('type');
     }
 
     get disabled() {
@@ -208,11 +305,59 @@ export default class XyInput extends HTMLElement {
         return this.getAttribute('placeholder')||this.label;
     }
 
+    get min() {
+        return this.getAttribute('min')||0;
+    }
+
+    get max() {
+        return this.getAttribute('max')||Infinity;
+    }
+
+    get minlength() {
+        return this.getAttribute('minlength')||'';
+    }
+
+    get maxlength() {
+        return this.getAttribute('maxlength')||'';
+    }
+
+    get step() {
+        return this.getAttribute('step')||1;
+    }
+
+    get required() {
+        return this.getAttribute('required')!==null;
+    }
+
+    get pattern() {
+        return this.getAttribute('pattern');
+    }
+
+    get errortips() {
+        return this.getAttribute('errortips');
+    }
+
     set disabled(value) {
         if(value===null||value===false){
             this.removeAttribute('disabled');
         }else{
             this.setAttribute('disabled', '');
+        }
+    }
+
+    set required(value) {
+        if(value===null||value===false){
+            this.removeAttribute('required');
+        }else{
+            this.setAttribute('required', '');
+        }
+    }
+
+    set pattern(value) {
+        if(value===null||value===false){
+            this.removeAttribute('pattern');
+        }else{
+            this.setAttribute('pattern', '');
         }
     }
 
@@ -230,6 +375,12 @@ export default class XyInput extends HTMLElement {
 
     set value(value) {
         this.input.value = value;
+        this.checkValidity();
+        this.dispatchEvent(new CustomEvent('change',{
+            detail:{
+                value:this.value
+            }
+        }));
     }
 
     attributeChangedCallback (name, oldValue, newValue) {

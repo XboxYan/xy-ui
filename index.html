@@ -236,11 +236,11 @@
     <xy-button onclick="XyDialog.alert('alert')">alert</xy-button>
     <xy-button id="confirm-btn">confirm</xy-button>
     <xy-button onclick="XyDialog.info('info')">info</xy-button>
-    <xy-button onclick="XyDialog.success({header:'成功',content:'success',oktext:'send'})">success</xy-button>
+    <xy-button onclick="XyDialog.success({title:'成功',content:'success',oktext:'send'})">success</xy-button>
     <xy-button onclick="XyDialog.error('error')">error</xy-button>
     <xy-button onclick="XyDialog.warning('warning')">warning</xy-button>
     <xy-dialog id="dialog02">232</xy-dialog>
-    <xy-dialog id="dialog01" header="标题" oktext="确 定" canceltext="取消" >
+    <xy-dialog id="dialog01" title="标题" oktext="确 定" canceltext="取消" >
         <xy-tab>
             <xy-tab-content label="tab1">tab1</xy-tab-content>
             <xy-tab-content label="tab2">tab2</xy-tab-content>
@@ -274,6 +274,15 @@
     <xy-input label="info" block></xy-input>
     <p>type[password]</p>
     <xy-input icon="lock" type="password"></xy-input>
+    <p>type[search]</p>
+    <xy-input type="search" onsubmit="console.log(event)"></xy-input>
+    <p>type[number]</p>
+    <xy-input icon="creditcard" type="number" ></xy-input>
+    <p>validity</p>
+    <xy-input icon="creditcard" required placeholder="required"></xy-input>
+    <xy-input icon="mail" required type="email" placeholder="email"></xy-input>
+    <xy-input icon="user" required placeholder="minlength,maxlength" minlength="6" maxlength="10"></xy-input>
+    <xy-input icon="phone" required pattern="^1(3|4|5|6|7|8|9)\d{9}$" placeholder="pattern" errortips="请输入手机号"></xy-input>
     <script>
         document.getElementById('btn').addEventListener('click',function(ev){
             console.log(ev)
