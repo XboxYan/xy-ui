@@ -22,7 +22,7 @@ export default class XyTips extends HTMLElement {
             bottom: 100%;
             transform: translate(-50%, -20px);
             opacity: 0;
-            transition: .15s .15s;
+            transition:all .15s .15s,left 0s, top 0s;
             color: var(--color,rgba(0,0,0,0.75));
             visibility: hidden;
             pointer-events: none;
@@ -79,10 +79,12 @@ export default class XyTips extends HTMLElement {
             border-color: transparent;
             border-right-color: currentColor;
         }
-        :host([dir="right"]:hover)::before,
-        :host([dir="right"]:focus-within)::before,
-        :host([dir="right"]:hover)::after,
-        :host([dir="right"]:focus-within)::after {
+        :host([dir="right"]:hover:not([show=false]))::before,
+        :host([dir="right"][show=true])::before,
+        :host([dir="right"]:focus-within:not([show=false]))::before,
+        :host([dir="right"]:hover:not([show=false]))::after,
+        :host([dir="right"][show=true])::after,
+        :host([dir="right"]:focus-within:not([show=false]))::after {
             visibility: visible;
             transform: translate(10px, -50%);
             opacity: 1;
@@ -102,10 +104,12 @@ export default class XyTips extends HTMLElement {
             border-color: transparent;
             border-bottom-color: currentColor;
         }
-        :host([dir="down"]:hover)::before,
-        :host([dir="down"]:focus-within)::before,
-        :host([dir="down"]:hover)::after,
-        :host([dir="down"]:focus-within)::after {
+        :host([dir="down"]:hover:not([show=false]))::before,
+        :host([dir="down"][show=true])::before,
+        :host([dir="down"]:focus-within:not([show=false]))::before,
+        :host([dir="down"]:hover:not([show=false]))::after,
+        :host([dir="down"][show=true])::after,
+        :host([dir="down"]:focus-within:not([show=false]))::after {
             visibility: visible;
             transform: translate(-50%, 10px);
             opacity: 1;
@@ -126,10 +130,12 @@ export default class XyTips extends HTMLElement {
             border-color: transparent;
             border-left-color: currentColor;
         }
-        :host([dir="left"]:hover)::before,
-        :host([dir="left"]:focus-within)::before,
-        :host([dir="left"]:hover)::after,
-        :host([dir="left"]:focus-within)::after {
+        :host([dir="left"]:hover:not([show=false]))::before,
+        :host([dir="left"][show=true])::before,
+        :host([dir="left"]:focus-within:not([show=false]))::before,
+        :host([dir="left"]:hover:not([show=false]))::after,
+        :host([dir="left"][show=true])::after,
+        :host([dir="left"]:focus-within:not([show=false]))::after {
             visibility: visible;
             transform: translate(-10px, -50%);
             opacity: 1;

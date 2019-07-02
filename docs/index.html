@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="description" content="Description">
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css">
+  <style>
+    :root {
+      --themeColor: #42b983
+    }
+
+    xy-button,
+    xy-checkbox,
+    xy-radio,
+    xy-input,
+    xy-textarea {
+      margin: 0 10px 15px 0;
+    }
+
+    xy-input:not([block]),
+    xy-textarea:not([block]) {
+      width: 300px;
+    }
+
+    [block]{
+      margin-right:0;
+    }
+
+    xy-tips xy-button {
+      margin: 0;
+    }
+
+    xy-tips {
+      margin: 0 10px 10px 0;
+    }
+
+    .layout {
+      height: 300px;
+    }
+
+    .side {
+      width: 200px;
+    }
+
+    .main {
+      margin: 0 10px;
+    }
+
+    .box {
+      width: 100px;
+      height: 100px;
+      color: #fff;
+    }
+
+    .header,
+    .footer {
+      padding: 5px 10px;
+      color: #fff;
+    }
+
+    xy-layout {
+      background: rgba(33, 150, 243, 0.5);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">Please wait...</div>
+  <script>
+    window.$docsify = {
+      name: 'xy-ui',
+      repo: '',
+      loadSidebar: true,
+      subMaxLevel: 2,
+      auto2top: true,
+    }
+  </script>
+  <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
+  <script src="//unpkg.com/docsify/lib/plugins/search.min.js"></script>
+  <script type="module">
+    import '../components/xy-button.mjs';
+    import '../components/xy-slider.mjs';
+    import '../components/xy-select.mjs';
+    import '../components/xy-loading.mjs';
+    import '../components/xy-tab.mjs';
+    import '../components/xy-switch.mjs';
+    import '../components/xy-checkbox.mjs';
+    import '../components/xy-radio.mjs';
+    import '../components/xy-tips.mjs';
+    import '../components/xy-icon.mjs';
+    import '../components/xy-layout.mjs';
+    import '../components/xy-input.mjs';
+    import XyDialog from '../components/xy-dialog.mjs';
+    import XyMessage from '../components/xy-message.mjs';
+    window.XyDialog = XyDialog;
+    window.XyMessage = XyMessage;
+  </script>
+</body>
+
+</html>

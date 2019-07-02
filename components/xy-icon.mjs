@@ -79,7 +79,7 @@ export default class XyIcon extends HTMLElement {
 
     attributeChangedCallback (name, oldValue, newValue) {
         if( name == 'name' && this.use){
-            this.use.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', `./iconfont/icon.svg#icon-${newValue}`);
+            this.use.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', `/iconfont/icon.svg#icon-${newValue}`);
         }
         if( name == 'path' && this.d){
             this.d.setAttribute("d", newValue);

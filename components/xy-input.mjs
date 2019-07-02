@@ -3,10 +3,11 @@ import './xy-button.mjs';
 
 export default class XyInput extends HTMLElement {
 
-    static get observedAttributes() { return ['type','label'] }
+    static get observedAttributes() { return ['label','disabled','pattern','required'] }
 
-    constructor() {
+    constructor(multi) {
         super();
+        this.multi = multi;
         const shadowRoot = this.attachShadow({ mode: 'open' });
         shadowRoot.innerHTML = `
         <style>
@@ -27,13 +28,23 @@ export default class XyInput extends HTMLElement {
         :host([block]){
             display:block
         }
-        :host(:focus-within),:host(:hover){
+        :host([error]){
+            --themeColor:#f5222d;
+            border-color:#f5222d;
+            color:#f5222d;
+        }
+        :host([error]) xy-icon{
+            color:#f5222d;
+        }
+        :host(:focus-within:not([disabled])),:host(:not([disabled]):hover){
             border-color:var(--themeColor,dodgerblue);
         }
         :host([disabled]){ 
-            opacity:.8; 
-            --themeColor:#999;
+            opacity:.8;
             cursor:not-allowed; 
+        }
+        :host([disabled]) xy-tips{
+            pointer-events:none;
         }
         :host([label]) .input::placeholder{
             color:transparent;
@@ -41,9 +52,20 @@ export default class XyInput extends HTMLElement {
         :host .input::placeholder{
             color:#999;
         }
+        :host(xy-textarea){
+            line-height:1.5;
+            padding-right:4px;
+        }
         xy-tips{  
             display:flex;
             align-items:center;
+            margin:-4px -10px;
+            padding:4px 10px;
+        }
+        :host(xy-textarea) xy-tips{
+            margin-right:-4px;
+            padding-right:4px;
+            align-items:flex-start;
         }
         .input{
             padding:0;
@@ -53,9 +75,13 @@ export default class XyInput extends HTMLElement {
             line-height: inherit;
             font-size:inherit;
             flex:1;
+            min-width: 0;
             -webkit-appearance: none;
             -moz-appearance: textfield;
             background: none;
+        }
+        :host(xy-textarea) .input{
+            margin:0;
         }
         input[type="number"]::-webkit-inner-spin-button{
             display:none;
@@ -98,10 +124,13 @@ export default class XyInput extends HTMLElement {
             transform:translateY( calc(-50% + 2px ) ) scaleY(1.5);
         }
         .icon-pre{
+            display:flex;
             margin-right:4px;
             color:#999;
         }
-
+        :host(xy-textarea) .icon-pre{
+            height:1.5em;
+        }
         .btn-right{
             width:2em;
             height:2em;
@@ -127,23 +156,23 @@ export default class XyInput extends HTMLElement {
             flex:1.5;
         }
 
-        xy-button:hover,xy-button:focus-within{
+        xy-button:not([disabled]):hover,xy-button:not([disabled]):focus-within{
             color:var(--themeColor,dodgerblue);
         }
 
-        :host(:focus-within) .icon-pre,:host(:hover) .icon-pre,:host(:hover) .input-label,:host(:focus-within) .input-label{
+        :host(:focus-within:not([disabled])) .icon-pre,:host(:not([disabled]):hover) .icon-pre,:host(:not([disabled]):hover) .input-label,:host(:focus-within:not([disabled])) .input-label{
             color:var(--themeColor,dodgerblue);
         }
 
         </style>
-        <xy-tips id="input-con" dir="top" type="error">
+        <xy-tips id="input-con" dir="${this.errordir}" type="error">
             ${
                 this.icon?
                 '<xy-icon class="icon-pre" name='+this.icon+'></xy-icon>'
                 :
                 ''
             }
-            <input id="input" class="input" ${this.type === 'number'?'min="'+this.min+'" max="'+this.max+'" step="'+this.step+'"':""} ${this.disabled?"disabled":""} ${this.required?"required":""} ${this.pattern?"pattern='"+this.pattern+"'":""} value="${this.defaultvalue}" type="${this.typeMap(this.type)}" placeholder="${this.placeholder}" minlength="${this.minlength}" maxlength="${this.maxlength}">
+            <${multi?'textarea':'input'} id="input" class="input" ${this.type === 'number'?'min="'+this.min+'" max="'+this.max+'" step="'+this.step+'"':""} value="${this.defaultvalue}" type="${this.typeMap(this.type)}" placeholder="${this.placeholder}" minlength="${this.minlength}" rows="${this.rows}" maxlength="${this.maxlength}">${multi?'</textarea>':''}
             ${
                 this.label&&!this.icon?
                 '<label class="input-label">'+this.label+'</label>'
@@ -151,19 +180,19 @@ export default class XyInput extends HTMLElement {
                 ''
             }
             ${
-                this.type === 'password'?
+                this.type === 'password'&&!multi?
                 '<xy-button id="btn-pass" class="btn-right" icon="eye-close" type="flat" shape="circle"></xy-button>'
                 :
                 ''
             }
             ${
-                this.type === 'search'?
+                this.type === 'search'&&!multi?
                 '<xy-button id="btn-search" class="btn-right" icon="search" type="flat" shape="circle"></xy-button>'
                 :
                 ''
             }
             ${
-                this.type === 'number'?
+                this.type === 'number'&&!multi?
                 '<div class="btn-right btn-number"><xy-button id="btn-add" icon="caret-up" type="flat"></xy-button><xy-button id="btn-sub" icon="caret-down" type="flat"></xy-button></div>'
                 :
                 ''
@@ -175,8 +204,10 @@ export default class XyInput extends HTMLElement {
     checkValidity(){
         if(this.input.checkValidity()){
             this.inputCon.show = false;
+            this.error = false;
         }else{
             this.inputCon.show = true;
+            this.error = true;
             if(this.input.validity.valueMissing){
                 this.inputCon.tips = this.input.validationMessage;
             }else{
@@ -188,10 +219,6 @@ export default class XyInput extends HTMLElement {
     connectedCallback() {
         this.input = this.shadowRoot.getElementById('input');
         this.inputCon = this.shadowRoot.getElementById('input-con');
-        this.btnPass = this.shadowRoot.getElementById('btn-pass');
-        this.btnAdd = this.shadowRoot.getElementById('btn-add');
-        this.btnSub = this.shadowRoot.getElementById('btn-sub');
-        this.btnSearch = this.shadowRoot.getElementById('btn-search');
         this.input.addEventListener('input',()=>{
             this.checkValidity();
             this.dispatchEvent(new CustomEvent('input',{
@@ -221,42 +248,51 @@ export default class XyInput extends HTMLElement {
                     break;
             }
         })
-        if(this.btnSearch){
-            this.btnSearch.addEventListener('click',()=>{
-                this.dispatchEvent(new CustomEvent('submit',{
-                    detail:{
-                        value:this.value
+        if(!this.multi){
+            this.btnPass = this.shadowRoot.getElementById('btn-pass');
+            this.btnAdd = this.shadowRoot.getElementById('btn-add');
+            this.btnSub = this.shadowRoot.getElementById('btn-sub');
+            this.btnSearch = this.shadowRoot.getElementById('btn-search');
+            if(this.btnSearch){
+                this.btnSearch.addEventListener('click',()=>{
+                    this.dispatchEvent(new CustomEvent('submit',{
+                        detail:{
+                            value:this.value
+                        }
+                    }));
+                })
+            }
+            if(this.btnPass){
+                this.btnPass.addEventListener('click',()=>{
+                    this.password = !this.password;
+                    if(this.password){
+                        this.input.setAttribute('type','text');
+                        this.btnPass.icon = 'eye';
+                    }else{
+                        this.input.setAttribute('type','password');
+                        this.btnPass.icon = 'eye-close';
                     }
-                }));
-            })
+                    this.input.focus();
+                })
+            }
+            if(this.btnAdd){
+                this.btnAdd.addEventListener('click',()=>{
+                    if(this.value-this.max<0){
+                        this.value = Number(this.value)+Number(this.step); 
+                    }
+                })
+            }
+            if(this.btnSub){
+                this.btnSub.addEventListener('click',()=>{
+                    if(this.value-this.min>0){
+                        this.value = Number(this.value)-Number(this.step);
+                    }
+                })
+            }
+            this.pattern = this.pattern;
         }
-        if(this.btnPass){
-            this.btnPass.addEventListener('click',()=>{
-                this.password = !this.password;
-                if(this.password){
-                    this.input.setAttribute('type','text');
-                    this.btnPass.icon = 'eye';
-                }else{
-                    this.input.setAttribute('type','password');
-                    this.btnPass.icon = 'eye-close';
-                }
-                this.input.focus();
-            })
-        }
-        if(this.btnAdd){
-            this.btnAdd.addEventListener('click',()=>{
-                if(this.value<this.max){
-                    this.value = Number(this.value)+Number(this.step); 
-                }
-            })
-        }
-        if(this.btnSub){
-            this.btnSub.addEventListener('click',()=>{
-                if(this.value>this.min){
-                    this.value = Number(this.value)-Number(this.step);
-                }
-            })
-        }
+        this.disabled = this.disabled;
+        this.required = this.required;
     }
 
     typeMap(type) {
@@ -277,12 +313,23 @@ export default class XyInput extends HTMLElement {
         return this.input.value;
     }
 
+    get error() {
+        return this.getAttribute('error')!==null;
+    }
+
     get validity() {
         return this.input.checkValidity();
     }
 
+    get errordir() {
+        return this.getAttribute('errordir')||'top';
+    }
+
     get defaultvalue() {
         return this.getAttribute('defaultvalue')||'';
+    }
+    get rows() {
+        return this.getAttribute('rows')||3;
     }
 
     get icon() {
@@ -353,11 +400,19 @@ export default class XyInput extends HTMLElement {
         }
     }
 
+    set error(value) {
+        if(value===null||value===false){
+            this.removeAttribute('error');
+        }else{
+            this.setAttribute('error', '');
+        }
+    }
+
     set pattern(value) {
         if(value===null||value===false){
             this.removeAttribute('pattern');
         }else{
-            this.setAttribute('pattern', '');
+            this.setAttribute('pattern', value);
         }
     }
 
@@ -384,11 +439,43 @@ export default class XyInput extends HTMLElement {
     }
 
     attributeChangedCallback (name, oldValue, newValue) {
-        
+        if(name == 'disabled' && this.input){
+            const btns = this.shadowRoot.querySelectorAll('xy-button');
+            if(newValue!==null){
+                this.input.setAttribute('disabled', 'disabled');
+                btns.forEach(el=>el.disabled = true);
+            }else{
+                this.input.removeAttribute('disabled');
+                btns.forEach(el=>el.disabled = false);
+            }
+        }
+        if(name == 'pattern' && this.input){
+            if(newValue!==null){
+                this.input.setAttribute('pattern', newValue);
+            }else{
+                this.input.removeAttribute('pattern');
+            }
+        }
+        if(name == 'required' && this.input){
+            if(newValue!==null){
+                this.input.setAttribute('required', 'required');
+            }else{
+                this.input.removeAttribute('required');
+            }
+        }
     }
     
 }
 
+class XyTextarea extends XyInput {
+    constructor() {
+        super(true);
+    }
+}
+
 if(!customElements.get('xy-input')){
     customElements.define('xy-input', XyInput);
+}
+if(!customElements.get('xy-textarea')){
+    customElements.define('xy-textarea', XyTextarea);
 }
