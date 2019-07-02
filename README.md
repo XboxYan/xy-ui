@@ -8,6 +8,8 @@
 
 [在线演示](https://xboxyan.codelabo.cn/XYUI)
 
+[docs](https://xboxyan.codelabo.cn/XYUI/docs)
+
 ### Components
 - [x] xy-button
 - [x] xy-slider
