@@ -93,6 +93,8 @@ btn.removeAttribute('loading');
 <xy-button icon="link">link</xy-button>
 ```
 
+JavaScript操作
+
 ```js
 btn.icon = 'name';
 //原生属性操作

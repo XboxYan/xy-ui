@@ -35,7 +35,6 @@
     <script type="module" src="./components/xy-dialog.js" async></script>
     -->
     <!-- <script type="module" src="./components/xy.js" async></script> -->
-    
     <script type="module">
         import './components/xy-button.mjs';
         import './components/xy-slider.mjs';
@@ -53,7 +52,9 @@
         import XyMessage from './components/xy-message.mjs';
         window.XyDialog = XyDialog;
         window.XyMessage = XyMessage;
+        window.iconUrl = './iconfont/icon.svg';
     </script>
+    
 
 </head>
 
@@ -292,6 +293,7 @@
     <xy-textarea placeholder="rows" rows="5" ></xy-textarea>
     <xy-textarea label="info" placeholder="info" ></xy-textarea>
     <xy-textarea icon="location" placeholder="location" ></xy-textarea>
+    
     <script>
         document.getElementById('btn').addEventListener('click',function(ev){
             console.log(ev)
