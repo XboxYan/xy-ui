@@ -14,17 +14,49 @@
 * 无依赖。纯原生，无需任何预处理器编译。
 * 无障碍。支持键盘访问。
 
+## 原则
+
+在实现组件功能时，遵循`CSS`为主，`JavaScript`为辅的思路，能够使用`CSS`完成的绝不用`JavaScript`，`UI`和业务逻辑分离，使得代码结构上更加简约。
+
+比如`xy-button`有一个点击扩散的水波纹效果，就是采用`CSS`来实现，`JavaScript`只是辅助完成鼠标位置的获取
+
+```css
+.btn::after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: var(--x,0); 
+    top: var(--y,0);
+    pointer-events: none;
+    background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+    background-repeat: no-repeat;
+    background-position: 50%;
+    transform: translate(-50%,-50%) scale(10);
+    opacity: 0;
+    transition: transform .3s, opacity .8s;
+}
+.btn:not([disabled]):active::after {
+    transform: translate(-50%,-50%) scale(0);
+    opacity: .3;
+    transition: 0s;
+}
+```
+
+详细可查看源码。大部分组件都是类似的设计。
+
 ## 兼容性
 
 现代浏览器。
 
 包括移动端，不支持`IE`。
 
+> `IE`不支持原生`customElements`，[webcomponentsjs](https://github.com/webcomponents/webcomponentsjs)可以实现对`IE`的兼容，不过很多`CSS`特性仍然无效，所以放弃
+
 ## 安装
 
 目前还没有托管`npm`，可以在`github`上获取最新文件。
-
-[update](update.md)
 
 目录如下：
 
@@ -40,6 +72,56 @@
      
 
 将`components`和`iconfont`文件夹放入项目当中。
+
+## 依赖
+
+部分组件使用需要依赖其他组件，依赖关系如下
+
+|组件|依赖项|描述|
+|---|---|---|
+|`xy-button`|`xy-icon`、`xy-loading`|按钮。组件使用了`icon`和`loading`属性。|
+|`xy-icon`|无|图标。|
+|`xy-slider`|`xy-tips`|滑动条。组件使用了`showtips`属性。|
+|`xy-select`|`xy-button`|下拉选择器。组件内部使用`xy-button`组合而成。|
+|`xy-tab`|`xy-button`|标签页。组件导航按钮使用了`xy-button`。|
+|`xy-loading`|无|加载。|
+|`xy-switch`|无|开关。|
+|`xy-checkbox`|无|多选。|
+|`xy-radio`|无|单选。|
+|`xy-tips`|无|提示。|
+|`xy-message`|`xy-icon`|全局提示。提示信息图标使用`xy-icon`。|
+|`xy-dialog`|`xy-icon`、`xy-button`、`xy-loading`|弹窗提示。提示信息图标使用`xy-icon`，确认取消按钮使用了`xy-button`。组件使用了`loading`属性。|
+|`xy-layout`|无|布局。|
+|`xy-input`|`xy-icon`、`xy-button`、`xy-tips`|输入框。组件使用了`icon`属性，同时有`xy-button`交互，表单验证使用了`xy-tips`信息提示。|
+|`xy-textarea`|同上|多行输入框。同上。|
+
+无依赖组件直接引入单独`js`即可，有依赖组件需要引入相关`js`。
+
+如需单独使用`xy-tips`组件，仅需引用`xy-input.js`。
+
+```js
+// .
+// └── project
+//     ├── components
+//     |   └── xy-tips.js
+//     └── index.html
+import './components/xy-tips.js';
+```
+
+如需单独使用`xy-input`组件，需引用`xy-input.js`、`xy-button.js`、`xy-icon.js`、`xy-tips.js`。
+
+```js
+// └── project
+//     ├── components
+//     |   ├── xy-input.js
+//     |   ├── xy-button.js
+//     |   ├── xy-icon.js
+//     |   └── xy-tips.js
+//     └── index.html
+import './components/xy-input.js';
+```
+
+> 大部分情况下全部引用即可
 
 ## 引用
 
@@ -66,6 +148,7 @@ ReactDOM.render(<xy-button>button</xy-button>, document.body);
 ### vue项目引用
 
 与原生类似，暂无研究。
+
 
 ## 使用
 
@@ -135,7 +218,7 @@ const tab3 = document.getElementById('tab3');
 tab3.parentNode;//xy-tab
 ```
 
-组件的布尔类型的属性也遵从原生规范，比如
+组件的布尔类型的属性也遵从原生规范（添加和移除属性），比如
 
 ```html
 <xy-dialog show></xy-dialog> <!-- 显示 -->

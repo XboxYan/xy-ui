@@ -56,7 +56,7 @@ btn.setAttribute('disabled','');
 btn.removeAttribute('disabled');
 ```
 
-!> 所有组件关于属性的获取和设置均相同，如下
+!> 所有组件关于属性的获取和设置均类似，如下
 
 ```js
 com.props;//获取

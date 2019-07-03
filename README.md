@@ -73,6 +73,56 @@
 
 将`components`和`iconfont`文件夹放入项目当中。
 
+## 依赖
+
+部分组件使用需要依赖其他组件，依赖关系如下
+
+|组件|依赖项|描述|
+|---|---|---|
+|`xy-button`|`xy-icon`、`xy-loading`|按钮。组件使用了`icon`和`loading`属性。|
+|`xy-icon`|无|图标。|
+|`xy-slider`|`xy-tips`|滑动条。组件使用了`showtips`属性。|
+|`xy-select`|`xy-button`|下拉选择器。组件内部使用`xy-button`组合而成。|
+|`xy-tab`|`xy-button`|标签页。组件导航按钮使用了`xy-button`。|
+|`xy-loading`|无|加载。|
+|`xy-switch`|无|开关。|
+|`xy-checkbox`|无|多选。|
+|`xy-radio`|无|单选。|
+|`xy-tips`|无|提示。|
+|`xy-message`|`xy-icon`|全局提示。提示信息图标使用`xy-icon`。|
+|`xy-dialog`|`xy-icon`、`xy-button`、`xy-loading`|弹窗提示。提示信息图标使用`xy-icon`，确认取消按钮使用了`xy-button`。组件使用了`loading`属性。|
+|`xy-layout`|无|布局。|
+|`xy-input`|`xy-icon`、`xy-button`、`xy-tips`|输入框。组件使用了`icon`属性，同时有`xy-button`交互，表单验证使用了`xy-tips`信息提示。|
+|`xy-textarea`|同上|多行输入框。同上。|
+
+无依赖组件直接引入单独`js`即可，有依赖组件需要引入相关`js`。
+
+如需单独使用`xy-tips`组件，仅需引用`xy-input.js`。
+
+```js
+// .
+// └── project
+//     ├── components
+//     |   └── xy-tips.js
+//     └── index.html
+import './components/xy-tips.js';
+```
+
+如需单独使用`xy-input`组件，需引用`xy-input.js`、`xy-button.js`、`xy-icon.js`、`xy-tips.js`。
+
+```js
+// └── project
+//     ├── components
+//     |   ├── xy-input.js
+//     |   ├── xy-button.js
+//     |   ├── xy-icon.js
+//     |   └── xy-tips.js
+//     └── index.html
+import './components/xy-input.js';
+```
+
+> 大部分情况下全部引用即可
+
 ## 引用
 
 ### html引用
@@ -98,6 +148,7 @@ ReactDOM.render(<xy-button>button</xy-button>, document.body);
 ### vue项目引用
 
 与原生类似，暂无研究。
+
 
 ## 使用
 
