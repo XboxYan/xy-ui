@@ -1,4 +1,4 @@
-import './xy-button.mjs';
+import './xy-button.js';
 
 class XyOption extends HTMLElement {
     static get observedAttributes() { return ["value", "selected"]; }

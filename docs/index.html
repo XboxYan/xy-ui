@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Document</title>
+  <title>xy-ui</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="description" content="Description">
   <meta name="viewport"
@@ -20,6 +20,9 @@
     xy-input,
     xy-textarea {
       margin: 0 10px 15px 0;
+    }
+    xy-slider{
+      margin: 10px 0;
     }
 
     xy-input:not([block]),
@@ -75,28 +78,38 @@
     window.$docsify = {
       name: 'xy-ui',
       repo: '',
+      repo: 'https://github.com/XboxYan/XYUI',
+      coverpage: 'coverpage.md',
       loadSidebar: 'sidebar.md',
+      basePath: '/docs/',
       subMaxLevel: 2,
       auto2top: true,
     }
   </script>
   <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
   <script src="//unpkg.com/docsify/lib/plugins/search.min.js"></script>
+  <script src="//unpkg.com/docsify/lib/plugins/emoji.min.js"></script>
+  <script type="text/javascript">
+    function changeColor(themeColor){
+        document.body.style.setProperty('--themeColor',themeColor);
+        document.body.style.setProperty('--theme-color',themeColor);
+    }
+  </script>
   <script type="module">
-    import '../components/xy-button.mjs';
-    import '../components/xy-slider.mjs';
-    import '../components/xy-select.mjs';
-    import '../components/xy-loading.mjs';
-    import '../components/xy-tab.mjs';
-    import '../components/xy-switch.mjs';
-    import '../components/xy-checkbox.mjs';
-    import '../components/xy-radio.mjs';
-    import '../components/xy-tips.mjs';
-    import '../components/xy-icon.mjs';
-    import '../components/xy-layout.mjs';
-    import '../components/xy-input.mjs';
-    import XyDialog from '../components/xy-dialog.mjs';
-    import XyMessage from '../components/xy-message.mjs';
+    import '../components/xy-button.js';
+    import '../components/xy-slider.js';
+    import '../components/xy-select.js';
+    import '../components/xy-loading.js';
+    import '../components/xy-tab.js';
+    import '../components/xy-switch.js';
+    import '../components/xy-checkbox.js';
+    import '../components/xy-radio.js';
+    import '../components/xy-tips.js';
+    import '../components/xy-icon.js';
+    import '../components/xy-layout.js';
+    import '../components/xy-input.js';
+    import XyDialog from '../components/xy-dialog.js';
+    import XyMessage from '../components/xy-message.js';
     window.XyDialog = XyDialog;
     window.XyMessage = XyMessage;
     window.iconUrl = '../iconfont/icon.svg';

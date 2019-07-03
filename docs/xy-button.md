@@ -1,13 +1,13 @@
 # xy-button
 
-用于替代原生`button`
+按钮。用于替代原生`button`。
 
 ## 使用方式
 
 ```html
 <!-- 引入 -->
 <script type="module">
-    import '../components/xy-button.mjs';
+    import '../components/xy-button.js';
 </script>
 <!-- 使用 -->
 <xy-button>button</xy-button>
@@ -48,11 +48,22 @@
 JavaScript操作
 
 ```js
+btn.disabled;//获取
 btn.disabled = false;
 btn.disabled = true;
 //原生属性操作
 btn.setAttribute('disabled','');
 btn.removeAttribute('disabled');
+```
+
+!> 所有组件关于属性的获取和设置均相同，如下
+
+```js
+com.props;//获取
+com.props = newProps;
+//原生属性操作
+com.setAttribute('props',newProps);
+com.removeAttribute('props');
 ```
 
 ## 加载`loading`
@@ -170,4 +181,4 @@ btn.setAttribute('icon','name');
 
 此外，所有组件均有主题颜色`themeColor`，通过`CSS`自定义属性实现
 
-详细可参考[主题](/主题.md)。
+详细可参考[主题](/themeColor.md)。

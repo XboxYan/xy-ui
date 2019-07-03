@@ -1,5 +1,5 @@
-import './xy-icon.mjs';
-import './xy-loading.mjs';
+import './xy-icon.js';
+import './xy-loading.js';
 
 class XyMessage extends HTMLElement {
 

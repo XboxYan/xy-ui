@@ -1,4 +1,4 @@
-import './xy-tips.mjs';
+import './xy-tips.js';
 
 export default class XySlider extends HTMLElement {
 

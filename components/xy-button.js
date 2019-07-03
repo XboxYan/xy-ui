@@ -1,5 +1,5 @@
-import './xy-loading.mjs';
-import './xy-icon.mjs';
+import './xy-loading.js';
+import './xy-icon.js';
 
 export default class XyButton extends HTMLElement {
     //https://mladenplavsic.github.io/css-ripple-effect

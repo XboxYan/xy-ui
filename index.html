@@ -35,27 +35,28 @@
     <script type="module" src="./components/xy-dialog.js" async></script>
     -->
     <!-- <script type="module" src="./components/xy.js" async></script> -->
-    <script type="module">
-        import './components/xy-button.mjs';
-        import './components/xy-slider.mjs';
-        import './components/xy-select.mjs';
-        import './components/xy-loading.mjs';
-        import './components/xy-tab.mjs';
-        import './components/xy-switch.mjs';
-        import './components/xy-checkbox.mjs';
-        import './components/xy-radio.mjs';
-        import './components/xy-tips.mjs';
-        import './components/xy-icon.mjs';
-        import './components/xy-layout.mjs';
-        import './components/xy-input.mjs';
-        import XyDialog from './components/xy-dialog.mjs';
-        import XyMessage from './components/xy-message.mjs';
-        window.XyDialog = XyDialog;
-        window.XyMessage = XyMessage;
+    
+    <script>
         window.iconUrl = './iconfont/icon.svg';
     </script>
-    
-
+    <script type="module">
+        import './components/xy-button.js';
+        import './components/xy-slider.js';
+        import './components/xy-select.js';
+        import './components/xy-loading.js';
+        import './components/xy-tab.js';
+        import './components/xy-switch.js';
+        import './components/xy-checkbox.js';
+        import './components/xy-radio.js';
+        import './components/xy-tips.js';
+        import './components/xy-icon.js';
+        import './components/xy-layout.js';
+        import './components/xy-input.js';
+        import XyDialog from './components/xy-dialog.js';
+        import XyMessage from './components/xy-message.js';
+        window.XyDialog = XyDialog;
+        window.XyMessage = XyMessage;
+    </script>
 </head>
 
 <body>
@@ -293,7 +294,6 @@
     <xy-textarea placeholder="rows" rows="5" ></xy-textarea>
     <xy-textarea label="info" placeholder="info" ></xy-textarea>
     <xy-textarea icon="location" placeholder="location" ></xy-textarea>
-    
     <script>
         document.getElementById('btn').addEventListener('click',function(ev){
             console.log(ev)
