@@ -13,9 +13,9 @@
 <xy-button>button</xy-button>
 ```
 
-## 类型`type`
+## 风格`type`
 
-按钮有4种类型，分别为`primary`，`dashed`，`flat`和默认。
+按钮有4种风格，分别为`primary`，`dashed`，`flat`和默认。
 
 <xy-button type="primary" id="btn">primary</xy-button>
 <xy-button type="dashed">dashed</xy-button>
@@ -37,6 +37,7 @@
 <xy-button disabled type="dashed">dashed</xy-button>
 <xy-button disabled type="flat">flat</xy-button>
 <xy-button disabled >default</xy-button>
+<xy-switch checked onchange="this.previousElementSibling.disabled = this.checked;"></xy-switch>
 
 ```html
 <xy-button disabled type="primary">primary</xy-button>
@@ -71,6 +72,7 @@ com.removeAttribute('props');
 添加`loading`属性即可让按钮处于加载状态，处于加载状态所有事件会被禁用，类似于`disabled`
 
 <xy-button type="primary" loading>loading</xy-button>
+<xy-switch checked onchange="this.previousElementSibling.loading = this.checked;"></xy-switch>
 
 ```html
 <xy-button type="primary" loading>loading</xy-button>
@@ -144,6 +146,14 @@ btn.setAttribute('icon','name');
 <xy-button block>default</xy-button>
 ```
 
+当然该属性只是样式的重置，你可以通过`CSS`来实现
+
+```css
+xy-button{
+    diplay:block;
+}
+```
+
 ## 自定义样式
 
 目前可以修改的部分样式如下
@@ -159,6 +169,16 @@ btn.setAttribute('icon','name');
 ```
 
 下面是一个自定义样式的按钮
+
+<style>
+.custom-button{
+    font-size:20px;
+    border-radius:5px;
+    line-height:40px;
+}
+</style>
+<xy-button type="primary" class="custom-button">primary</xy-button>
+
 ```html
 <style>
 .custom-button{
@@ -170,15 +190,10 @@ btn.setAttribute('icon','name');
 <xy-button type="primary" class="custom-button">primary</xy-button>
 ```
 
-<style>
-.custom-button{
-    font-size:20px;
-    border-radius:5px;
-    line-height:40px;
-}
-</style>
-<xy-button type="primary" class="custom-button">primary</xy-button>
-
 此外，所有组件均有主题颜色`themeColor`，通过`CSS`自定义属性实现
 
 详细可参考[主题](/themeColor.md)。
+
+## 事件
+
+与普通`html`标签一致。

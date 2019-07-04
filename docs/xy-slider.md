@@ -34,6 +34,7 @@
 通过`disabled`可以禁用滑动条。
 
 <xy-slider defaultvalue="50" disabled></xy-slider>
+<xy-switch checked onchange="this.previousElementSibling.disabled = this.checked;"></xy-switch>
 
 ```html
 <xy-slider defaultvalue="50" disabled></xy-slider>
@@ -48,49 +49,6 @@ slider.disabled = true;
 //原生属性操作
 slider.setAttribute('disabled','');
 slider.removeAttribute('disabled');
-```
-
-## 最小值`min`、最大值`max`
-
-设置或返回滑块条的`min`和`max`属性值。默认值分别为`0`和`100`。
-
-
-<xy-slider defaultvalue="100" min="0" max="300"></xy-slider>
-<xy-slider defaultvalue="30" min="-100" max="100"></xy-slider>
-
-```html
-<xy-slider defaultvalue="100" min="0" max="300"></xy-slider>
-<xy-slider defaultvalue="30" min="-100" max="100"></xy-slider>
-```
-
-JavaScript操作
-
-```js
-slider.min; //获取
-slider.min = 50;
-//原生属性操作
-slider.setAttribute('min',50);
-```
-
-## 步长`step`
-
-设置或返回滑块条的`step`属性值。默认值为`1`。
-
-<xy-slider defaultvalue="30" min="0" max="100" step="5"></xy-slider>
-<xy-slider defaultvalue="50" min="0" max="100" step="10"></xy-slider>
-
-```html
-<xy-slider defaultvalue="30" min="0" max="100" step="5"></xy-slider>
-<xy-slider defaultvalue="50" min="0" max="100" step="10"></xy-slider>
-```
-
-JavaScript操作
-
-```js
-slider.step; //获取
-slider.step = 10;
-//原生属性操作
-slider.setAttribute('step',10);
 ```
 
 ## 提示`showtips`
@@ -113,10 +71,38 @@ slider.setAttribute('showtips','');
 slider.removeAttribute('showtips');
 ```
 
+## 最小值`min`、最大值`max`、步长`step`
+
+设置或返回滑块条的`min`和`max`属性值。默认值分别为`0`和`100`。
+
+设置或返回滑块条的`step`属性值。默认值为`1`。
+
+<xy-slider defaultvalue="50" min="0" max="100" step="10" id="xy-slider-step" showtips></xy-slider>
+<xy-input style="width:100px" label="min" type="number" min="-100" max="100" onchange="document.getElementById('xy-slider-step').min=this.value;" defaultvalue="0"></xy-input>
+<xy-input style="width:100px" label="max" type="number" min="1" max="300" onchange="document.getElementById('xy-slider-step').max=this.value;" defaultvalue="100"></xy-input>
+<xy-input style="width:100px" label="step" type="number" min="1" max="50" onchange="document.getElementById('xy-slider-step').step=this.value;" defaultvalue="10"></xy-input>
+
+```html
+<xy-slider defaultvalue="30" min="0" max="100" step="5" showtips></xy-slider>
+```
+
+JavaScript操作
+
+```js
+slider.step; //获取
+slider.step = 10;
+//原生属性操作
+slider.setAttribute('step',10);
+```
+
 ## 值`value`
 
 设置或返回滑块条的`value`属性值。
-该属性值在`html`标签上不可见。
+该属性值在`xy-slider`标签上不可见。
+
+<xy-slider showtips></xy-slider>
+<xy-button type="primary" onclick="this.previousElementSibling.value=50">设置value为50</xy-button>
+<xy-button type="primary" onclick="XyMessage.info('当前value: '+this.previousElementSibling.previousElementSibling.value)">显示当前value</xy-button>
 
 JavaScript操作
 
@@ -135,9 +121,13 @@ slider.setAttribute('value',50);
 
 滑动条在滑动完成时触发。
 
+<xy-slider onchange="XyMessage.info('当前value: '+this.value)"></xy-slider>
+
 ```html
-<xy-slider onchange="fn(event)"></xy-slider>
+<xy-slider onchange="XyMessage.info('当前value: '+this.value)"></xy-slider>
 ```
+
+其他触发方式
 
 ```js
 slider.onchange = function(ev){

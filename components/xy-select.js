@@ -67,15 +67,20 @@ export default class XySelect extends HTMLElement {
             line-height:2.4;
             font-size: 14px;
         }
+        :host([block]){
+            display:block;
+        }
         :host xy-button{
             line-height: inherit;
             font-size: inherit;
         }
+        /*
         :host(:active:not([disabled])) xy-button{
             border-color:var(--themeColor,dodgerblue);
             color:var(--themeColor,dodgerblue);
         }
-        :host(:focus-within){ 
+        */
+        :host(:focus-within),:host(:hover){ 
             z-index: 2;
         }
         #select{
@@ -119,8 +124,8 @@ export default class XySelect extends HTMLElement {
         }
         .arrow::before,.arrow::after{
             position: absolute;
-            width: 6px;
-            height: 1.5px;
+            width: .4em;
+            height: .1em;
             background: #fff;
             background: currentColor;
             border-radius: 2px;
@@ -128,10 +133,10 @@ export default class XySelect extends HTMLElement {
             content: '';
         }
         .arrow::before{
-            transform: rotate(-45deg) translateX(2px);
+            transform: rotate(-45deg) translateX(.1em);
         }
         .arrow::after{
-            transform: rotate(45deg) translateX(-2px);
+            transform: rotate(45deg) translateX(-.1em);
         }
         .placeholder{
             font-style:normal;
@@ -192,6 +197,7 @@ export default class XySelect extends HTMLElement {
             this.onshow(ev, true);
         })
         this.options.addEventListener('click', (ev) => {
+            ev.stopPropagation();
             const item = ev.target.closest('xy-option');
             if (item) {
                 this.value = item.value;
@@ -228,6 +234,7 @@ export default class XySelect extends HTMLElement {
             } else {
                 this.value = this.defaultvalue;
             }
+            this.init = true;
         });
     }
 
@@ -265,6 +272,10 @@ export default class XySelect extends HTMLElement {
         }
     }
 
+    set defaultvalue(value){
+        this.setAttribute('defaultvalue', value);
+    }
+
     set value(value) {
         let textContent = '';
         if (value !== this.value) {
@@ -278,12 +289,14 @@ export default class XySelect extends HTMLElement {
                     item.selected = false;
                 }
             })
-            this.dispatchEvent(new CustomEvent('change', {
-                detail: {
-                    value: value,
-                    text: textContent
-                }
-            }));
+            if(this.init){
+                this.dispatchEvent(new CustomEvent('change', {
+                    detail: {
+                        value: value,
+                        text: textContent
+                    }
+                }));
+            }
         }
     }
 

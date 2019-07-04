@@ -147,8 +147,9 @@ export default class XyInput extends HTMLElement {
             display: block;
             color: #999;
             border-radius:0;
-            width:1em;
+            width:100%;
             flex:1;
+            font-size:.8em;
             transition:.2s;
         }
 
@@ -193,7 +194,7 @@ export default class XyInput extends HTMLElement {
             }
             ${
                 this.type === 'number'&&!multi?
-                '<div class="btn-right btn-number"><xy-button id="btn-add" icon="caret-up" type="flat"></xy-button><xy-button id="btn-sub" icon="caret-down" type="flat"></xy-button></div>'
+                '<div class="btn-right btn-number"><xy-button id="btn-add" icon="up" type="flat"></xy-button><xy-button id="btn-sub" icon="down" type="flat"></xy-button></div>'
                 :
                 ''
             }
@@ -222,6 +223,13 @@ export default class XyInput extends HTMLElement {
         this.input.addEventListener('input',()=>{
             this.checkValidity();
             this.dispatchEvent(new CustomEvent('input',{
+                detail:{
+                    value:this.value
+                }
+            }));
+        })
+        this.input.addEventListener('change',()=>{
+            this.dispatchEvent(new CustomEvent('change',{
                 detail:{
                     value:this.value
                 }

@@ -1,8 +1,10 @@
-* [Home](README.md)
-* [themeColor](themeColor.md)
-* [update](update.md)
+* [Start](README.md)
+* [ThemeColor](themeColor.md)
+* [Update](update.md)
 * **Component**
     * [xy-button](xy-button.md)
     * [xy-icon](xy-icon.md)
     * [xy-slider](xy-slider.md)
     * [xy-select](xy-select.md)
+    * [xy-loading](xy-loading.md)
+    * [xy-switch](xy-switch.md)

@@ -2,8 +2,6 @@
 
 下拉选择器。用于替代原生`select`。
 
--- 最后更新于2019-07-03 22：34 --
-
 ## 使用方式
 
 ```html
@@ -12,174 +10,262 @@
     import '../components/xy-select.js';
 </script>
 <!-- 使用 -->
-<xy-select></xy-select>
+<xy-select>
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
 ```
 
-`xy-select`实现依赖于`xy-button`，如需单独使用`xy-select`组件，需要准备`xy-button.js`。
+> `xy-select`配合`xy-option`才能渲染到下拉菜单中，其他标签不会渲染。
 
-不过使用时只需引用`xy-select`
+## 风格`type`
 
-```js
-import '../components/xy-select.js';
+跟随`xy-button`。
+
+<xy-select>
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
+<xy-select type="flat">
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
+<xy-select type="primary">
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
+<xy-select type="dashed">
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
+
+```html
+<xy-select>
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
+<xy-select type="flat">
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
+<xy-select type="primary">
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
+<xy-select type="dashed">
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
+```
+
+## 块状`block`
+
+跟随`xy-button`，宽度充满父级。
+
+<xy-select block>
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
+
+```html
+<xy-select block>
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
 ```
 
 ## 初始值`defaultvalue`
 
-设置或返回滑块条的默认值（默认为0）。
+设置或返回下拉选择器的默认值，如果不设置，则默认选中第一项。
 
-<xy-slider></xy-slider>
-<xy-slider defaultvalue="30"></xy-slider>
-<xy-slider defaultvalue="50"></xy-slider>
+<xy-select defaultvalue="2">
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
 
 ```html
-<xy-slider></xy-slider>
-<xy-slider defaultvalue="30"></xy-slider>
-<xy-slider defaultvalue="50"></xy-slider>
+<xy-select defaultvalue="2">
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
 ```
 
 ## 禁用`disabled`
 
-通过`disabled`可以禁用滑动条。
+通过`disabled`可以禁用下拉选择器。
 
-<xy-slider defaultvalue="50" disabled></xy-slider>
+<xy-select disabled>
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
+<xy-switch checked onchange="this.previousElementSibling.disabled = this.checked;"></xy-switch>
 
 ```html
-<xy-slider defaultvalue="50" disabled></xy-slider>
+<xy-select disabled>
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
 ```
 
 JavaScript操作
 
 ```js
-slider.disabled; //获取
-slider.disabled = false;
-slider.disabled = true;
+select.disabled; //获取
+select.disabled = false;
+select.disabled = true;
 //原生属性操作
-slider.setAttribute('disabled','');
-slider.removeAttribute('disabled');
+select.setAttribute('disabled','');
+select.removeAttribute('disabled');
 ```
 
-## 最小值`min`、最大值`max`
+## 值`value`、文本`text`
 
-设置或返回滑块条的`min`和`max`属性值。默认值分别为`0`和`100`。
+设置或返回下拉选择器的`value`属性值。
 
+返回下拉选择器的`text`。
 
-<xy-slider defaultvalue="100" min="0" max="300"></xy-slider>
-<xy-slider defaultvalue="30" min="-100" max="100"></xy-slider>
+`value`指定在`xy-option`上，`text`指`xy-option`的`textContent`。
 
-```html
-<xy-slider defaultvalue="100" min="0" max="300"></xy-slider>
-<xy-slider defaultvalue="30" min="-100" max="100"></xy-slider>
-```
+该属性值在`xy-select`标签上不可见。
 
-JavaScript操作
-
-```js
-slider.min; //获取
-slider.min = 50;
-//原生属性操作
-slider.setAttribute('min',50);
-```
-
-## 步长`step`
-
-设置或返回滑块条的`step`属性值。默认值为`1`。
-
-<xy-slider defaultvalue="30" min="0" max="100" step="5"></xy-slider>
-<xy-slider defaultvalue="50" min="0" max="100" step="10"></xy-slider>
-
-```html
-<xy-slider defaultvalue="30" min="0" max="100" step="5"></xy-slider>
-<xy-slider defaultvalue="50" min="0" max="100" step="10"></xy-slider>
-```
-
-JavaScript操作
-
-```js
-slider.step; //获取
-slider.step = 10;
-//原生属性操作
-slider.setAttribute('step',10);
-```
-
-## 提示`showtips`
-
-可以添加`showtips`属性，可以在滑动时显示`value`值。
-
-<xy-slider defaultvalue="50" showtips></xy-slider>
-
-```html
-<xy-slider defaultvalue="50" showtips></xy-slider>
-```
-
-JavaScript操作
-
-```js
-slider.showtips = false;
-slider.showtips = true;
-//原生属性操作
-slider.setAttribute('showtips','');
-slider.removeAttribute('showtips');
-```
-
-## 值`value`
-
-设置或返回滑块条的`value`属性值。
-该属性值在`html`标签上不可见。
+<xy-select>
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
+<xy-button type="primary" onclick="this.previousElementSibling.value='3'">选中Option3</xy-button>
+<xy-button type="primary" onclick="XyMessage.info('当前选中: '+this.previousElementSibling.previousElementSibling.text)">获取当前选中textContent</xy-button>
 
 JavaScript操作
 
 ```js
 slider.value; //获取
+slider.text; //获取textContent
 slider.value = 50;
 //原生属性操作
 slider.setAttribute('value',50);
 ```
 
-## 事件
+## change事件
 
-该组件暴露了常见的回调事件
+在下拉选中完成时触发。
 
-### change
-
-滑动条在滑动完成时触发。
+<xy-select onchange="XyMessage.info('当前选中value:'+this.value)">
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
 
 ```html
-<xy-slider onchange="fn(event)"></xy-slider>
+<xy-select onchange="XyMessage.info('当前选中value:'+this.value)">
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
 ```
 
 ```js
-slider.onchange = function(ev){
-    //获取value的几种方式
+select.onchange = function(ev){
+    //获取value和text的几种方式
     console.log(this.value);
+    console.log(this.text);
     console.log(ev.target.value);
+    console.log(ev.target.text);
     console.log(ev.detail.value);
+    console.log(ev.detail.text);
 }
 
-slider.addEventListener('change',function(ev){
+select.addEventListener('change',function(ev){
     console.log(this.value);
+    console.log(this.text);
     console.log(ev.target.value);
+    console.log(ev.target.text);
     console.log(ev.detail.value);
+    console.log(ev.detail.text);
 })
 ```
 
-### input
+## 自定义样式
 
-滑动条在滑动时触发。
+目前可以修改的部分样式如下
+
+```css
+:host {
+    display: inline-block;
+    line-height: 2.4;
+    font-size: 14px;
+}
+```
+
+下面是一个自定义样式的下拉选择器
+
+<style>
+.custom-select{
+    width:200px;
+    font-size:20px;
+    line-height:50px;
+}
+</style>
+
+<xy-select class="custom-select">
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
 
 ```html
-<xy-slider oninput="fn(event)"></xy-slider>
+<style>
+.custom-select{
+    width:200px;
+    font-size:20px;
+    line-height:50px;
+}
+</style>
+
+<xy-select class="custom-select">
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
 ```
 
-```js
-slider.oninput = function(ev){
-    console.log(this.value);
-    console.log(ev.target.value);
-    console.log(ev.detail.value);
-}
+## 其他
 
-slider.addEventListener('input',function(ev){
-    console.log(this.value);
-    console.log(ev.target.value);
-    console.log(ev.detail.value);
-})
+`xy-select`除了包裹`xy-option`以外，还能包裹其他标签，比如`a`链接
+
+<style>
+.xy-link{
+    display:block;
+    padding:0 .8em;
+}
+</style>
+<xy-select>
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+    <a class="xy-link" href="#">link</a>
+</xy-select>
+
+```html
+<xy-select>
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+    <a class="xy-link" href="#">link</a>
+</xy-select>
 ```

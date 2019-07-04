@@ -178,6 +178,7 @@ export default class XySlider extends HTMLElement {
             }else{
                 this.slider[name] = newValue;
                 this[name] = newValue;
+                this.sliderCon.style.setProperty('--percent',(this.value-this.min)/(this.max-this.min));
             }
         }
     }
