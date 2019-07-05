@@ -122,7 +122,7 @@
 </xy-select>
 ```
 
-JavaScript操作
+JavaScript操作`get`、`set`
 
 ```js
 select.disabled; //获取
@@ -135,7 +135,7 @@ select.removeAttribute('disabled');
 
 ## 值`value`、文本`text`
 
-设置或返回下拉选择器的`value`属性值。
+设置或返回下拉选择器的当前`value`属性值。
 
 返回下拉选择器的`text`。
 
@@ -151,17 +151,20 @@ select.removeAttribute('disabled');
 <xy-button type="primary" onclick="this.previousElementSibling.value='3'">选中Option3</xy-button>
 <xy-button type="primary" onclick="XyMessage.info('当前选中: '+this.previousElementSibling.previousElementSibling.text)">获取当前选中textContent</xy-button>
 
-JavaScript操作
+JavaScript操作`get`、`set`
 
 ```js
-slider.value; //获取
-slider.text; //获取textContent
-slider.value = 50;
+select.value; //获取
+select.text; //获取textContent(没有set方法)
+select.value = 50;
 //原生属性操作
-slider.setAttribute('value',50);
+select.setAttribute('value',50);
+select.getAttribute('value');
 ```
 
-## change事件
+## 事件`event`
+
+### onchange
 
 在下拉选中完成时触发。
 
@@ -182,6 +185,14 @@ slider.setAttribute('value',50);
 ```js
 select.onchange = function(ev){
     //获取value和text的几种方式
+    /*
+    event:{
+        detail:{
+            value,
+            text,
+        }
+    }
+    */
     console.log(this.value);
     console.log(this.text);
     console.log(ev.target.value);
@@ -198,6 +209,29 @@ select.addEventListener('change',function(ev){
     console.log(ev.detail.value);
     console.log(ev.detail.text);
 })
+```
+
+### onfocus
+
+`focus`后的回调事件。
+
+与[`xy-button`](xy-button?id=onfocus、onblur)使用方式一致。
+
+## 方法`function`
+
+### focus
+
+用于主动聚焦`focus`，聚焦以后可以响应键盘事件，支持方向键。
+
+<xy-select onfocus="XyMessage.info('focus')" onblur="XyMessage.info('blur')" onchange="XyMessage.info('当前选中value:'+this.value)">
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
+<xy-button type="primary" onclick="this.previousElementSibling.focus()">主动聚焦</xy-button>
+
+```js
+select.focus();
 ```
 
 ## 自定义样式

@@ -124,6 +124,10 @@ export default class XyRadio extends HTMLElement {
             this.setAttribute('checked', '');
         }
     }
+
+    focus() {
+        this.radio.focus();
+    }
     
     connectedCallback() {
         this.radio = this.shadowRoot.getElementById('radio');
@@ -135,6 +139,22 @@ export default class XyRadio extends HTMLElement {
                 prev.checked = false;
             }
             this.checked = true;
+        })
+        this.radio.addEventListener('focus',(ev) => {
+            ev.stopPropagation();
+            this.dispatchEvent(new CustomEvent('focus',{
+                detail:{
+                    checked: this.checked
+                }
+            }));
+        })
+        this.radio.addEventListener('blur',(ev) => {
+            ev.stopPropagation();
+            this.dispatchEvent(new CustomEvent('blur',{
+                detail:{
+                    checked: this.checked
+                }
+            }));
         })
         this.radio.addEventListener('keydown', (ev) => {
             switch (ev.keyCode) {

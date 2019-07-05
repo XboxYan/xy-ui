@@ -21,11 +21,11 @@ document.body.style.setProperty('--themeColor','#F44336');
 
 点击下方切换主题颜色
 
-<xy-button type="primary" class="theme-button" style="--themeColor:#42b983" onclick="changeColor('#42b983')">#42b983</xy-button>
-<xy-button type="primary" class="theme-button" style="--themeColor:#1E90FF" onclick="changeColor('#1E90FF')">#1E90FF</xy-button>
-<xy-button type="primary" class="theme-button" style="--themeColor:#F44336" onclick="changeColor('#F44336')">#F44336</xy-button>
-<xy-button type="primary" class="theme-button" style="--themeColor:#9c27b0" onclick="changeColor('#9c27b0')">#9c27b0</xy-button>
-<xy-button type="primary" class="theme-button" style="--themeColor:#3F51B5" onclick="changeColor('#3F51B5')">#3F51B5</xy-button>
+<xy-button type="primary" class="theme-button" icon="bg-colors" shape="circle" style="--themeColor:#42b983" onclick="changeColor('#42b983')"></xy-button>
+<xy-button type="primary" class="theme-button" icon="bg-colors" shape="circle" style="--themeColor:#1E90FF" onclick="changeColor('#1E90FF')"></xy-button>
+<xy-button type="primary" class="theme-button" icon="bg-colors" shape="circle" style="--themeColor:#F44336" onclick="changeColor('#F44336')"></xy-button>
+<xy-button type="primary" class="theme-button" icon="bg-colors" shape="circle" style="--themeColor:#9c27b0" onclick="changeColor('#9c27b0')"></xy-button>
+<xy-button type="primary" class="theme-button" icon="bg-colors" shape="circle" style="--themeColor:#3F51B5" onclick="changeColor('#3F51B5')"></xy-button>
 
 实时预览（其他页面均生效）
 
@@ -44,15 +44,15 @@ document.body.style.setProperty('--themeColor','#F44336');
 <p></p>
 <xy-switch checked></xy-switch>
 <p></p>
-<xy-radio name="library" checked>React</xy-radio>
-<xy-radio name="library">Vue</xy-radio>
-<xy-radio name="library">Angular</xy-radio>
-<xy-radio name="library">Other</xy-radio>
+<xy-radio name="b" checked>React</xy-radio>
+<xy-radio name="b">Vue</xy-radio>
+<xy-radio name="b">Angular</xy-radio>
+<xy-radio name="b">Other</xy-radio>
 <p></p>
-<xy-checkbox name="lang" checked>Html</xy-checkbox>
-<xy-checkbox name="lang">Css</xy-checkbox>
-<xy-checkbox name="lang">Javascript</xy-checkbox>
-<xy-checkbox name="lang">Python</xy-checkbox>
-<xy-checkbox name="lang">Php</xy-checkbox>
-<xy-checkbox name="lang">Dart</xy-checkbox>
-<xy-checkbox name="lang">Swift</xy-checkbox>
+<xy-checkbox name="a" checked>Html</xy-checkbox>
+<xy-checkbox name="a">Css</xy-checkbox>
+<xy-checkbox name="a">Javascript</xy-checkbox>
+<xy-checkbox name="a">Python</xy-checkbox>
+<xy-checkbox name="a">Php</xy-checkbox>
+<xy-checkbox name="a">Dart</xy-checkbox>
+<xy-checkbox name="a">Swift</xy-checkbox>

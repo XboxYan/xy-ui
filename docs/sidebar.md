@@ -8,3 +8,7 @@
     * [xy-select](xy-select.md)
     * [xy-loading](xy-loading.md)
     * [xy-switch](xy-switch.md)
+    * [xy-checkbox](xy-checkbox.md)
+    * [xy-radio](xy-radio.md)
+    * [xy-tab](xy-tab.md)
+    * [xy-layout](xy-layout.md)

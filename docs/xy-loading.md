@@ -37,11 +37,13 @@ xy-loading{
 }
 ```
 
-JavaScript操作
+JavaScript操作`get`、`set`
 
 ```js
+loading.size;
 loading.size = 30;
 //原生属性操作
+loading.getAttribute('size');
 loading.setAttribute('size',30);
 ```
 
@@ -71,10 +73,12 @@ xy-loading{
 }
 ```
 
-JavaScript操作
+JavaScript操作`get`、`set`
 
 ```js
+loading.color;
 loading.color = 'orangered';
 //原生属性操作
+loading.getAttribute('color');
 loading.setAttribute('color','orangered');
 ```

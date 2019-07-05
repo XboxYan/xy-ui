@@ -158,8 +158,11 @@ export default class XyTab extends HTMLElement {
     }
 
     updatalabel(key,label) {
-        this.nav.querySelector(`.nav-item[data-key='${key}']`).innerHTML = label;
-        this.init();
+        const nav = this.nav.querySelector(`.nav-item[data-key='${key}']`);
+        if(nav){
+            nav.innerHTML = label;
+            this.init();
+        }
     }
 
     updatadisabled(key,disabled) {
@@ -188,6 +191,7 @@ export default class XyTab extends HTMLElement {
             }else{
                 this.activekey = this.activekey;
             }
+            this.init = true;
         });
         this.nav.addEventListener('click',(ev)=>{
             const item = ev.target.closest('xy-button');
@@ -206,20 +210,22 @@ export default class XyTab extends HTMLElement {
             }
             this.tabline.style = `width:${active.width}px;transform:translateX(${active.left}px)`;
             this.tab.style.transform = `translateX(${-(active.index) * 100}%)`;
-            if( oldValue!==newValue ){
+            if( oldValue!==newValue){
                 this.nav.parentNode.scrollLeft = active.left+active.width/2-this.nav.parentNode.offsetWidth/2;
                 const pre = this.nav.querySelector(`.nav-item.active`);
                 if(pre){
                     pre.classList.remove('active');
                 }
                 this.nav.querySelector(`.nav-item[data-key='${newValue}']`).classList.add('active');
-                this.dispatchEvent(new CustomEvent('change',{
-                    detail:{
-                        key:this.activekey,
-                        index:active.index,
-                        label:active.label,
-                    }
-                }));
+                if(this.init && oldValue!==null){
+                    this.dispatchEvent(new CustomEvent('change',{
+                        detail:{
+                            key:this.activekey,
+                            index:active.index,
+                            label:active.label,
+                        }
+                    }));
+                }
             }
         }
     }

@@ -81,6 +81,10 @@ export default class XySlider extends HTMLElement {
         <xy-tips id='slider-con' dir="top" style="--percent:${(this.defaultvalue-this.min)/(this.max-this.min)}" tips="${this.showtips&&!this.disabled?this.defaultvalue:''}"><input id='slider' value=${this.defaultvalue} min=${this.min} max=${this.max} step=${this.step} ${this.disabled?"disabled":""} type='range'></xy-tips>
         `
     } 
+
+    focus() {
+        this.slider.focus();
+    }
     
     connectedCallback() {
         const _this = this;
@@ -90,6 +94,23 @@ export default class XySlider extends HTMLElement {
             _this.value = this.value;
             _this._oninput = true;
         })
+        this.slider.addEventListener('focus',(ev) => {
+            ev.stopPropagation();
+            this.dispatchEvent(new CustomEvent('focus',{
+                detail:{
+                    value: this.value
+                }
+            }));
+        })
+        this.slider.addEventListener('blur',(ev) => {
+            ev.stopPropagation();
+            this.dispatchEvent(new CustomEvent('blur',{
+                detail:{
+                    value: this.value
+                }
+            }));
+        })
+        
         this.slider.addEventListener('change',function(ev){
             _this.value = this.value;
             _this._oninput = false;

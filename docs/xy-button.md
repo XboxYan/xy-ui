@@ -46,13 +46,14 @@
 <xy-button disabled >default</xy-button>
 ```
 
-JavaScript操作
+JavaScript操作`get`、`set`
 
 ```js
 btn.disabled;//获取
 btn.disabled = false;
 btn.disabled = true;
 //原生属性操作
+btn.getAttribute('disabled');
 btn.setAttribute('disabled','');
 btn.removeAttribute('disabled');
 ```
@@ -78,12 +79,14 @@ com.removeAttribute('props');
 <xy-button type="primary" loading>loading</xy-button>
 ```
 
-JavaScript操作
+JavaScript操作`get`、`set`
 
 ```js
+btn.loading;
 btn.loading = false;
 btn.loading = true;
 //原生属性操作
+btn.getAttribute('loading');
 btn.setAttribute('loading','');
 btn.removeAttribute('loading');
 ```
@@ -106,7 +109,7 @@ btn.removeAttribute('loading');
 <xy-button icon="link">link</xy-button>
 ```
 
-JavaScript操作
+JavaScript操作`set`
 
 ```js
 btn.icon = 'name';
@@ -154,6 +157,49 @@ xy-button{
 }
 ```
 
+## 事件`event`
+
+与普通`button`标签一致。
+
+### onfocus、onblur
+
+`focus`、`blur`后的回调事件。
+
+<xy-button onfocus="XyMessage.info('focus')" onblur="XyMessage.info('blur')">primary</xy-button>
+
+```html
+<xy-button onfocus="XyMessage.info('focus')" onblur="XyMessage.info('blur')">primary</xy-button>
+```
+
+其他触发方式
+
+```js
+btn.onfocus = function(ev){
+    console.log(ev)
+}
+
+slider.addEventListener('focus',function(ev){
+    console.log(ev)
+})
+```
+
+### 其他事件
+
+`onclick`、`onmousedown`等等，使用方式同上。
+
+## 方法`function`
+
+### focus
+
+用于主动聚焦`focus`，聚焦以后可以响应键盘事件，`Enter`可以触发`click`事件。
+
+<xy-button onclick="XyMessage.info('click')" onfocus="XyMessage.info('focus')" >primary</xy-button>
+<xy-button type="primary" onclick="this.previousElementSibling.focus()">主动聚焦</xy-button>
+
+```js
+btn.focus();
+```
+
 ## 自定义样式
 
 目前可以修改的部分样式如下
@@ -193,7 +239,3 @@ xy-button{
 此外，所有组件均有主题颜色`themeColor`，通过`CSS`自定义属性实现
 
 详细可参考[主题](/themeColor.md)。
-
-## 事件
-
-与普通`html`标签一致。

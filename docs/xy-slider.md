@@ -40,7 +40,7 @@
 <xy-slider defaultvalue="50" disabled></xy-slider>
 ```
 
-JavaScript操作
+JavaScript操作`get`、`set`
 
 ```js
 slider.disabled; //获取
@@ -61,7 +61,7 @@ slider.removeAttribute('disabled');
 <xy-slider defaultvalue="50" showtips></xy-slider>
 ```
 
-JavaScript操作
+JavaScript操作`set`
 
 ```js
 slider.showtips = false;
@@ -86,12 +86,13 @@ slider.removeAttribute('showtips');
 <xy-slider defaultvalue="30" min="0" max="100" step="5" showtips></xy-slider>
 ```
 
-JavaScript操作
+JavaScript操作`get`、`set`
 
 ```js
 slider.step; //获取
 slider.step = 10;
 //原生属性操作
+slider.getAttribute('step');
 slider.setAttribute('step',10);
 ```
 
@@ -104,20 +105,21 @@ slider.setAttribute('step',10);
 <xy-button type="primary" onclick="this.previousElementSibling.value=50">设置value为50</xy-button>
 <xy-button type="primary" onclick="XyMessage.info('当前value: '+this.previousElementSibling.previousElementSibling.value)">显示当前value</xy-button>
 
-JavaScript操作
+JavaScript操作`get`、`set`
 
 ```js
 slider.value; //获取
 slider.value = 50;
 //原生属性操作
+slider.getAttribute('value');
 slider.setAttribute('value',50);
 ```
 
-## 事件
+## 事件`event`
 
 该组件暴露了常见的回调事件
 
-### change
+### onchange
 
 滑动条在滑动完成时触发。
 
@@ -132,6 +134,13 @@ slider.setAttribute('value',50);
 ```js
 slider.onchange = function(ev){
     //获取value的几种方式
+    /*
+    event:{
+        detail:{
+            value,
+        }
+    }
+    */
     console.log(this.value);
     console.log(ev.target.value);
     console.log(ev.detail.value);
@@ -144,7 +153,7 @@ slider.addEventListener('change',function(ev){
 })
 ```
 
-### input
+### oninput
 
 滑动条在滑动时触发。
 
@@ -164,4 +173,23 @@ slider.addEventListener('input',function(ev){
     console.log(ev.target.value);
     console.log(ev.detail.value);
 })
+```
+
+### onfocus、onblur
+
+`focus`、`blur`后的回调事件。
+
+与[`xy-button`](xy-button?id=onfocus、onblur)使用方式一致。
+
+## 方法`function`
+
+### focus
+
+用于主动聚焦`focus`，聚焦以后可以响应键盘事件，支持方向键。
+
+<xy-slider onfocus="XyMessage.info('focus')" onchange="XyMessage.info(this.value)"></xy-slider>
+<xy-button type="primary" onclick="this.previousElementSibling.focus()">主动聚焦</xy-button>
+
+```js
+slider.focus();
 ```

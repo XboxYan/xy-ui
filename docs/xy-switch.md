@@ -58,7 +58,9 @@ switch.setAttribute('checked','');
 switch.removeAttribute('checked');
 ```
 
-## change事件
+## 事件`event`
+
+### onchange
 
 在切换完成时触发。
 
@@ -71,6 +73,13 @@ switch.removeAttribute('checked');
 ```js
 switch.onchange = function(ev){
     //获取checked的几种方式
+    /*
+    event:{
+        detail:{
+            checked,
+        }
+    }
+    */
     console.log(this.checked);
     console.log(ev.target.checked);
     console.log(ev.detail.checked);
@@ -81,4 +90,23 @@ switch.addEventListener('change',function(ev){
     console.log(ev.target.checked);
     console.log(ev.detail.checked);
 })
+```
+
+### onfocus、onblur
+
+`focus`、`blur`后的回调事件。
+
+与[`xy-button`](xy-button?id=onfocus、onblur)使用方式一致。
+
+## 方法`function`
+
+### focus
+
+用于主动聚焦`focus`，聚焦以后可以响应键盘事件，`Enter`切换开关。
+
+<xy-switch onfocus="XyMessage.info('focus')" onchange="XyMessage.info('当前状态checked:'+this.checked)"></xy-switch>
+<xy-button type="primary" onclick="this.previousElementSibling.focus()">主动聚焦</xy-button>
+
+```js
+switch.focus();
 ```

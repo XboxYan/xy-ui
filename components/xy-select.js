@@ -66,6 +66,7 @@ export default class XySelect extends HTMLElement {
             display:inline-block;
             line-height:2.4;
             font-size: 14px;
+            z-index: 1;
         }
         :host([block]){
             display:block;
@@ -89,6 +90,7 @@ export default class XySelect extends HTMLElement {
         }
         #select span{
             flex:1;
+            pointer-events:none;
             text-align:left;
         }
         .options{
@@ -118,6 +120,7 @@ export default class XySelect extends HTMLElement {
             transform: translateY(-2px);
         }
         .arrow{
+            pointer-events:none;
             position:relative;
             width: 10px;
             transition: transform .3s cubic-bezier(.645, .045, .355, 1);
@@ -176,11 +179,14 @@ export default class XySelect extends HTMLElement {
         const current = this.nodes[focusIndex];
         if (current) {
             current.focus();
-            current.onfocus = () => {
-                this.focusIndex = focusIndex;
-            }
+            this.focusRoot = true;
+            
             this.focusIndex = focusIndex;
         }
+    }
+
+    focus() {
+        this.select.focus();
     }
 
     connectedCallback() {
@@ -190,24 +196,54 @@ export default class XySelect extends HTMLElement {
         this.slots = this.shadowRoot.getElementById('slot');
         this.txt = this.shadowRoot.getElementById('value');
         this.focusIndex = 0;
+        this.select.addEventListener('mousedown', (ev) => {
+            this.focus();
+        })
         this.select.addEventListener('click', (ev) => {
             this.onshow(ev);
         })
         this.select.addEventListener('focus', (ev) => {
+            ev.stopPropagation();
             this.onshow(ev, true);
+            if(!this.focusRoot){
+                this.dispatchEvent(new CustomEvent('focus',{
+                    detail:{
+                        checked: this.value
+                    }
+                }));
+            }
+        })
+        this.select.addEventListener('blur', (ev) => {
+            ev.stopPropagation();
+            if(!this.show){
+                this.focusRoot = false;
+                this.dispatchEvent(new CustomEvent('blur',{
+                    detail:{
+                        checked: this.value
+                    }
+                }));
+            }
         })
         this.options.addEventListener('click', (ev) => {
             ev.stopPropagation();
             const item = ev.target.closest('xy-option');
+            this.focusRoot = true;
             if (item) {
                 this.value = item.value;
                 this.setVisible(false);
                 this.select.focus();
             }
         })
+        this.options.addEventListener('mousedown', (ev) => {
+            ev.stopPropagation();
+            this.focusRoot = true;
+        })
         this.addEventListener('keydown', (ev) => {
             if (this.show) {
                 switch (ev.keyCode) {
+                    case 9://Tab
+                        ev.preventDefault();
+                        break;
                     case 38://ArrowUp
                         this.move(-1);
                         break;
@@ -224,7 +260,8 @@ export default class XySelect extends HTMLElement {
                 }
             }
         })
-        document.addEventListener('click', () => {
+        document.addEventListener('mousedown', () => {
+            this.focusRoot = false;
             this.setVisible(false);
         })
         this.slots.addEventListener('slotchange', () => {

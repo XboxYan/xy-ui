@@ -129,6 +129,14 @@ export default class XyButton extends HTMLElement {
         this.btn.addEventListener('mouseup',function(ev){
             this.focus();
         })
+        this.btn.addEventListener('focus',(ev) => {
+            ev.stopPropagation();
+            this.dispatchEvent(new CustomEvent('focus'));
+        })
+        this.btn.addEventListener('blur',(ev) => {
+            ev.stopPropagation();
+            this.dispatchEvent(new CustomEvent('blur'));
+        })
         this.disabled = this.disabled;
         this.loading = this.loading;
     }

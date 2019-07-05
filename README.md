@@ -16,7 +16,7 @@
 
 ## 原则
 
-在实现组件功能时，遵循`CSS`为主，`JavaScript`为辅的思路，能够使用`CSS`完成的绝不用`JavaScript`，`UI`和业务逻辑分离，使得代码结构上更加简约。
+在实现组件功能时，遵循`CSS`为主，`JavaScript`为辅的思路，`UI`和业务逻辑分离，使得代码结构上更加简约。
 
 比如`xy-button`有一个点击扩散的水波纹效果，就是采用`CSS`来实现，`JavaScript`只是辅助完成鼠标位置的获取
 
@@ -97,7 +97,7 @@
 
 无依赖组件直接引入单独`js`即可，有依赖组件需要引入相关`js`。
 
-如需单独使用`xy-tips`组件，仅需引用`xy-input.js`。
+如需单独使用`xy-tips`组件，仅需引用`xy-tips.js`。
 
 ```js
 // .
@@ -176,7 +176,7 @@ document.body.appenChild(btn);
 自定义组件是通过`class`定义，可以通过`new`来实例化。
 
 ```js
-import XyButton from './components/xy-icon.js';
+import XyButton from './components/xy-button.js';
 const btn = new XyButton();
 document.body.appenChild(btn);
 ```

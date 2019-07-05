@@ -1,0 +1,219 @@
+# xy-tab
+
+标签页。
+
+## 使用方式
+
+```html
+<!-- 引入 -->
+<script type="module">
+    import './components/xy-tab.js';
+</script>
+<!-- 使用 -->
+<xy-tab>
+    <xy-tab-content label="tab1">tab1</xy-tab-content>
+    <xy-tab-content label="tab2">tab2</xy-tab-content>
+    <xy-tab-content label="tab3">tab3</xy-tab-content>
+</xy-tab>
+```
+
+`xy-tab`需和`xy-tab-content`组合使用。
+
+## 名称`label`
+
+每个`xy-tab-content`需要指定一个名称`label`，用于显示标签头。
+
+<xy-tab>
+    <xy-tab-content label="tab1">tab1</xy-tab-content>
+    <xy-tab-content label="tab2">tab2</xy-tab-content>
+    <xy-tab-content label="tab3">tab3</xy-tab-content>
+</xy-tab>
+
+```html
+<xy-tab>
+    <xy-tab-content label="tab1">tab1</xy-tab-content>
+    <xy-tab-content label="tab2">tab2</xy-tab-content>
+    <xy-tab-content label="tab3">tab3</xy-tab-content>
+</xy-tab>
+```
+
+JavaScript操作`get`、`set`
+
+> 作用于`xy-tab-content`
+
+```js
+//xy-tab-content
+content.label;
+content.label = 'tab';
+//原生属性操作
+content.getAttribute('label');
+content.setAttribute('label','tab');
+```
+
+## 标识`key`、`activekey`
+
+每个`xy-tab-content`需要指定一个标识`key`，没有会默认以序列号为`key`，
+
+`activekey`作用在`xy-tab`上，可以指定切换到具体标签页，也可以指定初始值。
+
+<xy-tab activekey="B">
+    <xy-tab-content label="tab1" key="A">tab1</xy-tab-content>
+    <xy-tab-content label="tab2" key="B">tab2</xy-tab-content>
+    <xy-tab-content label="tab3" key="C">tab3</xy-tab-content>
+</xy-tab>
+<xy-button type="primary" onclick="this.previousElementSibling.activekey='C'">跳转tab3</xy-button>
+
+```html
+<xy-tab activekey="B">
+    <xy-tab-content label="tab1" key="A">tab1</xy-tab-content>
+    <xy-tab-content label="tab2" key="B">tab2</xy-tab-content>
+    <xy-tab-content label="tab3" key="C">tab3</xy-tab-content>
+</xy-tab>
+<xy-button type="primary" onclick="this.previousElementSibling.activekey='C'">跳转tab3</xy-button>
+```
+
+JavaScript操作`get`、`set`
+
+```js
+tab.activekey;
+tab.activekey = 'key';
+//原生属性操作
+tab.getAttribute('activekey');
+tab.setAttribute('activekey','key');
+```
+
+## 图标`icon`
+
+每个`xy-tab-content`可以指定`icon`，配合`label`实现图标加文字的效果。
+
+<xy-tab>
+    <xy-tab-content label="home" icon="home">tab1</xy-tab-content>
+    <xy-tab-content label="message" icon="message">tab2</xy-tab-content>
+    <xy-tab-content label="user" icon="user">tab3</xy-tab-content>
+</xy-tab>
+
+```html
+<xy-tab>
+    <xy-tab-content label="home" icon="home">tab1</xy-tab-content>
+    <xy-tab-content label="message" icon="message">tab2</xy-tab-content>
+    <xy-tab-content label="user" icon="user">tab3</xy-tab-content>
+</xy-tab>
+```
+
+也可以单独指定`icon`，不使用`label`。
+
+<xy-tab>
+    <xy-tab-content icon="home">tab1</xy-tab-content>
+    <xy-tab-content icon="message">tab2</xy-tab-content>
+    <xy-tab-content icon="user">tab3</xy-tab-content>
+</xy-tab>
+
+```html
+<xy-tab>
+    <xy-tab-content icon="home">tab1</xy-tab-content>
+    <xy-tab-content icon="message">tab2</xy-tab-content>
+    <xy-tab-content icon="user">tab3</xy-tab-content>
+</xy-tab>
+```
+
+JavaScript操作`get`、`set`
+
+> 作用于`xy-tab-content`
+
+```js
+//xy-tab-content
+content.icon;
+content.icon = 'name';
+//原生属性操作
+content.getAttribute('name');
+content.setAttribute('icon','name');
+```
+
+## 事件`event`
+
+### onchange
+
+`xy-tab`切换完成时触发。
+
+<xy-tab onchange="XyMessage.info(event.detail.label)">
+    <xy-tab-content label="tab1">tab1</xy-tab-content>
+    <xy-tab-content label="tab2">tab2</xy-tab-content>
+    <xy-tab-content label="tab3">tab3</xy-tab-content>
+</xy-tab>
+
+```html
+<xy-tab onchange="XyMessage.info(event.detail.label)">
+    <xy-tab-content label="tab1">tab1</xy-tab-content>
+    <xy-tab-content label="tab2">tab2</xy-tab-content>
+    <xy-tab-content label="tab3">tab3</xy-tab-content>
+</xy-tab>
+```
+
+
+```js
+tab.onchange = function(ev){
+    //获取key、index和label的几种方式
+    /*
+    event:{
+        detail:{
+            key,
+            index,
+            label,
+        }
+    }
+    */
+    const { key, index, label } = ev.detail;
+    console.log(key, index, label);
+}
+
+tab.addEventListener('change',function(ev){
+    const { key, index, label } = ev.detail;
+    console.log(key, index, label);
+})
+```
+
+## 其他
+
+当`tab`比较多时，超出范围，会自动滚动。
+
+<xy-tab>
+    <xy-tab-content label="tab11111111111111">tab1</xy-tab-content>
+    <xy-tab-content label="tab2222222222222">tab2</xy-tab-content>
+    <xy-tab-content label="tab333333333">tab3</xy-tab-content>
+    <xy-tab-content label="tab4">tab4</xy-tab-content>
+    <xy-tab-content label="tab5">tab5</xy-tab-content>
+    <xy-tab-content label="tab64444444444">tab6</xy-tab-content>
+    <xy-tab-content label="tab7">tab7</xy-tab-content>
+    <xy-tab-content label="tab855555555">tab8</xy-tab-content>
+    <xy-tab-content label="tab9">tab9</xy-tab-content>
+    <xy-tab-content label="tab106666666666">tab10</xy-tab-content>
+</xy-tab>
+
+各个组件相互独立，可以随意嵌套，如下。
+
+<xy-tab>
+    <xy-tab-content label="tab1">
+        <xy-tab>
+            <xy-tab-content label="1-tab1">1-tab1</xy-tab-content>
+            <xy-tab-content label="1-tab2">1-tab2</xy-tab-content>
+            <xy-tab-content label="1-tab3">1-tab3</xy-tab-content>
+        </xy-tab>
+    </xy-tab-content>
+    <xy-tab-content label="tab2">tab2</xy-tab-content>
+    <xy-tab-content label="tab3">tab3</xy-tab-content>
+</xy-tab>
+
+```html
+<xy-tab>
+    <xy-tab-content label="tab1">
+        <xy-tab>
+            <xy-tab-content label="1-tab1">1-tab1</xy-tab-content>
+            <xy-tab-content label="1-tab2">1-tab2</xy-tab-content>
+            <xy-tab-content label="1-tab3">1-tab3</xy-tab-content>
+        </xy-tab>
+    </xy-tab-content>
+    <xy-tab-content label="tab2">tab2</xy-tab-content>
+    <xy-tab-content label="tab3">tab3</xy-tab-content>
+</xy-tab>
+```
+
