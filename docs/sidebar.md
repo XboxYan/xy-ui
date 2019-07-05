@@ -12,3 +12,6 @@
     * [xy-radio](xy-radio.md)
     * [xy-tab](xy-tab.md)
     * [xy-layout](xy-layout.md)
+    * [xy-input](xy-input.md)
+    * [xy-message](xy-message.md)
+    * [xy-dialog](xy-dialog.md)
