@@ -89,41 +89,42 @@
   <script src="//unpkg.com/docsify-edit-on-github/index.js"></script>
   <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
   <script src="//unpkg.com/docsify/lib/plugins/emoji.min.js"></script>
+  <script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script>
   <script>
     window.$docsify = {
       name: 'xy-ui',
-      repo: '',
       repo: 'https://github.com/XboxYan/XYUI',
       coverpage: 'coverpage.md',
       loadSidebar: 'sidebar.md',
       subMaxLevel: 2,
       auto2top: true,
       plugins: [
-        EditOnGithubPlugin.create('https://github.com/XboxYan/XYUI/tree/master/docs/')
+        EditOnGithubPlugin.create('https://github.com/XboxYan/XYUI/tree/master/docs/'),
+        function(hook, vm) {
+          hook.doneEach(function(){
+            document.getElementById('gitalk-container').innerHTML = "";
+            NewGitalk().render('gitalk-container');
+          });
+        }	
       ]
     }
-    </script>
+    function NewGitalk(){
+      return new Gitalk({
+        clientID: 'aff209ab4dddd16afee0',
+        clientSecret: '5c556fad219b4d99fe2d203d49757a3ee54446ca',
+        repo: 'xy-ui',
+        owner: 'XboxYan',
+        admin: ['XboxYan'],
+        // facebook-like distraction free mode
+        title: location.hash.match(/#(.*?)([?]|$)/)[1],
+        id: location.hash.match(/#(.*?)([?]|$)/)[1],
+        distractionFreeMode: false
+      });
+    }
+    const gitalk = NewGitalk();
+  </script>
   <script src="//unpkg.com/docsify/lib/plugins/search.min.js"></script>
   <script src="//unpkg.com/docsify/lib/plugins/gitalk.min.js"></script>
-  <script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script>
-  <script>
-    const gitalk = new Gitalk({
-      clientID: 'aff209ab4dddd16afee0',
-      clientSecret: '5c556fad219b4d99fe2d203d49757a3ee54446ca',
-      repo: 'xy-ui',
-      owner: 'XboxYan',
-      admin: ['XboxYan'],
-      // facebook-like distraction free mode
-      title: location.hash.match(/#(.*?)([?]|$)/)[1],
-      id: location.hash.match(/#(.*?)([?]|$)/)[1],
-      distractionFreeMode: false
-    })
-    window.onhashchange = function(event){
-      if(event.newURL.split('?')[0] !== event.oldURL.split('?')[0]) {
-        gitalk.render('gitalk-container');
-      }
-    }
-  </script>
   <script type="text/javascript">
     function changeColor(themeColor){
         document.body.style.setProperty('--themeColor',themeColor);
