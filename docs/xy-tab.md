@@ -50,6 +50,40 @@ content.getAttribute('label');
 content.setAttribute('label','tab');
 ```
 
+## 禁用`disabled`
+
+每个`xy-tab-content`可以指定`disabled`属性，用来禁用该标签页。
+
+<xy-tab>
+    <xy-tab-content label="tab1">tab1</xy-tab-content>
+    <xy-tab-content id="tab-content-disabled" label="tab2" disabled>tab2</xy-tab-content>
+    <xy-tab-content label="tab3">tab3</xy-tab-content>
+</xy-tab>
+<xy-switch checked onchange="document.getElementById('tab-content-disabled').disabled = this.checked;"></xy-switch>
+
+```html
+<xy-tab>
+    <xy-tab-content label="tab1">tab1</xy-tab-content>
+    <xy-tab-content label="tab2" disabled>tab2</xy-tab-content>
+    <xy-tab-content label="tab3">tab3</xy-tab-content>
+</xy-tab>
+```
+
+JavaScript操作`get`、`set`
+
+> 作用于`xy-tab-content`
+
+```js
+//xy-tab-content
+content.disabled;
+content.disabled = true;
+content.disabled = false;
+//原生属性操作
+content.getAttribute('disabled');
+content.setAttribute('disabled','');
+content.removeAttribute('disabled');
+```
+
 ## 标识`key`、`activekey`
 
 每个`xy-tab-content`需要指定一个标识`key`，没有会默认以序列号为`key`，
