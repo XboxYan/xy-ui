@@ -88,7 +88,6 @@
   </script>
   <script src="//unpkg.com/docsify-edit-on-github/index.js"></script>
   <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
-  <script src="//unpkg.com/docsify/lib/plugins/emoji.min.js"></script>
   <script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script>
   <script>
     window.$docsify = {
@@ -108,6 +107,7 @@
         }	
       ]
     }
+    const gitalk = NewGitalk();
     function NewGitalk(){
       return new Gitalk({
         clientID: 'aff209ab4dddd16afee0',
@@ -121,10 +121,10 @@
         distractionFreeMode: false
       });
     }
-    const gitalk = NewGitalk();
   </script>
   <script src="//unpkg.com/docsify/lib/plugins/search.min.js"></script>
   <script src="//unpkg.com/docsify/lib/plugins/gitalk.min.js"></script>
+  <script src="//unpkg.com/docsify/lib/plugins/emoji.min.js"></script>
   <script type="text/javascript">
     function changeColor(themeColor){
         document.body.style.setProperty('--themeColor',themeColor);
