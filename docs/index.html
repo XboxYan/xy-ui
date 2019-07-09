@@ -114,8 +114,15 @@
       owner: 'XboxYan',
       admin: ['XboxYan'],
       // facebook-like distraction free mode
+      title: location.hash.match(/#(.*?)([?]|$)/)[1],
+      id: location.hash.match(/#(.*?)([?]|$)/)[1],
       distractionFreeMode: false
     })
+    window.onhashchange = function(event){
+      if(event.newURL.split('?')[0] !== event.oldURL.split('?')[0]) {
+        gitalk.render('gitalk-container');
+      }
+    }
   </script>
   <script type="text/javascript">
     function changeColor(themeColor){

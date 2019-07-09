@@ -1,6 +1,6 @@
 # xy-ui
 
-`xy-ui`是一套使用原生`Web Components`规范开发的跨框架UI组件库。[查看文档](https://xboxyan.codelabo.cn/XYUI/docs)
+`xy-ui`是一套使用原生`Web Components`规范开发的跨框架UI组件库。[查看文档](https://xy-ui.codelabo.cn/docs)
 
 风格参考`Ant Design`、`Metiral Design`。
 
