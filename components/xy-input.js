@@ -105,23 +105,10 @@ export default class XyInput extends HTMLElement {
         .input:not(:placeholder-shown) ~ .input-label,
         .input:focus ~ .input-label{
             transform: translateY( calc( -50% - 6px ) ) scale(0.8);
-        }
-        .input:not(:placeholder-shown) ~ .input-label::after,
-        .input:focus ~ .input-label::after{
             background:#fff;
         }
         .input:-moz-ui-invalid{
             box-shadow:none;
-        }
-        .input-label::after{
-            content:'';
-            position:absolute;
-            z-index:-1;
-            left:0;
-            right:0;
-            height:1px;
-            top:50%;
-            transform:translateY( calc(-50% + 2px ) ) scaleY(1.5);
         }
         .icon-pre{
             display:flex;
@@ -203,6 +190,7 @@ export default class XyInput extends HTMLElement {
     }
 
     checkValidity(){
+        this.input.focus();
         if(this.input.checkValidity()){
             this.inputCon.show = false;
             this.error = false;
@@ -235,7 +223,8 @@ export default class XyInput extends HTMLElement {
                 }
             }));
         })
-        this.input.addEventListener('focus',()=>{
+        this.input.addEventListener('focus',(ev)=>{
+            ev.stopPropagation();
             this.checkValidity();
             this.dispatchEvent(new CustomEvent('focus',{
                 detail:{

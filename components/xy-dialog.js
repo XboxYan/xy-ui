@@ -305,6 +305,7 @@ export default {
             dialog.title = 'Alert';
             dialog.oktext = '确 定';
             dialog.innerText = arguments[0]||'';
+            dialog.onsubmit = arguments[1]||null;
         }
         dialog.open = true;
         return dialog;
@@ -326,6 +327,7 @@ export default {
             dialog.title = 'Info';
             dialog.oktext = '知道了';
             dialog.innerText = arguments[0]||'';
+            dialog.onsubmit = arguments[1]||null;
         }
         dialog.open = true;
         return dialog;
@@ -347,6 +349,7 @@ export default {
             dialog.title = 'Success';
             dialog.oktext = '知道了';
             dialog.innerText = arguments[0]||'';
+            dialog.onsubmit = arguments[1]||null;
         }
         dialog.open = true;
         return dialog;
@@ -368,6 +371,7 @@ export default {
             dialog.title = 'Error';
             dialog.oktext = '知道了';
             dialog.innerText = arguments[0]||'';
+            dialog.onsubmit = arguments[1]||null;
         }
         dialog.open = true;
         return dialog;
@@ -389,12 +393,13 @@ export default {
             dialog.title = 'Warning';
             dialog.oktext = '知道了';
             dialog.innerText = arguments[0]||'';
+            dialog.onsubmit = arguments[1]||null;
         }
         dialog.open = true;
         return dialog;
     },
 
-    confirm: function(text,ok,cancel) {
+    confirm: function() {
         //const dialog = document.createElement('xy-dialog');
         const dialog = new XyDialog();
         document.body.appendChild(dialog);

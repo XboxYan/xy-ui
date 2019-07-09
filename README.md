@@ -4,7 +4,13 @@
 
 风格参考`Ant Design`、`Metiral Design`。
 
-[github](https://github.com/XboxYan/XYUI)
+[github项目地址](https://github.com/XboxYan/xy-ui)
+
+## 文档
+
+该文档基于[docsify](https://docsify.js.org/)动态创建，文中所有组件均为可交互实例。
+
+现集成[gitalk](https://gitalk.github.io/)评论系统，有相关问题可在下方评论区留言。
 
 ## 特性
 

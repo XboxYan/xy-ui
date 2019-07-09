@@ -3,7 +3,7 @@ import './xy-loading.js';
 
 class XyMessage extends HTMLElement {
 
-    static get observedAttributes() { return ['open','header','oktext','canceltext','loading','type'] }
+    static get observedAttributes() { return ['type','icon'] }
 
     constructor() {
         super();
@@ -54,6 +54,9 @@ class XyMessage extends HTMLElement {
         :host([show][type="loading"]) xy-icon{
             display:none;
         }
+        :host xy-icon{
+            color:var(--themeColor,dodgerblue);
+        }
         
         </style>
         <div class="message">
@@ -68,12 +71,20 @@ class XyMessage extends HTMLElement {
         return this.getAttribute('show')!==null;
     }
 
+    get icon() {
+        return this.getAttribute('icon');
+    }
+
     get type() {
         return this.getAttribute('type');
     }
 
     set type(value) {
         this.setAttribute('type', value);
+    }
+
+    set icon(value) {
+        this.setAttribute('icon', value);
     }
 
     set show(value) {
@@ -119,7 +130,7 @@ class XyMessage extends HTMLElement {
         this.shadowRoot.addEventListener('transitionend',(ev)=>{
             if(ev.propertyName === 'transform' && !this.show){
                 messageContent.removeChild(this);
-                this.dispatchEvent(new CustomEvent('hide'));
+                this.dispatchEvent(new CustomEvent('close'));
             }
         })
         this.type= this.type;
@@ -130,6 +141,11 @@ class XyMessage extends HTMLElement {
             if(newValue!==null){
                 this.messageType.name = this.typeMap(newValue).name;
                 this.messageType.color = this.typeMap(newValue).color;
+            }
+        }
+        if( name == 'icon' && this.messageType){
+            if(newValue!==null){
+                this.messageType.name = newValue;
             }
         }
     }
@@ -149,7 +165,7 @@ if(!messageContent){
 
 export default {
 
-    info: function(text,duration) {
+    info: function(text,duration,onclose) {
         const message = new XyMessage();
         message.timer && clearTimeout(message.timer);
         messageContent.appendChild(message);
@@ -157,13 +173,14 @@ export default {
         message.innerText = text||'';
         message.clientWidth;
         message.show = true;
+        message.onclose = onclose;
         message.timer = setTimeout(()=>{
             message.show = false;
         },duration||3000);
         return message;
     },
 
-    success: function(text,duration) {
+    success: function(text,duration,onclose) {
         const message = new XyMessage();
         message.timer && clearTimeout(message.timer);
         messageContent.appendChild(message);
@@ -171,13 +188,14 @@ export default {
         message.innerText = text||'';
         message.clientWidth;
         message.show = true;
+        message.onclose = onclose;
         message.timer = setTimeout(()=>{
             message.show = false;
         },duration||3000);
         return message;
     },
 
-    error: function(text,duration) {
+    error: function(text,duration,onclose) {
         const message = new XyMessage();
         message.timer && clearTimeout(message.timer);
         messageContent.appendChild(message);
@@ -185,13 +203,14 @@ export default {
         message.innerText = text||'';
         message.clientWidth;
         message.show = true;
+        message.onclose = onclose;
         message.timer = setTimeout(()=>{
             message.show = false;
         },duration||3000);
         return message;
     },
 
-    warning: function(text,duration) {
+    warning: function(text,duration,onclose) {
         const message = new XyMessage();
         message.timer && clearTimeout(message.timer);
         messageContent.appendChild(message);
@@ -199,13 +218,14 @@ export default {
         message.innerText = text||'';
         message.clientWidth;
         message.show = true;
+        message.onclose = onclose;
         message.timer = setTimeout(()=>{
             message.show = false;
         },duration||3000);
         return message;
     },
 
-    loading: function(text) {
+    loading: function(text,duration=0,onclose) {
         const message = new XyMessage();
         message.timer && clearTimeout(message.timer);
         messageContent.appendChild(message);
@@ -213,6 +233,29 @@ export default {
         message.innerText = text||'';
         message.clientWidth;
         message.show = true;
+        message.onclose = onclose;
+        if(duration!==0){
+            message.timer = setTimeout(()=>{
+                message.show = false;
+            },duration||3000);
+        }
+        return message;
+    },
+
+    show: function({text,duration,onclose,icon}) {
+        const message = new XyMessage();
+        message.timer && clearTimeout(message.timer);
+        messageContent.appendChild(message);
+        message.icon = icon;
+        message.innerText = text||'';
+        message.clientWidth;
+        message.show = true;
+        message.onclose = onclose;
+        if(duration!==0){
+            message.timer = setTimeout(()=>{
+                message.show = false;
+            },duration||3000);
+        }
         return message;
     }
 }

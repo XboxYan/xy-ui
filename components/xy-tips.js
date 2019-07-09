@@ -149,8 +149,8 @@ export default class XyTips extends HTMLElement {
         :host([type="error"]){
             --color:#f5222d;
         }
-        /* warn */
-        :host([type="warn"]){
+        /* warning */
+        :host([type="warning"]){
             --color:#faad14;
         }
         </style>
@@ -163,10 +163,14 @@ export default class XyTips extends HTMLElement {
     }
 
     get dir() {
-        return this.getAttribute('dir')||'auto';
+        return this.getAttribute('dir')||'top';
     }
 
     get tips() {
+        return this.getAttribute('tips');
+    }
+
+    get type() {
         return this.getAttribute('tips');
     }
 
@@ -188,6 +192,10 @@ export default class XyTips extends HTMLElement {
 
     set show(value) {
         this.setAttribute('show', value);
+    }
+
+    set type(value) {
+        this.setAttribute('type', value);
     }
     
     connectedCallback() {
