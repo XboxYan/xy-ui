@@ -117,8 +117,8 @@
         owner: 'XboxYan',
         admin: ['XboxYan'],
         // facebook-like distraction free mode
-        title: location.hash=='/#'?'/README':location.hash.match(/#(.*?)([?]|$)/)[1],
-        id: location.hash=='/#'?'/README':location.hash.match(/#(.*?)([?]|$)/)[1],
+        title: location.hash==''?'/README':location.hash.match(/#(.*?)([?]|$)/)[1],
+        id: location.hash==''?'/README':location.hash.match(/#(.*?)([?]|$)/)[1],
         distractionFreeMode: false
       });
     }
