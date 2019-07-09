@@ -9,6 +9,7 @@
   <meta name="viewport"
     content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css">
+  <link rel="stylesheet" href="//unpkg.com/gitalk/dist/gitalk.css">
   <style>
     :root {
       --themeColor: #42b983
@@ -75,12 +76,19 @@
     xy-layout {
       background: rgba(33, 150, 243, 0.5);
     }
-    。
   </style>
 </head>
 
 <body>
   <div id="app">Please wait...</div>
+  <script>
+    if (typeof navigator.serviceWorker !== 'undefined') {
+      navigator.serviceWorker.register('sw.js')
+    }
+  </script>
+  <script src="//unpkg.com/docsify-edit-on-github/index.js"></script>
+  <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
+  <script src="//unpkg.com/docsify/lib/plugins/emoji.min.js"></script>
   <script>
     window.$docsify = {
       name: 'xy-ui',
@@ -90,11 +98,25 @@
       loadSidebar: 'sidebar.md',
       subMaxLevel: 2,
       auto2top: true,
+      plugins: [
+        EditOnGithubPlugin.create('https://github.com/XboxYan/XYUI/tree/master/docs/')
+      ]
     }
-  </script>
-  <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
+    </script>
   <script src="//unpkg.com/docsify/lib/plugins/search.min.js"></script>
-  <script src="//unpkg.com/docsify/lib/plugins/emoji.min.js"></script>
+  <script src="//unpkg.com/docsify/lib/plugins/gitalk.min.js"></script>
+  <script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script>
+    const gitalk = new Gitalk({
+      clientID: 'aff209ab4dddd16afee0',
+      clientSecret: '5c556fad219b4d99fe2d203d49757a3ee54446ca',
+      repo: 'https://github.com/XboxYan/xy-ui',
+      owner: 'XboxYan',
+      admin: ['XboxYan'],
+      // facebook-like distraction free mode
+      distractionFreeMode: false
+    })
+  </script>
   <script type="text/javascript">
     function changeColor(themeColor){
         document.body.style.setProperty('--themeColor',themeColor);
