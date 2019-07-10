@@ -75,7 +75,7 @@ tips.setAttribute('dir','right');
 <xy-tips tips="some tips" dir="auto"><xy-button>auto</xy-button></xy-tips>
 ```
 
-## type`类型`
+## 类型`type`
 
 可以通过`type`设置提示框的颜色，有三种类型`success`、`error`、`warning`
 

@@ -110,36 +110,16 @@ export default class XySelect extends HTMLElement {
             visibility:visible;
             transform:scale(1);
         }
-        #select[data-show=true] .arrow::before{
-            transform: rotate(45deg) translateX(2px);
-        }
-        #select[data-show=true] .arrow::after{
-            transform: rotate(-45deg) translateX(-2px);
-        }
         #select[data-show=true] .arrow{
-            transform: translateY(-2px);
+            transform:scaleY(-.8);
         }
         .arrow{
             pointer-events:none;
             position:relative;
-            width: 10px;
-            transition: transform .3s cubic-bezier(.645, .045, .355, 1);
-        }
-        .arrow::before,.arrow::after{
-            position: absolute;
-            width: .4em;
-            height: .1em;
-            background: #fff;
-            background: currentColor;
-            border-radius: 2px;
-            transition: background .3s cubic-bezier(.645, .045, .355, 1),transform .3s cubic-bezier(.645, .045, .355, 1),top .3s cubic-bezier(.645, .045, .355, 1);
-            content: '';
-        }
-        .arrow::before{
-            transform: rotate(-45deg) translateX(.1em);
-        }
-        .arrow::after{
-            transform: rotate(45deg) translateX(-.1em);
+            font-size:.9em;
+            transform:scaleY(.8);
+            transition: all 0s, transform .3s;
+            margin-left:.5em;
         }
         .placeholder{
             font-style:normal;
@@ -147,7 +127,7 @@ export default class XySelect extends HTMLElement {
         }
         
         </style>
-        <xy-button id="select" ${this.disabled? "disabled" : ""} ${this.type?("type="+this.type):""}><span id="value"></span><i class="arrow"></i></xy-button>
+        <xy-button id="select" ${this.disabled? "disabled" : ""} ${this.type?("type="+this.type):""}><span id="value"></span><xy-icon class="arrow" name="down"></xy-icon></xy-button>
         <div class="options" id="options">
             <slot id="slot"></slot>
         </div>
