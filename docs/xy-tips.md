@@ -46,13 +46,13 @@ tips.setAttribute('tips','some tips');
 
 通过`dir`可以设置气泡框方向，默认为`top`，可以取值`top`、`right`、`bottom`、`left`。
 
-<xy-tips tips="some tips" dir="up"><xy-button>up</xy-button></xy-tips>
+<xy-tips tips="some tips" dir="top"><xy-button>top</xy-button></xy-tips>
 <xy-tips tips="some tips" dir="right"><xy-button>right</xy-button></xy-tips>
 <xy-tips tips="some tips" dir="down"><xy-button>down</xy-button></xy-tips>
 <xy-tips tips="some tips" dir="left"><xy-button>left</xy-button></xy-tips>
 
 ```html
-<xy-tips tips="some tips" dir="up"><xy-button>up</xy-button></xy-tips>
+<xy-tips tips="some tips" dir="top"><xy-button>top</xy-button></xy-tips>
 <xy-tips tips="some tips" dir="right"><xy-button>right</xy-button></xy-tips>
 <xy-tips tips="some tips" dir="down"><xy-button>down</xy-button></xy-tips>
 <xy-tips tips="some tips" dir="left"><xy-button>left</xy-button></xy-tips>

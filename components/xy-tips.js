@@ -208,7 +208,7 @@ export default class XyTips extends HTMLElement {
                 this.dir = 'down';
             }
             if( h-top-height < TIP_SIZE ){
-                this.dir = 'up';
+                this.dir = 'top';
             }
             if( left < TIP_SIZE ){
                 this.dir = 'right';

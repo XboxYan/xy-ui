@@ -5,7 +5,7 @@ export default class XyInput extends HTMLElement {
 
     static get observedAttributes() { return ['label','disabled','pattern','required'] }
 
-    constructor(multi) {
+    constructor({multi}={}) {
         super();
         this.multi = multi;
         const shadowRoot = this.attachShadow({ mode: 'open' });
@@ -470,7 +470,7 @@ export default class XyInput extends HTMLElement {
 
 class XyTextarea extends XyInput {
     constructor() {
-        super(true);
+        super({multi:true});
     }
 }
 
