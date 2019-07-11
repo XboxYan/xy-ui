@@ -7,7 +7,7 @@
 ```html
 <!-- 引入 -->
 <script type="module">
-    import './components/xy-checkbox.js';
+    import './node_modules/xy-ui/components/xy-checkbox.js';
 </script>
 <!-- 使用 -->
 <xy-checkbox>checkbox</xy-checkbox>

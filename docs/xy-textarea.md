@@ -7,7 +7,7 @@
 ```html
 <!-- 引入 -->
 <script type="module">
-    import './components/xy-input.js';
+    import './node_modules/xy-ui/components/xy-input.js';
 </script>
 <!-- 使用 -->
 <xy-textarea></xy-textarea>

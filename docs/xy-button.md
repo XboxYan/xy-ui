@@ -7,7 +7,7 @@
 ```html
 <!-- 引入 -->
 <script type="module">
-    import '../components/xy-button.js';
+    import './node_modules/xy-ui/components/xy-button.js';
 </script>
 <!-- 使用 -->
 <xy-button>button</xy-button>

@@ -7,7 +7,7 @@
 ```html
 <!-- 引入 -->
 <script type="module">
-    import './components/xy-tab.js';
+    import './node_modules/xy-ui/components/xy-tab.js';
 </script>
 <!-- 使用 -->
 <xy-tab>

@@ -7,10 +7,9 @@
 ```html
 <!-- 引入 -->
 <script type="module">
-    import XyDialog from './components/xy-dialog.js';
-    window.XyDialog = XyDialog;
+    import XyDialog from './node_modules/xy-ui/components/xy-dialog.js';
     //使用
-    XyMessage.info('info);
+    XyDialog.alert('alert');
 </script>
 <!-- 使用 -->
 <xy-dialog>
@@ -18,6 +17,8 @@
 </xy-dialog>
 ```
 !> `<script type="module"></script>`中的变量是局部变量，如果需要`XyDialog`在全局范围内使用，可以执行`window.XyDialog = XyDialog;`。
+
+> 如果是全部引用则没有这个问题，已经默认挂载在`window`对象上了
 
 ## XyDialog[level]
 

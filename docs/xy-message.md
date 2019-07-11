@@ -7,13 +7,15 @@
 ```html
 <!-- 引入 -->
 <script type="module">
-    import XyMessage from './components/xy-message.js';
+    import XyMessage from './node_modules/xy-ui/components/xy-message.js';
     window.XyMessage = XyMessage;
     //使用
     XyMessage.info('info);
 </script>
 ```
 !> `<script type="module"></script>`中的变量是局部变量，如果需要`XyMessage`在全局范围内使用，可以执行`window.XyMessage = XyMessage;`。
+
+> 如果是全部引用则没有这个问题，已经默认挂载在`window`对象上了
 
 ## XyMessage[level]
 

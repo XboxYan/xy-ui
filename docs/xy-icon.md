@@ -9,17 +9,21 @@
 ```html
 <!-- 引入 -->
 <script>
-    window.iconUrl = './iconfont/icon.svg';//设置icon.svg的相对路径
+    window.iconUrl = './node_modules/xy-ui/iconfont/icon.svg';//设置icon.svg的相对路径
+    //或者设置basePath
+    window.basePath = '/';
 </script>
 <script type="module">
-    import './components/xy-icon.js';
+    import './node_modules/xy-ui/components/xy-icon.js';
 </script>
 <!-- 使用 -->
 <xy-icon name="user" size="30" color="orangered"></xy-icon>
 ```
 
-!> 需设置`iconUrl`，由于`xy-icon`是使用`SVG Sprite`技术，采用外链SVG文件实现。如果使用相对路径，需跟随`html`文件。
-同时`<script type="module">`是异步的，设置`iconUrl`必须要在页面上`<xy-icon></xy-icon>`生成之前，所以使用传统`<script>`标签提前设置。
+### 设置`window.iconUrl`
+
+如果是直接引用文件，需设置`iconUrl`，由于`xy-icon`是使用`SVG Sprite`技术，采用外链SVG文件实现。如果使用相对路径，需跟随`html`文件。
+同时`<script type="module">`是异步的，设置`window.iconUrl`必须要在页面上`<xy-icon></xy-icon>`生成之前，所以使用传统`<script>`标签提前设置。
 
 例如项目文件夹如下
 
@@ -59,6 +63,21 @@
 ```
 
 始终相对于`html`文件。
+
+### 设置`window.basePath`
+
+当使用`npm`创建时，推荐设置`window.basePath`，页面加载的路径，默认为根路径`/`。
+
+例如，项目最终的`index.html`访问路径是`http://127.0.0.1:5500/build/index.html`
+
+则需设置
+
+```html
+<script>
+    window.basePath = '/build/';
+</script>
+```
+
 
 
 ## 名称`name`

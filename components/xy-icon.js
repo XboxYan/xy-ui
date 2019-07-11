@@ -1,5 +1,5 @@
 //https://www.iconfont.cn/collections/detail?spm=a313x.7781069.1998910419.d9df05512&cid=9402
-const iconUrl = '//xboxyan.codelabo.cn/source/iconfont/icon.svg';
+const iconUrl = `${window.basePath||'/'}node_modules/xy-ui/iconfont/icon.svg`;
 
 export default class XyIcon extends HTMLElement {
 

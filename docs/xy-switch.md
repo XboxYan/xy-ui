@@ -7,7 +7,7 @@
 ```html
 <!-- 引入 -->
 <script type="module">
-    import './components/xy-switch.js';
+    import './node_modules/xy-ui/components/xy-switch.js';
 </script>
 <!-- 使用 -->
 <xy-switch></xy-switch>

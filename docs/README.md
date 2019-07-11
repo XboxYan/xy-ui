@@ -62,7 +62,13 @@
 
 ## 安装
 
-目前还没有托管`npm`，可以在`github`上获取最新文件。
+方式一：通过`npm`
+
+```shell
+npm i xy-ui
+```
+
+方式二：直接在`github`上获取最新文件。
 
 目录如下：
 
@@ -79,63 +85,35 @@
 
 将`components`和`iconfont`文件夹放入项目当中。
 
-## 依赖
-
-部分组件使用需要依赖其他组件，依赖关系如下
-
-|组件|依赖项|描述|
-|---|---|---|
-|`xy-button`|`xy-icon`、`xy-loading`|按钮。组件使用了`icon`和`loading`属性。|
-|`xy-icon`|无|图标。|
-|`xy-slider`|`xy-tips`|滑动条。组件使用了`showtips`属性。|
-|`xy-select`|`xy-button`|下拉选择器。组件内部使用`xy-button`组合而成。|
-|`xy-tab`|`xy-button`|标签页。组件导航按钮使用了`xy-button`。|
-|`xy-loading`|无|加载。|
-|`xy-switch`|无|开关。|
-|`xy-checkbox`|无|多选。|
-|`xy-radio`|无|单选。|
-|`xy-tips`|无|提示。|
-|`xy-message`|`xy-icon`|全局提示。提示信息图标使用`xy-icon`。|
-|`xy-dialog`|`xy-icon`、`xy-button`、`xy-loading`|弹窗提示。提示信息图标使用`xy-icon`，确认取消按钮使用了`xy-button`。组件使用了`loading`属性。|
-|`xy-layout`|无|布局。|
-|`xy-input`|`xy-icon`、`xy-button`、`xy-tips`|输入框。组件使用了`icon`属性，同时有`xy-button`交互，表单验证使用了`xy-tips`信息提示。|
-|`xy-textarea`|同上|多行输入框。同上。|
-
-无依赖组件直接引入单独`js`即可，有依赖组件需要引入相关`js`。
-
-如需单独使用`xy-tips`组件，仅需引用`xy-tips.js`。
-
-```js
-// .
-// └── project
-//     ├── components
-//     |   └── xy-tips.js
-//     └── index.html
-import './components/xy-tips.js';
-```
-
-如需单独使用`xy-input`组件，需引用`xy-input.js`、`xy-button.js`、`xy-icon.js`、`xy-tips.js`。
-
-```js
-// └── project
-//     ├── components
-//     |   ├── xy-input.js
-//     |   ├── xy-button.js
-//     |   ├── xy-icon.js
-//     |   └── xy-tips.js
-//     └── index.html
-import './components/xy-input.js';
-```
-
-> 大部分情况下全部引用即可
-
 ## 引用
+
+### 设置window.iconUrl
+
+```html
+<script>
+    window.iconUrl = './node_modules/xy-ui/iconfont/icon.svg';//设置icon.svg的相对路径
+</script>
+```
+
+### 设置window.basePath
+
+当使用`npm`创建时，需设置`window.basePath`，页面加载的路径，默认为根路径`/`。
+
+```html
+<script>
+    window.basePath = '/build/';
+</script>
+```
+
+> 设置`window.iconUrl`或者`window.basePath`是为了保证`xy-icon`的引用路径，详细可参考`xy-icon`文档。
 
 ### html引用
 
 ```html
 <script type="module">
-    import './components/xy-button.js';
+    import './node_modules/xy-ui/index.js'; //推荐
+    //如需单独使用，文档中都是单独使用的情况，推荐全部引用，即第一种方式。
+    import './node_modules/xy-ui/components/xy-button.js';
 </script>
 <xy-button>button</xy-button>
 ```
@@ -145,7 +123,9 @@ import './components/xy-input.js';
 ### react项目引用
 
 ```js
-import './components/xy-icon.js';
+import 'xy-ui';//推荐
+//如需单独使用
+import 'xy-ui/components/xy-button.js';
 ReactDOM.render(<xy-button>button</xy-button>, document.body);
 ```
 
@@ -182,7 +162,7 @@ document.body.appenChild(btn);
 自定义组件是通过`class`定义，可以通过`new`来实例化。
 
 ```js
-import XyButton from './components/xy-button.js';
+import XyButton from './index.htmlnode_modules/components/xy-button.js';
 const btn = new XyButton();
 document.body.appenChild(btn);
 ```
