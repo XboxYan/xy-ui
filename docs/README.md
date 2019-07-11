@@ -93,6 +93,8 @@ npm i xy-ui
 
 ### 设置window.iconUrl
 
+设置图标库的相对路径。
+
 ```html
 <script>
     window.iconUrl = './node_modules/xy-ui/iconfont/icon.svg';//设置icon.svg的相对路径
@@ -101,6 +103,8 @@ npm i xy-ui
 
 ### 设置window.basePath
 
+设置图标库的绝对路径。
+
 当使用`npm`创建时，需设置`window.basePath`，页面加载的路径，默认为根路径`/`。
 
 ```html
@@ -108,6 +112,8 @@ npm i xy-ui
     window.basePath = '/build/';
 </script>
 ```
+
+以上两种方式选其一。
 
 > 设置`window.iconUrl`或者`window.basePath`是为了保证`xy-icon`的引用路径，详细可参考`xy-icon`文档。
 
