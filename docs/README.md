@@ -166,7 +166,7 @@ document.body.appenChild(btn);
 自定义组件是通过`class`定义，可以通过`new`来实例化。
 
 ```js
-import XyButton from './index.htmlnode_modules/components/xy-button.js';
+import XyButton from './node_modules/components/xy-button.js';
 const btn = new XyButton();
 document.body.appenChild(btn);
 ```
