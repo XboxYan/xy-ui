@@ -73,10 +73,30 @@
       padding: 5px 10px;
       color: #fff;
     }
-    .gt-header-textarea{
+    .gt-container .gt-header-textarea{
+      border-radius: 3px;
       font-family: auto;
     }
-
+    .gt-container .gt-btn-preview,.gt-container .gt-btn-preview:hover{
+      color: var(--themeColor);
+      border-color: var(--themeColor);
+    }
+    .gt-container .gt-btn-login{
+      background:var(--themeColor);
+      border-color: var(--themeColor);
+    }
+    .gt-container .gt-header-controls-tip,.gt-container .gt-header-controls-tip:hover{
+      color: var(--themeColor);
+    }
+    .gt-container .gt-svg svg{
+      fill:var(--themeColor);
+    }
+    .gt-container .gt-btn{
+      border-radius: 3px;
+    }
+    .gt-container .gt-comment-username,.gt-container a,.gt-container a:hover{
+      color: var(--themeColor);
+    }
     xy-layout {
       background: rgba(33, 150, 243, 0.5);
     }
@@ -129,6 +149,7 @@
   <script src="//unpkg.com/docsify/lib/plugins/search.min.js"></script>
   <script src="//unpkg.com/docsify/lib/plugins/gitalk.min.js"></script>
   <script src="//unpkg.com/docsify/lib/plugins/emoji.min.js"></script>
+  <script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
   <script type="text/javascript">
     function changeColor(themeColor){
         document.body.style.setProperty('--themeColor',themeColor);
