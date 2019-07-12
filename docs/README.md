@@ -24,38 +24,6 @@
 * 无依赖。纯原生，无需任何预处理器编译。
 * 无障碍。支持键盘访问。
 
-## 原则
-
-在实现组件功能时，遵循`CSS`为主，`JavaScript`为辅的思路，`UI`和业务逻辑分离，使得代码结构上更加简约。
-
-比如`xy-button`有一个点击扩散的水波纹效果，就是采用`CSS`来实现，`JavaScript`只是辅助完成鼠标位置的获取
-
-```css
-.btn::after {
-    content: "";
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    left: var(--x,0); 
-    top: var(--y,0);
-    pointer-events: none;
-    background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
-    background-repeat: no-repeat;
-    background-position: 50%;
-    transform: translate(-50%,-50%) scale(10);
-    opacity: 0;
-    transition: transform .3s, opacity .8s;
-}
-.btn:not([disabled]):active::after {
-    transform: translate(-50%,-50%) scale(0);
-    opacity: .3;
-    transition: 0s;
-}
-```
-
-详细可查看源码。大部分组件都是类似的设计。
-
 ## 兼容性
 
 现代浏览器。
