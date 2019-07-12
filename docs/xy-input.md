@@ -334,3 +334,7 @@ input.focus();
 
 <xy-input required placeholder="required"></xy-input>
 <xy-button type="primary" onclick="this.previousElementSibling.checkValidity()">主动校验</xy-button>
+
+```js
+input.checkValidity();
+```
