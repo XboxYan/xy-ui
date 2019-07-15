@@ -71,6 +71,26 @@ slider.setAttribute('showtips','');
 slider.removeAttribute('showtips');
 ```
 
+## 后缀`suffix`
+
+在`showtips`的情况下，如果添加`suffix`，可以在显示`value`时追加一个后缀。比如单位，百分比。
+
+<xy-slider defaultvalue="30" showtips suffix="%"></xy-slider>
+<xy-slider defaultvalue="50" showtips suffix="km"></xy-slider>
+
+```html
+<xy-slider defaultvalue="30" showtips suffix="%"></xy-slider>
+<xy-slider defaultvalue="50" showtips suffix="km"></xy-slider>
+```
+
+JavaScript操作`set`
+
+```js
+slider.suffix = '%';
+//原生属性操作
+slider.setAttribute('suffix','%');
+```
+
 ## 最小值`min`、最大值`max`、步长`step`
 
 设置或返回滑块条的`min`和`max`属性值。默认值分别为`0`和`100`。

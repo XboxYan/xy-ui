@@ -1,5 +1,7 @@
 # update
-
+* ## 1.0.2
+    * 修复已知bug
+    * `xy-slider` 新增`suffix`属性
 * ## 1.0.0
     * 完成基本组件
     - [x] [xy-button](xy-button.md)

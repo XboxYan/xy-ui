@@ -2,7 +2,7 @@ import './xy-tips.js';
 
 export default class XySlider extends HTMLElement {
 
-    static get observedAttributes() { return ['min','max','step','disabled','showtips'] }
+    static get observedAttributes() { return ['min','max','step','disabled','showtips','suffix'] }
 
     constructor() {
         super();
@@ -78,7 +78,7 @@ export default class XySlider extends HTMLElement {
             background: #fff;
         }
         </style>
-        <xy-tips id='slider-con' dir="top" style="--percent:${(this.defaultvalue-this.min)/(this.max-this.min)}" tips="${this.showtips&&!this.disabled?this.defaultvalue:''}"><input id='slider' value=${this.defaultvalue} min=${this.min} max=${this.max} step=${this.step} ${this.disabled?"disabled":""} type='range'></xy-tips>
+        <xy-tips id='slider-con' dir="top" style="--percent:${(this.defaultvalue-this.min)/(this.max-this.min)}" tips="${this.showtips&&!this.disabled?this.defaultvalue:''}" suffix="${this.suffix}"><input id='slider' value=${this.defaultvalue} min=${this.min} max=${this.max} step=${this.step} ${this.disabled?"disabled":""} type='range'></xy-tips>
         `
     } 
 
@@ -128,6 +128,10 @@ export default class XySlider extends HTMLElement {
 
     get defaultvalue() {
         return this.getAttribute('defaultvalue')||0;
+    }
+
+    get suffix() {
+        return this.getAttribute('suffix')||'';
     }
 
     get min() {
@@ -188,6 +192,10 @@ export default class XySlider extends HTMLElement {
         this.setAttribute('step', value);
     }
 
+    set suffix(value) {
+        this.setAttribute('suffix', value);
+    }
+
     attributeChangedCallback (name, oldValue, newValue) {
         if( this.slider && oldValue!==newValue && !this._oninput){
             if(name == 'disabled'){
@@ -200,6 +208,9 @@ export default class XySlider extends HTMLElement {
                 this.slider[name] = newValue;
                 this[name] = newValue;
                 this.sliderCon.style.setProperty('--percent',(this.value-this.min)/(this.max-this.min));
+                if( name === 'suffix'){
+                    this.sliderCon.suffix = newValue;
+                }
             }
         }
     }

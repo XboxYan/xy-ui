@@ -137,7 +137,7 @@ document.body.appenChild(btn);
 
 ### new 操作符
 
-自定义组件是通过`class`定义，可以通过`new`来实例化。
+自定义组件是通过`class`定义，内部可以通过`new`来实例化。
 
 ```js
 import XyButton from './node_modules/components/xy-button.js';

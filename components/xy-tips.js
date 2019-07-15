@@ -29,7 +29,7 @@ export default class XyTips extends HTMLElement {
         }
         
         :host([tips]:not([tips='']))::before {
-            content: attr(tips);
+            content: attr(tips) attr(suffix);
             border-radius: 3px;
             padding: 6px 10px;
             line-height: 18px;
@@ -173,6 +173,10 @@ export default class XyTips extends HTMLElement {
     get type() {
         return this.getAttribute('tips');
     }
+    
+    get suffix() {
+        return this.getAttribute('suffix')||'';
+    }
 
     get show() {
         return this.getAttribute('show')!==null;
@@ -188,6 +192,10 @@ export default class XyTips extends HTMLElement {
 
     set tips(value) {
         this.setAttribute('tips', value);
+    }
+
+    set suffix(value) {
+        this.setAttribute('suffix', value);
     }
 
     set show(value) {

@@ -31,7 +31,6 @@ export default class XyButton extends HTMLElement {
         :host(:focus-within){ box-shadow: 0 0 10px rgba(0,0,0,0.1); }
         .btn{ display:flex; width:100%; height: 100%; align-items:center; color: inherit; line-height: inherit; font-size: inherit;  background:none; outline:0; border:0; position: relative; padding:0 .8em; user-select: none; }
         :host([block]) .btn{ justify-content: center;  }
-        :host([loading]) .btn{ direction:rtl;  }
         :host([loading]) xy-loading{ margin-right: 5px;  }
         ::-moz-focus-inner{border:0;}
         .btn::after {
@@ -151,7 +150,7 @@ export default class XyButton extends HTMLElement {
         }
         if( name == 'loading' && this.btn){
             if(newValue!==null){
-                this.btn.appendChild(this.load);
+                this.btn.prepend(this.load);
                 this.btn.setAttribute('disabled', 'disabled');
             }else{
                 this.btn.removeChild(this.load);
