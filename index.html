@@ -18,6 +18,7 @@
         .box{ width: 100px; height: 100px; color: #fff; }
         .header,.footer{ padding: 5px 10px; color: #fff; }
         xy-layout{ background: rgba(33, 150, 243, 0.5); }
+        xy-img{ width: 200px; }
     </style>
     <!-- <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.2.10/webcomponents-bundle.js"></script> -->
     <!--
@@ -280,6 +281,19 @@
     <xy-textarea placeholder="rows" rows="5" ></xy-textarea>
     <xy-textarea label="info" placeholder="info" ></xy-textarea>
     <xy-textarea icon="location" placeholder="location" ></xy-textarea>
+    <h2>img</h2>
+    <p>src</p>
+    <xy-img src="https://images.pexels.com/photos/841228/pexels-photo-841228.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
+    <p>lazy</p>
+    <xy-img lazy src="https://images.pexels.com/photos/698808/pexels-photo-698808.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
+    <xy-img lazy src="https://images.pexels.com/xxx.jpg" alt="image-keyboard"></xy-img>
+    <p>defaultsrc</p>
+    <xy-img lazy src="https://images.pexels.com/xxx.jpg" defaultsrc="https://images.pexels.com/photos/841228/pexels-photo-841228.jpeg?auto=compress&cs=tinysrgb&w=200"></xy-img>
+    <xy-img lazy src="https://images.pexels.com/xxx.jpg" defaultsrc="https://images.pexels.com/xxxx.jpg"></xy-img>
+    <p>gallery</p>
+    <xy-img lazy gallery src="https://images.pexels.com/photos/841228/pexels-photo-841228.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
+    <xy-img lazy gallery src="https://images.pexels.com/photos/698808/pexels-photo-698808.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
+    <xy-img lazy gallery src="https://images.pexels.com/photos/1440387/pexels-photo-1440387.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
     <script>
         document.getElementById('btn').addEventListener('click',function(ev){
             console.log(ev)
