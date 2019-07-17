@@ -55,7 +55,7 @@ export default class XyButton extends HTMLElement {
             transition: 0s;
         }
         xy-icon{
-            margin-inline-end: 5px;
+            margin-right: 5px;
             transition: none;
         }
         :host(:empty) xy-icon{
