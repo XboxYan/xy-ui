@@ -17,35 +17,56 @@ class XyGallery extends HTMLElement {
             right:0;
             bottom:0;
             z-index:-1;
-            background:rgba(0,0,0,.3);
+            background:rgba(0,0,0,.5);
             visibility:hidden;
             opacity:0;
-            transition:.3s;
+            transition: .3s;
+            justify-content: center;
+            align-items: center;
         }
         :host([open]){
             opacity:1;
             z-index:10;
             visibility:visible;
         }
-        .dialog {
-            display:flex;
-            position:relative;
-            min-width: 400px;
-            margin:auto;
-            box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
-            box-sizing: border-box;
-            max-width: calc(100vw - 20px);
-            max-height: calc(100vh - 20px);
-            border-radius: 3px;
-            background-color: #fff;
-            transform:scale(0);
-            transition:.3s transform cubic-bezier(.645, .045, .355, 1);
-        }
-        :host([open]) .dialog{
-            transform:scale(1);
-        }
         ::slotted(img){
             position:absolute;
+            max-width: 80%;
+            max-height: 80%;
+            width:auto!important;
+            height:auto!important;
+            outline: 10px solid #fff;
+            transform:scale(.5);
+            opacity:0;
+            visibility:hidden;
+            box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+            transition:.3s cubic-bezier(.645, .045, .355, 1);
+        }
+        :host([open]) ::slotted(img){
+            opacity:1;
+            transform:scale(1);
+            filter: contrast(0.5);
+            visibility:visible;
+        }
+        :host([open]) ::slotted(img.current){
+            z-index:2;
+            filter: contrast(1);
+        }
+        .dots{
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+        }
+        .dots i{
+            width:20px;
+            height:20px;
+            background:#fff;
+            border-radius:50%;
+            margin:0 10px;
+            cursor:pointer;
         }
         .btn-close{
             position:absolute;
@@ -54,9 +75,8 @@ class XyGallery extends HTMLElement {
         }
         </style>
         <xy-icon id="dialog-type" class="dialog-type"></xy-icon>
-        <div class="dialog">
-            <slot></slot>
-        </div>
+        <slot id="slot"></slot>
+        <div class="dots" id="dots"></div>
         `
     }
 
@@ -74,15 +94,59 @@ class XyGallery extends HTMLElement {
 
     show(index){
         this.open = true;
+        this.index = this.indexlist.indexOf(index);
+        this.change(index);
+    }
+
+    change(index){
+        const pre = this.querySelector(`img.current`);
+        if(pre){
+            pre.classList.remove('current');
+        }
+        this.querySelector(`img[data-index="${index}"]`).classList.add('current');
+    }
+
+    add(img,index){
+        this.indexlist.push(index);
+        this.appendChild(img);
+    }
+
+    go(step){
+        this.index+=step;
+        const len = this.indexlist.length;
+        if(this.index > len-1){
+            this.index = 0;
+        }
+        if(this.index<0){
+            this.index = len-1;
+        }
+        this.index%=this.indexlist.length;
+        this.change(this.indexlist[this.index]);
     }
 
     remove(index){
+        this.indexlist = this.indexlist.filter(el=>el!=index);
         const child = this.querySelector(`img[data-index="${index}"]`);
         child && this.removeChild(child);
     }
 
     connectedCallback() {
-        
+        this.indexlist = [];
+        this.slots = this.shadowRoot.getElementById('slot');
+        this.dots = this.shadowRoot.getElementById('dots');
+        this.slots.addEventListener('slotchange', ()=>{
+            this.indexlist = this.indexlist.sort((a,b)=>a-b);
+            let html = ''
+            this.indexlist.forEach(el=>{
+                html+='<i data-index='+el+'></i>'
+            })
+            this.dots.innerHTML = html;
+        });
+        this.dots.addEventListener('click',(ev)=>{
+            if(ev.target.tagName === 'I'){
+                this.change(ev.target.dataset.index);
+            }
+        })
     }
 
     attributeChangedCallback() {
@@ -98,7 +162,7 @@ if(!customElements.get('xy-gallery')){
 
 export default class XyImg extends HTMLElement {
 
-    static get observedAttributes() { return ['lazy','src','defaultsrc'] }
+    static get observedAttributes() { return ['lazy','src','defaultsrc','ratio'] }
 
     constructor() {
         super();
@@ -129,12 +193,26 @@ export default class XyImg extends HTMLElement {
         :host([alt]:hover)::before{
             transform:translateY(0);
         }
+        :host([ratio*="/"]){
+            height:auto!important;
+        }
+        :host([ratio*="/"]) img{
+            position:absolute;
+            left: 0;
+            top: 0;
+            width:100%;
+            height: 100%;
+        }
+        :host([ratio*="/"]) .placeholder{
+            position: relative;
+            padding-top:100%;
+        }
         img {
             box-sizing: border-box;
             color:transparent;
             display: inline-block;
-            width:100%;
-            height:100%;
+            width: inherit;
+            height: inherit;
             vertical-align: top;
             border:0;
             opacity:0;
@@ -173,14 +251,10 @@ export default class XyImg extends HTMLElement {
         }
         .placeholder{
             position:absolute;
-            display:flex;
             width:100%;
             height:100%;
-            justify-content:center;
-            align-items:center;
-            font-size:14px;
+            box-sizing:border-box;
             z-index:-1;
-            color:#666;
             visibility:hidden;
         }
         :host([error]) .placeholder{
@@ -196,6 +270,18 @@ export default class XyImg extends HTMLElement {
         .placeholder xy-icon {
             font-size:16px;
             margin-right:5px;
+        }
+        .placeholder-icon{
+            position:absolute;
+            font-size:14px;
+            color:#666;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            left:0;
+            right:0;
+            top:50%;
+            transform:translateY(-50%);
         }
         .view{
             position:absolute;
@@ -218,7 +304,7 @@ export default class XyImg extends HTMLElement {
             transform:translate(-50%,-50%) scale(1);
         }
         </style>
-        <div class='placeholder' id='placeholder'><xy-icon name="image"></xy-icon>${this.alt}</div>
+        <div class="placeholder" id="placeholder" style="${this.ratio?'padding-top:'+this.ratio:''}"><div class="placeholder-icon"><xy-icon name="image"></xy-icon>${this.alt}</div></div>
         <xy-icon class="view" name='View'></xy-icon>
         `
     }
@@ -229,6 +315,16 @@ export default class XyImg extends HTMLElement {
 
     get defaultsrc() {
         return this.getAttribute('defaultsrc');
+    }
+
+    get ratio() {
+        //16/9
+        const ratio = this.getAttribute('ratio');
+        if(ratio && ratio.includes('/')){
+            const r = ratio.split('/');
+            return (r[1]/r[0]*100)+'%';
+        }
+        return 0;
     }
 
     get lazy() {
@@ -261,6 +357,9 @@ export default class XyImg extends HTMLElement {
 
     set fit(value) {
         this.setAttribute('fit', value);
+    }
+    set ratio(value) {
+        this.setAttribute('ratio', value);
     }
 
     set error(value) {
@@ -295,15 +394,20 @@ export default class XyImg extends HTMLElement {
     }
 
     initgallery(){
-        console.log()
         if(this.gallery!==null){
             if(!window['XyGallery'+this.gallery]){
                 window['XyGallery'+this.gallery] = new XyGallery();
                 document.body.appendChild(window['XyGallery'+this.gallery]);
             }
+            this.img.addEventListener('click',()=>{
+                if(!this.default){
+                    window['XyGallery'+this.gallery].show(this.XyImgIndex);
+                }
+            })
             const img = this.img.cloneNode(true);
+            img.style.order = this.XyImgIndex;
             img.dataset.index = this.XyImgIndex;
-            window['XyGallery'+this.gallery].appendChild(img);
+            window['XyGallery'+this.gallery].add(img,this.XyImgIndex);
         }
     }
     
@@ -341,6 +445,9 @@ export default class XyImg extends HTMLElement {
         if( name == 'src' && this.img){
             this.placeholder.classList.remove('show');
             this.load(newValue);
+        }
+        if( name == 'ratio' && this.img){
+            this.placeholder.style.paddingTop = this.ratio;
         }
     }
 
