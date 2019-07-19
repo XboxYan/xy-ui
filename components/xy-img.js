@@ -43,14 +43,13 @@ class XyGallery extends HTMLElement {
             transition:.3s cubic-bezier(.645, .045, .355, 1);
         }
         :host([open]) ::slotted(img){
-            opacity:1;
-            transform:scale(1);
-            filter: contrast(0.5);
+            
             visibility:visible;
         }
         :host([open]) ::slotted(img.current){
             z-index:2;
-            filter: contrast(1);
+            opacity:1;
+            transform:scale(1);
         }
         .dots{
             position: absolute;
@@ -61,20 +60,65 @@ class XyGallery extends HTMLElement {
             justify-content: center;
         }
         .dots i{
+            box-sizing:border-box;
             width:20px;
             height:20px;
-            background:#fff;
             border-radius:50%;
             margin:0 10px;
             cursor:pointer;
+            padding:3px;
+            color:#fff;
+            background-clip: content-box;
+            transition: .3s;
+            border:2px solid;
+        }
+        .dots i.current{
+            background-color: currentColor;
+        }
+        .dots i:only-of-type{
+            visibility:hidden;
         }
         .btn-close{
             position:absolute;
-            right:10px;
-            top:10px;
+            right:0;
+            top:0;
+            color:#fff;
+            width:40px;
+            height:40px;
+            font-size:30px;
+            background:none;
+            border:0;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            cursor:pointer;
+            outline:0;
+        }
+        .btn-close::after{
+            content:'';
+            position:absolute;
+            left:0;
+            top:0;
+            width:100%;
+            height:100%;
+            border-radius:0 0 0 100%;
+            background:#fff;
+            transform: scale(0);
+            transition: .3s;
+            z-index:-1;
+            transform-origin: right top;
+        }
+        .btn-close xy-icon{
+            transform: scaleY(.9);
+        }
+        .btn-close:hover::after,.btn-close:focus::after{
+            transform: scale(1.3);
+        }
+        .btn-close:hover xy-icon,.btn-close:focus xy-icon{
+            color:#f5222d;
         }
         </style>
-        <xy-icon id="dialog-type" class="dialog-type"></xy-icon>
+        <button id="close" class="btn-close"><xy-icon name="close"></xy-icon></button>
         <slot id="slot"></slot>
         <div class="dots" id="dots"></div>
         `
@@ -99,11 +143,14 @@ class XyGallery extends HTMLElement {
     }
 
     change(index){
-        const pre = this.querySelector(`img.current`);
-        if(pre){
-            pre.classList.remove('current');
+        const preimg = this.querySelector(`img.current`);
+        const predots = this.dots.querySelector(`i.current`);
+        if(preimg&&predots){
+            preimg.classList.remove('current');
+            predots.classList.remove('current');
         }
         this.querySelector(`img[data-index="${index}"]`).classList.add('current');
+        this.dots.querySelector(`i[data-index="${index}"]`).classList.add('current');
     }
 
     add(img,index){
@@ -134,11 +181,12 @@ class XyGallery extends HTMLElement {
         this.indexlist = [];
         this.slots = this.shadowRoot.getElementById('slot');
         this.dots = this.shadowRoot.getElementById('dots');
+        this.close = this.shadowRoot.getElementById('close');
         this.slots.addEventListener('slotchange', ()=>{
             this.indexlist = this.indexlist.sort((a,b)=>a-b);
             let html = ''
             this.indexlist.forEach(el=>{
-                html+='<i data-index='+el+'></i>'
+                html+='<i data-index='+el+' class='+(el==this.indexlist[this.index]?'current':'')+'></i>'
             })
             this.dots.innerHTML = html;
         });
@@ -146,6 +194,9 @@ class XyGallery extends HTMLElement {
             if(ev.target.tagName === 'I'){
                 this.change(ev.target.dataset.index);
             }
+        })
+        this.close.addEventListener('click',(ev)=>{
+            this.open = false;
         })
     }
 
@@ -237,7 +288,7 @@ export default class XyImg extends HTMLElement {
         :host([gallery]:not([default]):not([error])){
             cursor:pointer;
         }
-        :host(:not([error]):not([default]):hover) img[src]{
+        :host(:not([error]):not([default]):hover) img[src],:host(:focus-within) img[src]{
             transform:scale(1.1);
         }
         :host([fit="cover"]) img{
@@ -299,7 +350,7 @@ export default class XyImg extends HTMLElement {
         :host([gallery]:not([error]):not([default])) .view{
             display:inline-block;
         }
-        :host([gallery]:not([error]):not([default]):hover) .view{
+        :host([gallery]:not([error]):not([default]):hover) .view,:host(:focus-within) .view{
             opacity:1;
             transform:translate(-50%,-50%) scale(1);
         }
@@ -385,6 +436,7 @@ export default class XyImg extends HTMLElement {
         this.error = false;
         img.onerror = () => {
             this.error = true;
+            this.img.removeAttribute('tabindex');
             if(this.defaultsrc && !hasload){
                 this.default = true;
                 this.load(this.defaultsrc,true);
@@ -399,6 +451,7 @@ export default class XyImg extends HTMLElement {
                 window['XyGallery'+this.gallery] = new XyGallery();
                 document.body.appendChild(window['XyGallery'+this.gallery]);
             }
+            this.img.setAttribute('tabindex',0);
             this.img.addEventListener('click',()=>{
                 if(!this.default){
                     window['XyGallery'+this.gallery].show(this.XyImgIndex);
