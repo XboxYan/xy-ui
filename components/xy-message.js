@@ -55,7 +55,7 @@ class XyMessage extends HTMLElement {
             display:none;
         }
         :host xy-icon{
-            color:var(--themeColor,dodgerblue);
+            color:var(--themeColor,#42b983);
         }
         
         </style>

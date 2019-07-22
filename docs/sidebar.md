@@ -17,3 +17,4 @@
     * [xy-dialog](xy-dialog.md)
     * [xy-input](xy-input.md)
     * [xy-textarea](xy-textarea.md)
+    * [xy-img](xy-img.md)

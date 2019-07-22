@@ -37,7 +37,7 @@ export default class XyInput extends HTMLElement {
             color:#f5222d;
         }
         :host(:focus-within:not([disabled])),:host(:not([disabled]):hover){
-            border-color:var(--themeColor,dodgerblue);
+            border-color:var(--themeColor,#42b983);
         }
         :host([disabled]){ 
             opacity:.8;
@@ -131,7 +131,7 @@ export default class XyInput extends HTMLElement {
             width:1em;
         }
         .btn-number xy-button{
-            display: block;
+            display: flex;
             color: #999;
             border-radius:0;
             width:100%;
@@ -145,11 +145,11 @@ export default class XyInput extends HTMLElement {
         }
 
         xy-button:not([disabled]):hover,xy-button:not([disabled]):focus-within{
-            color:var(--themeColor,dodgerblue);
+            color:var(--themeColor,#42b983);
         }
 
         :host(:focus-within:not([disabled])) .icon-pre,:host(:not([disabled]):hover) .icon-pre,:host(:not([disabled]):hover) .input-label,:host(:focus-within:not([disabled])) .input-label{
-            color:var(--themeColor,dodgerblue);
+            color:var(--themeColor,#42b983);
         }
 
         </style>

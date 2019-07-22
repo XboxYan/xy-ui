@@ -26,7 +26,7 @@ export default class XyCheckbox extends HTMLElement {
             clip:rect(0,0,0,0);
         }
         :host(:focus-within) .cheked,:host(:not([disabled])) label:hover .cheked{ 
-            border-color:var(--themeColor,dodgerblue);
+            border-color:var(--themeColor,#42b983);
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             z-index:1;
         }
@@ -66,7 +66,7 @@ export default class XyCheckbox extends HTMLElement {
             content:'';
             width:100%;
             height:100%;
-            background:var(--themeColor,dodgerblue);
+            background:var(--themeColor,#42b983);
             border-radius:50%;
             opacity:.2;
             transform:scale(0);
@@ -87,7 +87,7 @@ export default class XyCheckbox extends HTMLElement {
         }
         #checkbox:checked+label .cheked{
             border-color:transparent;
-            background-color:var(--themeColor,dodgerblue);
+            background-color:var(--themeColor,#42b983);
         }
         </style>
         <input type="checkbox" id="checkbox"><label for="checkbox"><span class="cheked"></span><slot></slot></label>

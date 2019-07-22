@@ -10,29 +10,97 @@ export default class XyButton extends HTMLElement {
         const shadowRoot = this.attachShadow({ mode: 'open' });
         shadowRoot.innerHTML = `
         <style>
-        :host{ display:inline-block; box-sizing:border-box; vertical-align: middle; overflow:hidden; line-height: 2.4; border:1px solid #ddd; font-size: 14px; color: #333;  border-radius: 3px; transition:background .3s,box-shadow .3s,border-color .3s,color .3s; transform: translateZ(0);}
-        :host([shape="circle"]){ border-radius:50%; }
-        :host([disabled]),:host([loading]){ pointer-events: none; opacity:.6; }
-        :host([block]){ display:block; }
-        :host([disabled]:not([type])){ background:rgba(0,0,0,.1); }
-        :host([disabled]) .btn,:host([loading]) .btn{ pointer-events: all;  cursor: not-allowed; }
-        :host([disabled]) slot,:host([loading]) slot{ pointer-events: none; }
+        :host{ 
+            position:relative; 
+            display:inline-flex; 
+            padding:0 .8em; 
+            box-sizing:border-box; 
+            vertical-align: middle; 
+            overflow:hidden; 
+            height: 36px; 
+            align-items:center;
+            justify-content: center;
+            border:1px solid #ddd; 
+            font-size: 14px; 
+            color: #333;  
+            border-radius: 3px; 
+            transition:background .3s,box-shadow .3s,border-color .3s,color .3s;
+        }
+        :host([shape="circle"]){ 
+            border-radius:50%; 
+        }
+        :host([disabled]),:host([loading]){
+            pointer-events: none; 
+            opacity:.6; 
+        }
+        :host([block]){ 
+            display:flex; 
+        }
+        :host([disabled]:not([type])){ 
+            background:rgba(0,0,0,.1); 
+        }
+        :host([disabled]) .btn,:host([loading]) .btn{ 
+            cursor: not-allowed; 
+            pointer-events: all; 
+        }
         :host(:not([type="primary"]):not([disabled]):hover),
-        :host(:not([type="primary"]):focus-within){ color:var(--themeColor,dodgerblue); border-color: var(--themeColor,dodgerblue); }
-        :host(:not([type="primary"])) .btn::after{ background-image: radial-gradient(circle, var(--themeColor,dodgerblue) 10%, transparent 10.01%); }
-        :host([type="primary"]){ color: #fff; background: var(--themeColor,dodgerblue) }
-        :host([type="dashed"]){ border-style:dashed }
-        :host([type="flat"]),:host([type="primary"]){ border:0 }
-        :host([type="primary"]) .btn{ padding:1px .8em; }
-        :host([type="flat"]) .btn{ padding:1px .8em; }
-        :host([type="flat"]) .btn::before{ content:''; position:absolute; background: var(--themeColor,dodgerblue); pointer-events:none; left:0; right:0; top:0; bottom:0; opacity:0; transition:.3s; }
-        :host([type="flat"]:not([disabled]):hover) .btn::before{ opacity:.1 }
-        :host([type="flat"]:focus-within) .btn:before{ opacity:.2; }
-        :host(:focus-within){ box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        .btn{ display:flex; width:100%; height: 100%; align-items:center; color: inherit; line-height: inherit; font-size: inherit;  background:none; outline:0; border:0; position: relative; padding:0 .8em; user-select: none; }
-        :host([block]) .btn{ justify-content: center;  }
-        :host([loading]) xy-loading{ margin-right: 5px;  }
-        ::-moz-focus-inner{border:0;}
+        :host(:not([type="primary"]):focus-within){ 
+            color:var(--themeColor,#42b983); 
+            border-color: var(--themeColor,#42b983); 
+        }
+        :host(:not([type="primary"])) .btn::after{ 
+            background-image: radial-gradient(circle, var(--themeColor,#42b983) 10%, transparent 10.01%); 
+        }
+        :host([type="primary"]){ 
+            color: #fff; background: 
+            var(--themeColor,#42b983) 
+        }
+        :host([type="dashed"]){ 
+            border-style:dashed 
+        }
+        :host([type="flat"]),:host([type="primary"]){ 
+            border:0 
+        }
+        :host([type="flat"]) .btn::before{ 
+            content:''; 
+            position:absolute; 
+            background: var(--themeColor,#42b983); 
+            pointer-events:none; 
+            left:0; 
+            right:0; 
+            top:0; 
+            bottom:0; 
+            opacity:0; 
+            transition:.3s; 
+        }
+        :host([type="flat"]:not([disabled]):hover) .btn::before{ 
+            opacity:.1 
+        }
+        :host([type="flat"]:focus-within) .btn:before{ 
+            opacity:.2; 
+        }
+        :host(:focus-within){ 
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+        }
+        .btn{ 
+            background:none; 
+            outline:0; 
+            border:0; 
+            position: 
+            absolute; 
+            left:0; 
+            top:0; 
+            width:100%;
+            height:100%;
+            padding:0;
+            user-select: none; 
+        }
+        xy-loading{ 
+            margin-right: 5px;  
+        }
+        ::-moz-focus-inner{
+            border:0;
+        }
         .btn::after {
             content: "";
             display: block;
@@ -49,7 +117,7 @@ export default class XyButton extends HTMLElement {
             opacity: 0;
             transition: transform .3s, opacity .8s;
         }
-        .btn:not([disabled]):active::after {
+        .btn:active::after {
             transform: translate(-50%,-50%) scale(0);
             opacity: .3;
             transition: 0s;
@@ -61,15 +129,13 @@ export default class XyButton extends HTMLElement {
         :host(:empty) xy-icon{
             margin: auto;
         }
-        :host(:empty) .btn{
-            padding:0;
-        }
         :host(:empty){
+            padding:0;
             width:2.4em;
             height:2.4em;
         }
         </style>
-        <button class="btn" id="btn">${!this.loading && this.icon && this.icon!='null'?'<xy-icon id="icon" name='+this.icon+'></xy-icon>':''}<slot></slot></button>
+        <button class="btn" id="btn"></button>${!this.loading && this.icon && this.icon!='null'?'<xy-icon id="icon" name='+this.icon+'></xy-icon>':''}<slot></slot>
         `
     }
 
@@ -141,7 +207,7 @@ export default class XyButton extends HTMLElement {
     }
 
     attributeChangedCallback (name, oldValue, newValue) {
-        if( name == 'disabled' && this.btn){
+        if(name == 'disabled' && this.btn){
             if(newValue!==null){
                 this.btn.setAttribute('disabled', 'disabled');
             }else{
@@ -150,10 +216,10 @@ export default class XyButton extends HTMLElement {
         }
         if( name == 'loading' && this.btn){
             if(newValue!==null){
-                this.btn.prepend(this.load);
+                this.shadowRoot.prepend(this.load);
                 this.btn.setAttribute('disabled', 'disabled');
             }else{
-                this.btn.removeChild(this.load);
+                this.removeChild(this.load);
                 this.btn.removeAttribute('disabled');
             }
         }

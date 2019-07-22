@@ -16,7 +16,7 @@ class XyOption extends HTMLElement {
                 font-size: inherit;
             }
             :host([selected="true"]) .option{
-                color:var(--themeColor,dodgerblue)
+                color:var(--themeColor,#42b983)
             }
         </style>
         <xy-button id="option" class="option" type="flat"><slot></slot></xy-button>
@@ -71,26 +71,28 @@ export default class XySelect extends HTMLElement {
         :host([block]){
             display:block;
         }
+        :host([disabled]){ 
+            cursor: not-allowed; 
+        }
         :host xy-button{
             line-height: inherit;
             font-size: inherit;
         }
         /*
         :host(:active:not([disabled])) xy-button{
-            border-color:var(--themeColor,dodgerblue);
-            color:var(--themeColor,dodgerblue);
+            border-color:var(--themeColor,#42b983);
+            color:var(--themeColor,#42b983);
         }
         */
         :host(:focus-within),:host(:hover){ 
             z-index: 2;
         }
         #select{
-            display:block;
+            display:flex;
             width:100%;
         }
         #select span{
             flex:1;
-            pointer-events:none;
             text-align:left;
         }
         .options{
@@ -114,7 +116,6 @@ export default class XySelect extends HTMLElement {
             transform:scaleY(-.8);
         }
         .arrow{
-            pointer-events:none;
             position:relative;
             font-size:.9em;
             transform:scaleY(.8);

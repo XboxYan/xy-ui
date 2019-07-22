@@ -33,7 +33,7 @@ export default class XySlider extends HTMLElement {
             position: relative;
             height: 2px;
             border-radius:2px;
-            background:linear-gradient(to right, var(--themeColor,dodgerblue) calc(100% * var(--percent)), transparent 0% )
+            background:linear-gradient(to right, var(--themeColor,#42b983) calc(100% * var(--percent)), transparent 0% )
         }
         input[type="range"]::-moz-range-progress {
             display: flex;
@@ -42,27 +42,27 @@ export default class XySlider extends HTMLElement {
             height: 2px;
             border-radius:2px;
             outline : 0;
-            background:var(--themeColor,dodgerblue)
+            background:var(--themeColor,#42b983)
         }
         input[type="range"]::-webkit-slider-thumb{
             -webkit-appearance: none;
-            border:2px solid var(--themeColor,dodgerblue);
+            border:2px solid var(--themeColor,#42b983);
             position: relative;
             width:10px;
             height:10px;
             border-radius: 50%;
-            background:var(--themeColor,dodgerblue);
+            background:var(--themeColor,#42b983);
             transition:.2s cubic-bezier(.12, .4, .29, 1.46);
         }
         input[type="range"]::-moz-range-thumb{
             box-sizing:border-box;
             pointer-events:none;
-            border:2px solid var(--themeColor,dodgerblue);
+            border:2px solid var(--themeColor,#42b983);
             position: relative;
             width:10px;
             height:10px;
             border-radius: 50%;
-            background:var(--themeColor,dodgerblue);
+            background:var(--themeColor,#42b983);
             transition:.2s cubic-bezier(.12, .4, .29, 1.46);
         }
         input[type="range"]::-webkit-slider-thumb:active,

@@ -24,7 +24,7 @@ export default class XySwitch extends HTMLElement {
             clip:rect(0,0,0,0);
         }
         :host(:focus-within) label::after,:host(:active) ::after{ 
-            background:var(--themeColor,dodgerblue);
+            background:var(--themeColor,#42b983);
         }
         :host(:focus-within) label{ 
             box-shadow: 0 0 10px rgba(0,0,0,0.1); 
@@ -59,7 +59,7 @@ export default class XySwitch extends HTMLElement {
             padding:0 5px;
         }
         #switch:checked+label{
-            background:var(--themeColor,dodgerblue);
+            background:var(--themeColor,#42b983);
         }
         #switch:checked+label::before{
             flex:1;

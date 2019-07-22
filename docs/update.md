@@ -1,4 +1,7 @@
 # update
+* ## 1.1
+    * 重构`xy-button`组件结构，更易于自定义
+    * 新增[`xy-img`组件](xy-img.md)
 * ## 1.0.2
     * 修复已知bug
     * `xy-slider` 新增`suffix`属性

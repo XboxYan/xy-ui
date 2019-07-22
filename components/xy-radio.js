@@ -27,7 +27,7 @@ export default class XyRadio extends HTMLElement {
             clip:rect(0,0,0,0);
         }
         :host(:focus-within) .cheked,:host(:not([disabled])) label:hover .cheked{ 
-            border-color:var(--themeColor,dodgerblue);
+            border-color:var(--themeColor,#42b983);
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             z-index:1;
         }
@@ -58,7 +58,7 @@ export default class XyRadio extends HTMLElement {
             height:8px;
             margin:auto;
             border-radius:50%;
-            background:var(--themeColor,dodgerblue);
+            background:var(--themeColor,#42b983);
             transform: scale(0);
             transition: .2s cubic-bezier(.12, .4, .29, 1.46) .1s;
         }
@@ -67,7 +67,7 @@ export default class XyRadio extends HTMLElement {
             content:'';
             width:100%;
             height:100%;
-            background:var(--themeColor,dodgerblue);
+            background:var(--themeColor,#42b983);
             border-radius:50%;
             opacity:.2;
             transform:scale(0);
@@ -86,7 +86,7 @@ export default class XyRadio extends HTMLElement {
             transform: scale(1);
         }
         #radio:checked+label .cheked{
-            border-color:var(--themeColor,dodgerblue);
+            border-color:var(--themeColor,#42b983);
         }
         </style>
         <input type="checkbox" id="radio" ><label id="label" for="radio"><span class="cheked"></span><slot></slot></label>

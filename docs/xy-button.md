@@ -206,8 +206,13 @@ btn.focus();
 
 ```css
 :host{ 
-    display:inline-block; 
-    line-height: 2.4; 
+    display:inline-flex; 
+    padding:0 .8em; 
+    box-sizing:border-box; 
+    height: 36px; 
+    align-items:center;
+    justify-content: center;
+    border:1px solid #ddd; 
     font-size: 14px; 
     color: #333;  
     border-radius: 3px; 
@@ -220,7 +225,8 @@ btn.focus();
 .custom-button{
     font-size:20px;
     border-radius:5px;
-    line-height:40px;
+    padding:0 1em; 
+    height:40px;
 }
 </style>
 <xy-button type="primary" class="custom-button">primary</xy-button>
@@ -230,7 +236,8 @@ btn.focus();
 .custom-button{
     font-size:20px;
     border-radius:5px;
-    line-height:40px;
+    padding:0 1em; 
+    height:40px;
 }
 </style>
 <xy-button type="primary" class="custom-button">primary</xy-button>

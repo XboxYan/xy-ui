@@ -1,12 +1,12 @@
 import './xy-icon.js';
 
 class XyGallery extends HTMLElement {
-    static get observedAttributes() { return ['open','list'] }
+    static get observedAttributes() { return ['open'] }
 
     constructor() {
         super();
-        this.list = [];
         const shadowRoot = this.attachShadow({ mode: 'open' });
+        this.setAttribute('tabindex',0);
         shadowRoot.innerHTML = `
         <style>
         :host{
@@ -20,7 +20,7 @@ class XyGallery extends HTMLElement {
             background:rgba(0,0,0,.5);
             visibility:hidden;
             opacity:0;
-            transition: .3s;
+            transition: .31s;
             justify-content: center;
             align-items: center;
         }
@@ -51,31 +51,47 @@ class XyGallery extends HTMLElement {
             opacity:1;
             transform:scale(1);
         }
-        .dots{
+        .action{
             position: absolute;
             bottom: 30px;
-            left: 0;
-            right: 0;
             display: flex;
+            align-items: center;
             justify-content: center;
+            padding: 10px;
+            border-radius:20px;
+            background:rgba(255,255,255,.8);
+            color:#333;
+            outline:0;
+        }
+        .dots{
+            display: flex;
+        }
+        .action xy-icon{
+            font-size: 20px;
+            cursor:pointer;
         }
         .dots i{
-            box-sizing:border-box;
-            width:20px;
-            height:20px;
+            width:14px;
+            height:14px;
             border-radius:50%;
-            margin:0 10px;
+            margin:0 5px;
             cursor:pointer;
-            padding:3px;
-            color:#fff;
+            padding:2px;
+            background-color: currentColor;
             background-clip: content-box;
             transition: .3s;
-            border:2px solid;
+            opacity: .5;
+        }
+        .dots i:hover,.action xy-icon:hover{
+            color:var(--themeColor,#42b983);
         }
         .dots i.current{
-            background-color: currentColor;
+            opacity: 1;
         }
-        .dots i:only-of-type{
+        :host(:focus) i.current{
+            color:var(--themeColor,#42b983);
+        }
+        .action.only{
             visibility:hidden;
         }
         .btn-close{
@@ -120,7 +136,7 @@ class XyGallery extends HTMLElement {
         </style>
         <button id="close" class="btn-close"><xy-icon name="close"></xy-icon></button>
         <slot id="slot"></slot>
-        <div class="dots" id="dots"></div>
+        <a class="action" id="dots"><xy-icon name="caret-left" class="left"></xy-icon><div class="dots"></div><xy-icon name="caret-right" class="right"></xy-icon></a>
         `
     }
 
@@ -138,11 +154,11 @@ class XyGallery extends HTMLElement {
 
     show(index){
         this.open = true;
-        this.index = this.indexlist.indexOf(index);
         this.change(index);
     }
 
     change(index){
+        this.index = this.indexlist.indexOf(Number(index));
         const preimg = this.querySelector(`img.current`);
         const predots = this.dots.querySelector(`i.current`);
         if(preimg&&predots){
@@ -167,7 +183,6 @@ class XyGallery extends HTMLElement {
         if(this.index<0){
             this.index = len-1;
         }
-        this.index%=this.indexlist.length;
         this.change(this.indexlist[this.index]);
     }
 
@@ -182,17 +197,49 @@ class XyGallery extends HTMLElement {
         this.slots = this.shadowRoot.getElementById('slot');
         this.dots = this.shadowRoot.getElementById('dots');
         this.close = this.shadowRoot.getElementById('close');
+        this.addEventListener('transitionend',(ev)=>{
+            if(ev.propertyName === 'transform' && this.open){
+                this.focus();
+            }
+        })
         this.slots.addEventListener('slotchange', ()=>{
-            this.indexlist = this.indexlist.sort((a,b)=>a-b);
-            let html = ''
-            this.indexlist.forEach(el=>{
-                html+='<i data-index='+el+' class='+(el==this.indexlist[this.index]?'current':'')+'></i>'
-            })
-            this.dots.innerHTML = html;
+            if(this.indexlist.length>1){
+                this.dots.classList.remove('only');
+                this.indexlist = this.indexlist.sort((a,b)=>a-b);
+                let html = ''
+                this.indexlist.forEach(el=>{
+                    html+='<i data-index='+el+' class='+(el==this.indexlist[this.index]?'current':'')+'></i>'
+                })
+                this.dots.querySelector('.dots').innerHTML = html;
+            }else{
+                this.dots.classList.add('only');
+            }
         });
         this.dots.addEventListener('click',(ev)=>{
             if(ev.target.tagName === 'I'){
                 this.change(ev.target.dataset.index);
+            }
+            if(ev.target.className === 'left'){
+                this.go(-1);
+            }
+            if(ev.target.className === 'right'){
+                this.go(1);
+            }
+        })
+        this.addEventListener('keydown',(ev)=>{
+            switch (ev.keyCode) {
+                case 37://Left
+                    this.go(-1);
+                    break;
+                case 39://Right
+                    this.go(1);
+                    break;
+                case 8://Backspace
+                case 27://Esc
+                    this.open = false;
+                    break;
+                default:
+                    break;
             }
         })
         this.close.addEventListener('click',(ev)=>{
@@ -200,8 +247,14 @@ class XyGallery extends HTMLElement {
         })
     }
 
-    attributeChangedCallback() {
-
+    attributeChangedCallback(name, oldValue, newValue) {
+        if( name == 'open' && this.shadowRoot){
+            if(newValue!==null){
+                this.focusimg = document.activeElement;
+            }else{
+                this.focusimg.focus();
+            }
+        }
     }
     
 }
@@ -225,6 +278,8 @@ export default class XyImg extends HTMLElement {
             position: relative;
             vertical-align: top;
             overflow: hidden;
+            background:#eee;
+            color:#666;
         }
         :host([alt]:not([default]))::before{
             content:attr(alt);
@@ -245,6 +300,7 @@ export default class XyImg extends HTMLElement {
             transform:translateY(0);
         }
         :host([ratio*="/"]){
+            width:100%;
             height:auto!important;
         }
         :host([ratio*="/"]) img{
@@ -267,6 +323,7 @@ export default class XyImg extends HTMLElement {
             vertical-align: top;
             border:0;
             opacity:0;
+            background:inherit;
             transform:scale(0);
             object-fit: cover;
             transition:.3s;
@@ -278,7 +335,7 @@ export default class XyImg extends HTMLElement {
             position:absolute;
             width:100%;
             height:100%;
-            background:#eee;
+            background:inherit;
             z-index:1;
         }
         :host img[src]{
@@ -306,6 +363,7 @@ export default class XyImg extends HTMLElement {
             height:100%;
             box-sizing:border-box;
             z-index:-1;
+            transition:.3s;
             visibility:hidden;
         }
         :host([error]) .placeholder{
@@ -325,7 +383,6 @@ export default class XyImg extends HTMLElement {
         .placeholder-icon{
             position:absolute;
             font-size:14px;
-            color:#666;
             display:flex;
             justify-content:center;
             align-items:center;
@@ -429,6 +486,10 @@ export default class XyImg extends HTMLElement {
         }
     }
 
+    focus(){
+        this.img.focus();
+    }
+
     load(src,hasload) {
         const img = new Image();
         img.src = src;
@@ -457,7 +518,19 @@ export default class XyImg extends HTMLElement {
                     window['XyGallery'+this.gallery].show(this.XyImgIndex);
                 }
             })
+            this.img.addEventListener('keydown',(ev)=>{
+                switch (ev.keyCode) {
+                    case 13://Enter
+                        if(!this.default){
+                            window['XyGallery'+this.gallery].show(this.XyImgIndex);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            })
             const img = this.img.cloneNode(true);
+            img.removeAttribute('tabindex');
             img.style.order = this.XyImgIndex;
             img.dataset.index = this.XyImgIndex;
             window['XyGallery'+this.gallery].add(img,this.XyImgIndex);

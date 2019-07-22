@@ -103,7 +103,7 @@ export default class XyTab extends HTMLElement {
             flex-shrink: 0;
         }
         .nav-item.active{
-            color:var(--themeColor,dodgerblue);
+            color:var(--themeColor,#42b983);
         }
         .tab-line{
             position:absolute;
@@ -111,7 +111,7 @@ export default class XyTab extends HTMLElement {
             margin-top:-2px;
             height:2px;
             border-radius:2px;
-            background:var(--themeColor,dodgerblue);
+            background:var(--themeColor,#42b983);
             transition:.2s;
         }
         .tab-content{

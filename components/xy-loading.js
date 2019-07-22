@@ -10,7 +10,7 @@ export default class XyLoading extends HTMLElement {
         :host{
             font-size:inherit;
             display:inline-block;
-            color:var(--themeColor,dodgerblue);
+            color:var(--themeColor,#42b983);
         }
         .loading{
             display: block;
