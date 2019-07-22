@@ -578,7 +578,7 @@ export default class XyImg extends HTMLElement {
     }
 
     disconnectedCallback(){
-        window['XyGallery'+this.gallery].remove(this.XyImgIndex);
+        window['XyGallery'+this.gallery] && window['XyGallery'+this.gallery].remove(this.XyImgIndex);
     }
 }
 

@@ -148,7 +148,7 @@ img.setAttribute('fit','contain');
 
 可以设置`lazy`让图片在可见范围时才加载，在此之前不会发送网络请求，提升用户体验。
 
-<xy-img lazy src="https://images.pexels.com/photos/841228/pexels-photo-841228.jpeg?auto=compress&cs=tinysrgb&dpr=1&h=650&w=940"></xy-img>
+<xy-img lazy src="https://images.pexels.com/photos/1440387/pexels-photo-1440387.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
 <xy-img lazy alt="image-keyboard" src="https://images.pexels.com/xxx.jpg" defaultsrc="https://images.pexels.com/photos/697662/pexels-photo-697662.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
 <xy-img lazy src="https://images.pexels.com/xxx.jpg" defaultsrc="https://images.pexels.com/xxxx.jpg"></xy-img>
 
