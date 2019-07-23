@@ -1,4 +1,7 @@
 # update
+* ## 1.2.0
+    * 精简所有`focus`、`blur`事件
+    * 新增[`xy-rate`组件](xy-rate.md)
 * ## 1.1.0
     * 重构`xy-button`组件结构，更易于自定义
     * 新增[`xy-img`组件](xy-img.md)
