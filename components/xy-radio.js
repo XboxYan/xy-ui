@@ -140,22 +140,6 @@ export default class XyRadio extends HTMLElement {
             }
             this.checked = true;
         })
-        this.radio.addEventListener('focus',(ev) => {
-            ev.stopPropagation();
-            this.dispatchEvent(new CustomEvent('focus',{
-                detail:{
-                    checked: this.checked
-                }
-            }));
-        })
-        this.radio.addEventListener('blur',(ev) => {
-            ev.stopPropagation();
-            this.dispatchEvent(new CustomEvent('blur',{
-                detail:{
-                    checked: this.checked
-                }
-            }));
-        })
         this.radio.addEventListener('keydown', (ev) => {
             switch (ev.keyCode) {
                 case 13://Enter

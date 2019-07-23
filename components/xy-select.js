@@ -12,6 +12,7 @@ class XyOption extends HTMLElement {
             }
             .option {
                 display:block;
+                height: inherit;
                 border-radius:0;
                 font-size: inherit;
             }
@@ -75,7 +76,7 @@ export default class XySelect extends HTMLElement {
             cursor: not-allowed; 
         }
         :host xy-button{
-            line-height: inherit;
+            height: inherit;
             font-size: inherit;
         }
         /*

@@ -152,7 +152,7 @@ icon.setAttribute('path','M40 10H...v26z');
 <xy-icon name="heart" size="50"></xy-icon>
 ```
 
-CSS操作
+CSS操作（推荐）
 
 ```css
 xy-icon{
@@ -188,7 +188,7 @@ icon.setAttribute('size',30);
 <xy-icon name="heart" color="#3F51B5"></xy-icon>
 ```
 
-CSS操作
+CSS操作（推荐）
 
 ```css
 xy-icon{

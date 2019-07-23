@@ -267,7 +267,7 @@ select.focus();
 .custom-select{
     width:200px;
     font-size:20px;
-    line-height:50px;
+    height:50px;
 }
 </style>
 

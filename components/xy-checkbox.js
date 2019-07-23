@@ -137,22 +137,6 @@ export default class XyCheckbox extends HTMLElement {
         this.checkbox.addEventListener('change',(ev)=>{
             this.checked = ev.target.checked;
         })
-        this.checkbox.addEventListener('focus',(ev) => {
-            ev.stopPropagation();
-            this.dispatchEvent(new CustomEvent('focus',{
-                detail:{
-                    checked: this.checked
-                }
-            }));
-        })
-        this.checkbox.addEventListener('blur',(ev) => {
-            ev.stopPropagation();
-            this.dispatchEvent(new CustomEvent('blur',{
-                detail:{
-                    checked: this.checked
-                }
-            }));
-        })
         this.checkbox.addEventListener('keydown', (ev) => {
             switch (ev.keyCode) {
                 case 13://Enter

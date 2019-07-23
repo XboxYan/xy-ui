@@ -108,22 +108,6 @@ export default class XySwitch extends HTMLElement {
         this.switch.addEventListener('change',(ev)=>{
             this.checked = ev.target.checked;
         })
-        this.switch.addEventListener('focus',(ev) => {
-            ev.stopPropagation();
-            this.dispatchEvent(new CustomEvent('focus',{
-                detail:{
-                    checked: this.checked
-                }
-            }));
-        })
-        this.switch.addEventListener('blur',(ev) => {
-            ev.stopPropagation();
-            this.dispatchEvent(new CustomEvent('blur',{
-                detail:{
-                    checked: this.checked
-                }
-            }));
-        })
         this.switch.addEventListener('keydown', (ev) => {
             switch (ev.keyCode) {
                 case 13://Enter

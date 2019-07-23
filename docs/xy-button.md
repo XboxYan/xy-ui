@@ -193,7 +193,7 @@ slider.addEventListener('focus',function(ev){
 
 用于主动聚焦`focus`，聚焦以后可以响应键盘事件，`Enter`可以触发`click`事件。
 
-<xy-button onclick="XyMessage.info('click')" onfocus="XyMessage.info('focus')" >primary</xy-button>
+<xy-button onclick="XyMessage.info('click')" onfocus="XyMessage.info('focus')" onblur="XyMessage.info('blur')" >primary</xy-button>
 <xy-button type="primary" onclick="this.previousElementSibling.focus()">主动聚焦</xy-button>
 
 ```js
@@ -224,9 +224,9 @@ btn.focus();
 <style>
 .custom-button{
     font-size:20px;
-    border-radius:5px;
-    padding:0 1em; 
-    height:40px;
+    border-radius:50%;
+    height:100px;
+    width:100px;
 }
 </style>
 <xy-button type="primary" class="custom-button">primary</xy-button>
@@ -235,9 +235,9 @@ btn.focus();
 <style>
 .custom-button{
     font-size:20px;
-    border-radius:5px;
-    padding:0 1em; 
-    height:40px;
+    border-radius:50%;
+    height:100px;
+    width:100px;
 }
 </style>
 <xy-button type="primary" class="custom-button">primary</xy-button>

@@ -35,7 +35,7 @@ img.getAttribute('src');
 img.setAttribute('src','img.jpg');
 ```
 
-当图片链接加载失败时，会默认显示一个占位符
+当图片链接加载失败时，会默认显示一个占位符。
 
 <xy-img src="https://images.xxx.jpg"></xy-img>
 
@@ -43,12 +43,13 @@ img.setAttribute('src','img.jpg');
 <xy-img src="https://images.xxx.jpg"></xy-img>
 ```
 
-可以设置`background`和`color`来定制占位符
+可以设置`background`、`font-size`和`color`来定制占位符。
 
 <style>
 .img-placeholder{
     background:#333;
     color:#f1f1f1;
+    font-size:20px;
 }
 </style>
 <xy-img src="https://images.xxx.jpg" class="img-placeholder"></xy-img>
@@ -58,6 +59,7 @@ img.setAttribute('src','img.jpg');
 .img-placeholder{
     background:#333;
     color:#f1f1f1;
+    font-size:20px;
 }
 </style>
 <xy-img src="https://images.xxx.jpg" class="img-placeholder"></xy-img>
@@ -73,7 +75,7 @@ img.setAttribute('src','img.jpg');
 <xy-img src="https://images.xxx.jpg" defaultsrc="https://images.pexels.com/photos/697662/pexels-photo-697662.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
 ```
 
-当`defaultsrc`仍加载失败时（当然这种情况很少见，而且可控），会默认显示一个占位符
+当`defaultsrc`仍加载失败时（当然这种情况很少见，而且可控），会默认显示一个占位符。
 
 <xy-img src="https://images.xxx.jpg" defaultsrc="https://images.xxx.jpg"></xy-img>
 
@@ -158,7 +160,7 @@ img.setAttribute('fit','contain');
 
 ## 画廊`gallery`
 
-可以设置`gallery`属性，得到一个画廊效果，此时鼠标`hover`会出现<xy-icon style="vertical-align: middle;" class="view" color="var(--themeColor)" size="18" name='View'></xy-icon>标识，点击放大展示原图大小，支持键盘操作。
+可以设置`gallery`属性，得到一个画廊效果，此时鼠标`hover`会出现<xy-icon style="vertical-align: middle;" class="view" color="var(--themeColor)" size="18" name='View'></xy-icon>标识，点击放大展示原图大小，支持键盘操作（左右键切换、`Esc`和`Backspace`退出）。
 
 加载失败的图片不会计入。
 
@@ -189,4 +191,29 @@ img.setAttribute('fit','contain');
 ```html
 <xy-img gallery="A" src="https://images.pexels.com/photos/698808/pexels-photo-698808.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
 <xy-img gallery="B" src="https://images.pexels.com/photos/1440387/pexels-photo-1440387.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
+```
+
+## 事件`event`
+
+### onfocus、onblur
+
+仅适用于`gallery`存在的情况。 
+
+`focus`、`blur`后的回调事件。
+
+与[`xy-button`](xy-button?id=onfocus、onblur)使用方式一致。
+
+## 方法`function`
+
+### focus
+
+仅适用于`gallery`存在的情况。 
+
+用于主动聚焦`focus`，聚焦以后可以响应键盘事件，按`Enter`打开画廊。
+
+<xy-img gallery="A"  onfocus="XyMessage.info('focus')" onblur="XyMessage.info('blur')" src="https://images.pexels.com/photos/698808/pexels-photo-698808.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
+<xy-button type="primary" onclick="this.previousElementSibling.focus()">主动聚焦</xy-button>
+
+```js
+img.focus();
 ```

@@ -224,13 +224,7 @@ export default class XyInput extends HTMLElement {
             }));
         })
         this.input.addEventListener('focus',(ev)=>{
-            ev.stopPropagation();
             this.checkValidity();
-            this.dispatchEvent(new CustomEvent('focus',{
-                detail:{
-                    value:this.value
-                }
-            }));
         })
         this.input.addEventListener('keydown',(ev)=>{
             switch (ev.keyCode) {

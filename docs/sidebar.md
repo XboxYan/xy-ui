@@ -18,3 +18,4 @@
     * [xy-input](xy-input.md)
     * [xy-textarea](xy-textarea.md)
     * [xy-img](xy-img.md)
+    * [xy-rate](xy-rate.md)

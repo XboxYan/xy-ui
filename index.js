@@ -11,6 +11,7 @@ import './components/xy-icon.js';
 import './components/xy-layout.js';
 import './components/xy-input.js';
 import './components/xy-img.js';
+import './components/xy-rate.js';
 import XyDialog from './components/xy-dialog.js';
 import XyMessage from './components/xy-message.js';
 window.XyDialog = XyDialog;

@@ -29,11 +29,11 @@
 <xy-loading size="50"></xy-loading>
 ```
 
-CSS操作
+CSS操作（推荐）
 
 ```css
 xy-loading{
-    font-size:30;
+    font-size:30px;
 }
 ```
 
@@ -65,7 +65,7 @@ loading.setAttribute('size',30);
 <xy-loading size="40" color="orange"></xy-loading>
 ```
 
-CSS操作
+CSS操作（推荐）
 
 ```css
 xy-loading{

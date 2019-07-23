@@ -94,23 +94,6 @@ export default class XySlider extends HTMLElement {
             _this.value = this.value;
             _this._oninput = true;
         })
-        this.slider.addEventListener('focus',(ev) => {
-            ev.stopPropagation();
-            this.dispatchEvent(new CustomEvent('focus',{
-                detail:{
-                    value: this.value
-                }
-            }));
-        })
-        this.slider.addEventListener('blur',(ev) => {
-            ev.stopPropagation();
-            this.dispatchEvent(new CustomEvent('blur',{
-                detail:{
-                    value: this.value
-                }
-            }));
-        })
-        
         this.slider.addEventListener('change',function(ev){
             _this.value = this.value;
             _this._oninput = false;

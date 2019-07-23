@@ -279,6 +279,7 @@ export default class XyImg extends HTMLElement {
             vertical-align: top;
             overflow: hidden;
             background:#eee;
+            font-size:14px;
             color:#666;
         }
         :host([alt]:not([default]))::before{
@@ -377,12 +378,11 @@ export default class XyImg extends HTMLElement {
             transform: none;
         }
         .placeholder xy-icon {
-            font-size:16px;
-            margin-right:5px;
+            font-size:1.15em;
+            margin-right:.4em;
         }
         .placeholder-icon{
             position:absolute;
-            font-size:14px;
             display:flex;
             justify-content:center;
             align-items:center;
