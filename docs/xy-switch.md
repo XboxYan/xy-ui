@@ -96,7 +96,7 @@ switch.addEventListener('change',function(ev){
 
 `focus`、`blur`后的回调事件。
 
-与[`xy-button`](xy-button?id=onfocus、onblur)使用方式一致。
+与[`xy-button`](xy-button.md?id=onfocus、onblur)使用方式一致。
 
 ## 方法`function`
 
