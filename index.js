@@ -14,5 +14,7 @@ import './components/xy-img.js';
 import './components/xy-rate.js';
 import XyDialog from './components/xy-dialog.js';
 import XyMessage from './components/xy-message.js';
+import XyPopover from './components/xy-popover.js';
 window.XyDialog = XyDialog;
 window.XyMessage = XyMessage;
+window.XyPopover = XyPopover;

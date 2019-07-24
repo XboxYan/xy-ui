@@ -66,6 +66,7 @@ XyDialog.confirm(title, ok, cancel);
 XyDialog.confirm({
     title:'title',//标题
     oktext:'ok',//确定键文本
+    type:'error',//类型，可选择以上几类
     ok:function(){
         //按确定键的操作
     },
@@ -76,7 +77,8 @@ XyDialog.confirm({
 });
 ```
 
-<xy-button type="primary" onclick="XyDialog.confirm('confirm',()=>{XyMessage.info('ok')},()=>{XyMessage.info('cancel')})">confirm</xy-button>
+<xy-button type="primary" onclick="XyDialog.confirm('this is a question',()=>{XyMessage.info('ok')},()=>{XyMessage.info('cancel')})">confirm</xy-button>
+<xy-button type="primary" onclick="XyDialog.confirm({type:'error',content:'this is a danger confirm'})">danger confirm</xy-button>
 
 ## 显示`open`
 

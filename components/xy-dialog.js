@@ -21,10 +21,10 @@ class XyDialog extends HTMLElement {
             visibility:hidden;
             opacity:0;
             transition:.3s;
-            z-index:10;
         }
         :host([open]){
             opacity:1;
+            z-index:10;
             visibility:visible;
         }
         .dialog {
@@ -38,7 +38,7 @@ class XyDialog extends HTMLElement {
             max-height: calc(100vh - 20px);
             border-radius: 3px;
             background-color: #fff;
-            transform:scale(0);
+            transform:scale(0.5);
             transition:.3s transform cubic-bezier(.645, .045, .355, 1);
         }
         .dialog-contnet{
@@ -245,11 +245,11 @@ class XyDialog extends HTMLElement {
         if( name == 'open' && this.shadowRoot){
             if(newValue!==null){
                 this.btnActive = document.activeElement;
-                document.body.style.overflow = 'hidden';
+                document.body.style.overflowY = 'hidden';
                 document.body.style.paddingRight = (document.documentElement.clientWidth - this.width)+'px';
             }else{
                 this.btnActive.focus();
-                document.body.style.overflow = 'auto';
+                document.body.style.overflowY = 'auto';
                 document.body.style.paddingRight = '0px';
             }
         }
@@ -300,11 +300,11 @@ export default {
             dialog.title = title||'Alert';
             dialog.oktext = oktext||'确 定';
             dialog.onsubmit = ok||null;
-            dialog.innerText = content||'';
+            dialog.innerHTML = content||'';
         }else{
             dialog.title = 'Alert';
             dialog.oktext = '确 定';
-            dialog.innerText = arguments[0]||'';
+            dialog.innerHTML = arguments[0]||'';
             dialog.onsubmit = arguments[1]||null;
         }
         dialog.open = true;
@@ -322,11 +322,11 @@ export default {
             dialog.title = title||'Info';
             dialog.oktext = oktext||'知道了';
             dialog.onsubmit = ok||null;
-            dialog.innerText = content||'';
+            dialog.innerHTML = content||'';
         }else{
             dialog.title = 'Info';
             dialog.oktext = '知道了';
-            dialog.innerText = arguments[0]||'';
+            dialog.innerHTML = arguments[0]||'';
             dialog.onsubmit = arguments[1]||null;
         }
         dialog.open = true;
@@ -344,11 +344,11 @@ export default {
             dialog.title = title||'Success';
             dialog.oktext = oktext||'知道了';
             dialog.onsubmit = ok||null;
-            dialog.innerText = content||'';
+            dialog.innerHTML = content||'';
         }else{
             dialog.title = 'Success';
             dialog.oktext = '知道了';
-            dialog.innerText = arguments[0]||'';
+            dialog.innerHTML = arguments[0]||'';
             dialog.onsubmit = arguments[1]||null;
         }
         dialog.open = true;
@@ -366,11 +366,11 @@ export default {
             dialog.title = title||'Error';
             dialog.oktext = oktext||'知道了';
             dialog.onsubmit = ok||null;
-            dialog.innerText = content||'';
+            dialog.innerHTML = content||'';
         }else{
             dialog.title = 'Error';
             dialog.oktext = '知道了';
-            dialog.innerText = arguments[0]||'';
+            dialog.innerHTML = arguments[0]||'';
             dialog.onsubmit = arguments[1]||null;
         }
         dialog.open = true;
@@ -388,11 +388,11 @@ export default {
             dialog.title = title||'Warning';
             dialog.oktext = oktext||'知道了';
             dialog.onsubmit = ok||null;
-            dialog.innerText = content||'';
+            dialog.innerHTML = content||'';
         }else{
             dialog.title = 'Warning';
             dialog.oktext = '知道了';
-            dialog.innerText = arguments[0]||'';
+            dialog.innerHTML = arguments[0]||'';
             dialog.onsubmit = arguments[1]||null;
         }
         dialog.open = true;
@@ -410,7 +410,7 @@ export default {
             dialog.title = title||'Confirm';
             dialog.oktext = oktext||'确 定';
             dialog.canceltext = canceltext||'取 消';
-            dialog.innerText = content||'';
+            dialog.innerHTML = content||'';
             dialog.onsubmit = ok||null;
             dialog.oncancel = cancel||null;
         }else{
@@ -418,7 +418,7 @@ export default {
             dialog.title = 'Confirm';
             dialog.oktext = '确 定';
             dialog.canceltext = '取 消';
-            dialog.innerText = arguments[0]||'';
+            dialog.innerHTML = arguments[0]||'';
             dialog.onsubmit = arguments[1]||null;
             dialog.oncancel = arguments[2]||null;
         }
