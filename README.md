@@ -10,6 +10,20 @@
 
 [github项目地址](https://github.com/XboxYan/xy-ui)
 
+## 更新
+* ## 1.2.1
+    * 更新文档
+    * 修复`xy-img`关闭画廊时的定位问题
+* ## 1.2.0
+    * 精简所有`focus`、`blur`事件
+    * 新增[`xy-rate`组件](./docs/xy-rate.md)
+* ## 1.1.0
+    * 重构`xy-button`组件结构，更易于自定义
+    * 新增[`xy-img`组件](./docs/xy-img.md)
+* ## 1.0.2
+    * 修复已知bug
+    * `xy-slider` 新增`suffix`属性
+
 ## 文档
 
 该文档基于[docsify](https://docsify.js.org/)动态创建，文中所有组件均为可交互实例。
