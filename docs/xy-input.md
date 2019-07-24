@@ -257,6 +257,8 @@ input.addEventListener('change',function(ev){
 
 当输入框在输入时触发。
 
+<xy-input oninput="XyMessage.info(this.value)"></xy-input>
+
 ```html
 <xy-input oninput="fn(event)"></xy-input>
 ```
@@ -281,6 +283,14 @@ input.addEventListener('input',function(ev){
     console.log(ev.target.value);
     console.log(ev.detail.value);
 })
+```
+
+通常，配合`debounce`可以设置防抖，比如`debounce="300"`表示在`300ms`内无操作才会触发。
+
+<xy-input debounce="300" oninput="XyMessage.info(this.value)"></xy-input>
+
+```html
+<xy-input debounce="300" oninput="fn(event)"></xy-input>
 ```
 
 ### onsubmit

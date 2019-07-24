@@ -208,13 +208,25 @@ export default class XyInput extends HTMLElement {
     connectedCallback() {
         this.input = this.shadowRoot.getElementById('input');
         this.inputCon = this.shadowRoot.getElementById('input-con');
-        this.input.addEventListener('input',()=>{
+        this.input.addEventListener('input',(ev)=>{
+            ev.stopPropagation();
             this.checkValidity();
-            this.dispatchEvent(new CustomEvent('input',{
-                detail:{
-                    value:this.value
-                }
-            }));
+            if(this.debounce){
+                this.timer && clearTimeout(this.timer);
+                this.timer = setTimeout(()=>{
+                    this.dispatchEvent(new CustomEvent('input',{
+                        detail:{
+                            value:this.value
+                        }
+                    }));
+                },this.debounce)
+            }else{
+                this.dispatchEvent(new CustomEvent('input',{
+                    detail:{
+                        value:this.value
+                    }
+                }));
+            }
         })
         this.input.addEventListener('change',()=>{
             this.dispatchEvent(new CustomEvent('change',{
@@ -306,6 +318,10 @@ export default class XyInput extends HTMLElement {
 
     get value() {
         return this.input.value;
+    }
+
+    get debounce() {
+        return this.getAttribute('debounce');
     }
 
     get error() {

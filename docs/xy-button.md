@@ -117,6 +117,16 @@ btn.icon = 'name';
 btn.setAttribute('icon','name');
 ```
 
+当然，上述图标均位于文字左侧，如果想位于文字右侧，你可以直接嵌套`xy-icon`组件。
+
+<xy-button>heart<xy-icon name="heart"></xy-icon></xy-button>
+<xy-button>right<xy-icon name="right"></xy-icon></xy-button>
+
+```html
+<xy-button>heart  <xy-icon name="heart"></xy-icon></xy-button>
+<xy-button>right  <xy-icon name="right"></xy-icon></xy-button>
+```
+
 ## 形状`shape`
 
 当只有`icon`时，可配合`shape=circle`属性，实现圆形图标按钮。
@@ -153,7 +163,7 @@ btn.setAttribute('icon','name');
 
 ```css
 xy-button{
-    diplay:block;
+    diplay:flex;
 }
 ```
 

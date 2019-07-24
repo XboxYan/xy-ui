@@ -11,8 +11,9 @@ class XyOption extends HTMLElement {
                 display: block;
             }
             .option {
-                display:block;
+                display: flex;
                 height: inherit;
+                justify-content: flex-start;
                 border-radius:0;
                 font-size: inherit;
             }
@@ -122,6 +123,7 @@ export default class XySelect extends HTMLElement {
             transform:scaleY(.8);
             transition: all 0s, transform .3s;
             margin-left:.5em;
+            pointer-events:none;
         }
         .placeholder{
             font-style:normal;

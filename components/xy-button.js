@@ -134,6 +134,9 @@ export default class XyButton extends HTMLElement {
             width:2.4em;
             height:2.4em;
         }
+        ::slotted(xy-icon){
+            transition: none;
+        }
         </style>
         <button class="btn" id="btn"></button>${!this.loading && this.icon && this.icon!='null'?'<xy-icon id="icon" name='+this.icon+'></xy-icon>':''}<slot></slot>
         `
