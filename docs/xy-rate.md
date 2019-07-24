@@ -70,7 +70,7 @@ rate.removeAttribute('disabled');
 
 默认图标为`star-fill`，可选择其他图标。
 
-关于`xy-icon`的取值可以查看[`xy-icon`](/xy-icon.md)
+关于`xy-icon`的取值可以查看[`xy-icon`](xy-icon.md)
 
 <xy-rate defaultvalue="2" icon="star"></xy-rate>
 

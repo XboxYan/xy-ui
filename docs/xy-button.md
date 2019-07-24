@@ -95,7 +95,7 @@ btn.removeAttribute('loading');
 
 当需要在`xy-button`内嵌入`xy-icon`时，可以设置`icon`属性。
 
-关于`xy-icon`的取值可以查看[`xy-icon`](/xy-icon.md)
+关于`xy-icon`的取值可以查看[`xy-icon`](xy-icon.md)
 
 <xy-button type="primary" icon="heart">like</xy-button>
 <xy-button type="dashed" icon="search">search</xy-button>
@@ -245,4 +245,4 @@ btn.focus();
 
 此外，所有组件均有主题颜色`themeColor`，通过`CSS`自定义属性实现
 
-详细可参考[主题](/themeColor.md)。
+详细可参考[主题](themeColor.md)。
