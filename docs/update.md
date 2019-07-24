@@ -1,5 +1,6 @@
 # update
 * ## 1.2.0
+    * 修复`xy-img`关闭画廊时的定位问题
     * 精简所有`focus`、`blur`事件
     * 新增[`xy-rate`组件](xy-rate.md)
 * ## 1.1.0

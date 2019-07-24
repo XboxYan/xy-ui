@@ -249,10 +249,8 @@ class XyGallery extends HTMLElement {
 
     attributeChangedCallback(name, oldValue, newValue) {
         if( name == 'open' && this.shadowRoot){
-            if(newValue!==null){
-                this.focusimg = document.activeElement;
-            }else{
-                this.focusimg.focus();
+            if(newValue==null){
+                document.querySelector(`xy-img[index="${this.indexlist[this.index]}"]`).focus();
             }
         }
     }
@@ -513,6 +511,7 @@ export default class XyImg extends HTMLElement {
                 document.body.appendChild(window['XyGallery'+this.gallery]);
             }
             this.img.setAttribute('tabindex',0);
+            this.setAttribute('index',this.XyImgIndex);
             this.img.addEventListener('click',()=>{
                 if(!this.default){
                     window['XyGallery'+this.gallery].show(this.XyImgIndex);
