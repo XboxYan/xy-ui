@@ -117,7 +117,7 @@ export default class XyButton extends HTMLElement {
             opacity: 0;
             transition: transform .3s, opacity .8s;
         }
-        .btn:active::after {
+        .btn:not([disabled]):active::after {
             transform: translate(-50%,-50%) scale(0);
             opacity: .3;
             transition: 0s;
@@ -214,7 +214,7 @@ export default class XyButton extends HTMLElement {
                 this.shadowRoot.prepend(this.load);
                 this.btn.setAttribute('disabled', 'disabled');
             }else{
-                this.removeChild(this.load);
+                this.shadowRoot.removeChild(this.load);
                 this.btn.removeAttribute('disabled');
             }
         }

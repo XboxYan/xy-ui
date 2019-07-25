@@ -38,8 +38,9 @@ class XyDialog extends HTMLElement {
             max-height: calc(100vh - 20px);
             border-radius: 3px;
             background-color: #fff;
+            opacity:0;
             transform:scale(0.5);
-            transition:.3s transform cubic-bezier(.645, .045, .355, 1);
+            transition:.3s cubic-bezier(.645, .045, .355, 1);
         }
         .dialog-contnet{
             box-sizing: border-box;
@@ -50,6 +51,7 @@ class XyDialog extends HTMLElement {
             flex-direction:column;
         }
         :host([open]) .dialog{
+            opacity:1;
             transform:scale(1);
         }
         .dialog-title {

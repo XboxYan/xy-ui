@@ -44,18 +44,34 @@ tips.setAttribute('tips','some tips');
 
 ## 方向`dir`
 
-通过`dir`可以设置气泡框方向，默认为`top`，可以取值`top`、`right`、`bottom`、`left`。
+通过`dir`可以设置气泡框方向，默认为`top`，可以取值`top`、`right`、`bottom`、`left`、`topleft`、`topright`、`righttop`、`rightbottom`、`bottomleft`、`bottomright`、`lefttop`、`leftbottom`。
 
 <xy-tips tips="some tips" dir="top"><xy-button>top</xy-button></xy-tips>
 <xy-tips tips="some tips" dir="right"><xy-button>right</xy-button></xy-tips>
-<xy-tips tips="some tips" dir="down"><xy-button>down</xy-button></xy-tips>
+<xy-tips tips="some tips" dir="bottom"><xy-button>bottom</xy-button></xy-tips>
 <xy-tips tips="some tips" dir="left"><xy-button>left</xy-button></xy-tips>
+<xy-tips tips="some tips" dir="topleft"><xy-button>topleft</xy-button></xy-tips>
+<xy-tips tips="some tips" dir="topright"><xy-button>topright</xy-button></xy-tips>
+<xy-tips tips="a a a a a a a a a righttop righttop some tips" dir="righttop"><xy-button>righttop</xy-button></xy-tips>
+<xy-tips tips="a a a rightbottom rightbottom some tips" dir="rightbottom"><xy-button>rightbottom</xy-button></xy-tips>
+<xy-tips tips="some tips" dir="bottomleft"><xy-button>bottomleft</xy-button></xy-tips>
+<xy-tips tips="some tips" dir="bottomright"><xy-button>bottomright</xy-button></xy-tips>
+<xy-tips tips="a a a a a a a a a lefttop lefttop some tips" dir="lefttop"><xy-button>lefttop</xy-button></xy-tips>
+<xy-tips tips="a a a a a a a a a leftbottom leftbottom some tips" dir="leftbottom"><xy-button>leftbottom</xy-button></xy-tips>
 
 ```html
-<xy-tips tips="some tips" dir="top"><xy-button>top</xy-button></xy-tips>
-<xy-tips tips="some tips" dir="right"><xy-button>right</xy-button></xy-tips>
-<xy-tips tips="some tips" dir="down"><xy-button>down</xy-button></xy-tips>
-<xy-tips tips="some tips" dir="left"><xy-button>left</xy-button></xy-tips>
+<xy-tips dir="top" tips="some tips"><xy-button>top</xy-button></xy-tips>
+<xy-tips dir="right" tips="some tips"><xy-button>right</xy-button></xy-tips>
+<xy-tips dir="bottom" tips="some tips"><xy-button>bottom</xy-button></xy-tips>
+<xy-tips dir="left" tips="some tips"><xy-button>left</xy-button></xy-tips>
+<xy-tips dir="topleft" tips="some tips"><xy-button>topleft</xy-button></xy-tips>
+<xy-tips dir="topright" tips="some tips"><xy-button>topright</xy-button></xy-tips>
+<xy-tips dir="righttop" tips="some tips"><xy-button>righttop</xy-button></xy-tips>
+<xy-tips dir="rightbottom" tips="some tips"><xy-button>rightbottom</xy-button></xy-tips>
+<xy-tips dir="bottomleft" tips="some tips"><xy-button>bottomleft</xy-button></xy-tips>
+<xy-tips dir="bottomright" tips="some tips"><xy-button>bottomright</xy-button></xy-tips>
+<xy-tips dir="lefttop" tips="some tips"><xy-button>lefttop</xy-button></xy-tips>
+<xy-tips dir="leftbottom" tips="some tips"><xy-button>leftbottom</xy-button></xy-tips>
 ```
 
 

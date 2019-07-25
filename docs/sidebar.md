@@ -19,3 +19,4 @@
     * [xy-textarea](xy-textarea.md)
     * [xy-img](xy-img.md)
     * [xy-rate](xy-rate.md)
+    * [xy-popover](xy-popover.md)

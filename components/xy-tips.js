@@ -18,8 +18,6 @@ export default class XyTips extends HTMLElement {
             display: block;
             position: absolute;
             z-index: 1;
-            left: calc( var(--percent,.5) * 100% );
-            bottom: 100%;
             transform: translate(-50%, -20px);
             opacity: 0;
             transition:all .15s .15s,left 0s, top 0s;
@@ -27,7 +25,7 @@ export default class XyTips extends HTMLElement {
             visibility: hidden;
             pointer-events: none;
         }
-        
+
         :host([tips]:not([tips='']))::before {
             content: attr(tips) attr(suffix);
             border-radius: 3px;
@@ -48,10 +46,8 @@ export default class XyTips extends HTMLElement {
         :host::after {
             width: 0;
             height: 0;
-            margin-bottom: -12px;
             overflow: hidden;
             border: 6px solid transparent;
-            border-top-color: currentColor;
         }
         
         :host(:hover:not([show=false]))::before,
@@ -61,22 +57,46 @@ export default class XyTips extends HTMLElement {
         :host([show=true])::after,
         :host(:focus-within:not([show=false]))::after {
             visibility: visible;
-            transform: translate(-50%, -10px);
             opacity: 1;
         }
         
+        /* top & '' */
+        :host([dir="top"])::before,
+        :host(:not([dir]))::before,
+        :host(:not([dir]))::after,
+        :host([dir="top"])::after {
+            left: calc( var(--percent,.5) * 100% );
+            bottom: 100%;
+            transform: translate(-50%, -20px);
+        }
+        :host([dir="top"]):after,
+        :host(:not([dir])):after {
+            margin-bottom: -12px;
+            border-top-color: currentColor;
+        }
+        :host(:not([dir]):hover:not([show=false]))::before,
+        :host(:not([dir])[show=true])::before,
+        :host(:not([dir]):focus-within:not([show=false]))::before,
+        :host(:not([dir]):hover:not([show=false]))::after,
+        :host(:not([dir])[show=true])::after,
+        :host(:not([dir]):focus-within:not([show=false]))::after,
+        :host([dir="top"]:hover:not([show=false]))::before,
+        :host([dir="top"][show=true])::before,
+        :host([dir="top"]:focus-within:not([show=false]))::before,
+        :host([dir="top"]:hover:not([show=false]))::after,
+        :host([dir="top"][show=true])::after,
+        :host([dir="top"]:focus-within:not([show=false]))::after {
+            transform: translate(-50%, -10px);
+        }
         /* right */
         :host([dir="right"])::before,
         :host([dir="right"])::after{
             left: 100%;
             top: 50%;
-            bottom: auto;
             transform: translate(20px, -50%);
         }
         :host([dir="right"]):after {
-            margin: 0;
             margin-left: -12px;
-            border-color: transparent;
             border-right-color: currentColor;
         }
         :host([dir="right"]:hover:not([show=false]))::before,
@@ -85,49 +105,38 @@ export default class XyTips extends HTMLElement {
         :host([dir="right"]:hover:not([show=false]))::after,
         :host([dir="right"][show=true])::after,
         :host([dir="right"]:focus-within:not([show=false]))::after {
-            visibility: visible;
             transform: translate(10px, -50%);
-            opacity: 1;
         }
         
         /* bottom */
-        :host([dir="down"])::before,
-        :host([dir="down"])::after{
+        :host([dir="bottom"])::before,
+        :host([dir="bottom"])::after{
             left: 50%;
             top: 100%;
-            bottom: auto;
             transform: translate(-50%, 20px);
         }
-        :host([dir="down"])::after {
-            margin: 0;
+        :host([dir="bottom"])::after {
             margin-top: -12px;
-            border-color: transparent;
             border-bottom-color: currentColor;
         }
-        :host([dir="down"]:hover:not([show=false]))::before,
-        :host([dir="down"][show=true])::before,
-        :host([dir="down"]:focus-within:not([show=false]))::before,
-        :host([dir="down"]:hover:not([show=false]))::after,
-        :host([dir="down"][show=true])::after,
-        :host([dir="down"]:focus-within:not([show=false]))::after {
-            visibility: visible;
+        :host([dir="bottom"]:hover:not([show=false]))::before,
+        :host([dir="bottom"][show=true])::before,
+        :host([dir="bottom"]:focus-within:not([show=false]))::before,
+        :host([dir="bottom"]:hover:not([show=false]))::after,
+        :host([dir="bottom"][show=true])::after,
+        :host([dir="bottom"]:focus-within:not([show=false]))::after {
             transform: translate(-50%, 10px);
-            opacity: 1;
         }
         
         /* left */
         :host([dir="left"])::before,
         :host([dir="left"])::after{
-            left: auto;
             right: 100%;
             top: 50%;
-            bottom: auto;
             transform: translate(-20px, -50%);
         }
         :host([dir="left"])::after{
-            margin: 0;
             margin-right: -12px;
-            border-color: transparent;
             border-left-color: currentColor;
         }
         :host([dir="left"]:hover:not([show=false]))::before,
@@ -136,11 +145,169 @@ export default class XyTips extends HTMLElement {
         :host([dir="left"]:hover:not([show=false]))::after,
         :host([dir="left"][show=true])::after,
         :host([dir="left"]:focus-within:not([show=false]))::after {
-            visibility: visible;
             transform: translate(-10px, -50%);
-            opacity: 1;
         }
-        
+
+        /* topleft */
+        :host([dir="topleft"])::before,
+        :host([dir="topleft"])::after {
+            left: 0;
+            bottom: 100%;
+            transform: translate(0, -20px);
+        }
+        :host([dir="topleft"]):after{
+            left:10px;
+            margin-bottom: -12px;
+            border-top-color: currentColor;
+        }
+        :host([dir="topleft"]:hover:not([show=false]))::before,
+        :host([dir="topleft"][show=true])::before,
+        :host([dir="topleft"]:focus-within:not([show=false]))::before,
+        :host([dir="topleft"]:hover:not([show=false]))::after,
+        :host([dir="topleft"][show=true])::after,
+        :host([dir="topleft"]:focus-within:not([show=false]))::after {
+            transform: translate(0, -10px);
+        }
+        /* topright */
+        :host([dir="topright"])::before,
+        :host([dir="topright"])::after {
+            right: 0;
+            bottom: 100%;
+            transform: translate(0, -20px);
+        }
+        :host([dir="topright"]):after{
+            right:10px;
+            margin-bottom: -12px;
+            border-top-color: currentColor;
+        }
+        :host([dir="topright"]:hover:not([show=false]))::before,
+        :host([dir="topright"][show=true])::before,
+        :host([dir="topright"]:focus-within:not([show=false]))::before,
+        :host([dir="topright"]:hover:not([show=false]))::after,
+        :host([dir="topright"][show=true])::after,
+        :host([dir="topright"]:focus-within:not([show=false]))::after {
+            transform: translate(0, -10px);
+        }
+        /* righttop */
+        :host([dir="righttop"])::before,
+        :host([dir="righttop"])::after{
+            left: 100%;
+            top: 0;
+            transform: translate(20px, 0);
+        }
+        :host([dir="righttop"]):after {
+            top: 10px;
+            margin-left: -12px;
+            border-right-color: currentColor;
+        }
+        :host([dir="righttop"]:hover:not([show=false]))::before,
+        :host([dir="righttop"][show=true])::before,
+        :host([dir="righttop"]:focus-within:not([show=false]))::before,
+        :host([dir="righttop"]:hover:not([show=false]))::after,
+        :host([dir="righttop"][show=true])::after,
+        :host([dir="righttop"]:focus-within:not([show=false]))::after {
+            transform: translate(10px, 0);
+        }
+        /* rightbottom */
+        :host([dir="rightbottom"])::before,
+        :host([dir="rightbottom"])::after{
+            left: 100%;
+            bottom: 0;
+            transform: translate(20px, 0);
+        }
+        :host([dir="rightbottom"]):after {
+            bottom: 10px;
+            margin-left: -12px;
+            border-right-color: currentColor;
+        }
+        :host([dir="rightbottom"]:hover:not([show=false]))::before,
+        :host([dir="rightbottom"][show=true])::before,
+        :host([dir="rightbottom"]:focus-within:not([show=false]))::before,
+        :host([dir="rightbottom"]:hover:not([show=false]))::after,
+        :host([dir="rightbottom"][show=true])::after,
+        :host([dir="rightbottom"]:focus-within:not([show=false]))::after {
+            transform: translate(10px, 0);
+        }
+        /* bottomleft */
+        :host([dir="bottomleft"])::before,
+        :host([dir="bottomleft"])::after{
+            left: 0;
+            top: 100%;
+            transform: translate(0, 20px);
+        }
+        :host([dir="bottomleft"])::after {
+            left: 10px;
+            margin-top: -12px;
+            border-bottom-color: currentColor;
+        }
+        :host([dir="bottomleft"]:hover:not([show=false]))::before,
+        :host([dir="bottomleft"][show=true])::before,
+        :host([dir="bottomleft"]:focus-within:not([show=false]))::before,
+        :host([dir="bottomleft"]:hover:not([show=false]))::after,
+        :host([dir="bottomleft"][show=true])::after,
+        :host([dir="bottomleft"]:focus-within:not([show=false]))::after {
+            transform: translate(0, 10px);
+        }
+        /* bottomright */
+        :host([dir="bottomright"])::before,
+        :host([dir="bottomright"])::after{
+            right: 0;
+            top: 100%;
+            transform: translate(0, 20px);
+        }
+        :host([dir="bottomright"])::after {
+            right: 10px;
+            margin-top: -12px;
+            border-bottom-color: currentColor;
+        }
+        :host([dir="bottomright"]:hover:not([show=false]))::before,
+        :host([dir="bottomright"][show=true])::before,
+        :host([dir="bottomright"]:focus-within:not([show=false]))::before,
+        :host([dir="bottomright"]:hover:not([show=false]))::after,
+        :host([dir="bottomright"][show=true])::after,
+        :host([dir="bottomright"]:focus-within:not([show=false]))::after {
+            transform: translate(0, 10px);
+        }
+        /* lefttop */
+        :host([dir="lefttop"])::before,
+        :host([dir="lefttop"])::after{
+            right: 100%;
+            top: 0;
+            transform: translate(-20px, 0);
+        }
+        :host([dir="lefttop"]):after {
+            top: 10px;
+            margin-right: -12px;
+            border-left-color: currentColor;
+        }
+        :host([dir="lefttop"]:hover:not([show=false]))::before,
+        :host([dir="lefttop"][show=true])::before,
+        :host([dir="lefttop"]:focus-within:not([show=false]))::before,
+        :host([dir="lefttop"]:hover:not([show=false]))::after,
+        :host([dir="lefttop"][show=true])::after,
+        :host([dir="lefttop"]:focus-within:not([show=false]))::after {
+            transform: translate(-10px, 0);
+        }
+        /* leftbottom */
+        :host([dir="leftbottom"])::before,
+        :host([dir="leftbottom"])::after{
+            right: 100%;
+            bottom: 0;
+            transform: translate(-20px, 0);
+        }
+        :host([dir="leftbottom"]):after {
+            bottom: 10px;
+            margin-right: -12px;
+            border-left-color: currentColor;
+        }
+        :host([dir="leftbottom"]:hover:not([show=false]))::before,
+        :host([dir="leftbottom"][show=true])::before,
+        :host([dir="leftbottom"]:focus-within:not([show=false]))::before,
+        :host([dir="leftbottom"]:hover:not([show=false]))::after,
+        :host([dir="leftbottom"][show=true])::after,
+        :host([dir="leftbottom"]:focus-within:not([show=false]))::after {
+            transform: translate(-10px, 0);
+        }
         /* success */
         :host([type="success"]){
             --color:#52c41a;
@@ -213,7 +380,7 @@ export default class XyTips extends HTMLElement {
             const h = document.body.scrollHeight;
             const TIP_SIZE = 50;
             if( top < TIP_SIZE ){
-                this.dir = 'down';
+                this.dir = 'bottom';
             }
             if( h-top-height < TIP_SIZE ){
                 this.dir = 'top';

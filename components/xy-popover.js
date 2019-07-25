@@ -1,6 +1,6 @@
 import './xy-button.js';
 
-class XyPopover extends HTMLElement {
+class XyPopcon extends HTMLElement {
 
     static get observedAttributes() { return ['open','title','oktext','canceltext','loading','type'] }
 
@@ -11,30 +11,39 @@ class XyPopover extends HTMLElement {
         <style>
         :host{
             position:absolute;
-            display:flex;
-            z-index:-1;
-            background:#fff;
+            width: max-content;
+            z-index:10;
             visibility:hidden;
-            box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
-            box-sizing: border-box;
-            transform:scale(0.5);
-            border-radius: 3px;
-            transition:.3s transform cubic-bezier(.645, .045, .355, 1);
+            
         }
         :host([open]){
             visibility:visible;
-            transform:scale(1);
-            z-index:10;
         }
-        .popover-contnet{
+        .popcon{
+            display:flex;
+            box-shadow: 2px 2px 15px rgba(0,0,0,0.15);
+            box-sizing: border-box;
+            transform:scale(0);
+            opacity:0.5;
+            border-radius: 3px;
+            transition:.3s cubic-bezier(.645, .045, .355, 1);
+            transform-origin:inherit;
+            background:#fff;
+        }
+        :host([open]) .popcon{
+            visibility:visible;
+            opacity:1;
+            transform:scale(1);
+        }
+        .popcon-contnet{
             box-sizing: border-box;
             display:flex;
             width: 100%;
-            padding:0 20px;
+            padding: 0 15px;
             flex:1;
             flex-direction:column;
         }
-        .popover-title {
+        .popcon-title {
             line-height: 30px;
             padding: 15px 30px 0 0;
             font-weight: 700;
@@ -43,63 +52,59 @@ class XyPopover extends HTMLElement {
             user-select: none;
             cursor: default;
         }
-        .popover-body {
+        .popcon-body {
             flex: 1;
-            overflow: auto;
-            min-height: 40px;
-            padding: 10px 0;
+            padding: 5px 0 15px 0;
         }
-        .popover-footer {
-            padding: 3px 0 20px 0;
+        .popcon-footer {
+            padding: 3px 0 15px 0;
             margin-top: -3px;
             text-align: right;
+            white-space: nowrap;
         }
         .btn-close{
             position:absolute;
             right:10px;
             top:10px;
         }
-        .popover-footer xy-button {
-            margin-left:10px;
-        }
-        .popover-type{
-            display:flex;
-            margin: 15px -10px 0 20px;
-            width:30px;
-            height:30px;
-            font-size:24px;
-        }
-        :host(:not([type])) .dialog-type{
-            display:none;
-        }
-        :host([type]){
-            min-width:150px;
-        }
-        :host([type]) xy-button{
+        .popcon-footer xy-button {
             height:30px;
             font-size:12px;
+            margin-left:10px;
         }
-        :host([type]) .popover-footer{
-            padding: 3px 0 15px 0;
-        }
-        :host([type]) .popover-contnet{
-            padding: 0 15px;
-        }
-        :host([type]) .popover-type{
+        .popcon-type{
+            display:flex;
+            width:30px;
+            height:30px;
             font-size:22px;
             margin: 15px -10px 0 15px;
         }
+        :host(:not([type="confirm"])) .popcon-type,
+        :host(:not([type="confirm"])) .popcon-footer,
+        :host(:not([type])) .popcon-title,
+        :host(:not([type])) .btn-close{
+            display:none;
+        }
+        :host([type="confirm"]){
+            min-width:250px;
+            font-size:14px;
+        }
+        :host(:not([type])) .popcon-contnet,:host(:not([type])) .popcon-body{
+            padding: 0;
+        }
         </style>
-        <xy-icon id="popover-type" class="popover-type" name="question-circle"></xy-icon>
-        <div class="popover-contnet">
-            <div class="popover-title" id="title">${this.title}</div>
-            <xy-button class="btn-close" id="btn-close" type="flat" icon="close"></xy-button>
-            <div class="popover-body">
-                <slot></slot>
-            </div>
-            <div class="popover-footer">
-                <xy-button id="btn-cancel">${this.canceltext}</xy-button>
-                <xy-button id="btn-submit" type="primary">${this.oktext}</xy-button>
+        <div class="popcon">
+            <xy-icon id="popcon-type" class="popcon-type" name="question-circle" color="#faad14"></xy-icon>
+            <div class="popcon-contnet">
+                <div class="popcon-title" id="title">${this.title}</div>
+                <xy-button class="btn-close" id="btn-close" type="flat" icon="close"></xy-button>
+                <div class="popcon-body">
+                    <slot></slot>
+                </div>
+                <div class="popcon-footer">
+                    <xy-button id="btn-cancel">${this.canceltext}</xy-button>
+                    <xy-button id="btn-submit" type="primary">${this.oktext}</xy-button>
+                </div>
             </div>
         </div>
         `
@@ -110,7 +115,7 @@ class XyPopover extends HTMLElement {
     }
 
     get title() {
-        return this.getAttribute('title')||'popover';
+        return this.getAttribute('title')||'popcon';
     }
 
     get type() {
@@ -138,7 +143,11 @@ class XyPopover extends HTMLElement {
     }
 
     set type(value) {
-        this.setAttribute('type', value);
+        if(value===null||value===false){
+            this.removeAttribute('type');
+        }else{
+            this.setAttribute('type', value);
+        }
     }
 
     set oktext(value) {
@@ -165,39 +174,6 @@ class XyPopover extends HTMLElement {
             this.setAttribute('loading', '');
         }
     }
-
-    typeMap(type) {
-        let name = '';
-        let color = '';
-        switch (type) {
-            case 'info':
-                name = 'info-circle';
-                color = '#1890ff';
-                break;
-            case 'success':
-                name = 'check-circle';
-                color = '#52c41a';
-                break;
-            case 'error':
-                name = 'close-circle';
-                color = '#f5222d';
-                break;
-            case 'warning':
-                name = 'warning-circle';
-                color = '#faad14';
-                break;
-            case 'confirm':
-                name = 'question-circle';
-                color = '#faad14';
-                break;
-            default:
-                break;
-        }
-        return {
-            name:name,
-            color:color
-        }
-    }
     
     connectedCallback() {
         this.remove = false;
@@ -205,17 +181,21 @@ class XyPopover extends HTMLElement {
         this.btnClose = this.shadowRoot.getElementById('btn-close');
         this.btnCancel = this.shadowRoot.getElementById('btn-cancel');
         this.btnSubmit = this.shadowRoot.getElementById('btn-submit');
-        this.popoverType = this.shadowRoot.getElementById('popover-type');
-        this.addEventListener('transitionend',(ev)=>{
+        this.shadowRoot.addEventListener('transitionend',(ev)=>{
             if(ev.propertyName === 'transform' && this.open){
-                this.btnSubmit.focus();
+                if(this.type=='confirm'){
+                    this.btnSubmit.focus();
+                }
+                if(this.type=='pane'){
+                    this.btnClose.focus();
+                }
             }
         })
         this.addEventListener('transitionend',(ev)=>{
-            console.log(ev)
             if(ev.propertyName === 'transform' && !this.open){
                 if( this.remove ){
-                    document.body.removeChild(this);
+                    this.parentNode.removeChild(this);
+                    //document.body.removeChild(this);
                 }
                 this.dispatchEvent(new CustomEvent('close'));
             }
@@ -232,11 +212,6 @@ class XyPopover extends HTMLElement {
         })
         this.btnSubmit.addEventListener('click',()=>{
             this.dispatchEvent(new CustomEvent('submit'));
-            if(!this.loading){
-                this.open = false;
-            }
-        })
-        document.addEventListener('click',()=>{
             if(!this.loading){
                 this.open = false;
             }
@@ -273,10 +248,219 @@ class XyPopover extends HTMLElement {
                 this.btnCancel.innerHTML = newValue;
             }
         }
-        if( name == 'type' && this.popoverType){
+    }
+}
+
+if(!customElements.get('xy-popcon')){
+    customElements.define('xy-popcon', XyPopcon);
+}
+
+class XyPopover extends HTMLElement {
+    static get observedAttributes() { return ['title','oktext','canceltext','loading','type'] }
+    constructor() {
+        super();
+        const shadowRoot = this.attachShadow({ mode: 'open' });
+        shadowRoot.innerHTML = `
+        <style>
+        :host {
+            display:inline-block;
+            position:relative;
+            overflow:visible;
+        }
+        :host([dir="top"]) ::slotted(xy-popcon){
+            bottom:100%;
+            left:50%;
+            transform:translate(-50%,-10px);
+            transform-origin: center bottom;
+        }
+        :host([dir="right"]) ::slotted(xy-popcon){
+            left:100%;
+            top:50%;
+            transform:translate(10px,-50%);
+            transform-origin: left;
+        }
+        :host([dir="bottom"]) ::slotted(xy-popcon){
+            top:100%;
+            left:50%;
+            transform:translate(-50%,10px);
+            transform-origin: center top;
+        }
+        :host([dir="left"]) ::slotted(xy-popcon){
+            right:100%;
+            top:50%;
+            transform:translate(-10px,-50%);
+            transform-origin: right;
+        }
+        :host([dir="lefttop"]) ::slotted(xy-popcon){
+            right:100%;
+            top:0;
+            transform:translate(-10px);
+            transform-origin: right top;
+        }
+        :host([dir="leftbottom"]) ::slotted(xy-popcon){
+            right:100%;
+            bottom:0;
+            transform:translate(-10px);
+            transform-origin: right bottom;
+        }
+        :host([dir="topleft"]) ::slotted(xy-popcon){
+            bottom:100%;
+            left:0;
+            transform:translate(0,-10px);
+            transform-origin: left bottom;
+        }
+        :host([dir="topright"]) ::slotted(xy-popcon){
+            bottom:100%;
+            right:0;
+            transform:translate(0,-10px);
+            transform-origin: right bottom;
+        }
+        :host([dir="righttop"]) ::slotted(xy-popcon){
+            left:100%;
+            top:0;
+            transform:translate(10px);
+            transform-origin: left top;
+        }
+        :host([dir="rightbottom"]) ::slotted(xy-popcon){
+            left:100%;
+            bottom:0;
+            transform:translate(10px);
+            transform-origin: left bottom;
+        }
+        :host([dir="bottomleft"]) ::slotted(xy-popcon),:host(:not([dir])) ::slotted(xy-popcon){
+            left:0;
+            top:100%;
+            transform:translate(0,10px);
+            transform-origin: left top;
+        }
+        :host([dir="bottomright"]) ::slotted(xy-popcon){
+            right:0;
+            top:100%;
+            transform:translate(0,10px);
+            transform-origin: right top;
+        }
+        </style>
+        <slot></slot>
+        `
+    }
+
+    get title() {
+        return this.getAttribute('title')||'popcon';
+    }
+
+    get disabled() {
+        return this.getAttribute('disabled')!==null;
+    }
+
+    get type() {
+        return this.getAttribute('type');
+    }
+
+    get content() {
+        return this.getAttribute('content');
+    }
+
+    get oktext() {
+        return this.getAttribute('oktext');
+    }
+
+    get canceltext() {
+        return this.getAttribute('canceltext');
+    }
+
+    get loading() {
+        return this.getAttribute('loading')!==null;
+    }
+
+    set color(value) {
+        this.setAttribute('color', value);
+    }
+
+    set title(value) {
+        this.setAttribute('title', value);
+    }
+
+    set type(value) {
+        this.setAttribute('type', value);
+    }
+
+    set oktext(value) {
+        this.setAttribute('oktext', value);
+    }
+
+    set canceltext(value) {
+        this.setAttribute('canceltext', value);
+    }
+
+    set loading(value) {
+        if(value===null||value===false){
+            this.removeAttribute('loading');
+        }else{
+            this.setAttribute('loading', '');
+        }
+    }
+
+    set disabled(value) {
+        if (value === null || value === false) {
+            this.removeAttribute('disabled');
+        } else {
+            this.setAttribute('disabled', '');
+        }
+    }
+
+    show(){
+        this.popcon = this.querySelector('xy-popcon');
+        if(!this.disabled){
+            if(!this.popcon){
+                this.popcon = new XyPopcon();
+                this.appendChild(this.popcon);
+                this.popcon.innerHTML = this.content||'';
+                this.popcon.type = this.type;
+                this.popcon.title = this.title||'popover';
+                if(this.type == 'confirm'){
+                    this.popcon.oktext = this.oktext||'确 定';
+                    this.popcon.canceltext = this.canceltext||'取 消';
+                    this.popcon.onsubmit = ()=>this.dispatchEvent(new CustomEvent('submit'));
+                    this.popcon.oncancel = ()=>this.dispatchEvent(new CustomEvent('cancel'));
+                }
+            }
+            //this.popcon.remove = true;
+            this.popcon.clientWidth;
+            this.popcon.open = true;
+        }else{
+            (this.popcon||this).dispatchEvent(new CustomEvent('submit'));
+        }
+    }
+    connectedCallback() {
+        this.addEventListener('click',this.show);
+        document.addEventListener('click',(ev)=>{
+            if(this.popcon && !this.popcon.loading && !this.contains(ev.target)){
+                this.popcon.open = false;
+            }
+        })
+    }
+
+    attributeChangedCallback (name, oldValue, newValue) {
+        if( name == 'loading' && this.popcon){
             if(newValue!==null){
-                this.popoverType.name = this.typeMap(newValue).name;
-                this.popoverType.color = this.typeMap(newValue).color;
+                this.popcon.loading = true;
+            }else{
+                this.popcon.loading = false;
+            }
+        }
+        if( name == 'title' && this.popcon){
+            if(newValue!==null){
+                this.popcon.title = newValue;
+            }
+        }
+        if( name == 'oktext' && this.popcon){
+            if(newValue!==null){
+                this.popcon.oktext = newValue;
+            }
+        }
+        if( name == 'canceltext' && this.popcon){
+            if(newValue!==null){
+                this.popcon.canceltext = newValue;
             }
         }
     }
@@ -284,33 +468,4 @@ class XyPopover extends HTMLElement {
 
 if(!customElements.get('xy-popover')){
     customElements.define('xy-popover', XyPopover);
-}
-
-export default {
-    confirm: function() {
-        //const popover = document.createElement('xy-popover');
-        const popover = new XyPopover();
-        document.body.appendChild(popover);
-        popover.remove = true;
-        if( typeof arguments[0] === 'object' ){
-            const { type, title, content, oktext, canceltext, ok, cancel} = arguments[0];
-            popover.type = type||'confirm';
-            popover.title = title||'Confirm';
-            popover.oktext = oktext||'确 定';
-            popover.canceltext = canceltext||'取 消';
-            popover.innerText = content||'';
-            popover.onsubmit = ok||null;
-            popover.oncancel = cancel||null;
-        }else{
-            popover.type = 'confirm';
-            popover.title = 'Confirm';
-            popover.oktext = '确 定';
-            popover.canceltext = '取 消';
-            popover.innerText = arguments[0]||'';
-            popover.onsubmit = arguments[1]||null;
-            popover.oncancel = arguments[2]||null;
-        }
-        popover.open = true;
-        return popover;
-    }
 }

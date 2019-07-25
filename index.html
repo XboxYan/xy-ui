@@ -9,8 +9,9 @@
     <style>
         xy-button,xy-checkbox,xy-radio,xy-input,xy-textarea{ margin: 0 10px 15px 0; }
         xy-input:not([block]),xy-textarea:not([block]){ width:300px; }
-        xy-tips xy-button{ margin: 0;}
-        xy-tips{ margin: 0 10px 10px 0; }
+        xy-tips>*{ margin: 0;}
+        xy-popover>*{ margin: 0;}
+        xy-tips,xy-popover{ margin: 0 10px 10px 0; }
         p{  padding: 5px 10px; border-left: 4px solid olive; color: #666 }
         .layout{ height: 300px; }
         .side{ width: 200px; }
@@ -121,11 +122,19 @@
     <h2>tips</h2>
     <p>normal</p>
     <xy-tips tips="some tips"><xy-button>auto</xy-button></xy-tips>
-    <xy-tips tips="some tips" dir="up"><xy-button>up</xy-button></xy-tips>
+    <xy-tips tips="some tips" dir="top"><xy-button>top</xy-button></xy-tips>
     <xy-tips tips="some tips" dir="right"><xy-button>right</xy-button></xy-tips>
-    <xy-tips tips="some tips" dir="down"><xy-button>down</xy-button></xy-tips>
+    <xy-tips tips="some tips" dir="bottom"><xy-button>bottom</xy-button></xy-tips>
     <xy-tips tips="some tips" dir="left"><xy-button>left</xy-button></xy-tips>
     <xy-tips tips="some some some some some some some some some some some some some some tips"><xy-button>some tips</xy-button></xy-tips>
+    <xy-tips tips="some tips" dir="topleft"><xy-button>topleft</xy-button></xy-tips>
+    <xy-tips tips="some tips" dir="topright"><xy-button>topright</xy-button></xy-tips>
+    <xy-tips tips="some some some some some some some some some some some some some some tips" dir="righttop"><xy-button>righttop</xy-button></xy-tips>
+    <xy-tips tips="some some some some some some some some some some some some some some tips" dir="rightbottom"><xy-button>rightbottom</xy-button></xy-tips>
+    <xy-tips tips="some tips" dir="bottomleft"><xy-button>bottomleft</xy-button></xy-tips>
+    <xy-tips tips="some tips" dir="bottomright"><xy-button>bottomright</xy-button></xy-tips>
+    <xy-tips tips="some some some some some some some some some some some some some some tips" dir="lefttop"><xy-button>lefttop</xy-button></xy-tips>
+    <xy-tips tips="some some some some some some some some some some some some some some tips" dir="leftbottom"><xy-button>leftbottom</xy-button></xy-tips>
     <p>status</p>
     <xy-tips tips="some tips" type="success"><xy-button>success</xy-button></xy-tips>
     <xy-tips tips="some tips" type="warn"><xy-button>warn</xy-button></xy-tips>
@@ -244,6 +253,58 @@
             <xy-tab-content label="tab10">tab10</xy-tab-content>
         </xy-tab>
     </xy-dialog>
+    <h2>popover</h2>
+    <xy-popover type="confirm" onsubmit="console.log('ok')" title="确定删除吗?" content="删除后无法撤销"><xy-button>pop confirm</xy-button></xy-popover>
+    <xy-popover disabled type="confirm" onsubmit="console.log('ok')" title="确定删除吗?" content="删除后无法撤销"><xy-button>pop confirm disabled</xy-button></xy-popover>
+    <xy-popover>
+        <xy-button>pop confirm</xy-button>
+        <xy-popcon title="确定删除吗?" type="confirm" onsubmit="console.log('ok')">
+            <div>
+                <div>自定义删除后无法撤销</div>
+                <div>删除后无法撤销</div>
+                <div>删除后无法撤销</div>
+                <div>删除后无法撤销</div>
+                <div>删除后无法撤销</div>
+            </div>
+        </xy-popcon>
+    </xy-popover>
+    <xy-popover>
+        <xy-button>pop pane</xy-button>
+        <xy-popcon type="pane" title="提示">
+            <div>
+                <div>这是一段提示提示提示提示提示</div>
+                <div>这是一段提示</div>
+                <div>这是一段提示</div>
+                <div>这是一段提示</div>
+                <div>这是一段提示</div>
+            </div>
+        </xy-popcon>
+    </xy-popover>
+    <xy-popover>
+        <xy-button>pop flat</xy-button>
+        <xy-popcon>
+            <div>
+                <div>这是一段提示提示提示</div>
+                <div>这是一段提示</div>
+                <div>这是一段提示</div>
+                <div>这是一段提示</div>
+                <div>这是一段提示</div>
+            </div>
+        </xy-popcon>
+    </xy-popover>
+    <p>dir</p>
+    <xy-popover dir="top" type="confirm" onsubmit="console.log('ok')" title="确定删除吗?" content="删除后无法撤销"><xy-button>top</xy-button></xy-popover>
+    <xy-popover dir="right" type="confirm" onsubmit="console.log('ok')" title="确定删除吗?" content="删除后无法撤销"><xy-button>right</xy-button></xy-popover>
+    <xy-popover dir="bottom" type="confirm" onsubmit="console.log('ok')" title="确定删除吗?" content="删除后无法撤销"><xy-button>bottom</xy-button></xy-popover>
+    <xy-popover dir="left" type="confirm" onsubmit="console.log('ok')" title="确定删除吗?" content="删除后无法撤销"><xy-button>left</xy-button></xy-popover>
+    <xy-popover dir="lefttop" type="confirm" onsubmit="console.log('ok')" title="确定删除吗?" content="删除后无法撤销"><xy-button>lefttop</xy-button></xy-popover>
+    <xy-popover dir="leftbottom" type="confirm" onsubmit="console.log('ok')" title="确定删除吗?" content="删除后无法撤销"><xy-button>leftbottom</xy-button></xy-popover>
+    <xy-popover dir="topleft" type="confirm" onsubmit="console.log('ok')" title="确定删除吗?" content="删除后无法撤销"><xy-button>topleft</xy-button></xy-popover>
+    <xy-popover dir="topright" type="confirm" onsubmit="console.log('ok')" title="确定删除吗?" content="删除后无法撤销"><xy-button>topright</xy-button></xy-popover>
+    <xy-popover dir="righttop" type="confirm" onsubmit="console.log('ok')" title="确定删除吗?" content="删除后无法撤销"><xy-button>righttop</xy-button></xy-popover>
+    <xy-popover dir="rightbottom" type="confirm" onsubmit="console.log('ok')" title="确定删除吗?" content="删除后无法撤销"><xy-button>rightbottom</xy-button></xy-popover>
+    <xy-popover dir="bottomleft" type="confirm" onsubmit="console.log('ok')" title="确定删除吗?" content="删除后无法撤销"><xy-button>bottomleft</xy-button></xy-popover>
+    <xy-popover dir="bottomright" type="confirm" onsubmit="console.log('ok')" title="确定删除吗?" content="删除后无法撤销"><xy-button>bottomright</xy-button></xy-popover>
     <h2>message</h2>
     <xy-button onclick="XyMessage.info('This a info message')">info</xy-button>
     <xy-button onclick="XyMessage.success('This a success message')">success</xy-button>
@@ -306,8 +367,6 @@
     <xy-rate defaultvalue="1" tips="terrible,bad,normal,good,wonderful"></xy-rate>
     <p>disabled</p>
     <xy-rate disabled defaultvalue="2"></xy-rate>
-    <h2>popover</h2>
-    <xy-button onclick="XyPopover.confirm('This a info message')">pop comfirm</xy-button>
     <script>
         document.getElementById('btn').addEventListener('click',function(ev){
             console.log(ev)

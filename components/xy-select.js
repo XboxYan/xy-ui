@@ -145,7 +145,11 @@ export default class XySelect extends HTMLElement {
 
     onshow(ev, visible) {
         this.focusIndex = Array.from(this.nodes).findIndex(el => el.value === this.value);
-        ev.stopPropagation();
+        if (!visible) {
+            this.show = !this.show;
+            this.select.dataset.show = this.show;
+        }
+        /*
         document.querySelectorAll('xy-select').forEach((item) => {
             if (this === item) {
                 if (!visible) {
@@ -156,6 +160,7 @@ export default class XySelect extends HTMLElement {
                 item.setVisible(false);
             }
         })
+        */
     }
 
     move(dir) {
@@ -188,7 +193,6 @@ export default class XySelect extends HTMLElement {
         })
         this.select.addEventListener('focus', (ev) => {
             ev.stopPropagation();
-            this.onshow(ev, true);
             if(!this.focusRoot){
                 this.dispatchEvent(new CustomEvent('focus',{
                     detail:{
@@ -218,10 +222,6 @@ export default class XySelect extends HTMLElement {
                 this.select.focus();
             }
         })
-        this.options.addEventListener('mousedown', (ev) => {
-            ev.stopPropagation();
-            this.focusRoot = true;
-        })
         this.addEventListener('keydown', (ev) => {
             if (this.show) {
                 switch (ev.keyCode) {
@@ -244,9 +244,16 @@ export default class XySelect extends HTMLElement {
                 }
             }
         })
-        document.addEventListener('mousedown', () => {
-            this.focusRoot = false;
-            this.setVisible(false);
+        document.addEventListener('mousedown', (ev) => {
+            if(!this.contains(ev.target)){
+                this.show = false;
+            }
+        })
+        document.addEventListener('click', (ev) => {
+            if(!this.contains(ev.target)){
+                this.focusRoot = false;
+                this.setVisible(false);
+            }
         })
         this.slots.addEventListener('slotchange', () => {
             this.nodes = this.querySelectorAll(`xy-option`);
