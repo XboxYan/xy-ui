@@ -19,11 +19,6 @@ class XyPopcon extends HTMLElement {
             transition:.15s .15s;
             visibility:visible;
         }
-        :host-context([trigger="hover"]:not([disabled]):hover),
-        :host-context([trigger="focus"]:not([disabled]):focus-within){
-            transition:.15s .15s;
-            visibility:visible;
-        }
         .popcon{
             display:flex;
             box-shadow: 2px 2px 15px rgba(0,0,0,0.15);
@@ -36,17 +31,15 @@ class XyPopcon extends HTMLElement {
             background:#fff;
         }
         :host([open]) .popcon{
-            visibility:visible;
             opacity:1;
             transform:scale(1);
         }
         :host-context([trigger="hover"]:not([disabled]):hover) .popcon,
         :host-context([trigger="focus"]:not([disabled]):focus-within) .popcon{
-            visibility:visible;
             opacity:1;
             transform:scale(1);
         }
-        .popcon-contnet{
+        .popcon-content{
             box-sizing: border-box;
             display:flex;
             width: 100%;
@@ -100,13 +93,13 @@ class XyPopcon extends HTMLElement {
             min-width:250px;
             font-size:14px;
         }
-        :host(:not([type])) .popcon-contnet,:host(:not([type])) .popcon-body{
+        :host(:not([type])) .popcon-content,:host(:not([type])) .popcon-body{
             padding: 0;
         }
         </style>
         <div class="popcon">
             <xy-icon id="popcon-type" class="popcon-type" name="question-circle" color="#faad14"></xy-icon>
-            <div class="popcon-contnet">
+            <div class="popcon-content">
                 <div class="popcon-title" id="title">${this.title}</div>
                 <xy-button class="btn-close" id="btn-close" type="flat" icon="close"></xy-button>
                 <div class="popcon-body">
@@ -354,6 +347,10 @@ class XyPopover extends HTMLElement {
             transform:translate(5px,5px);
             transform-origin: left top;
             transition: .15s;
+        }
+        :host([trigger="hover"]:not([disabled]):hover) ::slotted(xy-popcon),
+        :host([trigger="focus"]:not([disabled]):focus-within) ::slotted(xy-popcon){
+            visibility:visible;
         }
         </style>
         <slot></slot>

@@ -42,7 +42,7 @@ class XyDialog extends HTMLElement {
             transform:scale(0.5);
             transition:.3s cubic-bezier(.645, .045, .355, 1);
         }
-        .dialog-contnet{
+        .dialog-content{
             box-sizing: border-box;
             display:flex;
             width: 100%;
@@ -95,7 +95,7 @@ class XyDialog extends HTMLElement {
         </style>
         <div class="dialog">
             <xy-icon id="dialog-type" class="dialog-type"></xy-icon>
-            <div class="dialog-contnet">
+            <div class="dialog-content">
                 <div class="dialog-title" id="title">${this.title}</div>
                 <xy-button class="btn-close" id="btn-close" type="flat" icon="close"></xy-button>
                 <div class="dialog-body">
