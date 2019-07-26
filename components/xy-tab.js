@@ -54,7 +54,7 @@ class XyTabContent extends HTMLElement {
     }
 
     attributeChangedCallback (name, oldValue, newValue) {
-        if( oldValue!==newValue && newValue!==undefined){
+        if( oldValue!==newValue && newValue!==undefined ){
             if( name === 'label'){
                 this.parentNode.updatalabel && this.parentNode.updatalabel(this.key,newValue);
             }
@@ -166,7 +166,10 @@ export default class XyTab extends HTMLElement {
     }
 
     updatadisabled(key,disabled) {
-        this.nav.querySelector(`.nav-item[data-key='${key}']`).disabled = disabled;
+        const nav = this.nav.querySelector(`.nav-item[data-key='${key}']`);
+        if(nav){
+            nav.disabled = disabled;
+        }
     }
     
     connectedCallback() {
