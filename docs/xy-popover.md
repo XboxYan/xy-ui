@@ -334,6 +334,93 @@ popover.getAttribute('dir');
 popover.setAttribute('dir','right');
 ```
 
+
+## 触发`trigger`
+
+默认触发方式是`click`（鼠标单击），还可以选择`hover`、`focus`、`contextmenu`（鼠标右键）。
+
+需要注意的是`hover`、`focus`需要使用自定义模式。
+
+> `hover`、`focus`方式火狐暂不支持，原因[:host-context()选择器](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:host-context())
+
+**hover触发**
+
+<xy-popover trigger="hover">
+    <xy-button>hover</xy-button>
+    <xy-popcon>
+        <div class="pop-list">
+            <a href="#">链接一</a>
+            <a href="#">链接链接一</a>
+            <a href="#">链接一</a>
+        </div>
+    </xy-popcon>
+</xy-popover>
+
+```html
+<xy-popover trigger="hover">
+    <xy-button>hover</xy-button>
+    <xy-popcon>
+        <div class="pop-list">
+            <a href="#">链接一</a>
+            <a href="#">链接链接一</a>
+            <a href="#">链接一</a>
+        </div>
+    </xy-popcon>
+</xy-popover>
+```
+
+**focus触发**
+
+<xy-popover trigger="focus">
+    <xy-button>focus</xy-button>
+    <xy-popcon>
+        <div class="pop-list">
+            <a href="#">链接一</a>
+            <a href="#">链接链接一</a>
+            <a href="#">链接一</a>
+        </div>
+    </xy-popcon>
+</xy-popover>
+
+```html
+<xy-popover trigger="focus">
+    <xy-button>focus</xy-button>
+    <xy-popcon>
+        <div class="pop-list">
+            <a href="#">链接一</a>
+            <a href="#">链接链接一</a>
+            <a href="#">链接一</a>
+        </div>
+    </xy-popcon>
+</xy-popover>
+```
+
+**contextmenu触发**
+
+可以取代原生右键菜单，在该条件下，方向`dir`无效，位置跟随鼠标。
+
+<xy-popover class="pop-user" trigger="contextmenu">
+    <xy-img src="https://images.pexels.com/photos/698808/pexels-photo-698808.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
+    <xy-popcon>
+        <div class="pop-list">
+            <xy-button block type="flat">重新加载</xy-button>
+            <xy-button block type="flat">另存为</xy-button>
+            <xy-button block type="flat">检查</xy-button>
+        </div>
+    </xy-popcon>
+</xy-popover>
+
+```html
+<xy-popover trigger="contextmenu">
+    <xy-img src="https://images.pexels.com/photos/698808/pexels-photo-698808.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
+    <xy-popcon>
+        <xy-button block type="flat">重新加载</xy-button>
+        <xy-button block type="flat">另存为</xy-button>
+        <xy-button block type="flat">检查</xy-button>
+    </xy-popcon>
+</xy-popover>
+```
+
 ## 显示`open`
 
 > 该属性仅作用在`xy-popcon`上

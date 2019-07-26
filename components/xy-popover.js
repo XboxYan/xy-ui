@@ -14,9 +14,14 @@ class XyPopcon extends HTMLElement {
             width: max-content;
             z-index:10;
             visibility:hidden;
-            
         }
         :host([open]){
+            transition:.15s .15s;
+            visibility:visible;
+        }
+        :host-context([trigger="hover"]:not([disabled]):hover),
+        :host-context([trigger="focus"]:not([disabled]):focus-within){
+            transition:.15s .15s;
             visibility:visible;
         }
         .popcon{
@@ -31,6 +36,12 @@ class XyPopcon extends HTMLElement {
             background:#fff;
         }
         :host([open]) .popcon{
+            visibility:visible;
+            opacity:1;
+            transform:scale(1);
+        }
+        :host-context([trigger="hover"]:not([disabled]):hover) .popcon,
+        :host-context([trigger="focus"]:not([disabled]):focus-within) .popcon{
             visibility:visible;
             opacity:1;
             transform:scale(1);
@@ -122,10 +133,6 @@ class XyPopcon extends HTMLElement {
         return this.getAttribute('type');
     }
 
-    get dir() {
-        return this.getAttribute('dir');
-    }
-
     get oktext() {
         return this.getAttribute('oktext')||'ok';
     }
@@ -138,10 +145,6 @@ class XyPopcon extends HTMLElement {
         return this.getAttribute('loading')!==null;
     }
 
-    set color(value) {
-        this.setAttribute('color', value);
-    }
-
     set title(value) {
         this.setAttribute('title', value);
     }
@@ -152,10 +155,6 @@ class XyPopcon extends HTMLElement {
         }else{
             this.setAttribute('type', value);
         }
-    }
-
-    set dir(value) {
-        this.setAttribute('dir', value);
     }
 
     set oktext(value) {
@@ -347,6 +346,15 @@ class XyPopover extends HTMLElement {
             transform:translate(0,10px);
             transform-origin: right top;
         }
+        :host([trigger="contextmenu"]) ::slotted(xy-popcon){
+            right:auto;
+            bottom:auto;
+            left:var(--x,0);
+            top:var(--y,100%);
+            transform:translate(5px,5px);
+            transform-origin: left top;
+            transition: .15s;
+        }
         </style>
         <slot></slot>
         `
@@ -354,6 +362,10 @@ class XyPopover extends HTMLElement {
 
     get title() {
         return this.getAttribute('title')||'popcon';
+    }
+
+    get trigger() {
+        return this.getAttribute('trigger');
     }
 
     get disabled() {
@@ -376,12 +388,16 @@ class XyPopover extends HTMLElement {
         return this.getAttribute('canceltext');
     }
 
+    get dir() {
+        return this.getAttribute('dir');
+    }
+
     get loading() {
         return this.getAttribute('loading')!==null;
     }
 
-    set color(value) {
-        this.setAttribute('color', value);
+    set dir(value) {
+        this.setAttribute('dir', value);
     }
 
     set title(value) {
@@ -416,7 +432,7 @@ class XyPopover extends HTMLElement {
         }
     }
 
-    show(){
+    show(ev){
         this.popcon = this.querySelector('xy-popcon');
         if(!this.disabled){
             if(!this.popcon){
@@ -434,15 +450,29 @@ class XyPopover extends HTMLElement {
             }
             //this.popcon.remove = true;
             this.popcon.clientWidth;
-            this.popcon.open = true;
+            if(this.trigger==='contextmenu'){
+                this.popcon.style.setProperty('--x',ev.offsetX+'px');
+                this.popcon.style.setProperty('--y',ev.offsetY+'px');
+                this.popcon.open = true;
+            }else{
+                this.popcon.open = !this.popcon.open;
+            }
         }else{
             (this.popcon||this).dispatchEvent(new CustomEvent('submit'));
         }
     }
     connectedCallback() {
-        this.addEventListener('click',this.show);
+        if(!(this.trigger&&this.trigger!=='click')){
+            this.addEventListener('click',this.show);
+        }
+        if(this.trigger==='contextmenu'){
+            this.addEventListener('contextmenu',(ev)=>{
+                ev.preventDefault();
+                this.show(ev);
+            });
+        }
         document.addEventListener('click',(ev)=>{
-            if(this.popcon && !this.popcon.loading && !this.contains(ev.target)){
+            if(this.popcon && !this.popcon.loading && !this.contains(ev.target) || this.trigger==='contextmenu'){
                 this.popcon.open = false;
             }
         })

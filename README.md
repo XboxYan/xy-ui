@@ -12,6 +12,8 @@
 [github项目地址](https://github.com/XboxYan/xy-ui)
 
 ## 更新
+* ## 1.3.1
+    * [xy-popover](./docs/xy-popover.md?id=触发trigger)新增`trigger`属性
 * ## 1.3.0
     * 新增[xy-popover](./docs/xy-popover.md)悬浮操作组件
     * [xy-tips](./docs/xy-tips.md?id=方向dir)的`dir`新增`8`个方向
