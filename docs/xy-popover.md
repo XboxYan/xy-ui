@@ -430,7 +430,7 @@ popover.setAttribute('dir','right');
 `xy-popcon`还可以通过`open`属性主动控制显示。
 
 <xy-popover>
-    说明<xy-tips style="margin:0"><xy-icon size="20" name="question-circle"></xy-icon></xy-tips>
+    说明<xy-tips tips="点击查看提示" style="margin:0"><xy-icon size="20" name="question-circle"></xy-icon></xy-tips>
     <xy-popcon type="pane" title="提示">
         <div class="pop-tips">
             <div>这是一段提示提示提示提示提示</div>
@@ -444,7 +444,7 @@ popover.setAttribute('dir','right');
 
 ```html
 <xy-popover>
-    <xy-tips ><xy-icon size="20" name="question-circle"></xy-icon></xy-tips>
+    <xy-tips tips="点击查看提示"><xy-icon size="20" name="question-circle"></xy-icon></xy-tips>
     <xy-popcon type="pane" title="提示">
         <div class="pop-tips">
             <div>这是一段提示提示提示提示提示</div>

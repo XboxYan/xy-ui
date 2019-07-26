@@ -472,7 +472,7 @@ class XyPopover extends HTMLElement {
             });
         }
         document.addEventListener('click',(ev)=>{
-            if(this.popcon && !this.popcon.loading && !this.contains(ev.target) || this.trigger==='contextmenu'){
+            if(this.popcon && (!this.popcon.loading && !this.contains(ev.target) || this.trigger==='contextmenu')){
                 this.popcon.open = false;
             }
         })
