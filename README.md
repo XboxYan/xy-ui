@@ -1,6 +1,7 @@
 # xy-ui
 
 [![NPM version](https://img.shields.io/npm/v/xy-ui.svg?color=red)](https://www.npmjs.com/package/xy-ui)
+![npm](https://img.shields.io/npm/dw/xy-ui)
 [![GitHub stars](https://img.shields.io/github/stars/XboxYan/xy-ui.svg?color=#42b983)](https://github.com/XboxYan/xy-ui/stargazers)
 [![GitHub stars](https://img.shields.io/github/forks/XboxYan/xy-ui.svg)](https://github.com/XboxYan/xy-ui/network/members)
 
@@ -11,15 +12,19 @@
 [github项目地址](https://github.com/XboxYan/xy-ui)
 
 ## 更新
-* ## 1.2.1
-    * 更新文档
-    * 修复`xy-img`关闭画廊时的定位问题
+* ## 1.3.0
+    * 新增[xy-popover](xy-popover.md)悬浮操作组件
+    * [xy-tips](xy-tips.md?id=方向dir)的`dir`新增`8`个方向
+    * [xy-button](xy-tips.md?id=链接href)新增`href`属性
+    * [xy-input](xy-input.md?id=oninput)新增`debounce`属性
+    * 优化[xy-select](xy-select.md)逻辑
 * ## 1.2.0
+    * 修复`xy-img`关闭画廊时的定位问题
     * 精简所有`focus`、`blur`事件
-    * 新增[`xy-rate`组件](./docs/xy-rate.md)
+    * 新增[xy-rate](xy-rate.md)组件
 * ## 1.1.0
     * 重构`xy-button`组件结构，更易于自定义
-    * 新增[`xy-img`组件](./docs/xy-img.md)
+    * 新增[xy-img](xy-img.md)组件
 * ## 1.0.2
     * 修复已知bug
     * `xy-slider` 新增`suffix`属性

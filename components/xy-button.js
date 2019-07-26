@@ -137,8 +137,11 @@ export default class XyButton extends HTMLElement {
         ::slotted(xy-icon){
             transition: none;
         }
+        :host([disabled]) a{
+            visibility:hidden;
+        }
         </style>
-        <button class="btn" id="btn"></button>${!this.loading && this.icon && this.icon!='null'?'<xy-icon id="icon" name='+this.icon+'></xy-icon>':''}<slot></slot>
+        <${this.href?'a':'button'} ${(this.download&&this.href)?'download="'+this.download+'"':''} ${this.href?'href="'+this.href+'" target="'+this.target+'" rel="'+this.rel+'"':''} class="btn" id="btn"></${this.href?'a':'button'}>${!this.loading && this.icon && this.icon!='null'?'<xy-icon id="icon" name='+this.icon+'></xy-icon>':''}<slot></slot>
         `
     }
 
@@ -152,6 +155,22 @@ export default class XyButton extends HTMLElement {
 
     get name() {
         return this.getAttribute('name');
+    }
+
+    get href() {
+        return this.getAttribute('href');
+    }
+
+    get target() {
+        return this.getAttribute('target')||'_blank';
+    }
+
+    get rel() {
+        return this.getAttribute('rel');
+    }
+
+    get download() {
+        return this.getAttribute('download');
     }
 
     get icon() {

@@ -29,6 +29,21 @@
 <xy-button>default</xy-button>
 ```
 
+## 链接`href`
+
+当设置`href`属性时，`xy-button`内部会渲染成`a`标签。
+
+<xy-button type="primary" href="https://github.com/XboxYan/xy-ui">visit xy-ui</xy-button>
+<xy-button type="dashed" href="https://github.com/XboxYan/xy-ui">visit xy-ui</xy-button>
+<xy-button type="flat" href="https://github.com/XboxYan/xy-ui">visit xy-ui</xy-button>
+<xy-button href="https://github.com/XboxYan/xy-ui">visit xy-ui</xy-button>
+
+```html
+<xy-button href="https://github.com/XboxYan/xy-ui">visit xy-ui</xy-button>
+```
+
+此外，还可以设置`download`、`target`和`rel`属性，同原生`a`标签。
+
 ## 禁用`disabled`
 
 通过`disabled`可以禁用按钮，禁用后该按钮上的事件失效。

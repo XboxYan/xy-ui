@@ -122,6 +122,10 @@ class XyPopcon extends HTMLElement {
         return this.getAttribute('type');
     }
 
+    get dir() {
+        return this.getAttribute('dir');
+    }
+
     get oktext() {
         return this.getAttribute('oktext')||'ok';
     }
@@ -148,6 +152,10 @@ class XyPopcon extends HTMLElement {
         }else{
             this.setAttribute('type', value);
         }
+    }
+
+    set dir(value) {
+        this.setAttribute('dir', value);
     }
 
     set oktext(value) {

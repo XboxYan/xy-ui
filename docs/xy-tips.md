@@ -52,12 +52,14 @@ tips.setAttribute('tips','some tips');
 <xy-tips tips="some tips" dir="left"><xy-button>left</xy-button></xy-tips>
 <xy-tips tips="some tips" dir="topleft"><xy-button>topleft</xy-button></xy-tips>
 <xy-tips tips="some tips" dir="topright"><xy-button>topright</xy-button></xy-tips>
-<xy-tips tips="a a a a a a a a a righttop righttop some tips" dir="righttop"><xy-button>righttop</xy-button></xy-tips>
-<xy-tips tips="a a a rightbottom rightbottom some tips" dir="rightbottom"><xy-button>rightbottom</xy-button></xy-tips>
+<xy-tips tips="a a a a a a a a a righttop righttop righttop righttop righttop some tips" dir="righttop"><xy-button>righttop</xy-button></xy-tips>
+<xy-tips tips="a a a rightbottom rightbottom rightbottom rightbottom rightbottom some tips" dir="rightbottom"><xy-button>rightbottom</xy-button></xy-tips>
+
+
 <xy-tips tips="some tips" dir="bottomleft"><xy-button>bottomleft</xy-button></xy-tips>
 <xy-tips tips="some tips" dir="bottomright"><xy-button>bottomright</xy-button></xy-tips>
-<xy-tips tips="a a a a a a a a a lefttop lefttop some tips" dir="lefttop"><xy-button>lefttop</xy-button></xy-tips>
-<xy-tips tips="a a a a a a a a a leftbottom leftbottom some tips" dir="leftbottom"><xy-button>leftbottom</xy-button></xy-tips>
+<xy-tips tips="a a a a a a a a a lefttop lefttop lefttop lefttop lefttop lefttop some tips" dir="lefttop"><xy-button>lefttop</xy-button></xy-tips>
+<xy-tips tips="a a a a a a a a a leftbottom leftbottom leftbottom leftbottom leftbottom leftbottom leftbottom leftbottom some tips" dir="leftbottom"><xy-button>leftbottom</xy-button></xy-tips>
 
 ```html
 <xy-tips dir="top" tips="some tips"><xy-button>top</xy-button></xy-tips>
