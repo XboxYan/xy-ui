@@ -203,10 +203,8 @@ class XyPopcon extends HTMLElement {
 
     attributeChangedCallback (name, oldValue, newValue) {
         if( name == 'open' && this.shadowRoot){
-            if(newValue!==null){
-                this.btnActive = document.activeElement;
-            }else{
-                this.btnActive.focus();
+            if(newValue==null){
+                window.xyActiveElement.focus();
             }
         }
         if( name == 'loading' && this.shadowRoot){
@@ -505,6 +503,7 @@ class XyPopover extends HTMLElement {
                 this.popcon.open = true;
             }else{
                 if(!this.popcon.contains(ev.target)){
+                    window.xyActiveElement = document.activeElement;
                     this.popcon.open = !this.popcon.open;
                 }
             }

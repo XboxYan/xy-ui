@@ -213,9 +213,6 @@ export default class XyButton extends HTMLElement {
             this.style.setProperty('--x',(ev.clientX - left)+'px');
             this.style.setProperty('--y',(ev.clientY - top)+'px');
         })
-        this.btn.addEventListener('mouseup',function(ev){
-            this.focus();
-        })
         this.disabled = this.disabled;
         this.loading = this.loading;
     }
