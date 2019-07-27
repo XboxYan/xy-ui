@@ -583,10 +583,10 @@ popcon.setAttribute('open',true);
     </xy-popcon>
 </xy-popover>
 
-<xy-popover class="pop-menu" trigger="focus" dir="righttop">
+<xy-popover class="pop-menu" dir="righttop">
     <xy-button>click Menu</xy-button>
     <xy-popcon>
-        <xy-popover trigger="focus" dir="righttop">
+        <xy-popover dir="righttop">
             <xy-button block type="flat">itemA<xy-icon name="right"></xy-icon></xy-button>
             <xy-popcon>
                 <xy-button block type="flat">subMenu1</xy-button>
@@ -595,10 +595,10 @@ popcon.setAttribute('open',true);
                 <xy-button block type="flat">subMenu4</xy-button>
             </xy-popcon>
         </xy-popover>
-        <xy-popover trigger="focus" dir="righttop">
+        <xy-popover dir="righttop">
             <xy-button block type="flat">itemB<xy-icon name="right"></xy-icon></xy-button>
             <xy-popcon>
-                <xy-popover trigger="focus" dir="righttop">
+                <xy-popover dir="righttop">
                     <xy-button block type="flat">sub-itemB<xy-icon name="right"></xy-icon></xy-button>
                     <xy-popcon>
                         <xy-button block type="flat">subMenu1</xy-button>
