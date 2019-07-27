@@ -146,7 +146,7 @@ popcon.addEventListener('cancel',function(){
 }
 </style>
 <xy-popover>
-    说明<xy-tips tips="点击查看更多提示" style="margin:0"><xy-icon size="20" name="question-circle"></xy-icon></xy-tips>
+    <xy-tips tips="点击查看更多提示" style="margin:0"><xy-icon size="16" name="question-circle"></xy-icon></xy-tips>
     <xy-popcon type="pane" title="提示">
         <div class="pop-tips">
             <div>这是一段提示提示提示提示提示</div>
@@ -163,7 +163,7 @@ popcon.addEventListener('cancel',function(){
 
 ```html
 <xy-popover>
-    <xy-tips tips="点击查看更多提示"><xy-icon name="question-circle"></xy-icon></xy-tips>
+    <xy-tips tips="点击查看更多提示"><xy-icon size="16" name="question-circle"></xy-icon></xy-tips>
     <xy-popcon type="pane" title="提示">
         <div class="pop-tips">
             <div>这是一段提示提示提示提示提示</div>
@@ -341,8 +341,6 @@ popover.setAttribute('dir','right');
 
 需要注意的是`hover`、`focus`需要使用自定义模式。
 
-> `hover`、`focus`方式火狐暂不支持，原因[:host-context()选择器](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:host-context())
-
 **hover触发**
 
 <xy-popover trigger="hover">
@@ -430,7 +428,7 @@ popover.setAttribute('dir','right');
 `xy-popcon`还可以通过`open`属性主动控制显示。
 
 <xy-popover>
-    说明<xy-tips tips="点击查看提示" style="margin:0"><xy-icon size="20" name="question-circle"></xy-icon></xy-tips>
+    <xy-tips tips="点击查看提示" style="margin:0"><xy-icon size="16" name="question-circle"></xy-icon></xy-tips>
     <xy-popcon type="pane" title="提示">
         <div class="pop-tips">
             <div>这是一段提示提示提示提示提示</div>
@@ -444,7 +442,7 @@ popover.setAttribute('dir','right');
 
 ```html
 <xy-popover>
-    <xy-tips tips="点击查看提示"><xy-icon size="20" name="question-circle"></xy-icon></xy-tips>
+    <xy-tips tips="点击查看提示"><xy-icon size="16" name="question-circle"></xy-icon></xy-tips>
     <xy-popcon type="pane" title="提示">
         <div class="pop-tips">
             <div>这是一段提示提示提示提示提示</div>
@@ -506,7 +504,7 @@ popcon.setAttribute('open',true);
 </xy-popover>
 ```
 
-这是一个多级菜单，通过`hover`触发。
+这是一个多级菜单，支持`hover`、`focus`、`click`触发。
 
 <style>
 .pop-menu xy-button,.pop-menu xy-popover{
@@ -514,12 +512,15 @@ popcon.setAttribute('open',true);
     margin:0;
     justify-content: flex-start;
 }
+.pop-menu xy-popover:hover>xy-button,.pop-menu xy-popover:focus-within>xy-button{
+    color:var(--themeColor,#42b983);
+} 
 .pop-menu>xy-popcon xy-popcon{
-    transform:translate(0,0)
+    margin-left:-10px;
 }
 </style>
 <xy-popover class="pop-menu" trigger="hover" dir="righttop">
-    <xy-button>Menu</xy-button>
+    <xy-button>hover Menu</xy-button>
     <xy-popcon>
         <xy-popover trigger="hover" dir="righttop">
             <xy-button block type="flat">itemA<xy-icon name="right"></xy-icon></xy-button>
@@ -539,7 +540,70 @@ popcon.setAttribute('open',true);
                         <xy-button block type="flat">subMenu1</xy-button>
                         <xy-button block type="flat">subMenu2</xy-button>
                         <xy-button block type="flat">subMenu3</xy-button>
-                        <xy-button block type="flat">subMenu4</xy-button>
+                    </xy-popcon>
+                </xy-popover>
+                <xy-button block type="flat">subMenu2</xy-button>
+                <xy-button block type="flat">subMenu3</xy-button>
+                <xy-button block type="flat">subMenu4</xy-button>
+            </xy-popcon>
+        </xy-popover>
+        <xy-button block type="flat">itemC</xy-button>
+    </xy-popcon>
+</xy-popover>
+
+<xy-popover class="pop-menu" trigger="focus" dir="righttop">
+    <xy-button>focus Menu</xy-button>
+    <xy-popcon>
+        <xy-popover trigger="focus" dir="righttop">
+            <xy-button block type="flat">itemA<xy-icon name="right"></xy-icon></xy-button>
+            <xy-popcon>
+                <xy-button block type="flat">subMenu1</xy-button>
+                <xy-button block type="flat">subMenu2</xy-button>
+                <xy-button block type="flat">subMenu3</xy-button>
+                <xy-button block type="flat">subMenu4</xy-button>
+            </xy-popcon>
+        </xy-popover>
+        <xy-popover trigger="focus" dir="righttop">
+            <xy-button block type="flat">itemB<xy-icon name="right"></xy-icon></xy-button>
+            <xy-popcon>
+                <xy-popover trigger="focus" dir="righttop">
+                    <xy-button block type="flat">sub-itemB<xy-icon name="right"></xy-icon></xy-button>
+                    <xy-popcon>
+                        <xy-button block type="flat">subMenu1</xy-button>
+                        <xy-button block type="flat">subMenu2</xy-button>
+                        <xy-button block type="flat">subMenu3</xy-button>
+                    </xy-popcon>
+                </xy-popover>
+                <xy-button block type="flat">subMenu2</xy-button>
+                <xy-button block type="flat">subMenu3</xy-button>
+                <xy-button block type="flat">subMenu4</xy-button>
+            </xy-popcon>
+        </xy-popover>
+        <xy-button block type="flat">itemC</xy-button>
+    </xy-popcon>
+</xy-popover>
+
+<xy-popover class="pop-menu" trigger="focus" dir="righttop">
+    <xy-button>click Menu</xy-button>
+    <xy-popcon>
+        <xy-popover trigger="focus" dir="righttop">
+            <xy-button block type="flat">itemA<xy-icon name="right"></xy-icon></xy-button>
+            <xy-popcon>
+                <xy-button block type="flat">subMenu1</xy-button>
+                <xy-button block type="flat">subMenu2</xy-button>
+                <xy-button block type="flat">subMenu3</xy-button>
+                <xy-button block type="flat">subMenu4</xy-button>
+            </xy-popcon>
+        </xy-popover>
+        <xy-popover trigger="focus" dir="righttop">
+            <xy-button block type="flat">itemB<xy-icon name="right"></xy-icon></xy-button>
+            <xy-popcon>
+                <xy-popover trigger="focus" dir="righttop">
+                    <xy-button block type="flat">sub-itemB<xy-icon name="right"></xy-icon></xy-button>
+                    <xy-popcon>
+                        <xy-button block type="flat">subMenu1</xy-button>
+                        <xy-button block type="flat">subMenu2</xy-button>
+                        <xy-button block type="flat">subMenu3</xy-button>
                     </xy-popcon>
                 </xy-popover>
                 <xy-button block type="flat">subMenu2</xy-button>
@@ -573,7 +637,6 @@ popcon.setAttribute('open',true);
                         <xy-button block type="flat">subMenu1</xy-button>
                         <xy-button block type="flat">subMenu2</xy-button>
                         <xy-button block type="flat">subMenu3</xy-button>
-                        <xy-button block type="flat">subMenu4</xy-button>
                     </xy-popcon>
                 </xy-popover>
                 <xy-button block type="flat">subMenu2</xy-button>

@@ -1,4 +1,7 @@
 # update
+* ## 1.3.2
+    * 修复[xy-popover](xy-popover.md?id=触发trigger)在火狐上的触发（`hover`、`focus`）问题
+    * 新增[xy-popover](xy-popover.md?id=示例)示例
 * ## 1.3.1
     * [xy-popover](xy-popover.md?id=触发trigger)新增`trigger`属性
 * ## 1.3.0
