@@ -38,20 +38,38 @@
 <xy-button type="flat" href="https://github.com/XboxYan/xy-ui">visit xy-ui</xy-button>
 <xy-button href="https://github.com/XboxYan/xy-ui">visit xy-ui</xy-button>
 
+
 ```html
 <xy-button href="https://github.com/XboxYan/xy-ui">visit xy-ui</xy-button>
 ```
 
 此外，还可以设置`download`、`target`和`rel`属性，同原生`a`标签。
 
+<xy-img src="/img/Gokou Ruri.gif"></xy-img>
+
+<xy-button href="/img/Gokou Ruri.gif" download="Gokou Ruri">download</xy-button>
+
+```html
+<xy-button href="/img/Gokou Ruri.gif" download="Gokou Ruri">download</xy-button>
+```
+
 ## 禁用`disabled`
 
 通过`disabled`可以禁用按钮，禁用后该按钮上的事件失效。
 
 <xy-button disabled type="primary">primary</xy-button>
+<xy-switch checked onchange="this.previousElementSibling.disabled = this.checked;"></xy-switch>
+
 <xy-button disabled type="dashed">dashed</xy-button>
+<xy-switch checked onchange="this.previousElementSibling.disabled = this.checked;"></xy-switch>
+
 <xy-button disabled type="flat">flat</xy-button>
+<xy-switch checked onchange="this.previousElementSibling.disabled = this.checked;"></xy-switch>
+
 <xy-button disabled >default</xy-button>
+<xy-switch checked onchange="this.previousElementSibling.disabled = this.checked;"></xy-switch>
+
+<xy-button href="https://github.com/XboxYan/xy-ui" disabled>visit xy-ui</xy-button>
 <xy-switch checked onchange="this.previousElementSibling.disabled = this.checked;"></xy-switch>
 
 ```html

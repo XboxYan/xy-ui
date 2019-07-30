@@ -3,7 +3,7 @@ import './xy-icon.js';
 
 export default class XyButton extends HTMLElement {
     //https://mladenplavsic.github.io/css-ripple-effect
-    static get observedAttributes() { return ['disabled','icon','loading'] }
+    static get observedAttributes() { return ['disabled','icon','loading','href'] }
 
     constructor() {
         super();
@@ -138,7 +138,7 @@ export default class XyButton extends HTMLElement {
             transition: none;
         }
         :host([disabled]) a{
-            visibility:hidden;
+            /*visibility:hidden;*/
         }
         </style>
         <${this.href?'a':'button'} ${(this.download&&this.href)?'download="'+this.download+'"':''} ${this.href?'href="'+this.href+'" target="'+this.target+'" rel="'+this.rel+'"':''} class="btn" id="btn"></${this.href?'a':'button'}>${!this.loading && this.icon && this.icon!='null'?'<xy-icon id="icon" name='+this.icon+'></xy-icon>':''}<slot></slot>
@@ -221,8 +221,14 @@ export default class XyButton extends HTMLElement {
         if(name == 'disabled' && this.btn){
             if(newValue!==null){
                 this.btn.setAttribute('disabled', 'disabled');
+                if(this.href){
+                    this.btn.removeAttribute('href');
+                }
             }else{
                 this.btn.removeAttribute('disabled');
+                if(this.href){
+                    this.btn.href = this.href;
+                }
             }
         }
         if( name == 'loading' && this.btn){
@@ -236,6 +242,11 @@ export default class XyButton extends HTMLElement {
         }
         if( name == 'icon' && this.ico){
             this.ico.name = newValue;
+        }
+        if( name == 'href' && this.btn){
+            if(!this.disabled){
+                this.btn.href = newValue;
+            }
         }
     }
 }
