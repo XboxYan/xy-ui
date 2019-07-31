@@ -13,6 +13,9 @@
 [github项目地址](https://github.com/XboxYan/xy-ui)
 
 ## 更新
+* ## 1.3.3
+    * 重构[xy-select](./docs/xy-select.md)，基于`xy-popover`，逻辑更清晰
+    * 修复[xy-popover](./docs/xy-popover.md)、[xy-select](./docs/xy-select.md)空白处点击处关闭的问题
 * ## 1.3.2
     * 修复[xy-popover](./docs/xy-popover.md?id=触发trigger)在火狐上的触发（`hover`、`focus`）问题
     * 新增[xy-popover](./docs/xy-popover.md?id=示例)示例
