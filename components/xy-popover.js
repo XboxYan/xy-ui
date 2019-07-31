@@ -101,6 +101,10 @@ class XyPopcon extends HTMLElement {
         return this.getAttribute('open')!==null;
     }
 
+    get stopfocus() {
+        return this.getAttribute('stopfocus')!==null;
+    }
+
     get title() {
         return this.getAttribute('title')||'popcon';
     }
@@ -200,7 +204,7 @@ class XyPopcon extends HTMLElement {
 
     attributeChangedCallback (name, oldValue, newValue) {
         if( name == 'open' && this.shadowRoot){
-            if(newValue==null){
+            if(newValue==null && !this.stopfocus){
                 window.xyActiveElement.focus();
             }
         }

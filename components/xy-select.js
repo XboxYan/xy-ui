@@ -31,6 +31,7 @@ class XyOption extends HTMLElement {
         this.option = this.shadowRoot.getElementById('option');
         this.option.addEventListener('click',()=>{
             this.parentNode.value = this.value;
+            this.parentNode.focus();
         })
     }
 
@@ -77,21 +78,21 @@ export default class XySelect extends HTMLElement {
         :host([block]){
             display:block;
         }
-        :host([disabled]){ 
-            cursor: not-allowed; 
-        }
         :host xy-button{
             height: inherit;
             font-size: inherit;
         }
-        /*
-        :host(:active:not([disabled])) xy-button{
+        
+        :host(:not([disabled]):not([type="primary"]):focus-within) xy-button{
             border-color:var(--themeColor,#42b983);
             color:var(--themeColor,#42b983);
         }
-        */
+        
         :host(:focus-within),:host(:hover){ 
             z-index: 2;
+        }
+        :host(:not([disabled]):focus-within){ 
+            
         }
         #select{
             display:flex;
@@ -100,23 +101,6 @@ export default class XySelect extends HTMLElement {
         #select span{
             flex:1;
             text-align:left;
-        }
-        .options{
-            position:absolute;
-            min-width:100%;
-            border-radius:3px;
-            overflow:hidden;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            background-color:#fff;
-            margin-top:5px;
-            visibility:hidden;
-            transform:scale(0);
-            transform-origin: top;
-            transition:.3s cubic-bezier(.12, .4, .29, 1.46);
-        }
-        #select[data-show=true]+.options{
-            visibility:visible;
-            transform:scale(1);
         }
         #select[data-show=true] .arrow{
             transform:scaleY(-.8);
@@ -129,18 +113,13 @@ export default class XySelect extends HTMLElement {
             margin-left:.5em;
             pointer-events:none;
         }
-        .placeholder{
-            font-style:normal;
-            opacity:.6
-        }
         xy-popcon{
             min-width:100%;
         }
-        
         </style>
         <xy-popover>
             <xy-button id="select" ${this.disabled? "disabled" : ""} ${this.type?("type="+this.type):""}><span id="value"></span><xy-icon class="arrow" name="down"></xy-icon></xy-button>
-            <xy-popcon id="options">
+            <xy-popcon id="options" stopfocus>
                 <slot id="slot"></slot>
             </xy-popcon>
         </xy-popover>
@@ -187,8 +166,31 @@ export default class XySelect extends HTMLElement {
                 }
             }
         })
+        this.select.addEventListener('focus',(ev)=>{
+            ev.stopPropagation();
+            if(!this.isfocus){
+                this.dispatchEvent(new CustomEvent('focus',{
+                    detail:{
+                        value:this.value
+                    }
+                }));
+            }
+        })
+        this.select.addEventListener('blur',(ev)=>{
+            ev.stopPropagation();
+            if(getComputedStyle(this).zIndex==2){
+                this.isfocus = true;
+            }else{
+                this.isfocus = false;
+                this.dispatchEvent(new CustomEvent('blur',{
+                    detail:{
+                        value:this.value
+                    }
+                }));
+            }
+        })
         this.slots.addEventListener('slotchange', () => {
-            this.nodes = this.querySelectorAll(`xy-option`);
+            this.nodes = [...this.querySelectorAll(`xy-option`)];
             if (!this.defaultvalue) {
                 this.value = this.nodes[0].value;
             } else {
@@ -245,6 +247,7 @@ export default class XySelect extends HTMLElement {
                 pre.selected = false;
             }
             const cur = this.querySelector(`xy-option[value="${value}"]`);
+            this.focusIndex = this.nodes.indexOf(cur);
             cur.selected = true;
             textContent = cur.textContent;
             this.txt.innerText = textContent;
