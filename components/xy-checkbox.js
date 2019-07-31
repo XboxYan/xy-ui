@@ -135,7 +135,7 @@ export default class XyCheckbox extends HTMLElement {
         this.disabled = this.disabled;
         this.checked = this.checked;
         this.checkbox.addEventListener('change',(ev)=>{
-            this.checked = ev.target.checked;
+            this.checked = this.checkbox.checked;
         })
         this.checkbox.addEventListener('keydown', (ev) => {
             switch (ev.keyCode) {

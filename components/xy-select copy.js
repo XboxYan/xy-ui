@@ -1,5 +1,4 @@
 import './xy-button.js';
-import './xy-popover.js';
 
 class XyOption extends HTMLElement {
     static get observedAttributes() { return ["value", "selected"]; }
@@ -18,7 +17,7 @@ class XyOption extends HTMLElement {
                 border-radius:0;
                 font-size: inherit;
             }
-            :host([selected]) .option{
+            :host([selected="true"]) .option{
                 color:var(--themeColor,#42b983)
             }
         </style>
@@ -29,9 +28,6 @@ class XyOption extends HTMLElement {
 
     connectedCallback() {
         this.option = this.shadowRoot.getElementById('option');
-        this.option.addEventListener('click',()=>{
-            this.parentNode.value = this.value;
-        })
     }
 
     focus() {
@@ -47,7 +43,7 @@ class XyOption extends HTMLElement {
      */
     set selected(value) {
         if (value) {
-            this.setAttribute('selected','');
+            this.setAttribute('selected', value);
         } else {
             this.removeAttribute('selected');
         }
@@ -133,18 +129,38 @@ export default class XySelect extends HTMLElement {
             font-style:normal;
             opacity:.6
         }
-        xy-popcon{
-            min-width:100%;
-        }
         
         </style>
-        <xy-popover>
-            <xy-button id="select" ${this.disabled? "disabled" : ""} ${this.type?("type="+this.type):""}><span id="value"></span><xy-icon class="arrow" name="down"></xy-icon></xy-button>
-            <xy-popcon id="options">
-                <slot id="slot"></slot>
-            </xy-popcon>
-        </xy-popover>
+        <xy-button id="select" ${this.disabled? "disabled" : ""} ${this.type?("type="+this.type):""}><span id="value"></span><xy-icon class="arrow" name="down"></xy-icon></xy-button>
+        <div class="options" id="options">
+            <slot id="slot"></slot>
+        </div>
         `
+    }
+
+    setVisible(show) {
+        this.show = show;
+        this.select.dataset.show = show;
+    }
+
+    onshow(ev, visible) {
+        this.focusIndex = Array.from(this.nodes).findIndex(el => el.value === this.value);
+        if (!visible) {
+            this.show = !this.show;
+            this.select.dataset.show = this.show;
+        }
+        /*
+        document.querySelectorAll('xy-select').forEach((item) => {
+            if (this === item) {
+                if (!visible) {
+                    this.show = !this.show;
+                    this.select.dataset.show = this.show;
+                }
+            } else {
+                item.setVisible(false);
+            }
+        })
+        */
     }
 
     move(dir) {
@@ -152,6 +168,8 @@ export default class XySelect extends HTMLElement {
         const current = this.nodes[focusIndex];
         if (current) {
             current.focus();
+            this.focusRoot = true;
+            
             this.focusIndex = focusIndex;
         }
     }
@@ -161,13 +179,51 @@ export default class XySelect extends HTMLElement {
     }
 
     connectedCallback() {
+        this.show = false;
         this.select = this.shadowRoot.getElementById('select');
         this.options = this.shadowRoot.getElementById('options');
         this.slots = this.shadowRoot.getElementById('slot');
         this.txt = this.shadowRoot.getElementById('value');
         this.focusIndex = 0;
+        this.select.addEventListener('mousedown', (ev) => {
+            this.focus();
+        })
+        this.select.addEventListener('click', (ev) => {
+            this.onshow(ev);
+        })
+        this.select.addEventListener('focus', (ev) => {
+            ev.stopPropagation();
+            if(!this.focusRoot){
+                this.dispatchEvent(new CustomEvent('focus',{
+                    detail:{
+                        checked: this.value
+                    }
+                }));
+            }
+        })
+        this.select.addEventListener('blur', (ev) => {
+            ev.stopPropagation();
+            if(!this.show){
+                this.focusRoot = false;
+                this.dispatchEvent(new CustomEvent('blur',{
+                    detail:{
+                        checked: this.value
+                    }
+                }));
+            }
+        })
+        this.options.addEventListener('click', (ev) => {
+            ev.stopPropagation();
+            const item = ev.target.closest('xy-option');
+            this.focusRoot = true;
+            if (item) {
+                this.value = item.value;
+                this.setVisible(false);
+                this.select.focus();
+            }
+        })
         this.addEventListener('keydown', (ev) => {
-            if (this.options.open) {
+            if (this.show) {
                 switch (ev.keyCode) {
                     case 9://Tab
                         ev.preventDefault();
@@ -180,11 +236,23 @@ export default class XySelect extends HTMLElement {
                         break;
                     case 8://Backspace
                     case 27://Esc
-                        this.options.open = false;
+                        this.setVisible(false);
+                        this.select.focus();
                         break;
                     default:
                         break;
                 }
+            }
+        })
+        document.addEventListener('mousedown', (ev) => {
+            if(!this.contains(ev.target)){
+                this.show = false;
+            }
+        })
+        document.addEventListener('click', (ev) => {
+            if(!this.contains(ev.target)){
+                this.focusRoot = false;
+                this.setVisible(false);
             }
         })
         this.slots.addEventListener('slotchange', () => {
@@ -240,14 +308,15 @@ export default class XySelect extends HTMLElement {
         let textContent = '';
         if (value !== this.value) {
             this.select.value = value;
-            const pre = this.querySelector(`xy-option[selected]`);
-            if(pre){
-                pre.selected = false;
-            }
-            const cur = this.querySelector(`xy-option[value="${value}"]`);
-            cur.selected = true;
-            textContent = cur.textContent;
-            this.txt.innerText = textContent;
+            Array.from(this.querySelectorAll('xy-option')).forEach((item) => {
+                if (item.value === value) {
+                    item.selected = true;
+                    textContent = item.textContent;
+                    this.txt.innerText = textContent;
+                } else {
+                    item.selected = false;
+                }
+            })
             if(this.init){
                 this.dispatchEvent(new CustomEvent('change', {
                     detail: {
@@ -257,7 +326,6 @@ export default class XySelect extends HTMLElement {
                 }));
             }
         }
-        this.options.open = false;
     }
 
     attributeChangedCallback(name, oldValue, newValue) {

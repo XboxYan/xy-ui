@@ -106,7 +106,7 @@ export default class XySwitch extends HTMLElement {
         this.disabled = this.disabled;
         this.checked = this.checked;
         this.switch.addEventListener('change',(ev)=>{
-            this.checked = ev.target.checked;
+            this.checked = this.switch.checked;
         })
         this.switch.addEventListener('keydown', (ev) => {
             switch (ev.keyCode) {

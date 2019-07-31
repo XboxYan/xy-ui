@@ -183,9 +183,6 @@ class XyPopcon extends HTMLElement {
                 this.dispatchEvent(new CustomEvent('close'));
             }
         })
-        this.addEventListener('click',(ev)=>{
-            //ev.stopPropagation();
-        })
         this.btnClose.addEventListener('click',()=>{
             this.open = false;
         })
@@ -502,7 +499,8 @@ class XyPopover extends HTMLElement {
                 this.popcon.style.setProperty('--y',ev.offsetY+'px');
                 this.popcon.open = true;
             }else{
-                if(!this.popcon.contains(ev.target)){
+                const path = ev.path || (ev.composedPath && ev.composedPath());
+                if(!path.includes(this.popcon)){
                     window.xyActiveElement = document.activeElement;
                     this.popcon.open = !this.popcon.open;
                 }
@@ -519,14 +517,16 @@ class XyPopover extends HTMLElement {
         }
         if(this.trigger==='contextmenu'){
             this.addEventListener('contextmenu',(ev)=>{
-                ev.preventDefault();    
-                if(!this.popcon.contains(ev.target)){
+                ev.preventDefault();
+                const path = ev.path || (ev.composedPath && ev.composedPath());
+                if(!path.includes(this.popcon)){
                     this.show(ev);
                 }
             });
         }
         document.addEventListener('click',(ev)=>{
-            if(this.popcon && !this.popcon.contains(ev.target) && (!this.popcon.loading && !this.contains(ev.target) || this.trigger==='contextmenu')){
+            const path = ev.path || (ev.composedPath && ev.composedPath());
+            if(this.popcon && !path.includes(this.popcon) && !this.popcon.loading && !path.includes(this.children[0]) || this.trigger==='contextmenu' ){
                 this.popcon.open = false;
             }
         })

@@ -153,7 +153,7 @@ export default class XyRate extends HTMLElement {
         }
         this.radio.forEach((el)=>{
             el.addEventListener('change',(ev)=>{
-                this.value = ev.target.value;
+                this.value = el.value;
             })
         })
     }
