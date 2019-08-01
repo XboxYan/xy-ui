@@ -134,7 +134,7 @@ export default class XyRadio extends HTMLElement {
         this.disabled = this.disabled;
         this.checked = this.checked;
         this.radio.addEventListener('change',(ev)=>{
-            const prev = document.querySelector(`xy-radio[name="${this.name}"][checked]`);
+            const prev = this.getRootNode().querySelector(`xy-radio[name="${this.name}"][checked]`);
             if( prev ){
                 prev.checked = false;
             }
@@ -143,7 +143,7 @@ export default class XyRadio extends HTMLElement {
         this.radio.addEventListener('keydown', (ev) => {
             switch (ev.keyCode) {
                 case 13://Enter
-                    const prev = document.querySelector(`xy-radio[name="${this.name}"][checked]`);
+                    const prev = this.getRootNode().querySelector(`xy-radio[name="${this.name}"][checked]`);
                     if( prev ){
                         prev.checked = false;
                     }
