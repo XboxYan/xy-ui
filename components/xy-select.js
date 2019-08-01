@@ -13,7 +13,6 @@ class XyOption extends HTMLElement {
             }
             .option {
                 display: flex;
-                height: inherit;
                 justify-content: flex-start;
                 border-radius:0;
                 font-size: inherit;
@@ -71,7 +70,6 @@ export default class XySelect extends HTMLElement {
         :host{
             position:relative;
             display:inline-block;
-            line-height:2.4;
             font-size: 14px;
             z-index: 1;
         }
@@ -79,7 +77,6 @@ export default class XySelect extends HTMLElement {
             display:block;
         }
         :host xy-button{
-            height: inherit;
             font-size: inherit;
         }
         
@@ -119,7 +116,7 @@ export default class XySelect extends HTMLElement {
         </style>
         <xy-popover>
             <xy-button id="select" ${this.disabled? "disabled" : ""} ${this.type?("type="+this.type):""}><span id="value"></span><xy-icon class="arrow" name="down"></xy-icon></xy-button>
-            <xy-popcon id="options" stopfocus>
+            <xy-popcon id="options">
                 <slot id="slot"></slot>
             </xy-popcon>
         </xy-popover>

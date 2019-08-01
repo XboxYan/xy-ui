@@ -234,50 +234,6 @@ select.addEventListener('change',function(ev){
 select.focus();
 ```
 
-## 自定义样式
-
-目前可以修改的部分样式如下
-
-```css
-:host {
-    display: inline-block;
-    line-height: 2.4;
-    font-size: 14px;
-}
-```
-
-下面是一个自定义样式的下拉选择器
-
-<style>
-.custom-select{
-    width:200px;
-    font-size:20px;
-    line-height:50px;
-}
-</style>
-
-<xy-select class="custom-select">
-    <xy-option value="1">Option1</xy-option>
-    <xy-option value="2">Option2</xy-option>
-    <xy-option value="3">Option3</xy-option>
-</xy-select>
-
-```html
-<style>
-.custom-select{
-    width:200px;
-    font-size:20px;
-    line-height:50px;
-}
-</style>
-
-<xy-select class="custom-select">
-    <xy-option value="1">Option1</xy-option>
-    <xy-option value="2">Option2</xy-option>
-    <xy-option value="3">Option3</xy-option>
-</xy-select>
-```
-
 ## 其他
 
 `xy-select`除了包裹`xy-option`以外，还能包裹其他标签，比如`a`链接

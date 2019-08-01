@@ -81,7 +81,6 @@ class XyPopcon extends HTMLElement {
             padding: 0;
         }
         </style>
-
             <xy-icon id="popcon-type" class="popcon-type" name="question-circle" color="#faad14"></xy-icon>
             <div class="popcon-content">
                 <div class="popcon-title" id="title">${this.title}</div>
@@ -189,15 +188,18 @@ class XyPopcon extends HTMLElement {
         })
         this.btnClose.addEventListener('click',()=>{
             this.open = false;
+            window.xyActiveElement.focus();
         })
         this.btnCancel.addEventListener('click',async ()=>{
             this.dispatchEvent(new CustomEvent('cancel'));
             this.open = false;
+            window.xyActiveElement.focus();
         })
         this.btnSubmit.addEventListener('click',()=>{
             this.dispatchEvent(new CustomEvent('submit'));
             if(!this.loading){
                 this.open = false;
+                window.xyActiveElement.focus();
             }
         })
     }
@@ -205,7 +207,7 @@ class XyPopcon extends HTMLElement {
     attributeChangedCallback (name, oldValue, newValue) {
         if( name == 'open' && this.shadowRoot){
             if(newValue==null && !this.stopfocus){
-                window.xyActiveElement.focus();
+                //window.xyActiveElement.focus();
             }
         }
         if( name == 'loading' && this.shadowRoot){
