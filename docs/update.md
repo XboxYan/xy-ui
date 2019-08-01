@@ -1,4 +1,7 @@
 # update
+* ## 1.3.3
+    * 重构[xy-select](xy-select.md)，基于`xy-popover`，逻辑更清晰
+    * 修复[xy-popover](xy-popover.md)、[xy-select](xy-select.md)空白处点击处关闭的问题
 * ## 1.3.2
     * 修复[xy-popover](xy-popover.md?id=触发trigger)在火狐上的触发（`hover`、`focus`）问题
     * 新增[xy-popover](xy-popover.md?id=示例)示例
