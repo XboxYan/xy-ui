@@ -101,6 +101,42 @@ com.setAttribute('props',newProps);
 com.removeAttribute('props');
 ```
 
+## 状态切换`toggle`
+
+可以给按钮添加`toggle`属性，来实现简单的按钮状态切换。
+
+可以简单的通过`checked`属性改变样式。
+
+<style>
+.button-toggle[checked]{
+    background:var(--themeColor);
+    color:#fff;
+}
+</style>
+<xy-button toggle class="button-toggle">toggle button</xy-button>
+
+```html
+<style>
+.button-toggle[checked]{
+    background:var(--themeColor);
+    color:#fff;
+}
+</style>
+<xy-button toggle class="button-toggle">toggle button</xy-button>
+```
+
+也可以通过`js`获取到`checked`属性。
+
+```js
+btn.addEventListener('click',function(ev){
+    if(this.checked){
+        //do something
+    }else{
+        //do something
+    }
+})
+```
+
 ## 加载`loading`
 
 添加`loading`属性即可让按钮处于加载状态，处于加载状态所有事件会被禁用，类似于`disabled`
@@ -221,7 +257,7 @@ btn.onfocus = function(ev){
     console.log(ev)
 }
 
-slider.addEventListener('focus',function(ev){
+btn.addEventListener('focus',function(ev){
     console.log(ev)
 })
 ```

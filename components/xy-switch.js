@@ -29,6 +29,9 @@ export default class XySwitch extends HTMLElement {
         :host(:focus-within) label{ 
             box-shadow: 0 0 10px rgba(0,0,0,0.1); 
         }
+        :host(:focus-within) #switch,:host(:active) #switch{
+            z-index:2
+        }
         label{
             box-sizing:border-box;
             cursor:pointer;
@@ -115,6 +118,29 @@ export default class XySwitch extends HTMLElement {
                     break;
                 default:
                     break;
+            }
+        })
+        this.switch.addEventListener('focus',(ev)=>{
+            ev.stopPropagation();
+            if(!this.isfocus){
+                this.dispatchEvent(new CustomEvent('focus',{
+                    detail:{
+                        value:this.value
+                    }
+                }));
+            }
+        })
+        this.switch.addEventListener('blur',(ev)=>{
+            ev.stopPropagation();
+            if(getComputedStyle(this.switch).zIndex==2){
+                this.isfocus = true;
+            }else{
+                this.isfocus = false;
+                this.dispatchEvent(new CustomEvent('blur',{
+                    detail:{
+                        value:this.value
+                    }
+                }));
             }
         })
     }

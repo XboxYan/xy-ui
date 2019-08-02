@@ -30,6 +30,9 @@ export default class XyCheckbox extends HTMLElement {
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             z-index:1;
         }
+        :host(:focus-within) #checkbox,:host(:active) #checkbox{
+            z-index:2
+        }
         :host([disabled]) .cheked{ 
             background:rgba(0,0,0,.1);
         }
@@ -144,6 +147,29 @@ export default class XyCheckbox extends HTMLElement {
                     break;
                 default:
                     break;
+            }
+        })
+        this.checkbox.addEventListener('focus',(ev)=>{
+            ev.stopPropagation();
+            if(!this.isfocus){
+                this.dispatchEvent(new CustomEvent('focus',{
+                    detail:{
+                        value:this.value
+                    }
+                }));
+            }
+        })
+        this.checkbox.addEventListener('blur',(ev)=>{
+            ev.stopPropagation();
+            if(getComputedStyle(this.checkbox).zIndex==2){
+                this.isfocus = true;
+            }else{
+                this.isfocus = false;
+                this.dispatchEvent(new CustomEvent('blur',{
+                    detail:{
+                        value:this.value
+                    }
+                }));
             }
         })
     }

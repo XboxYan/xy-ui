@@ -153,8 +153,16 @@ export default class XyButton extends HTMLElement {
         return this.getAttribute('disabled')!==null;
     }
 
+    get toggle() {
+        return this.getAttribute('toggle')!==null;
+    }
+
     get name() {
         return this.getAttribute('name');
+    }
+
+    get checked() {
+        return this.getAttribute('checked')!==null;
     }
 
     get href() {
@@ -193,6 +201,14 @@ export default class XyButton extends HTMLElement {
         }
     }
 
+    set checked(value) {
+        if(value===null||value===false){
+            this.removeAttribute('checked');
+        }else{
+            this.setAttribute('checked', '');
+        }
+    }
+
     set loading(value) {
         if(value===null||value===false){
             this.removeAttribute('loading');
@@ -212,6 +228,11 @@ export default class XyButton extends HTMLElement {
             const { left, top } = this.getBoundingClientRect();
             this.style.setProperty('--x',(ev.clientX - left)+'px');
             this.style.setProperty('--y',(ev.clientY - top)+'px');
+        })
+        this.addEventListener('click',function(ev){
+            if(this.toggle){
+                this.checked=!this.checked;
+            }
         })
         this.disabled = this.disabled;
         this.loading = this.loading;

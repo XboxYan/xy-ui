@@ -68,10 +68,8 @@ export default class XySelect extends HTMLElement {
         shadowRoot.innerHTML = `
         <style>
         :host{
-            position:relative;
             display:inline-block;
             font-size: 14px;
-            z-index: 1;
         }
         :host([block]){
             display:block;
@@ -85,11 +83,8 @@ export default class XySelect extends HTMLElement {
             color:var(--themeColor,#42b983);
         }
         
-        :host(:focus-within),:host(:hover){ 
+        :host(:focus-within) xy-popover,:host(:hover) xy-popover{ 
             z-index: 2;
-        }
-        :host(:not([disabled]):focus-within){ 
-            
         }
         #select{
             display:flex;
@@ -110,11 +105,14 @@ export default class XySelect extends HTMLElement {
             margin-left:.5em;
             pointer-events:none;
         }
+        xy-popover{
+            display:block;
+        }
         xy-popcon{
             min-width:100%;
         }
         </style>
-        <xy-popover>
+        <xy-popover id="root">
             <xy-button id="select" ${this.disabled? "disabled" : ""} ${this.type?("type="+this.type):""}><span id="value"></span><xy-icon class="arrow" name="down"></xy-icon></xy-button>
             <xy-popcon id="options">
                 <slot id="slot"></slot>
@@ -137,6 +135,7 @@ export default class XySelect extends HTMLElement {
     }
 
     connectedCallback() {
+        this.root = this.shadowRoot.getElementById('root');
         this.select = this.shadowRoot.getElementById('select');
         this.options = this.shadowRoot.getElementById('options');
         this.slots = this.shadowRoot.getElementById('slot');
@@ -175,7 +174,7 @@ export default class XySelect extends HTMLElement {
         })
         this.select.addEventListener('blur',(ev)=>{
             ev.stopPropagation();
-            if(getComputedStyle(this).zIndex==2){
+            if(getComputedStyle(this.root).zIndex==2){
                 this.isfocus = true;
             }else{
                 this.isfocus = false;

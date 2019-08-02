@@ -1,4 +1,9 @@
 # update
+* ## 1.3.4
+    * [xy-button](xy-button.md?id=状态切换toggle)新增`toggle`属性
+    * 修复[xy-select](xy-select.md)样式问题
+    * 修复[xy-switch](xy-switch.md)、[xy-checkbox](xy-checkbox.md)点击重复触发`focus`的问题
+    * 修复[xy-radio](xy-radio.md)在自定义组件内单选问题
 * ## 1.3.3
     * 重构[xy-select](xy-select.md)，基于`xy-popover`，逻辑更清晰
     * 修复[xy-popover](xy-popover.md)、[xy-select](xy-select.md)空白处点击处关闭的问题
@@ -10,7 +15,7 @@
 * ## 1.3.0
     * 新增[xy-popover](xy-popover.md)悬浮操作组件
     * [xy-tips](xy-tips.md?id=方向dir)的`dir`新增`8`个方向
-    * [xy-button](xy-tips.md?id=链接href)新增`href`属性
+    * [xy-button](xy-button.md?id=链接href)新增`href`属性
     * [xy-input](xy-input.md?id=oninput)新增`debounce`属性
     * 优化[xy-select](xy-select.md)逻辑
 * ## 1.2.0
