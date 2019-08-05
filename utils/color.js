@@ -43,9 +43,9 @@ export function hsvToRgb(h, s, v) {
     let b = [p, p, t, v, v, q][mod];
 
     return [
-        r * 255,
-        g * 255,
-        b * 255
+        Number((r * 255).toFixed(2)),
+        Number((g * 255).toFixed(2)),
+        Number((b * 255).toFixed(2))
     ];
 }
 
@@ -112,11 +112,10 @@ export function hsvToHsl(h, s, v) {
             s = s * v / (2 - l * 2);
         }
     }
-
     return [
-        h,
-        s * 100,
-        l * 100
+        Number((h).toFixed(2)),
+        Number((s * 100).toFixed(2)),
+        Number((l * 100).toFixed(2))
     ];
 }
 
@@ -127,7 +126,7 @@ export function hsvToHsl(h, s, v) {
  * @param b Blue
  * @return {number[]} HSV values.
  */
-function rgbToHsv(r, g, b) {
+export function rgbToHsv(r, g, b) {
     r /= 255, g /= 255, b /= 255;
 
     let h, s, v;
@@ -174,7 +173,7 @@ function rgbToHsv(r, g, b) {
  * @param k Key (Black)
  * @return {number[]} HSV values.
  */
-function cmykToHsv(c, m, y, k) {
+export function cmykToHsv(c, m, y, k) {
     c /= 100;
     m /= 100;
     y /= 100;
@@ -194,14 +193,14 @@ function cmykToHsv(c, m, y, k) {
  * @param l Lightness
  * @return {number[]} HSV values.
  */
-function hslToHsv(h, s, l) {
+export function hslToHsv(h, s, l) {
     s /= 100;
     l /= 100;
     s *= l < 0.5 ? l : 1 - l;
 
     let ns = (2 * s / (l + s)) * 100;
     let v = (l + s) * 100;
-    return [h, ns, v];
+    return [Number(h.toFixed(2)), Number(ns.toFixed(2)), Number(v.toFixed(2))];
 }
 
 /**
@@ -209,7 +208,7 @@ function hslToHsv(h, s, l) {
  * @param hex Hexadecimal string of rgb colors, can have length 3 or 6.
  * @return {number[]} HSV values.
  */
-function hexToHsv(hex) {
+export function hexToHsv(hex) {
     return rgbToHsv(...hex.match(/.{2}/g).map(v => parseInt(v, 16)));
 }
 

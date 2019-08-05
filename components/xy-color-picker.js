@@ -1,6 +1,6 @@
 import './xy-button.js';
 import './xy-popover.js';
-import { parseToHSVA } from '../utils/color.js';
+import { rgbToHsv,hslToHsv,parseToHSVA } from '../utils/color.js';
 import { HSVaColor } from '../utils/hsvacolor.js';
 
 class XyColorPane extends HTMLElement {
@@ -117,8 +117,15 @@ class XyColorPane extends HTMLElement {
                 background-size:100% 100%,10px 10px,10px 10px;
             }
             .color-label{
+                position:absolute;
                 display:flex;
                 visibility:hidden;
+                opacity:0;
+                left:0;
+                right:0;
+                top:0;
+                bottom:0;
+                transition: .3s;
             }
             .color-label input{
                 flex:1;
@@ -126,10 +133,11 @@ class XyColorPane extends HTMLElement {
                 outline:0;
                 min-width:0;
                 width: 0;
-                border-radius:2px;
+                border-radius:3px;
                 border:1px solid #ddd;
-                padding:0 .8em;
+                padding:0 5px;
                 line-height:28px;
+                text-align:center;
                 -moz-appearance: textfield;
                 transition:.3s;
             }
@@ -151,24 +159,15 @@ class XyColorPane extends HTMLElement {
                 width: 60px;
             }
             .color-input{
+                position:relative;
                 flex:1;
                 height:30px;
                 overflow:hidden;
             }
-            .color-footer[type="HEX"] .color-label:nth-child(1){
+            .color-footer[type="HEXA"] .color-label:nth-child(1),.color-footer[type="RGBA"] .color-label:nth-child(2),.color-footer[type="HSLA"] .color-label:nth-child(3){
+                opacity:1;
                 visibility:visible;
-            }
-            .color-footer[type="RGBA"] .color-input-wrap{
-                transform:translateY(-30px);
-            }
-            .color-footer[type="RGBA"] .color-label:nth-child(2){
-                visibility:visible;
-            }
-            .color-footer[type="HSLA"] .color-input-wrap{
-                transform:translateY(-60px);
-            }
-            .color-footer[type="HSLA"] .color-label:nth-child(3){
-                visibility:visible;
+                z-index:2;
             }
         </style>
         <div class="color-pane" id="color-pane">
@@ -180,56 +179,57 @@ class XyColorPane extends HTMLElement {
                     <input class="color-opacity" value="1" min="0" max="1" step="0.01" type="range" id="range-opacity">
                 </div>
             </div>
-            <div class="color-footer" type="HEX">
+            <div class="color-footer" type="HEXA">
                 <div class="color-input">
-                    <div class="color-input-wrap">
-                        <div class="color-label">
-                            <input />
-                        </div>
-                        <div class="color-label">
-                            <input type="number" />
-                            <input type="number" />
-                            <input type="number" />
-                            <input type="number" />
-                        </div>
-                        <div class="color-label">
-                            <input type="number" />
-                            <input type="number" />
-                            <input type="number" />
-                            <input type="number" />
-                        </div>
+                    <div class="color-label" id="color-hexa">
+                        <input spellcheck="false" />
+                    </div>
+                    <div class="color-label" id="color-rgba">
+                        <input type="number" min="0" max="255" spellcheck="false" />
+                        <input type="number" min="0" max="255" spellcheck="false" />
+                        <input type="number" min="0" max="255" spellcheck="false" />
+                        <input type="number" min="0" max="1" step="0.01" spellcheck="false" />
+                    </div>
+                    <div class="color-label" id="color-hlsa">
+                        <input type="number" min="0" max="360" spellcheck="false" />
+                        <input type="number" min="0" max="100" spellcheck="false" />
+                        <input type="number" min="0" max="100" spellcheck="false" />
+                        <input type="number" min="0" max="1" step="0.01" spellcheck="false" />
                     </div>
                 </div>
-                <xy-button id="btn-switch" type="primary">HEX</xy-button>
+                <xy-button id="btn-switch" type="primary">HEXA</xy-button>
             </div>
         </div>
         `
     }
 
     connectedCallback() {
-        this.type = ['HEX','RGBA','HSLA'];
+        this.type = ['HEXA','RGBA','HSLA'];
         this.typeindex = 0;
         this.palette = this.shadowRoot.getElementById('color-palette');
         this.pane = this.shadowRoot.getElementById('color-pane');
         this.rangeHue = this.shadowRoot.getElementById('range-hue');
         this.rangeOpacity = this.shadowRoot.getElementById('range-opacity');
         this.switch = this.shadowRoot.getElementById('btn-switch');
+        this.colorHexa = this.shadowRoot.getElementById('color-hexa').querySelectorAll('input');
+        this.colorRgba = this.shadowRoot.getElementById('color-rgba').querySelectorAll('input');
+        this.colorHlsa = this.shadowRoot.getElementById('color-hlsa').querySelectorAll('input');
         this.rangeHue.addEventListener('input',()=>{
-            const value = this.$value;
+            const value = HSVaColor(...this.$value).toHSLA();
             value[0] = Number(this.rangeHue.value);
-            this.value = value;
+            this.value = value.toString();
         })
         this.palette.addEventListener('mousedown',(ev)=>{
             const {width:w,height:h} = this.palette.getBoundingClientRect();
-            const value = this.$value;
+            const value = HSVaColor(...this.$value).toHSVA();
             value[1] = ev.offsetX/w*100;
             value[2] = 100-ev.offsetY/h*100;
-            this.value = value;
+            this.value = value.toString();
         })
         this.rangeOpacity.addEventListener('input',()=>{
-            const value = this.$value;
+            const value = HSVaColor(...this.$value).toHSLA();
             value[3] = Number(this.rangeOpacity.value);
-            this.value = value;
+            this.value = value.toString();
         })
         this.switch.addEventListener('click',()=>{
             this.typeindex ++;
@@ -237,7 +237,26 @@ class XyColorPane extends HTMLElement {
             this.switch.innerText = this.type[this.typeindex];
             this.switch.parentNode.setAttribute('type',this.type[this.typeindex]);
         })
-        this.value = parseToHSVA(this.defaultvalue).values;
+        this.colorHexa.forEach(el=>{
+            el.addEventListener('change',()=>{
+                this.value = el.value;
+            })
+        })
+        this.colorRgba.forEach((el,i)=>{
+            el.addEventListener('change',()=>{
+                const value = HSVaColor(...this.$value).toRGBA();
+                value[i] = Number(el.value);
+                this.value = value.toString();
+            })
+        })
+        this.colorHlsa.forEach((el,i)=>{
+            el.addEventListener('change',()=>{
+                const value = HSVaColor(...this.$value).toHSLA();
+                value[i] = Number(el.value);
+                this.value = value.toString();
+            })
+        })
+        this.value = this.defaultvalue;
     }
 
     focus() {
@@ -245,7 +264,7 @@ class XyColorPane extends HTMLElement {
     }
 
     get value() {
-        return HSVaColor(...this.$value).toRGBA().toString();
+        return HSVaColor(...this.$value)['to'+this.type[this.typeindex]]().toString();
     }
 
     get defaultvalue() {
@@ -253,14 +272,28 @@ class XyColorPane extends HTMLElement {
     }
 
     set value(value) {
-        this.$value = value;
-        //[h,s,v,s]
-        const [h,s,v,a] = value;
+        this.$value = parseToHSVA(value).values;
+        console.log(value)
+        //[h,s,v,a]
+        const [h,s,v,a=1] = this.$value;
         this.pane.style.setProperty('--h',h);
         this.pane.style.setProperty('--s',s);
         this.pane.style.setProperty('--v',v);
         this.pane.style.setProperty('--a',a);
         this.pane.style.setProperty('--c',this.value);
+        this.rangeHue.value = h;
+        this.rangeOpacity.value = a;
+        this.colorHexa[0].value = HSVaColor(...this.$value).toHEXA().toString();
+        const RGBA = HSVaColor(...this.$value).toRGBA();
+        this.colorRgba[0].value = RGBA[0].toFixed(0);
+        this.colorRgba[1].value = RGBA[1].toFixed(0);
+        this.colorRgba[2].value = RGBA[2].toFixed(0);
+        this.colorRgba[3].value = RGBA[3];
+        const HSLA = HSVaColor(...this.$value).toHSLA();
+        this.colorHlsa[0].value = HSLA[0].toFixed(0);
+        this.colorHlsa[1].value = HSLA[1].toFixed(0);
+        this.colorHlsa[2].value = HSLA[2].toFixed(0);
+        this.colorHlsa[3].value = HSLA[3];
     }
 
 }
