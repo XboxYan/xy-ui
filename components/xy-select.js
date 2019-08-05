@@ -59,7 +59,7 @@ customElements.define('xy-option', XyOption);
 
 export default class XySelect extends HTMLElement {
 
-    static get observedAttributes() { return ['value', 'show', 'disabled', 'placeholder','type'] }
+    static get observedAttributes() { return ['value', 'disabled', 'type'] }
 
     constructor() {
         super();
@@ -83,7 +83,7 @@ export default class XySelect extends HTMLElement {
             color:var(--themeColor,#42b983);
         }
         
-        :host(:focus-within) xy-popover,:host(:hover) xy-popover{ 
+        :host(:focus-within) xy-popover{ 
             z-index: 2;
         }
         #select{

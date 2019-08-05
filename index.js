@@ -13,6 +13,7 @@ import './components/xy-input.js';
 import './components/xy-img.js';
 import './components/xy-rate.js';
 import './components/xy-popover.js';
+import './components/xy-color-picker.js';
 import XyDialog from './components/xy-dialog.js';
 import XyMessage from './components/xy-message.js';
 window.XyDialog = XyDialog;

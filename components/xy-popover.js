@@ -501,8 +501,9 @@ class XyPopover extends HTMLElement {
             //this.popcon.remove = true;
             this.popcon.clientWidth;
             if(this.trigger==='contextmenu'){
-                this.popcon.style.setProperty('--x',ev.offsetX+'px');
-                this.popcon.style.setProperty('--y',ev.offsetY+'px');
+                const {x,y} = this.getBoundingClientRect()
+                this.popcon.style.setProperty('--x',ev.clientX-x+'px');
+                this.popcon.style.setProperty('--y',ev.clientY-y+'px');
                 this.popcon.open = true;
             }else{
                 const path = ev.path || (ev.composedPath && ev.composedPath());
@@ -532,7 +533,7 @@ class XyPopover extends HTMLElement {
         }
         document.addEventListener('click',(ev)=>{
             const path = ev.path || (ev.composedPath && ev.composedPath());
-            if(this.popcon && !path.includes(this.popcon) && !this.popcon.loading && !path.includes(this.children[0]) || this.trigger==='contextmenu' ){
+            if((this.popcon) && !path.includes(this.popcon) && !this.popcon.loading && !path.includes(this.children[0]) || this.trigger==='contextmenu' ){
                 this.popcon.open = false;
             }
         })

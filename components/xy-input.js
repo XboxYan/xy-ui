@@ -69,6 +69,7 @@ export default class XyInput extends HTMLElement {
         }
         .input{
             padding:0;
+            text-align: inherit;
             color:currentColor;
             border:0;
             outline:0;
@@ -129,6 +130,8 @@ export default class XyInput extends HTMLElement {
             display:flex;
             flex-direction:column;
             width:1em;
+            visibility:hidden;
+            transition:0s;
         }
         .btn-number xy-button{
             display: flex;
@@ -150,6 +153,10 @@ export default class XyInput extends HTMLElement {
 
         :host(:focus-within:not([disabled])) .icon-pre,:host(:not([disabled]):hover) .icon-pre,:host(:not([disabled]):hover) .input-label,:host(:focus-within:not([disabled])) .input-label{
             color:var(--themeColor,#42b983);
+        }
+
+        :host(:focus-within:not([disabled])) .btn-number,:host(:not([disabled]):hover) .btn-number{
+            visibility:visible;
         }
 
         </style>
