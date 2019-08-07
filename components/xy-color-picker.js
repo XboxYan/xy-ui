@@ -3,6 +3,8 @@ import './xy-popover.js';
 import { rgbToHsv,hslToHsv,parseToHSVA } from '../utils/color.js';
 import { HSVaColor } from '../utils/hsvacolor.js';
 
+const Material_colors = ['#f44336','#E91E63','#9C27B0','#673AB7','#3F51B5','#2196F3','#03A9F4','#00BCD4','#009688','#4CAF50','#8BC34A','#CDDC39','#FFEB3B','#FFC107','#FF9800','#FF5722','#795548','#9E9E9E','#607D8B']
+
 class XyColorPane extends HTMLElement {
     static get observedAttributes() { return ["value", "selected"]; }
     constructor() {
@@ -16,10 +18,6 @@ class XyColorPane extends HTMLElement {
             }
             .color-pane{
                 padding:10px;
-                --h:300;
-                --s:100;
-                --v:100;
-                --a:1;
             }
             .color-palette{
                 position:relative;
@@ -27,6 +25,8 @@ class XyColorPane extends HTMLElement {
                 background:linear-gradient(to top, hsla(0,0%,0%,calc(var(--a))), transparent), linear-gradient(to left, hsla(calc(var(--h)),100%,50%,calc(var(--a))),hsla(0,0%,100%,calc(var(--a)))),linear-gradient( 45deg, #ddd 25%,transparent 0,transparent 75%,#ddd 0 ),linear-gradient( 45deg, #ddd 25%,transparent 0,transparent 75%,#ddd 0 );
                 background-position:0 0, 0 0,0 0,5px 5px;
                 background-size:100% 100%, 100% 100%, 10px 10px, 10px 10px;
+                user-select: none;
+                cursor: crosshair;
             }
             .color-palette::after{
                 pointer-events:none;
@@ -39,7 +39,7 @@ class XyColorPane extends HTMLElement {
                 border:2px solid #fff;
                 left:calc(var(--s) * 1%);
                 top:calc((100 - var(--v)) * 1%);
-                transform:translate(-50%,-50%)
+                transform:translate(-50%,-50%);
             }
             .color-chooser{
                 display:flex;
@@ -50,9 +50,18 @@ class XyColorPane extends HTMLElement {
             .color-show{
                 width:32px;
                 height:32px;
-                background:linear-gradient(var(--c),var(--c)),linear-gradient( 45deg, #ddd 25%,transparent 0,transparent 75%,#ddd 0 ),linear-gradient( 45deg, #ddd 25%,transparent 0,transparent 75%,#ddd 0 );
-                background-position:0 0,0 0,5px 5px;
-                background-size:100% 100%,10px 10px,10px 10px;
+                background:var(--c);
+                transition:none;
+            }
+            .color-show::after{
+                content:'';
+                position:absolute;
+                width:32px;
+                height:32px;
+                background:linear-gradient( 45deg, #ddd 25%,transparent 0,transparent 75%,#ddd 0 ),linear-gradient( 45deg, #ddd 25%,transparent 0,transparent 75%,#ddd 0 );
+                background-position:0 0,5px 5px;
+                background-size:10px 10px;
+                z-index:-1;
             }
             .color-range{
                 flex:1;
@@ -154,7 +163,7 @@ class XyColorPane extends HTMLElement {
             .color-footer{
                 display:flex
             }
-            .color-footer xy-button{
+            .color-footer>xy-button{
                 height:30px;
                 width: 60px;
             }
@@ -168,6 +177,38 @@ class XyColorPane extends HTMLElement {
                 opacity:1;
                 visibility:visible;
                 z-index:2;
+            }
+            .color-sign{
+                padding-top:10px;
+                display:grid;
+                grid-template-columns: repeat(auto-fit, minmax(16px, 1fr));
+                grid-gap: 10px;
+            }
+            .color-sign>button{
+                position:relative;
+                cursor:pointer;
+                width:100%;
+                padding-top:100%;
+                border-radius:4px;
+                margin-right:10px;
+                border:0;
+                outline:0;
+            }
+            .color-sign>button::after{
+                content:'';
+                position:absolute;
+                opacity:.5;
+                z-index:-1;
+                left:0;
+                top:0;
+                width:100%;
+                height:100%;
+                background:inherit;
+                border-radius:4px;
+                transition:.3s;
+            }
+            .color-sign>button:hover::after,.color-sign>button:focus::after{
+                transform:translate(2px,2px)
             }
         </style>
         <div class="color-pane" id="color-pane">
@@ -199,14 +240,30 @@ class XyColorPane extends HTMLElement {
                 </div>
                 <xy-button id="btn-switch" type="primary">HEXA</xy-button>
             </div>
+            <div class="color-sign" id="colors">
+                ${
+                    Material_colors.map(el=>'<button style="background-color:'+el+'" data-color='+el+'></button>').join('')
+                }
+            </div>
         </div>
         `
+    }
+
+    choose(ev){
+        const {x,y,width:w,height:h} = this.palette.getBoundingClientRect();
+        const value = [...this.$value];
+        const _x = Math.min(Math.max(0,(ev.clientX-x)/w*100),100);
+        const _y = Math.min(Math.max(0,(ev.clientY-y)/h*100),100);
+        value[1] = _x;
+        value[2] = 100-_y;
+        this.value = `hsva(${value[0]}, ${value[1]}%, ${value[2]}%, ${value[3]})`;
     }
 
     connectedCallback() {
         this.type = ['HEXA','RGBA','HSLA'];
         this.typeindex = 0;
         this.palette = this.shadowRoot.getElementById('color-palette');
+        this.colors = this.shadowRoot.getElementById('colors');
         this.pane = this.shadowRoot.getElementById('color-pane');
         this.rangeHue = this.shadowRoot.getElementById('range-hue');
         this.rangeOpacity = this.shadowRoot.getElementById('range-opacity');
@@ -215,21 +272,32 @@ class XyColorPane extends HTMLElement {
         this.colorRgba = this.shadowRoot.getElementById('color-rgba').querySelectorAll('input');
         this.colorHlsa = this.shadowRoot.getElementById('color-hlsa').querySelectorAll('input');
         this.rangeHue.addEventListener('input',()=>{
-            const value = HSVaColor(...this.$value).toHSLA();
+            const value = [...this.$value];
             value[0] = Number(this.rangeHue.value);
-            this.value = value.toString();
+            this.value = `hsva(${value[0]}, ${value[1]}%, ${value[2]}%, ${value[3]})`;
         })
         this.palette.addEventListener('mousedown',(ev)=>{
-            const {width:w,height:h} = this.palette.getBoundingClientRect();
-            const value = HSVaColor(...this.$value).toHSVA();
-            value[1] = ev.offsetX/w*100;
-            value[2] = 100-ev.offsetY/h*100;
-            this.value = value.toString();
+            this.choose(ev);
+            this.start = true;
+        })
+        document.addEventListener('mousemove',(ev)=>{
+            if(this.start){
+                this.choose(ev);
+            }
+        })
+        document.addEventListener('mouseup',(ev)=>{
+            this.start = false;
         })
         this.rangeOpacity.addEventListener('input',()=>{
-            const value = HSVaColor(...this.$value).toHSLA();
+            const value = [...this.$value];
             value[3] = Number(this.rangeOpacity.value);
-            this.value = value.toString();
+            this.value = `hsva(${value[0]}, ${value[1]}%, ${value[2]}%, ${value[3]})`;
+        })
+        this.colors.addEventListener('click',(ev)=>{
+            const item = ev.target.closest('button');
+            if(item){
+                this.value = item.dataset.color;
+            }
         })
         this.switch.addEventListener('click',()=>{
             this.typeindex ++;
@@ -246,14 +314,14 @@ class XyColorPane extends HTMLElement {
             el.addEventListener('change',()=>{
                 const value = HSVaColor(...this.$value).toRGBA();
                 value[i] = Number(el.value);
-                this.value = value.toString();
+                this.value = `rgba(${value[0]}, ${value[1]}, ${value[2]}, ${value[3]})`;
             })
         })
         this.colorHlsa.forEach((el,i)=>{
             el.addEventListener('change',()=>{
                 const value = HSVaColor(...this.$value).toHSLA();
                 value[i] = Number(el.value);
-                this.value = value.toString();
+                this.value = `hsla(${value[0]}, ${value[1]}%, ${value[2]}%, ${value[3]})`;
             })
         })
         this.value = this.defaultvalue;
@@ -268,12 +336,11 @@ class XyColorPane extends HTMLElement {
     }
 
     get defaultvalue() {
-        return this.getAttribute('defaultvalue')||'#ff0000ff';
+        return this.getAttribute('defaultvalue')||'#ff0000';
     }
 
     set value(value) {
         this.$value = parseToHSVA(value).values;
-        console.log(value)
         //[h,s,v,a]
         const [h,s,v,a=1] = this.$value;
         this.pane.style.setProperty('--h',h);
@@ -283,13 +350,14 @@ class XyColorPane extends HTMLElement {
         this.pane.style.setProperty('--c',this.value);
         this.rangeHue.value = h;
         this.rangeOpacity.value = a;
-        this.colorHexa[0].value = HSVaColor(...this.$value).toHEXA().toString();
-        const RGBA = HSVaColor(...this.$value).toRGBA();
+        const COLOR = HSVaColor(...this.$value);
+        this.colorHexa[0].value = COLOR.toHEXA().toString();
+        const RGBA = COLOR.toRGBA();
         this.colorRgba[0].value = RGBA[0].toFixed(0);
         this.colorRgba[1].value = RGBA[1].toFixed(0);
         this.colorRgba[2].value = RGBA[2].toFixed(0);
         this.colorRgba[3].value = RGBA[3];
-        const HSLA = HSVaColor(...this.$value).toHSLA();
+        const HSLA = COLOR.toHSLA();
         this.colorHlsa[0].value = HSLA[0].toFixed(0);
         this.colorHlsa[1].value = HSLA[1].toFixed(0);
         this.colorHlsa[2].value = HSLA[2].toFixed(0);
@@ -318,11 +386,6 @@ export default class XyColorPicker extends HTMLElement {
         :host([block]){
             display:block;
         }
- 
-        :host(:not([disabled]):not([type="primary"]):focus-within) xy-button{
-            border-color:var(--themeColor,#42b983);
-            color:var(--themeColor,#42b983);
-        }
         
         :host(:focus-within) xy-popover,:host(:hover) xy-popover{ 
             z-index: 2;
@@ -331,7 +394,7 @@ export default class XyColorPicker extends HTMLElement {
             width:100%;
             height:100%;
         }
-        xy-button{
+        .color-btn{
             width:100%;
             height:100%;
             padding:5px;
@@ -344,11 +407,24 @@ export default class XyColorPicker extends HTMLElement {
         xy-popcon{
             min-width:100%;
         }
+        .pop-footer{
+            display:flex;
+            justify-content:flex-end;
+            padding:0 10px 10px;
+        }
+        .pop-footer xy-button{
+            height:30px;
+            margin-left:10px;
+        }
         </style>
-        <xy-popover id="root">
-            <xy-button id="select" ${this.disabled? "disabled" : ""}></xy-button>
+        <xy-popover>
+            <xy-button class="color-btn" id="color-btn" ${this.disabled? "disabled" : ""}></xy-button>
             <xy-popcon>
-                <xy-color-pane></xy-color-pane>
+                <xy-color-pane id="color-pane"></xy-color-pane>
+                <div class="pop-footer">
+                    <xy-button id="btn-cancel">取消</xy-button>
+                    <xy-button type="primary" id="btn-submit">确认</xy-button>
+                </div>
             </xy-popcon>
         </xy-popover>
         `
@@ -359,26 +435,31 @@ export default class XyColorPicker extends HTMLElement {
     }
 
     connectedCallback() {
-        this.root = this.shadowRoot.getElementById('root');
-        
+        this.colorPane = this.shadowRoot.getElementById('color-pane');
+        this.color = this.shadowRoot.getElementById('color-btn');
+        this.btnCancel = this.shadowRoot.getElementById('btn-cancel');
+        this.btnSubmit = this.shadowRoot.getElementById('btn-submit');
+        this.color.addEventListener('click',()=>{
+            this.colorPane.value = this.$value;
+        })
+        this.btnCancel.addEventListener('click',()=>{
+            this.colorPane.parentNode.open = false;
+        })
+        this.btnSubmit.addEventListener('click',()=>{
+            this.value = this.colorPane.value;
+            this.colorPane.parentNode.open = false;
+        })
+        this.value = this.defaultvalue;
     }
 
     
 
     get defaultvalue() {
-        return this.getAttribute('defaultvalue');
+        return this.getAttribute('defaultvalue')||'#ff0000';
     }
 
     get value() {
-        return this.select.value;
-    }
-
-    get text() {
-        return this.select.textContent;
-    }
-
-    get name() {
-        return this.getAttribute('name');
+        return this.$value;
     }
 
     get type() {
@@ -402,16 +483,13 @@ export default class XyColorPicker extends HTMLElement {
     }
 
     set value(value) {
-        
+        this.color.style.setProperty('--themeColor',value);
+        this.$value = value;
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
         if (name == 'disabled' && this.select) {
-            if (newValue != null) {
-                this.select.setAttribute('disabled', 'disabled');
-            } else {
-                this.select.removeAttribute('disabled');
-            }
+            
         }
     }
 }

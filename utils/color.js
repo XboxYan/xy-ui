@@ -43,9 +43,9 @@ export function hsvToRgb(h, s, v) {
     let b = [p, p, t, v, v, q][mod];
 
     return [
-        Number((r * 255).toFixed(2)),
-        Number((g * 255).toFixed(2)),
-        Number((b * 255).toFixed(2))
+        r * 255,
+        g * 255,
+        b * 255
     ];
 }
 
@@ -113,9 +113,9 @@ export function hsvToHsl(h, s, v) {
         }
     }
     return [
-        Number((h).toFixed(2)),
-        Number((s * 100).toFixed(2)),
-        Number((l * 100).toFixed(2))
+        h,
+        s * 100,
+        l * 100
     ];
 }
 
@@ -197,10 +197,9 @@ export function hslToHsv(h, s, l) {
     s /= 100;
     l /= 100;
     s *= l < 0.5 ? l : 1 - l;
-
-    let ns = (2 * s / (l + s)) * 100;
+    let ns = (l + s)?(2 * s / (l + s)) * 100:0;
     let v = (l + s) * 100;
-    return [Number(h.toFixed(2)), Number(ns.toFixed(2)), Number(v.toFixed(2))];
+    return [h, ns, v];
 }
 
 /**
@@ -219,7 +218,6 @@ export function hexToHsv(hex) {
  * @return {*}
  */
 export function parseToHSVA(str) {
-
     // Check if string is a color-name
     str = str.match(/^[a-zA-Z]+$/) ? standardizeColor(str) : str;
 
@@ -248,7 +246,7 @@ export function parseToHSVA(str) {
             continue;
 
         // match[2] does only contain a truly value if rgba, hsla, or hsla got matched
-        const alpha = !!match[2];
+        //const alpha = !!match[2];
 
         // Try to convert
         switch (type) {
@@ -263,7 +261,7 @@ export function parseToHSVA(str) {
             case 'rgba': {
                 let [, , , r, g, b, a] = numarize(match);
 
-                if (r > 255 || g > 255 || b > 255 || a < 0 || a > 1 || (alpha === !a))
+                if (r > 255 || g > 255 || b > 255 || a < 0 || a > 1)
                     break invalid;
 
                 return {values: [...rgbToHsv(r, g, b), a], a, type};
@@ -286,7 +284,7 @@ export function parseToHSVA(str) {
             case 'hsla': {
                 let [, , , h, s, l, a] = numarize(match);
 
-                if (h > 360 || s > 100 || l > 100 || a < 0 || a > 1 || (alpha === !a))
+                if (h > 360 || s > 100 || l > 100 || a < 0 || a > 1)
                     break invalid;
 
                 return {values: [...hslToHsv(h, s, l), a], a, type};
@@ -294,7 +292,7 @@ export function parseToHSVA(str) {
             case 'hsva': {
                 let [, , , h, s, v, a] = numarize(match);
 
-                if (h > 360 || s > 100 || v > 100 || a < 0 || a > 1 || (alpha === !a))
+                if (h > 360 || s > 100 || v > 100 || a < 0 || a > 1)
                     break invalid;
 
                 return {values: [h, s, v, a], a, type};

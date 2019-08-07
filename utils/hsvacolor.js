@@ -5,7 +5,7 @@ import {hsvToHsl, hsvToRgb, hsvToCmyk, hsvToHex} from './color.js';
  * of the color represention model hsla (hue saturation lightness alpha)
  */
 export function HSVaColor(h = 0, s = 0, v = 0, a = 1) {
-    const mapper = (original, next) => (precision = -1) => {
+    const mapper = (original, next) => (precision = 2) => {
         return next(~precision ? original.map(v => Number(v.toFixed(precision))) : original);
     };
 

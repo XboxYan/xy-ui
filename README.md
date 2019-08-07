@@ -13,6 +13,10 @@
 [github项目地址](https://github.com/XboxYan/xy-ui)
 
 ## 更新
+* ## 1.4（beta）
+    * 新增`xy-color-picker`颜色选择器(文档还未完成，可前往[demo](https://xy-ui.codelabo.cn/)体验)
+    ![xy-color-picker](./screenshot/color-picker.png)
+    * 修复[xy-select](./docsxy-select.md)`hover`层级问题
 * ## 1.3.4
     * [xy-button](./docsxy-button.md?id=状态切换toggle)新增`toggle`属性
     * 修复[xy-select](./docsxy-select.md)样式问题
