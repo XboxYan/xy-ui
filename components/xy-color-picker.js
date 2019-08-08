@@ -1,12 +1,13 @@
 import './xy-button.js';
 import './xy-popover.js';
+import message from './xy-message.js';
 import { rgbToHsv,hslToHsv,parseToHSVA } from '../utils/color.js';
 import { HSVaColor } from '../utils/hsvacolor.js';
 
 const Material_colors = ['#f44336','#E91E63','#9C27B0','#673AB7','#3F51B5','#2196F3','#03A9F4','#00BCD4','#009688','#4CAF50','#8BC34A','#CDDC39','#FFEB3B','#FFC107','#FF9800','#FF5722','#795548','#9E9E9E','#607D8B']
 
 class XyColorPane extends HTMLElement {
-    static get observedAttributes() { return ["value", "selected"]; }
+
     constructor() {
         super();
         const shadowRoot = this.attachShadow({ mode: 'open' });
@@ -44,14 +45,30 @@ class XyColorPane extends HTMLElement {
             .color-chooser{
                 display:flex;
                 padding:10px 0;
-                position: relative;
-                z-index: 2;
             }
             .color-show{
+                display:flex;
+                position: relative;
                 width:32px;
                 height:32px;
                 background:var(--c);
                 transition:none;
+                border-radius:50%;
+                overflow:hidden;
+                cursor:pointer;
+            }
+            .color-show xy-icon{
+                margin: auto;
+                color: hsl(0, 0%, calc( ((2 - var(--s) / 100) * var(--v) / 200 * var(--a) - 0.5 ) * -999999%  ));
+                opacity: 0;
+                transition: .3s;
+            }
+            .color-show:hover xy-icon{
+                opacity:1;
+            }
+            .color-show input{
+                position:absolute;
+                clip:rect(0,0,0,0);
             }
             .color-show::after{
                 content:'';
@@ -160,12 +177,42 @@ class XyColorPane extends HTMLElement {
             .color-label input:focus{
                 border-color:var(--themeColor,#42b983);
             }
+            .color-label i{
+                margin-right:10px;
+                margin-left:-5px;
+                line-height:30px;
+                font-size:12px;
+                font-style:normal;
+                color:#666;
+            }
             .color-footer{
                 display:flex
             }
-            .color-footer>xy-button{
-                height:30px;
+            .btn-switch{
+                position:relative;
+                border-radius:3px;
+                background:none;
+                border:0;
+                outline:0;
+                line-height:30px;
                 width: 60px;
+                padding: 0;
+                color:var(--themeColor,#42b983);
+                overflow:hidden;
+            }
+            .btn-switch::before{
+                content:'';
+                position:absolute;
+                left:0;
+                top:0;
+                right:0;
+                bottom:0;
+                background:var(--themeColor,#42b983);
+                opacity:.2;
+                transition:.3s;
+            }
+            .btn-switch:hover::before,.btn-switch:focus::before{
+                opacity:.3;
             }
             .color-input{
                 position:relative;
@@ -214,7 +261,7 @@ class XyColorPane extends HTMLElement {
         <div class="color-pane" id="color-pane">
             <div class="color-palette" id="color-palette"></div>
             <div class="color-chooser">
-                <xy-button class="color-show" type="primary" shape="circle"></xy-button>
+                <a class="color-show" id="copy-btn"><xy-icon name="file-copy"></xy-icon><input></a>
                 <div class="color-range">
                     <input class="color-hue" value="0" min="0" max="360" type="range" id="range-hue">
                     <input class="color-opacity" value="1" min="0" max="1" step="0.01" type="range" id="range-opacity">
@@ -238,7 +285,7 @@ class XyColorPane extends HTMLElement {
                         <input type="number" min="0" max="1" step="0.01" spellcheck="false" />
                     </div>
                 </div>
-                <xy-button id="btn-switch" type="primary">HEXA</xy-button>
+                <button class="btn-switch" id="btn-switch" type="flat">HEXA</button>
             </div>
             <div class="color-sign" id="colors">
                 ${
@@ -267,6 +314,8 @@ class XyColorPane extends HTMLElement {
         this.pane = this.shadowRoot.getElementById('color-pane');
         this.rangeHue = this.shadowRoot.getElementById('range-hue');
         this.rangeOpacity = this.shadowRoot.getElementById('range-opacity');
+        this.copyBtn = this.shadowRoot.getElementById('copy-btn');
+        this.copyinfo = this.copyBtn.querySelector('input');
         this.switch = this.shadowRoot.getElementById('btn-switch');
         this.colorHexa = this.shadowRoot.getElementById('color-hexa').querySelectorAll('input');
         this.colorRgba = this.shadowRoot.getElementById('color-rgba').querySelectorAll('input');
@@ -303,7 +352,15 @@ class XyColorPane extends HTMLElement {
             this.typeindex ++;
             this.typeindex %= 3;
             this.switch.innerText = this.type[this.typeindex];
+            this.value = this.value;
             this.switch.parentNode.setAttribute('type',this.type[this.typeindex]);
+        })
+        this.copyBtn.addEventListener('click',()=>{
+            this.copyinfo.select();
+            if (document.execCommand('copy')) {
+                document.execCommand('copy');
+                message.success(this.value);
+            }
         })
         this.colorHexa.forEach(el=>{
             el.addEventListener('change',()=>{
@@ -325,14 +382,15 @@ class XyColorPane extends HTMLElement {
             })
         })
         this.value = this.defaultvalue;
-    }
-
-    focus() {
-        this.option.focus();
+        this.init = true;
     }
 
     get value() {
         return HSVaColor(...this.$value)['to'+this.type[this.typeindex]]().toString();
+    }
+
+    get color() {
+        return HSVaColor(...this.$value);
     }
 
     get defaultvalue() {
@@ -348,6 +406,7 @@ class XyColorPane extends HTMLElement {
         this.pane.style.setProperty('--v',v);
         this.pane.style.setProperty('--a',a);
         this.pane.style.setProperty('--c',this.value);
+        this.copyinfo.value = this.value;
         this.rangeHue.value = h;
         this.rangeOpacity.value = a;
         const COLOR = HSVaColor(...this.$value);
@@ -362,6 +421,14 @@ class XyColorPane extends HTMLElement {
         this.colorHlsa[1].value = HSLA[1].toFixed(0);
         this.colorHlsa[2].value = HSLA[2].toFixed(0);
         this.colorHlsa[3].value = HSLA[3];
+        if(this.init){
+            this.dispatchEvent(new CustomEvent('change', {
+                detail: {
+                    value: this.value,
+                    color: this.color
+                }
+            }));
+        }
     }
 
 }
@@ -370,7 +437,7 @@ customElements.define('xy-color-pane', XyColorPane);
 
 export default class XyColorPicker extends HTMLElement {
 
-    static get observedAttributes() { return ['disabled'] }
+    static get observedAttributes() { return ['disabled','dir'] }
 
     constructor() {
         super();
@@ -417,7 +484,7 @@ export default class XyColorPicker extends HTMLElement {
             margin-left:10px;
         }
         </style>
-        <xy-popover>
+        <xy-popover id="popover" ${this.dir? "dir='"+this.dir+"'" : ""}>
             <xy-button class="color-btn" id="color-btn" ${this.disabled? "disabled" : ""}></xy-button>
             <xy-popcon>
                 <xy-color-pane id="color-pane"></xy-color-pane>
@@ -431,15 +498,16 @@ export default class XyColorPicker extends HTMLElement {
     }
 
     focus() {
-        this.select.focus();
+        this.colorBtn.focus();
     }
 
     connectedCallback() {
+        this.popover = this.shadowRoot.getElementById('popover');
         this.colorPane = this.shadowRoot.getElementById('color-pane');
-        this.color = this.shadowRoot.getElementById('color-btn');
+        this.colorBtn = this.shadowRoot.getElementById('color-btn');
         this.btnCancel = this.shadowRoot.getElementById('btn-cancel');
         this.btnSubmit = this.shadowRoot.getElementById('btn-submit');
-        this.color.addEventListener('click',()=>{
+        this.colorBtn.addEventListener('click',()=>{
             this.colorPane.value = this.$value;
         })
         this.btnCancel.addEventListener('click',()=>{
@@ -450,16 +518,21 @@ export default class XyColorPicker extends HTMLElement {
             this.colorPane.parentNode.open = false;
         })
         this.value = this.defaultvalue;
+        this.init = true;
     }
 
     
 
     get defaultvalue() {
-        return this.getAttribute('defaultvalue')||'#ff0000';
+        return this.getAttribute('defaultvalue')||'#42b983';
     }
 
     get value() {
         return this.$value;
+    }
+
+    get color() {
+        return this.colorPane.color;
     }
 
     get type() {
@@ -468,6 +541,14 @@ export default class XyColorPicker extends HTMLElement {
 
     get disabled() {
         return this.getAttribute('disabled')!==null;
+    }
+
+    get dir() {
+        return this.getAttribute('dir');
+    }
+
+    set dir(value){
+        this.setAttribute('dir', value);
     }
 
     set disabled(value) {
@@ -483,13 +564,30 @@ export default class XyColorPicker extends HTMLElement {
     }
 
     set value(value) {
-        this.color.style.setProperty('--themeColor',value);
+        this.colorBtn.style.setProperty('--themeColor',value);
         this.$value = value;
+        if(this.init){
+            this.dispatchEvent(new CustomEvent('change', {
+                detail: {
+                    value: this.value,
+                    color: this.color
+                }
+            }));
+        }
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-        if (name == 'disabled' && this.select) {
-            
+        if (name == 'disabled' && this.colorBtn) {
+            if (newValue != null) {
+                this.colorBtn.setAttribute('disabled', 'disabled');
+            } else {
+                this.colorBtn.removeAttribute('disabled');
+            }
+        }
+        if (name == 'dir' && this.popover) {
+            if (newValue != null) {
+                this.popover.dir = newValue;
+            }
         }
     }
 }

@@ -1,4 +1,11 @@
 # update
+* ## 1.4.0
+    * 新增`xy-color-picker`颜色选择器、`xy-color-pane`颜色面板
+
+    ![xy-color-picker](../screenshot/color-picker.gif)
+
+    * 优化[xy-popover](xy-popover.md)空白处点击处关闭逻辑
+    * 修复[xy-select](xy-select.md)`hover`层级问题
 * ## 1.3.4
     * [xy-button](xy-button.md?id=状态切换toggle)新增`toggle`属性
     * 修复[xy-select](xy-select.md)样式问题

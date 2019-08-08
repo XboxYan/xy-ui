@@ -127,6 +127,8 @@ com.removeAttribute('props');
 
 也可以通过`js`获取到`checked`属性。
 
+<xy-button toggle class="button-toggle" icon="like" onclick="XyMessage.show({icon:'like',text:this.checked?'I dislike it':'I like it'})">like</xy-button>
+
 ```js
 btn.addEventListener('click',function(ev){
     if(this.checked){

@@ -163,10 +163,14 @@ class XyPopcon extends HTMLElement {
     
     connectedCallback() {
         this.remove = false;
-        this.titles = this.shadowRoot.getElementById('title');
-        this.btnClose = this.shadowRoot.getElementById('btn-close');
-        this.btnCancel = this.shadowRoot.getElementById('btn-cancel');
-        this.btnSubmit = this.shadowRoot.getElementById('btn-submit');
+        if(this.type){
+            this.titles = this.shadowRoot.getElementById('title');
+            this.btnClose = this.shadowRoot.getElementById('btn-close');
+        }
+        if(this.type=='confirm'){
+            this.btnCancel = this.shadowRoot.getElementById('btn-cancel');
+            this.btnSubmit = this.shadowRoot.getElementById('btn-submit');
+        }
         this.addEventListener('transitionend',(ev)=>{
             if(ev.propertyName === 'transform' && this.open){
                 if(this.type=='confirm'){
@@ -186,22 +190,26 @@ class XyPopcon extends HTMLElement {
                 this.dispatchEvent(new CustomEvent('close'));
             }
         })
-        this.btnClose.addEventListener('click',()=>{
-            this.open = false;
-            window.xyActiveElement.focus();
-        })
-        this.btnCancel.addEventListener('click',async ()=>{
-            this.dispatchEvent(new CustomEvent('cancel'));
-            this.open = false;
-            window.xyActiveElement.focus();
-        })
-        this.btnSubmit.addEventListener('click',()=>{
-            this.dispatchEvent(new CustomEvent('submit'));
-            if(!this.loading){
+        if(this.type){
+            this.btnClose.addEventListener('click',()=>{
                 this.open = false;
                 window.xyActiveElement.focus();
-            }
-        })
+            })
+        }
+        if(this.type=='confirm'){
+            this.btnCancel.addEventListener('click',async ()=>{
+                this.dispatchEvent(new CustomEvent('cancel'));
+                this.open = false;
+                window.xyActiveElement.focus();
+            })
+            this.btnSubmit.addEventListener('click',()=>{
+                this.dispatchEvent(new CustomEvent('submit'));
+                if(!this.loading){
+                    this.open = false;
+                    window.xyActiveElement.focus();
+                }
+            })
+        }
     }
 
     attributeChangedCallback (name, oldValue, newValue) {
@@ -487,10 +495,10 @@ class XyPopover extends HTMLElement {
         if(!this.disabled){
             if(!this.popcon){
                 this.popcon = new XyPopcon();
-                this.appendChild(this.popcon);
-                this.popcon.innerHTML = this.content||'';
                 this.popcon.type = this.type;
                 this.popcon.title = this.title||'popover';
+                this.appendChild(this.popcon);
+                this.popcon.innerHTML = this.content||'';
                 if(this.type == 'confirm'){
                     this.popcon.oktext = this.oktext||'确 定';
                     this.popcon.canceltext = this.canceltext||'取 消';
@@ -531,9 +539,9 @@ class XyPopover extends HTMLElement {
                 }
             });
         }
-        document.addEventListener('click',(ev)=>{
+        document.addEventListener('mousedown',(ev)=>{
             const path = ev.path || (ev.composedPath && ev.composedPath());
-            if((this.popcon) && !path.includes(this.popcon) && !this.popcon.loading && !path.includes(this.children[0]) || this.trigger==='contextmenu' ){
+            if( this.popcon && !path.includes(this.popcon) && !this.popcon.loading && !path.includes(this.children[0]) || (this.trigger==='contextmenu') && !path.includes(this.popcon) && ev.which == '1'){
                 this.popcon.open = false;
             }
         })

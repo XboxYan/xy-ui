@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>xy-ui</title>
     <style>
-        xy-button,xy-checkbox,xy-radio,xy-input,xy-textarea{ margin: 0 10px 15px 0; }
+        xy-button,xy-checkbox,xy-radio,xy-input,xy-textarea,xy-color-picker{ margin: 0 10px 15px 0; }
         xy-input:not([block]),xy-textarea:not([block]){ width:300px; }
         xy-tips>*{ margin: 0;}
         xy-popover>*{ margin: 0;}
@@ -306,7 +306,7 @@
     <xy-popover dir="bottomleft" type="confirm" onsubmit="console.log('ok')" title="确定删除吗?" content="删除后无法撤销"><xy-button>bottomleft</xy-button></xy-popover>
     <xy-popover dir="bottomright" type="confirm" onsubmit="console.log('ok')" title="确定删除吗?" content="删除后无法撤销"><xy-button>bottomright</xy-button></xy-popover>
     <h2>color-picker</h2>
-    <xy-color-picker></xy-color-picker>
+    <xy-color-picker defaultvalue="orangered" dir="righttop" onchange="console.log(event)"></xy-color-picker>
     <h2>message</h2>
     <xy-button onclick="XyMessage.info('This a info message')">info</xy-button>
     <xy-button onclick="XyMessage.success('This a success message')">success</xy-button>

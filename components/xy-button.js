@@ -93,7 +93,8 @@ export default class XyButton extends HTMLElement {
             width:100%;
             height:100%;
             padding:0;
-            user-select: none; 
+            user-select: none;
+            cursor: unset;
         }
         xy-loading{ 
             margin-right: 5px;  
@@ -137,8 +138,8 @@ export default class XyButton extends HTMLElement {
         ::slotted(xy-icon){
             transition: none;
         }
-        :host([disabled]) a{
-            /*visibility:hidden;*/
+        :host([href]){
+            cursor:pointer;
         }
         </style>
         <${this.href?'a':'button'} ${(this.download&&this.href)?'download="'+this.download+'"':''} ${this.href?'href="'+this.href+'" target="'+this.target+'" rel="'+this.rel+'"':''} class="btn" id="btn"></${this.href?'a':'button'}>${!this.loading && this.icon && this.icon!='null'?'<xy-icon id="icon" name='+this.icon+'></xy-icon>':''}<slot></slot>
@@ -224,7 +225,7 @@ export default class XyButton extends HTMLElement {
         this.load.style.color = 'inherit';
         this.btn.addEventListener('mousedown',function(ev){
             //ev.preventDefault();
-            ev.stopPropagation();
+            //ev.stopPropagation();
             const { left, top } = this.getBoundingClientRect();
             this.style.setProperty('--x',(ev.clientX - left)+'px');
             this.style.setProperty('--y',(ev.clientY - top)+'px');

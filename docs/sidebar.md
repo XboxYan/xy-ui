@@ -20,3 +20,4 @@
     * [xy-img](xy-img.md)
     * [xy-rate](xy-rate.md)
     * [xy-popover](xy-popover.md)
+    * [xy-color-picker](xy-color-picker.md)

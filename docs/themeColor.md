@@ -18,14 +18,7 @@ xy-button{
 ```js
 document.body.style.setProperty('--themeColor','#F44336');
 ```
-
-点击下方切换主题颜色
-
-<xy-button type="primary" class="theme-button" icon="bg-colors" shape="circle" style="--themeColor:#42b983" onclick="changeColor('#42b983')"></xy-button>
-<xy-button type="primary" class="theme-button" icon="bg-colors" shape="circle" style="--themeColor:#1E90FF" onclick="changeColor('#1E90FF')"></xy-button>
-<xy-button type="primary" class="theme-button" icon="bg-colors" shape="circle" style="--themeColor:#F44336" onclick="changeColor('#F44336')"></xy-button>
-<xy-button type="primary" class="theme-button" icon="bg-colors" shape="circle" style="--themeColor:#9c27b0" onclick="changeColor('#9c27b0')"></xy-button>
-<xy-button type="primary" class="theme-button" icon="bg-colors" shape="circle" style="--themeColor:#3F51B5" onclick="changeColor('#3F51B5')"></xy-button>
+<xy-color-pane defaultvalue="#42b983" onchange="changeColor(this.value)"><xy-color-pane>
 
 实时预览（其他页面均生效）
 
