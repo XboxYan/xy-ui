@@ -2,7 +2,7 @@
 
 颜色选择器。
 
-![xy-color-picker](../screenshot/color-picker.gif)
+![xy-color-picker](../screenshot/color-picker.png)
 
 ## 使用方式
 
