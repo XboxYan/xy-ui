@@ -36,13 +36,27 @@
 
 ## 安装
 
-方式一：通过`npm`
+* npm
 
 ```shell
 npm i xy-ui
 ```
 
-方式二：直接在`github`上获取最新文件。
+* cdn
+
+```html
+<script type="module">
+    import 'https://unpkg.com/xy-ui';
+
+    import 'https://unpkg.com/xy-ui@1.4.1';//指定版本号
+</script>
+
+<!--or-->
+
+<script type="module" src="https://unpkg.com/xy-ui"></script>
+```
+
+* 直接在`github`上获取最新文件。
 
 目录如下：
 
@@ -57,35 +71,7 @@ npm i xy-ui
 ```
      
 
-将`components`和`iconfont`文件夹放入项目当中。
-
-## 引用
-
-### 设置window.iconUrl
-
-设置图标库的相对路径。
-
-```html
-<script>
-    window.iconUrl = './node_modules/xy-ui/iconfont/icon.svg';//设置icon.svg的相对路径
-</script>
-```
-
-### 设置window.basePath
-
-设置图标库的绝对路径。
-
-当使用`npm`创建时，需设置`window.basePath`，页面加载的路径，默认为根路径`/`。
-
-```html
-<script>
-    window.basePath = '/build/';
-</script>
-```
-
-以上两种方式选其一。
-
-> 设置`window.iconUrl`或者`window.basePath`是为了保证`xy-icon`的引用路径，详细可参考`xy-icon`文档。
+将整个文件夹放入项目当中。
 
 ### html引用
 
@@ -109,43 +95,13 @@ import 'xy-ui/components/xy-button.js';
 ReactDOM.render(<xy-button>button</xy-button>, document.body);
 ```
 
+[demo](https://codepen.io/xboxyan/pen/mNKWaN)
+
 > 关于`react`中使用`Web Components`的注意细节可参考[https://react.docschina.org/docs/web-components.html](https://react.docschina.org/docs/web-components.html)
 
 ### vue项目引用
 
 与原生类似，暂无研究。
-
-
-## 使用
-
-使用一个组件有以下几种方式：
-
-### html 标签
-
-这是最常用的使用方式（推荐）。
-
-```html
-<xy-button>button</xy-button>
-```
-
-### document.createElement
-
-也可以通过`document.createElement`创建元素
-
-```js
-const btn = document.createElement('xy-button');
-document.body.appenChild(btn);
-```
-
-### new 操作符
-
-自定义组件是通过`class`定义，内部可以通过`new`来实例化。
-
-```js
-import XyButton from './node_modules/components/xy-button.js';
-const btn = new XyButton();
-document.body.appenChild(btn);
-```
 
 ## 其他
 
@@ -194,3 +150,7 @@ tab3.parentNode;//xy-tab
 ```
 
 总之，大部分情况下把它当成普通的`html`标签（不用关注shadow dom的结构）就好了，以前怎么做现在仍然怎么做，只是新增了方法而已。
+
+## License
+
+[MIT]('../LICENSE')

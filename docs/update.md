@@ -1,4 +1,8 @@
 # update
+* ## 1.4.2
+    * 重构[`xy-icon`](xy-icon.md)的引用方式，不用再设置`iconUrl`和`basePath`了~
+    * 支持`cdn`引入，采用[unpkg](https://unpkg.com/)
+    * 新增`react`项目使用方式[demo](https://codepen.io/xboxyan/pen/mNKWaN)
 * ## 1.4.0
     * 新增`xy-color-picker`颜色选择器、`xy-color-pane`颜色面板
 

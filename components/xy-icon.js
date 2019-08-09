@@ -1,5 +1,4 @@
 //https://www.iconfont.cn/collections/detail?spm=a313x.7781069.1998910419.d9df05512&cid=9402
-const iconUrl = `${window.basePath||'/'}node_modules/xy-ui/iconfont/icon.svg`;
 
 export default class XyIcon extends HTMLElement {
 
@@ -9,6 +8,7 @@ export default class XyIcon extends HTMLElement {
         super();
         const shadowRoot = this.attachShadow({ mode: 'open' });
         shadowRoot.innerHTML = `
+        <div style="display:none" id="svg"></div>
         <style>
         :host{
             font-size:inherit;
@@ -68,8 +68,8 @@ export default class XyIcon extends HTMLElement {
     }
 
     
-    connectedCallback() {
-        this.iconUrl = window.iconUrl || iconUrl;
+    async connectedCallback() {
+        this.svg = this.shadowRoot.getElementById('svg');
         this.icon = this.shadowRoot.getElementById('icon');
         this.use = this.icon.querySelector('use');
         this.d = this.icon.querySelector('path');
@@ -77,11 +77,13 @@ export default class XyIcon extends HTMLElement {
         this.color = this.color;
         this.name && (this.name = this.name);
         this.path && (this.path = this.path);
+        const module = await import('../iconfont/icon.js');
+        this.svg.innerHTML = module.default();
     }
 
     attributeChangedCallback (name, oldValue, newValue) {
         if( name == 'name' && this.use){
-            this.use.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', `${this.iconUrl}#icon-${newValue}`);
+            this.use.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', `#icon-${newValue}`);
         }
         if( name == 'path' && this.d){
             this.d.setAttribute("d", newValue);
