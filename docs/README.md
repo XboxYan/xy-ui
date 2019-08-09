@@ -150,7 +150,3 @@ tab3.parentNode;//xy-tab
 ```
 
 总之，大部分情况下把它当成普通的`html`标签（不用关注shadow dom的结构）就好了，以前怎么做现在仍然怎么做，只是新增了方法而已。
-
-## License
-
-[MIT]('../LICENSE')
