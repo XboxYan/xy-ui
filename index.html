@@ -368,8 +368,9 @@
     <xy-rate disabled defaultvalue="2"></xy-rate>
     <h2>form</h2>
     <xy-form action="/login" method="get">
-        <xy-input icon="user" name="user" required placeholder="user"></xy-input>
-        <xy-input icon="mail" name="mail" required type="email" placeholder="email" minlength="5" errordir="right"></xy-input>
+        <xy-input icon="user" name="user" required placeholder="user" block></xy-input>
+        <xy-input icon="mail" name="mail" required type="email" placeholder="email" minlength="5" block></xy-input>
+        <xy-input icon="lock" name="password" required type="password" placeholder="password" block></xy-input>
         <xy-button type="primary" htmltype="submit">submit</xy-button>
         <xy-button htmltype="reset">reset</xy-button>
     </xy-form>

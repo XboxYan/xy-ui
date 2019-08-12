@@ -17,8 +17,6 @@ export default class XyForm extends HTMLElement {
         `
     }
 
-    elements = [];
-
     checkValidity() {
         const elements = [...this.elements].reverse();
         let validity = true;
@@ -34,9 +32,11 @@ export default class XyForm extends HTMLElement {
         if(!this.novalidate && this.checkValidity()){
             //validity
             if(this.action){
+                this.submitBtn && (this.submitBtn.loading = true);
                 if(this.method=='GET'){
                     const formdata = new URLSearchParams(this.formdata).toString();
                     const data = await fetch(`${this.action}?${formdata}`);
+                    this.submitBtn && (this.submitBtn.loading = false);
                     if(data.headers.get("content-type")=='application/json'){
                         this.dispatchEvent(new CustomEvent('submit',{
                             detail:{
@@ -49,6 +49,7 @@ export default class XyForm extends HTMLElement {
                         method: 'POST',
                         body: this.formdata,
                     })
+                    this.submitBtn && (this.submitBtn.loading = false);
                     if(data.headers.get("content-type")=='application/json'){
                         this.dispatchEvent(new CustomEvent('submit',{
                             detail:{
@@ -59,6 +60,12 @@ export default class XyForm extends HTMLElement {
                 }
             }
         }
+    }
+
+    reset() {
+        this.elements.forEach(el=>{
+            el.reset();
+        })
     }
 
     get validity() {
@@ -119,7 +126,20 @@ export default class XyForm extends HTMLElement {
         this.elements  = [...this.querySelectorAll('[name]')];
         this.submitBtn = this.querySelector('[htmltype=submit]');
         this.resetBtn = this.querySelector('[htmltype=reset]');
+        if(this.submitBtn){
+            this.submitBtn.addEventListener('click',()=>{
+                this.submit();
+            });
+        }
+        if(this.resetBtn){
+            this.resetBtn.addEventListener('click',()=>{
+                this.reset();
+            });
+        }
         this.form.addEventListener('keydown',(ev)=>{
+            if(ev.target==this.resetBtn){
+                return
+            }
             switch (ev.keyCode) {
                 case 13://Enter
                     this.submit();
@@ -128,11 +148,6 @@ export default class XyForm extends HTMLElement {
                     break;
             }
         })
-        if(this.submitBtn){
-            this.submitBtn.addEventListener('click',()=>{
-                this.submit();
-            });
-        }
     }
 
     attributeChangedCallback (name, oldValue, newValue) {

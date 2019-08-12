@@ -330,6 +330,12 @@ export default class XyInput extends HTMLElement {
         this.input.focus();
     }
 
+    reset() {
+        this.inputCon.show = false;
+        this.error = false;
+        this.input.value = '';
+    }
+
     get value() {
         return this.input.value;
     }
