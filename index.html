@@ -8,7 +8,7 @@
     <title>xy-ui</title>
     <style>
         
-        xy-button,xy-checkbox,xy-radio,xy-input,xy-textarea,xy-color-picker{ margin: 0 10px 15px 0; }
+        xy-button,xy-checkbox,xy-radio,xy-input,xy-textarea,xy-color-picker{ margin: 0 10px 15px 0; vertical-align: middle; }
         xy-input:not([block]),xy-textarea:not([block]){ width:300px; }
         xy-tips>*{ margin: 0;}
         xy-popover>*{ margin: 0;}
@@ -337,7 +337,7 @@
     <xy-input icon="mail" type="email" placeholder="email" minlength="5" errordir="right"></xy-input>
     <xy-input icon="phone" pattern="^1(3|4|5|6|7|8|9)\d{9}$" placeholder="pattern[^1(3|4|5|6|7|8|9)\d{9}$]" errortips="请输入手机号"></xy-input>
     <p>textarea</p>
-    <xy-textarea required  placeholder="required"></xy-textarea>
+    <xy-textarea required  placeholder="required"  minlength="10"></xy-textarea>
     <xy-textarea placeholder="rows" rows="5" ></xy-textarea>
     <xy-textarea label="info" placeholder="info" ></xy-textarea>
     <xy-textarea icon="location" placeholder="location" ></xy-textarea>
@@ -366,6 +366,13 @@
     <xy-rate defaultvalue="1" tips="terrible,bad,normal,good,wonderful"></xy-rate>
     <p>disabled</p>
     <xy-rate disabled defaultvalue="2"></xy-rate>
+    <h2>form</h2>
+    <xy-form action="/login" method="get">
+        <xy-input icon="user" name="user" required placeholder="user"></xy-input>
+        <xy-input icon="mail" name="mail" required type="email" placeholder="email" minlength="5" errordir="right"></xy-input>
+        <xy-button type="primary" htmltype="submit">submit</xy-button>
+        <xy-button htmltype="reset">reset</xy-button>
+    </xy-form>
     <script>
         document.getElementById('btn').addEventListener('click',function(ev){
             console.log(ev)

@@ -363,6 +363,7 @@ export default class XyImg extends HTMLElement {
             box-sizing:border-box;
             z-index:-1;
             transition:.3s;
+            background:inherit;
             visibility:hidden;
         }
         :host([error]) .placeholder{

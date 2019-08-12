@@ -16,7 +16,7 @@ export default class XyInput extends HTMLElement {
             display:inline-block;
             border:1px solid #d9d9d9;
             border-radius:3px;
-            line-height: 30px;
+            line-height: 26px;
             transition:border-color .3s,box-shadow .3s;
             padding: 4px 10px;
             color: #333;
@@ -167,7 +167,7 @@ export default class XyInput extends HTMLElement {
                 :
                 ''
             }
-            <${multi?'textarea':'input'} id="input" class="input" ${this.type === 'number'?'min="'+this.min+'" max="'+this.max+'" step="'+this.step+'"':""} value="${this.defaultvalue}" type="${this.typeMap(this.type)}" placeholder="${this.placeholder}" minlength="${this.minlength}" rows="${this.rows}" maxlength="${this.maxlength}">${multi?'</textarea>':''}
+            <${multi?'textarea':'input'} id="input" name="${this.name}" class="input" ${this.type === 'number'?'min="'+this.min+'" max="'+this.max+'" step="'+this.step+'"':""} value="${this.defaultvalue}" type="${this.typeMap(this.type)}" placeholder="${this.placeholder}" minlength="${this.minlength}" rows="${this.rows}" maxlength="${this.maxlength}">${multi?'</textarea>':''}
             ${
                 this.label&&!this.icon?
                 '<label class="input-label">'+this.label+'</label>'
@@ -197,22 +197,28 @@ export default class XyInput extends HTMLElement {
     }
 
     checkValidity(){
-        this.input.focus();
-        if(this.input.checkValidity()){
+        if(this.novalidate||this.form&&this.form.novalidate){
+            return true;
+        }
+        if(this.validity){
             this.inputCon.show = false;
             this.error = false;
+            return true;
         }else{
-            this.inputCon.show = true;
+            this.input.focus();
+            this.inputCon.show = 'show';
             this.error = true;
             if(this.input.validity.valueMissing){
                 this.inputCon.tips = this.input.validationMessage;
             }else{
                 this.inputCon.tips = this.errortips||this.input.validationMessage;
             }
+            return false;
         }
     }
     
     connectedCallback() {
+        this.form = this.closest('xy-form');
         this.input = this.shadowRoot.getElementById('input');
         this.inputCon = this.shadowRoot.getElementById('input-con');
         this.input.addEventListener('input',(ev)=>{
@@ -311,6 +317,7 @@ export default class XyInput extends HTMLElement {
             case 'number':
             case 'email':
             case 'tel':
+            case 'url':
                 break;
             default:
                 type = 'text'
@@ -329,6 +336,14 @@ export default class XyInput extends HTMLElement {
 
     get debounce() {
         return this.getAttribute('debounce');
+    }
+
+    get novalidate() {
+        return this.getAttribute('novalidate')!==null;
+    }
+
+    get name() {
+        return this.getAttribute('name')||'';
     }
 
     get error() {
@@ -444,6 +459,14 @@ export default class XyInput extends HTMLElement {
 
     set placeholder(value) {
         this.setAttribute('placeholder', value);
+    }
+
+    set novalidate(value) {
+        if(value===null||value===false){
+            this.removeAttribute('novalidate');
+        }else{
+            this.setAttribute('novalidate', '');
+        }
     }
 
     set value(value) {

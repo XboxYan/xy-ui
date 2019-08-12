@@ -1,7 +1,5 @@
 export default class XyLayout extends HTMLElement {
 
-    static get observedAttributes() { return ['color'] }
-
     constructor() {
         super();
         const shadowRoot = this.attachShadow({ mode: 'open' });

@@ -3,7 +3,7 @@ import './xy-icon.js';
 
 export default class XyButton extends HTMLElement {
     //https://mladenplavsic.github.io/css-ripple-effect
-    static get observedAttributes() { return ['disabled','icon','loading','href'] }
+    static get observedAttributes() { return ['disabled','icon','loading','href','htmltype'] }
 
     constructor() {
         super();
@@ -142,7 +142,7 @@ export default class XyButton extends HTMLElement {
             cursor:pointer;
         }
         </style>
-        <${this.href?'a':'button'} ${(this.download&&this.href)?'download="'+this.download+'"':''} ${this.href?'href="'+this.href+'" target="'+this.target+'" rel="'+this.rel+'"':''} class="btn" id="btn"></${this.href?'a':'button'}>${!this.loading && this.icon && this.icon!='null'?'<xy-icon id="icon" name='+this.icon+'></xy-icon>':''}<slot></slot>
+        <${this.href?'a':'button'} ${this.htmltype?'type="'+this.htmltype+'"':''} ${(this.download&&this.href)?'download="'+this.download+'"':''} ${this.href?'href="'+this.href+'" target="'+this.target+'" rel="'+this.rel+'"':''} class="btn" id="btn"></${this.href?'a':'button'}>${!this.loading && this.icon && this.icon!='null'?'<xy-icon id="icon" name='+this.icon+'></xy-icon>':''}<slot></slot>
         `
     }
 
@@ -156,6 +156,10 @@ export default class XyButton extends HTMLElement {
 
     get toggle() {
         return this.getAttribute('toggle')!==null;
+    }
+
+    get htmltype() {
+        return this.getAttribute('htmltype');
     }
 
     get name() {
@@ -192,6 +196,10 @@ export default class XyButton extends HTMLElement {
 
     set icon(value) {
         this.setAttribute('icon', value);
+    }
+
+    set htmltype(value) {
+        this.setAttribute('htmltype', value);
     }
 
     set disabled(value) {
@@ -269,6 +277,9 @@ export default class XyButton extends HTMLElement {
             if(!this.disabled){
                 this.btn.href = newValue;
             }
+        }
+        if( name == 'htmltype' && this.btn){
+            this.btn.type = newValue;
         }
     }
 }

@@ -126,10 +126,10 @@ input.setAttribute('value','name');
 
 右侧出现`search`图标，点击会执行`onsubmit`事件
 
-<xy-input type="search"></xy-input>
+<xy-input type="search" onsubmit="XyMessage.info(this.value)"></xy-input>
 
 ```html
-<xy-input type="search"></xy-input>
+<xy-input type="search" onsubmit="XyMessage.info(this.value)"></xy-input>
 ```
 
 ### type=number
