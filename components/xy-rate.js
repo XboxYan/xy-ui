@@ -14,12 +14,13 @@ export default class XyRate extends HTMLElement {
             display: inline-flex;
             font-size: 20px;
             direction:rtl;
-            color:#eee; 
+            color:#eee;
          }
          label{
             cursor: pointer;
             display: block;
             line-height: 0;
+            -webkit-tap-highlight-color: transparent;
          }
          input[type="radio"]{
             position: absolute;

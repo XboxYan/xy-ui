@@ -134,6 +134,10 @@ export default class XySelect extends HTMLElement {
         this.select.focus();
     }
 
+    reset() {
+        this.value = '';
+    }
+
     connectedCallback() {
         this.root = this.shadowRoot.getElementById('root');
         this.select = this.shadowRoot.getElementById('select');
@@ -155,6 +159,7 @@ export default class XySelect extends HTMLElement {
                         break;
                     case 8://Backspace
                     case 27://Esc
+                        ev.preventDefault();
                         this.options.open = false;
                         break;
                     default:
@@ -242,7 +247,7 @@ export default class XySelect extends HTMLElement {
             if(pre){
                 pre.selected = false;
             }
-            const cur = this.querySelector(`xy-option[value="${value}"]`);
+            const cur = this.querySelector(`xy-option[value="${value}"]`)||this.querySelector(`xy-option`);
             this.focusIndex = this.nodes.indexOf(cur);
             cur.selected = true;
             textContent = cur.textContent;

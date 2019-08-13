@@ -20,7 +20,7 @@ export default class XyButton extends HTMLElement {
             height: 36px; 
             align-items:center;
             justify-content: center;
-            border:1px solid #ddd; 
+            border:1px solid #d9d9d9; 
             font-size: 14px; 
             color: #333;  
             border-radius: 3px; 

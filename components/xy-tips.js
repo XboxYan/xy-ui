@@ -15,6 +15,7 @@ export default class XyTips extends HTMLElement {
         
         :host::before,
         :host::after {
+            content: '';
             display: block;
             position: absolute;
             z-index: 1;
@@ -25,8 +26,7 @@ export default class XyTips extends HTMLElement {
             visibility: hidden;
             pointer-events: none;
         }
-
-        :host([tips]:not([tips='']))::before {
+        :host::before {
             content: attr(tips) attr(suffix);
             border-radius: 3px;
             padding: 6px 10px;
@@ -39,10 +39,6 @@ export default class XyTips extends HTMLElement {
             width: max-content;
             max-width: 200px;
         }
-        
-        :host([tips]:not([tips='']))::after {
-            content: '';
-        }
         :host::after {
             width: 0;
             height: 0;
@@ -50,12 +46,12 @@ export default class XyTips extends HTMLElement {
             border: 6px solid transparent;
         }
         
-        :host(:hover:not([show=false]))::before,
-        :host([show=true])::before,
-        :host(:focus-within:not([show=false]))::before,
-        :host(:hover:not([show=false]))::after,
-        :host([show=true])::after,
-        :host(:focus-within:not([show=false]))::after {
+        :host([tips]:not([tips='']):hover:not([show=false]))::before,
+        :host([tips]:not([tips=''])[show=true])::before,
+        :host([tips]:not([tips='']):focus-within:not([show=false]))::before,
+        :host([tips]:not([tips='']):hover:not([show=false]))::after,
+        :host([tips]:not([tips=''])[show=true])::after,
+        :host([tips]:not([tips='']):focus-within:not([show=false]))::after {
             visibility: visible;
             opacity: 1;
         }

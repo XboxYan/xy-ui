@@ -69,10 +69,10 @@ img.setAttribute('src','img.jpg');
 
 默认链接。如果不能保证`src`一定能加载成功（一般是外部链接），可以设置一个`defaultsrc`来处理当`src`加载失败时的情况。
 
-<xy-img src="https://images.xxx.jpg" defaultsrc="https://images.pexels.com/photos/697662/pexels-photo-697662.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
+<xy-img src="https://images.xxx.jpg" defaultsrc="https://images.pexels.com/photos/374918/pexels-photo-374918.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
 
 ```html
-<xy-img src="https://images.xxx.jpg" defaultsrc="https://images.pexels.com/photos/697662/pexels-photo-697662.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
+<xy-img src="https://images.xxx.jpg" defaultsrc="https://images.pexels.com/photos/374918/pexels-photo-374918.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
 ```
 
 当`defaultsrc`仍加载失败时（当然这种情况很少见，而且可控），会默认显示一个占位符。
@@ -130,10 +130,10 @@ img.setAttribute('ratio','16/9');
 <xy-radio name="img-fit" value="fill" onchange="document.getElementById('img-fit').fit = this.value">fill</xy-radio>
 <xy-radio name="img-fit" value="contain" onchange="document.getElementById('img-fit').fit = this.value">contain</xy-radio>
 
-<xy-img fit="cover" id="img-fit" src="https://images.pexels.com/photos/841228/pexels-photo-841228.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
+<xy-img fit="cover" id="img-fit" src="https://images.pexels.com/photos/1274640/pexels-photo-1274640.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"></xy-img>
 
 ```html
-<xy-img fit="cover" src="https://images.pexels.com/photos/841228/pexels-photo-841228.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
+<xy-img fit="cover" src="https://images.pexels.com/photos/1274640/pexels-photo-1274640.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"></xy-img>
 ```
 
 JavaScript操作`get`、`set`
@@ -151,7 +151,7 @@ img.setAttribute('fit','contain');
 可以设置`lazy`让图片在可见范围时才加载，在此之前不会发送网络请求，提升用户体验。
 
 <xy-img lazy src="https://images.pexels.com/photos/1440387/pexels-photo-1440387.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
-<xy-img lazy alt="image-keyboard" src="https://images.pexels.com/xxx.jpg" defaultsrc="https://images.pexels.com/photos/697662/pexels-photo-697662.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
+<xy-img lazy alt="image-keyboard" src="https://images.pexels.com/xxx.jpg" defaultsrc="https://images.pexels.com/photos/374918/pexels-photo-374918.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
 <xy-img lazy src="https://images.pexels.com/xxx.jpg" defaultsrc="https://images.pexels.com/xxxx.jpg"></xy-img>
 
 ```html
@@ -186,11 +186,11 @@ img.setAttribute('fit','contain');
 `gallery="B"`
 
 <xy-img gallery="B" src="https://images.pexels.com/photos/1440387/pexels-photo-1440387.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
-<xy-img gallery="B" alt="image-keyboard" src="https://images.pexels.com/xxx.jpg" defaultsrc="https://images.pexels.com/photos/697662/pexels-photo-697662.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
+<xy-img gallery="B" alt="image-keyboard" src="https://images.pexels.com/photos/1274640/pexels-photo-1274640.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"></xy-img>
 
 ```html
-<xy-img gallery="A" src="https://images.pexels.com/photos/698808/pexels-photo-698808.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
-<xy-img gallery="B" src="https://images.pexels.com/photos/1440387/pexels-photo-1440387.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
+<xy-img gallery="A" src="https://images.pexels.com/photos/1440387/pexels-photo-1440387.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
+<xy-img gallery="B" alt="image-keyboard" src="https://images.pexels.com/photos/1274640/pexels-photo-1274640.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"></xy-img>
 ```
 
 ## 事件`event`
@@ -211,7 +211,7 @@ img.setAttribute('fit','contain');
 
 用于主动聚焦`focus`，聚焦以后可以响应键盘事件，按`Enter`打开画廊。
 
-<xy-img gallery="A"  onfocus="XyMessage.info('focus')" onblur="XyMessage.info('blur')" src="https://images.pexels.com/photos/698808/pexels-photo-698808.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
+<xy-img gallery="C"  onfocus="XyMessage.info('focus')" onblur="XyMessage.info('blur')" src="https://images.pexels.com/photos/698808/pexels-photo-698808.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></xy-img>
 <xy-button type="primary" onclick="this.previousElementSibling.focus()">主动聚焦</xy-button>
 
 ```js

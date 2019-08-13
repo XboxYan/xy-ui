@@ -59,7 +59,7 @@ class XyColorPane extends HTMLElement {
             }
             .color-show xy-icon{
                 margin: auto;
-                color: hsl(0, 0%, calc( ((2 - var(--s) / 100) * var(--v) / 200 * var(--a) - 0.5 ) * -999999%  ));
+                color: hsl(0, 0%, calc( ((2 - var(--s) / 100) * var(--v) / 200 * var(--a) - 0.6 ) * -999999%  ));
                 opacity: 0;
                 transition: .3s;
             }
@@ -486,8 +486,7 @@ export default class XyColorPicker extends HTMLElement {
         </style>
         <xy-popover id="popover" ${this.dir? "dir='"+this.dir+"'" : ""}>
             <xy-button class="color-btn" id="color-btn" ${this.disabled? "disabled" : ""}></xy-button>
-            <xy-popcon>
-                <xy-color-pane id="color-pane"></xy-color-pane>
+            <xy-popcon id="popcon">
                 <div class="pop-footer">
                     <xy-button id="btn-cancel">取消</xy-button>
                     <xy-button type="primary" id="btn-submit">确认</xy-button>
@@ -503,19 +502,24 @@ export default class XyColorPicker extends HTMLElement {
 
     connectedCallback() {
         this.popover = this.shadowRoot.getElementById('popover');
+        this.popcon = this.shadowRoot.getElementById('popcon');
         this.colorPane = this.shadowRoot.getElementById('color-pane');
         this.colorBtn = this.shadowRoot.getElementById('color-btn');
         this.btnCancel = this.shadowRoot.getElementById('btn-cancel');
         this.btnSubmit = this.shadowRoot.getElementById('btn-submit');
         this.colorBtn.addEventListener('click',()=>{
+            if(!this.colorPane){
+                this.colorPane = new XyColorPane();
+                this.popcon.prepend(this.colorPane);
+            }
             this.colorPane.value = this.$value;
         })
         this.btnCancel.addEventListener('click',()=>{
-            this.colorPane.parentNode.open = false;
+            this.popcon.open = false;
         })
         this.btnSubmit.addEventListener('click',()=>{
             this.value = this.colorPane.value;
-            this.colorPane.parentNode.open = false;
+            this.popcon.open = false;
         })
         this.value = this.defaultvalue;
         this.init = true;

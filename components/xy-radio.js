@@ -48,7 +48,7 @@ export default class XyRadio extends HTMLElement {
             height: 16px;
             display: flex;
             border-radius:50%;
-            border: 1px solid #d9d9d9;
+            border: 1px solid var(--themeBorderColor,#d9d9d9);
             transition:.3s;
             margin-right:5px;
         }
@@ -125,29 +125,36 @@ export default class XyRadio extends HTMLElement {
         }
     }
 
+    set value(value) {
+        this.setAttribute('value', value);
+    }
+
     focus() {
         this.radio.focus();
     }
     
+    tocheck() {
+        const selector = this.group?`xy-radio[checked]`:`xy-radio[name="${this.name}"][checked]`;
+        const prev = this.parent.querySelector(selector);
+        if( prev ){
+            prev.checked = false;
+        }
+        this.checked = true;
+    }
+
     connectedCallback() {
+        this.group = this.closest('xy-radio-group');
+        this.parent = this.group||this.getRootNode();
         this.radio = this.shadowRoot.getElementById('radio');
         this.disabled = this.disabled;
         this.checked = this.checked;
         this.radio.addEventListener('change',(ev)=>{
-            const prev = this.getRootNode().querySelector(`xy-radio[name="${this.name}"][checked]`);
-            if( prev ){
-                prev.checked = false;
-            }
-            this.checked = true;
+            this.tocheck();
         })
         this.radio.addEventListener('keydown', (ev) => {
             switch (ev.keyCode) {
                 case 13://Enter
-                    const prev = this.getRootNode().querySelector(`xy-radio[name="${this.name}"][checked]`);
-                    if( prev ){
-                        prev.checked = false;
-                    }
-                    this.checked = true;
+                    this.tocheck();
                     break;
                 default:
                     break;
@@ -182,4 +189,134 @@ export default class XyRadio extends HTMLElement {
 
 if(!customElements.get('xy-radio')){
     customElements.define('xy-radio', XyRadio);
+}
+
+class XyRadioGroup extends HTMLElement {
+    constructor() {
+        super();
+        const shadowRoot = this.attachShadow({ mode: 'open' });
+        shadowRoot.innerHTML = `
+        <style>
+        :host {
+            display:inline-block;
+        }
+        xy-tips[show=show]{
+            --themeColor:#f5222d;
+            --themeBorderColor:#f5222d;
+        }
+        </style>
+        <xy-tips id="tip" type="error"><slot></slot></xy-tips>
+        `
+    }
+
+    get name() {
+        return this.getAttribute('name');
+    }
+
+    get required() {
+        return this.getAttribute('required')!==null;
+    }
+
+    get defaultvalue() {
+        return this.getAttribute('defaultvalue')||"";
+    }
+
+    get value() {
+        const radio = this.querySelector('xy-radio[checked]');
+        return radio?radio.value:'';
+    }
+
+    get novalidate() {
+        return this.getAttribute('novalidate')!==null;
+    }
+
+    get validity() {
+        return this.value!=='';
+    }
+
+    set value(value) {
+        this.elements.forEach(el=>{
+            if(value == el.value){
+                el.checked = true;
+            }else{
+                el.checked = false;
+            }
+        })
+        if(this.init){
+            console.log(555)
+            this.checkValidity();
+            this.dispatchEvent(new CustomEvent('change',{
+                detail:{
+                    value:value
+                }
+            }));
+        }
+    }
+
+    set required(value) {
+        if(value===null||value===false){
+            this.removeAttribute('required');
+        }else{
+            this.setAttribute('required', '');
+        }
+    }
+
+    set novalidate(value) {
+        if(value===null||value===false){
+            this.removeAttribute('novalidate');
+        }else{
+            this.setAttribute('novalidate', '');
+        }
+    }
+
+    focus(){
+        this.elements[0].focus();
+    }
+
+    reset() {
+        this.elements.forEach(el=>{
+            el.checked = false;
+        })
+        this.error = false;
+        this.tip.show = false;
+    }
+
+    checkValidity(){
+        if(this.novalidate||this.form&&this.form.novalidate){
+            return true;
+        }
+        if(this.validity){
+            this.tip.show = false;
+            return true;
+        }else{
+            this.focus();
+            this.tip.show = 'show';
+            this.tip.tips = '请选择1项';
+            return false;
+        }
+    }
+
+    connectedCallback() {
+        this.form = this.closest('xy-form');
+        this.elements  = this.querySelectorAll('xy-radio');
+        this.tip  = this.shadowRoot.getElementById('tip');
+        this.value = this.defaultvalue;
+        this.elements.forEach(el=>{
+            el.addEventListener('change',()=>{
+                if(el.checked){
+                    this.checkValidity();
+                    this.dispatchEvent(new CustomEvent('change',{
+                        detail:{
+                            value:this.value
+                        }
+                    }));
+                }
+            })
+        })
+        this.init = true;
+    }
+}
+
+if(!customElements.get('xy-radio-group')){
+    customElements.define('xy-radio-group', XyRadioGroup);
 }

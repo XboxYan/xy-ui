@@ -1,6 +1,7 @@
+import './xy-tips.js';
 export default class XyCheckbox extends HTMLElement {
 
-    static get observedAttributes() { return ['disabled','checked'] }
+    static get observedAttributes() { return ['disabled','checked','required'] }
 
     constructor() {
         super();
@@ -42,15 +43,24 @@ export default class XyCheckbox extends HTMLElement {
             display:flex;
             align-items:center;
         }
+        xy-tips{
+            display:block;
+            padding-left: 8px;
+            margin-left: -8px;
+        }
+        xy-tips[show=show]{
+            --themeColor:#f5222d;
+            --themeBorderColor:#f5222d;
+        }
         .cheked{
+            margin-right:5px;
             position:relative;
             box-sizing: border-box;
             width: 16px;
             height: 16px;
-            border: 1px solid #d9d9d9;
+            border: 1px solid var(--themeBorderColor,#d9d9d9);
             border-radius: 2px;
             transition:.3s;
-            margin-right:5px;
         }
         .cheked::before{
             position:absolute;
@@ -93,12 +103,20 @@ export default class XyCheckbox extends HTMLElement {
             background-color:var(--themeColor,#42b983);
         }
         </style>
-        <input type="checkbox" id="checkbox"><label for="checkbox"><span class="cheked"></span><slot></slot></label>
+        <xy-tips id="tip" type="error" dir="topleft"><input type="checkbox" id="checkbox"><label for="checkbox"><span class="cheked"></span><slot></slot></label></xy-tips>
         `
     }
 
     get disabled() {
         return this.getAttribute('disabled')!==null;
+    }
+
+    get novalidate() {
+        return this.getAttribute('novalidate')!==null;
+    }
+
+    get required() {
+        return this.getAttribute('required')!==null;
     }
 
     get name() {
@@ -111,6 +129,14 @@ export default class XyCheckbox extends HTMLElement {
 
     get value() {
         return this.getAttribute('value')||this.textContent;
+    }
+
+    get validity() {
+        return this.checkbox.checkValidity();
+    }
+
+    get errortips() {
+        return this.getAttribute('errortips');
     }
 
     set disabled(value) {
@@ -129,18 +155,57 @@ export default class XyCheckbox extends HTMLElement {
         }
     }
 
+    set required(value) {
+        if(value===null||value===false){
+            this.removeAttribute('required');
+        }else{
+            this.setAttribute('required', '');
+        }
+    }
+
+    set novalidate(value) {
+        if(value===null||value===false){
+            this.removeAttribute('novalidate');
+        }else{
+            this.setAttribute('novalidate', '');
+        }
+    }
+
     focus() {
         this.checkbox.focus();
     }
+
+    reset() {
+        this.tip.show = false;
+        this.checkbox.checked = false;
+    }
+
+    checkValidity(){
+        if(this.novalidate||this.form&&this.form.novalidate){
+            return true;
+        }
+        if(this.validity){
+            this.tip.show = false;
+            return true;
+        }else{
+            this.focus();
+            this.tip.show = 'show';
+            this.tip.tips = this.errortips||this.checkbox.validationMessage;
+            return false;
+        }
+    }
     
     connectedCallback() {
+        this.form = this.closest('xy-form');
         this.checkbox = this.shadowRoot.getElementById('checkbox');
+        this.tip = this.shadowRoot.getElementById('tip');
         this.disabled = this.disabled;
         this.checked = this.checked;
         this.checkbox.addEventListener('change',(ev)=>{
             this.checked = this.checkbox.checked;
         })
         this.checkbox.addEventListener('keydown', (ev) => {
+            ev.stopPropagation();
             switch (ev.keyCode) {
                 case 13://Enter
                     this.checked = !this.checked;
@@ -172,6 +237,7 @@ export default class XyCheckbox extends HTMLElement {
                 }));
             }
         })
+        this.required = this.required;
     }
 
     attributeChangedCallback (name, oldValue, newValue) {
@@ -189,6 +255,7 @@ export default class XyCheckbox extends HTMLElement {
                 this.checkbox.checked = false;
             }
             if (oldValue !== newValue) {
+                this.checkValidity();
                 this.dispatchEvent(new CustomEvent('change', {
                     detail: {
                         checked: this.checked
@@ -196,9 +263,162 @@ export default class XyCheckbox extends HTMLElement {
                 }));
             }
         }
+        if(name == 'required' && this.checkbox){
+            if(newValue!==null){
+                this.checkbox.setAttribute('required', 'required');
+            }else{
+                this.checkbox.removeAttribute('required');
+            }
+        }
     }
 }
 
 if(!customElements.get('xy-checkbox')){
     customElements.define('xy-checkbox', XyCheckbox);
+}
+
+
+class XyCheckboxGroup extends HTMLElement {
+    constructor() {
+        super();
+        const shadowRoot = this.attachShadow({ mode: 'open' });
+        shadowRoot.innerHTML = `
+        <style>
+        :host {
+            display:inline-block;
+        }
+        xy-tips[show=show]{
+            --themeColor:#f5222d;
+            --themeBorderColor:#f5222d;
+        }
+        </style>
+        <xy-tips id="tip" type="error"><slot></slot></xy-tips>
+        `
+    }
+
+    get name() {
+        return this.getAttribute('name');
+    }
+
+    get min() {
+        return this.getAttribute('min')||0;
+    }
+
+    get max() {
+        return this.getAttribute('max')||Infinity;
+    }
+
+    get required() {
+        return this.getAttribute('required')!==null;
+    }
+
+    get defaultvalue() {
+        return this.getAttribute('defaultvalue')||"";
+    }
+
+    get value() {
+        return [...this.querySelectorAll('xy-checkbox[checked]')].map(el=>el.value);
+    }
+
+    get novalidate() {
+        return this.getAttribute('novalidate')!==null;
+    }
+
+    get validity() {
+        this.len = this.value.length;
+        return this.len>=this.min && this.len<=this.max && (this.required?this.len>=1:true);
+    }
+
+    set value(value) {
+        //['html','js']
+        this.elements.forEach(el=>{
+            if(value.includes(el.value)){
+                el.checked = true;
+            }else{
+                el.checked = false;
+            }
+        })
+        if(this.init){
+            this.checkValidity();
+            this.dispatchEvent(new CustomEvent('change',{
+                detail:{
+                    value:value
+                }
+            }));
+        }
+    }
+
+    set required(value) {
+        if(value===null||value===false){
+            this.removeAttribute('required');
+        }else{
+            this.setAttribute('required', '');
+        }
+    }
+
+    set novalidate(value) {
+        if(value===null||value===false){
+            this.removeAttribute('novalidate');
+        }else{
+            this.setAttribute('novalidate', '');
+        }
+    }
+
+    focus(){
+        this.elements[0].focus();
+    }
+
+    reset() {
+        this.elements.forEach(el=>{
+            el.checked = false;
+        })
+        this.error = false;
+        this.tip.show = false;
+    }
+
+    checkValidity(){
+        if(this.novalidate||this.form&&this.form.novalidate){
+            return true;
+        }
+        if(this.validity){
+            this.tip.show = false;
+            return true;
+        }else{
+            this.focus();
+            this.tip.show = 'show';
+            if(this.len==0&&this.required){
+                this.tip.tips = '请至少选择1项';
+            }else{
+                if(this.len<this.min){
+                    this.tip.tips = `请至少选择${this.min}项`;
+                }
+                if(this.len>this.max){
+                    this.tip.tips = `至多选择${this.max}项`;
+                }
+            }
+            return false;
+        }
+    }
+
+    connectedCallback() {
+        this.form = this.closest('xy-form');
+        this.elements  = this.querySelectorAll('xy-checkbox');
+        this.tip  = this.shadowRoot.getElementById('tip');
+        this.value = this.defaultvalue.split(',');
+        this.elements.forEach(el=>{
+            el.addEventListener('change',()=>{
+                this.checkValidity();
+                this.dispatchEvent(new CustomEvent('change',{
+                    detail:{
+                        value:this.value
+                    }
+                }));
+            })
+        })
+        this.init = true;
+    }
+}
+
+if(!customElements.get('xy-checkbox-group')){
+    customElements.define('xy-checkbox-group', XyCheckboxGroup);
 }

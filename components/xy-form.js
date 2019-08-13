@@ -21,7 +21,7 @@ export default class XyForm extends HTMLElement {
         const elements = [...this.elements].reverse();
         let validity = true;
         elements.forEach(el=>{
-            if(!el.checkValidity()){
+            if(el.checkValidity&&!el.checkValidity()){
                 validity = false;
             }
         })
@@ -152,13 +152,6 @@ export default class XyForm extends HTMLElement {
 
     attributeChangedCallback (name, oldValue, newValue) {
 
-        if(name == 'required' && this.input){
-            if(newValue!==null){
-                this.input.setAttribute('required', 'required');
-            }else{
-                this.input.removeAttribute('required');
-            }
-        }
     }
 }
 

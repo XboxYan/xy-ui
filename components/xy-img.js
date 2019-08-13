@@ -6,7 +6,7 @@ class XyGallery extends HTMLElement {
     constructor() {
         super();
         const shadowRoot = this.attachShadow({ mode: 'open' });
-        this.setAttribute('tabindex',0);
+        this.setAttribute('tabindex', 0);
         shadowRoot.innerHTML = `
         <style>
         :host{
@@ -62,6 +62,7 @@ class XyGallery extends HTMLElement {
             background:rgba(255,255,255,.8);
             color:#333;
             outline:0;
+            z-index:10;
         }
         .dots{
             display: flex;
@@ -141,27 +142,27 @@ class XyGallery extends HTMLElement {
     }
 
     get open() {
-        return this.getAttribute('open')!==null;
+        return this.getAttribute('open') !== null;
     }
 
     set open(value) {
-        if(value===null||value===false){
+        if (value === null || value === false) {
             this.removeAttribute('open');
-        }else{
+        } else {
             this.setAttribute('open', '');
         }
     }
 
-    show(index){
+    show(index) {
         this.open = true;
         this.change(index);
     }
 
-    change(index){
+    change(index) {
         this.index = this.indexlist.indexOf(Number(index));
         const preimg = this.querySelector(`img.current`);
         const predots = this.dots.querySelector(`i.current`);
-        if(preimg&&predots){
+        if (preimg && predots) {
             preimg.classList.remove('current');
             predots.classList.remove('current');
         }
@@ -169,25 +170,25 @@ class XyGallery extends HTMLElement {
         this.dots.querySelector(`i[data-index="${index}"]`).classList.add('current');
     }
 
-    add(img,index){
+    add(img, index) {
         this.indexlist.push(index);
         this.appendChild(img);
     }
 
-    go(step){
-        this.index+=step;
+    go(step) {
+        this.index += step;
         const len = this.indexlist.length;
-        if(this.index > len-1){
+        if (this.index > len - 1) {
             this.index = 0;
         }
-        if(this.index<0){
-            this.index = len-1;
+        if (this.index < 0) {
+            this.index = len - 1;
         }
         this.change(this.indexlist[this.index]);
     }
 
-    remove(index){
-        this.indexlist = this.indexlist.filter(el=>el!=index);
+    remove(index) {
+        this.indexlist = this.indexlist.filter(el => el != index);
         const child = this.querySelector(`img[data-index="${index}"]`);
         child && this.removeChild(child);
     }
@@ -197,36 +198,36 @@ class XyGallery extends HTMLElement {
         this.slots = this.shadowRoot.getElementById('slot');
         this.dots = this.shadowRoot.getElementById('dots');
         this.close = this.shadowRoot.getElementById('close');
-        this.addEventListener('transitionend',(ev)=>{
-            if(ev.propertyName === 'transform' && this.open){
+        this.addEventListener('transitionend', (ev) => {
+            if (ev.propertyName === 'transform' && this.open) {
                 this.focus();
             }
         })
-        this.slots.addEventListener('slotchange', ()=>{
-            if(this.indexlist.length>1){
+        this.slots.addEventListener('slotchange', () => {
+            if (this.indexlist.length > 1) {
                 this.dots.classList.remove('only');
-                this.indexlist = this.indexlist.sort((a,b)=>a-b);
+                this.indexlist = this.indexlist.sort((a, b) => a - b);
                 let html = ''
-                this.indexlist.forEach(el=>{
-                    html+='<i data-index='+el+' class='+(el==this.indexlist[this.index]?'current':'')+'></i>'
+                this.indexlist.forEach(el => {
+                    html += '<i data-index=' + el + ' class=' + (el == this.indexlist[this.index] ? 'current' : '') + '></i>'
                 })
                 this.dots.querySelector('.dots').innerHTML = html;
-            }else{
+            } else {
                 this.dots.classList.add('only');
             }
         });
-        this.dots.addEventListener('click',(ev)=>{
-            if(ev.target.tagName === 'I'){
+        this.dots.addEventListener('click', (ev) => {
+            if (ev.target.tagName === 'I') {
                 this.change(ev.target.dataset.index);
             }
-            if(ev.target.className === 'left'){
+            if (ev.target.className === 'left') {
                 this.go(-1);
             }
-            if(ev.target.className === 'right'){
+            if (ev.target.className === 'right') {
                 this.go(1);
             }
         })
-        this.addEventListener('keydown',(ev)=>{
+        this.addEventListener('keydown', (ev) => {
             switch (ev.keyCode) {
                 case 37://Left
                     this.go(-1);
@@ -236,35 +237,36 @@ class XyGallery extends HTMLElement {
                     break;
                 case 8://Backspace
                 case 27://Esc
+                    ev.preventDefault();
                     this.open = false;
                     break;
                 default:
                     break;
             }
         })
-        this.close.addEventListener('click',(ev)=>{
+        this.close.addEventListener('click', (ev) => {
             this.open = false;
         })
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-        if( name == 'open' && this.shadowRoot){
-            if(newValue==null){
+        if (name == 'open' && this.shadowRoot) {
+            if (newValue == null) {
                 document.querySelector(`xy-img[index="${this.indexlist[this.index]}"]`).focus();
             }
         }
     }
-    
+
 }
 
 
-if(!customElements.get('xy-gallery')){
+if (!customElements.get('xy-gallery')) {
     customElements.define('xy-gallery', XyGallery);
 }
 
 export default class XyImg extends HTMLElement {
 
-    static get observedAttributes() { return ['lazy','src','defaultsrc','ratio'] }
+    static get observedAttributes() { return ['lazy', 'src', 'defaultsrc', 'ratio'] }
 
     constructor() {
         super();
@@ -376,6 +378,20 @@ export default class XyImg extends HTMLElement {
             min-height:100px;
             transform: none;
         }
+        .loading{
+            position:absolute;
+            left:50%;
+            top:50%;
+            z-index:3;
+            transform:translate(-50%,-50%);
+            pointer-events:none;
+            opacity:1;
+            transition:.3s;
+        }
+        img[src]+.loading,:host([error]) .loading{
+            opacity:0;
+            visibility:hidden;
+        }
         .placeholder xy-icon {
             font-size:1.15em;
             margin-right:.4em;
@@ -410,9 +426,87 @@ export default class XyImg extends HTMLElement {
             opacity:1;
             transform:translate(-50%,-50%) scale(1);
         }
+        .animation .shape {
+            border-radius: 50%;
+            background:var(--themeColor,#42b983);
+        }
+        .animation{
+            width:2em;
+            height:2em;
+            display:grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap:.7em;
+            transform: rotate(45deg);
+            animation: rotation 1s infinite;
+        }
+        .shape1 {
+            animation: animation4shape1 0.3s ease 0s infinite alternate;
+        }
+        @keyframes rotation {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        @keyframes animation4shape1 {
+            from {
+                transform: translate(0, 0);
+            }
+            to {
+                transform: translate(5px, 5px);
+            }
+        }
+        .shape2 {
+            opacity:.8;
+            animation: animation4shape2 0.3s ease 0.3s infinite alternate;
+        }
+        @keyframes animation4shape2 {
+            from {
+                transform: translate(0, 0);
+            }
+            to {
+                transform: translate(-5px, 5px);
+            }
+        }
+        .shape3 {
+            opacity:.6;
+            animation: animation4shape3 0.3s ease 0.3s infinite alternate;
+        }
+          
+        @keyframes animation4shape3 {
+            from {
+                transform: translate(0, 0);
+            }
+            to {
+                transform: translate(5px, -5px);
+            }
+        }
+        .shape4 {
+            opacity:.4;
+            animation: animation4shape4 0.3s ease 0s infinite alternate;
+        }
+        @keyframes animation4shape4 {
+            from {
+                transform: translate(0, 0);
+            }
+            to {
+                transform: translate(-5px, -5px);
+            }
+        }
         </style>
-        <div class="placeholder" id="placeholder" style="${this.ratio?'padding-top:'+this.ratio:''}"><div class="placeholder-icon"><xy-icon name="image"></xy-icon>${this.alt}</div></div>
+        <div class="placeholder" id="placeholder" style="${this.ratio ? 'padding-top:' + this.ratio : ''}"><div class="placeholder-icon"><xy-icon name="image"></xy-icon>${this.alt}</div></div>
         <xy-icon class="view" name='View'></xy-icon>
+        <img>
+        <div class="loading">
+            <div class="animation">
+                <div class="shape shape1"></div>
+                <div class="shape shape2"></div>
+                <div class="shape shape3"></div>
+                <div class="shape shape4"></div>
+            </div>
+        </div>
         `
     }
 
@@ -427,15 +521,15 @@ export default class XyImg extends HTMLElement {
     get ratio() {
         //16/9
         const ratio = this.getAttribute('ratio');
-        if(ratio && ratio.includes('/')){
+        if (ratio && ratio.includes('/')) {
             const r = ratio.split('/');
-            return (r[1]/r[0]*100)+'%';
+            return (r[1] / r[0] * 100) + '%';
         }
         return 0;
     }
 
     get lazy() {
-        return this.getAttribute('lazy')!==null;
+        return this.getAttribute('lazy') !== null;
     }
 
     get fit() {
@@ -447,15 +541,15 @@ export default class XyImg extends HTMLElement {
     }
 
     get error() {
-        return this.getAttribute('error')!==null;
+        return this.getAttribute('error') !== null;
     }
 
     get default() {
-        return this.getAttribute('default')!==null;
+        return this.getAttribute('default') !== null;
     }
 
     get alt() {
-        return this.getAttribute('alt')||'unkown';
+        return this.getAttribute('alt') || 'unkown';
     }
 
     set src(value) {
@@ -470,59 +564,65 @@ export default class XyImg extends HTMLElement {
     }
 
     set error(value) {
-        if(value){
+        if (value) {
             this.setAttribute('error', '');
-        }else{
+        } else {
             this.removeAttribute('error');
         }
     }
 
     set default(value) {
-        if(value){
+        if (value) {
             this.setAttribute('default', '');
-        }else{
+        } else {
             this.removeAttribute('default');
         }
     }
 
-    focus(){
+    focus() {
         this.img.focus();
     }
 
-    load(src,hasload) {
+    load(src, hasload) {
         const img = new Image();
         img.src = src;
-        this.img.src = src;
         this.error = false;
+        img.onload = () => {
+            this.img.alt = this.alt;
+            this.img.src = src;
+            if(!this.default){
+                this.initgallery();
+            }
+        }
         img.onerror = () => {
             this.error = true;
             this.img.removeAttribute('tabindex');
-            if(this.defaultsrc && !hasload){
+            if (this.defaultsrc && !hasload) {
                 this.default = true;
-                this.load(this.defaultsrc,true);
+                this.load(this.defaultsrc, true);
             }
-            window['XyGallery'+this.gallery] && window['XyGallery'+this.gallery].remove(this.XyImgIndex);
+            //window['XyGallery' + this.gallery] && window['XyGallery' + this.gallery].remove(this.XyImgIndex);
         }
     }
 
-    initgallery(){
-        if(this.gallery!==null){
-            if(!window['XyGallery'+this.gallery]){
-                window['XyGallery'+this.gallery] = new XyGallery();
-                document.body.appendChild(window['XyGallery'+this.gallery]);
+    initgallery() {
+        if (this.gallery !== null) {
+            if (!window['XyGallery' + this.gallery]) {
+                window['XyGallery' + this.gallery] = new XyGallery();
+                document.body.appendChild(window['XyGallery' + this.gallery]);
             }
-            this.img.setAttribute('tabindex',0);
-            this.setAttribute('index',this.XyImgIndex);
-            this.img.addEventListener('click',()=>{
-                if(!this.default){
-                    window['XyGallery'+this.gallery].show(this.XyImgIndex);
+            this.img.setAttribute('tabindex', 0);
+            this.setAttribute('index', this.XyImgIndex);
+            this.img.addEventListener('click', () => {
+                if (!this.default) {
+                    window['XyGallery' + this.gallery].show(this.XyImgIndex);
                 }
             })
-            this.img.addEventListener('keydown',(ev)=>{
+            this.img.addEventListener('keydown', (ev) => {
                 switch (ev.keyCode) {
                     case 13://Enter
-                        if(!this.default){
-                            window['XyGallery'+this.gallery].show(this.XyImgIndex);
+                        if (!this.default) {
+                            window['XyGallery' + this.gallery].show(this.XyImgIndex);
                         }
                         break;
                     default:
@@ -533,55 +633,51 @@ export default class XyImg extends HTMLElement {
             img.removeAttribute('tabindex');
             img.style.order = this.XyImgIndex;
             img.dataset.index = this.XyImgIndex;
-            window['XyGallery'+this.gallery].add(img,this.XyImgIndex);
+            window['XyGallery' + this.gallery].add(img, this.XyImgIndex);
         }
     }
-    
+
     connectedCallback() {
-        if(window.XyImgIndex>-1){
+        if (window.XyImgIndex > -1) {
             window.XyImgIndex++;
-        }else{
-            window.XyImgIndex=0;
+        } else {
+            window.XyImgIndex = 0;
         }
         this.XyImgIndex = window.XyImgIndex;
         this.placeholder = this.shadowRoot.getElementById('placeholder');
-        this.img = new Image();
-        this.img.alt = this.alt;
-        if(this.lazy){
+        this.img = this.shadowRoot.querySelector('img');
+        if (this.lazy) {
             this.observer = new IntersectionObserver(ioes => {
                 ioes.forEach(ioe => {
                     const el = ioe.target;
                     const intersectionRatio = ioe.intersectionRatio;
                     if (intersectionRatio > 0 && intersectionRatio <= 1) {
                         this.load(this.src);
-                        this.initgallery();
                         this.observer.unobserve(el);
                     }
                 })
             })
             this.observer.observe(this.img);
-        }else{
+        } else {
             this.load(this.src);
-            this.initgallery();
         }
-        this.shadowRoot.appendChild(this.img);
     }
 
-    attributeChangedCallback (name, oldValue, newValue) {
-        if( name == 'src' && this.img){
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (name == 'src' && this.img) {
             this.placeholder.classList.remove('show');
             this.load(newValue);
         }
-        if( name == 'ratio' && this.img){
+        if (name == 'ratio' && this.img) {
             this.placeholder.style.paddingTop = this.ratio;
         }
     }
 
-    disconnectedCallback(){
-        window['XyGallery'+this.gallery] && window['XyGallery'+this.gallery].remove(this.XyImgIndex);
+    disconnectedCallback() {
+        window['XyGallery' + this.gallery] && window['XyGallery' + this.gallery].remove(this.XyImgIndex);
     }
 }
 
-if(!customElements.get('xy-img')){
+if (!customElements.get('xy-img')) {
     customElements.define('xy-img', XyImg);
 }
