@@ -200,6 +200,9 @@ class XyRadioGroup extends HTMLElement {
         :host {
             display:inline-block;
         }
+        :host(:focus-within) xy-tips{
+            z-index:2;
+        }
         xy-tips[show=show]{
             --themeColor:#f5222d;
             --themeBorderColor:#f5222d;
@@ -270,7 +273,9 @@ class XyRadioGroup extends HTMLElement {
     }
 
     focus(){
-        this.elements[0].focus();
+        if(getComputedStyle(this.tip).zIndex!=2){
+            this.elements[0].focus();
+        }
     }
 
     reset() {

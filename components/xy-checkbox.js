@@ -287,6 +287,9 @@ class XyCheckboxGroup extends HTMLElement {
         :host {
             display:inline-block;
         }
+        :host(:focus-within) xy-tips{
+            z-index:2;
+        }
         xy-tips[show=show]{
             --themeColor:#f5222d;
             --themeBorderColor:#f5222d;
@@ -301,7 +304,8 @@ class XyCheckboxGroup extends HTMLElement {
     }
 
     get min() {
-        return this.getAttribute('min')||0;
+        const min = this.getAttribute('min')||0;
+        return this.required?Math.max(1,min):min;
     }
 
     get max() {
@@ -326,7 +330,10 @@ class XyCheckboxGroup extends HTMLElement {
 
     get validity() {
         this.len = this.value.length;
-        return this.len>=this.min && this.len<=this.max && (this.required?this.len>=1:true);
+        if(!this.required && this.len==0){
+            return true;
+        }
+        return this.len>=this.min && this.len<=this.max;
     }
 
     set value(value) {
@@ -365,7 +372,9 @@ class XyCheckboxGroup extends HTMLElement {
     }
 
     focus(){
-        this.elements[0].focus();
+        if(getComputedStyle(this.tip).zIndex!=2){
+            this.elements[0].focus();
+        }
     }
 
     reset() {
@@ -386,15 +395,11 @@ class XyCheckboxGroup extends HTMLElement {
         }else{
             this.focus();
             this.tip.show = 'show';
-            if(this.len==0&&this.required){
-                this.tip.tips = '请至少选择1项';
-            }else{
-                if(this.len<this.min){
-                    this.tip.tips = `请至少选择${this.min}项`;
-                }
-                if(this.len>this.max){
-                    this.tip.tips = `至多选择${this.max}项`;
-                }
+            if(this.len<this.min){
+                this.tip.tips = `请至少选择${this.min}项`;
+            }
+            if(this.len>this.max){
+                this.tip.tips = `至多选择${this.max}项`;
             }
             return false;
         }

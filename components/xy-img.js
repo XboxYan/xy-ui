@@ -167,7 +167,10 @@ class XyGallery extends HTMLElement {
             predots.classList.remove('current');
         }
         this.querySelector(`img[data-index="${index}"]`).classList.add('current');
-        this.dots.querySelector(`i[data-index="${index}"]`).classList.add('current');
+        const curdot = this.dots.querySelector(`i[data-index="${index}"]`);
+        if(curdot){
+            curdot.classList.add('current');
+        }
     }
 
     add(img, index) {

@@ -536,7 +536,7 @@ export default class XyColorPicker extends HTMLElement {
     }
 
     get color() {
-        return this.colorPane.color;
+        return HSVaColor(...parseToHSVA(this.$value).values);
     }
 
     get type() {

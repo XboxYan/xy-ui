@@ -370,18 +370,22 @@
     <xy-form action="/login" method="get">
         <xy-input icon="user" name="user" required placeholder="user"></xy-input>
         <br>
-        <xy-input icon="mail" novalidate name="mail" required type="email" placeholder="email" minlength="5"></xy-input>
-        <br>
         <xy-input icon="lock" name="password" required type="password" placeholder="password"></xy-input>
-        <br>
-        <xy-checkbox-group name="books" required min="2" max="4">
+        <h5>city</h5>
+        <xy-select name="city">
+            <xy-option value="wuhan">武汉</xy-option>
+            <xy-option value="beijin">北京</xy-option>
+            <xy-option value="shanghai">上海</xy-option>
+        </xy-select>
+        <h5>books(请选择2~3项)</h5>
+        <xy-checkbox-group name="books" required min="2" max="3">
             <xy-checkbox>React</xy-checkbox>
             <xy-checkbox>Vue</xy-checkbox>
             <xy-checkbox>Angular</xy-checkbox>
             <xy-checkbox>Flutter</xy-checkbox>
             <xy-checkbox>Swift</xy-checkbox>
         </xy-checkbox-group>
-        <br>
+        <h5>lan</h5>
         <xy-radio-group name="lan" required>
             <xy-radio>Html</xy-radio>
             <xy-radio>Css</xy-radio>
@@ -390,13 +394,7 @@
             <xy-radio>Dart</xy-radio>
         </xy-radio-group>
         <br>
-        <xy-select name="option">
-            <xy-option value="1">Option1</xy-option>
-            <xy-option value="2"><a>Option2</a></xy-option>
-            <xy-option value="3">Option3</xy-option>
-        </xy-select>
-        <br>
-        <xy-checkbox name="read" checked required>I have read</xy-checkbox>
+        <xy-checkbox name="read" checked required value="read">I have read</xy-checkbox>
         <br>
         <xy-button type="primary" htmltype="submit">submit</xy-button>
         <xy-button htmltype="reset">reset</xy-button>
