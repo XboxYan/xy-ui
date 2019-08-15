@@ -1,6 +1,6 @@
 {
   "name": "xy-ui",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "a front end cross-framework based on web-components",
   "main": "index.js",
   "directories": {

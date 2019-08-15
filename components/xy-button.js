@@ -20,10 +20,10 @@ export default class XyButton extends HTMLElement {
             height: 36px; 
             align-items:center;
             justify-content: center;
-            border:1px solid #d9d9d9; 
+            border:1px solid var(--borderColor,#d9d9d9); 
             font-size: 14px; 
-            color: #333;  
-            border-radius: 3px; 
+            color: var(--fontColor,#333);  
+            border-radius: var(--borderRadius,3px); 
             transition:background .3s,box-shadow .3s,border-color .3s,color .3s;
         }
         :host([shape="circle"]){ 
@@ -80,7 +80,7 @@ export default class XyButton extends HTMLElement {
             opacity:.2; 
         }
         :host(:focus-within){ 
-            box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+            /*box-shadow: 0 0 10px rgba(0,0,0,0.1);*/ 
         }
         .btn{ 
             background:none; 

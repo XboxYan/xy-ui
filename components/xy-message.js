@@ -30,7 +30,7 @@ class XyMessage extends HTMLElement {
             font-size: 14px;
             color: #666;
             background: #fff;
-            border-radius: 4px;
+            border-radius: 3px;
             transform: translateY(-100%);
             transition:.3s transform cubic-bezier(.645, .045, .355, 1);
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -101,19 +101,19 @@ class XyMessage extends HTMLElement {
         switch (type) {
             case 'info':
                 name = 'info-circle-fill';
-                color = '#1890ff';
+                color = 'var(--infoColor,#1890ff)';
                 break;
             case 'success':
                 name = 'check-circle-fill';
-                color = '#52c41a';
+                color = 'var(--successColor,#52c41a)';
                 break;
             case 'error':
                 name = 'close-circle-fill';
-                color = '#f5222d';
+                color = 'var(--errorColor,#f4615c)';
                 break;
             case 'warning':
                 name = 'warning-circle-fill';
-                color = '#faad14';
+                color = 'var(--waringColor,#faad14)';
                 break;
             default:
                 break;

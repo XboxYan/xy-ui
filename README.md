@@ -13,6 +13,12 @@
 [github项目地址](https://github.com/XboxYan/xy-ui)
 
 ## 更新
+* ## 1.5.0
+    * 新增[`xy-form`](./docs/xy-form.md)表单组件，集成表单验证功能
+    * 新增`xy-radio-group`和`xy-checkbox-group`组件
+    * `xy-img`新增加载动画
+    * 主题颜色管理，`fontColor`、`errorColor`、`successColor`、`warningColor`、`borderColor`等
+    * 其他`bug`修复
 * ## 1.4.2
     * 重构[`xy-icon`](./docs/xy-icon.md)的引用方式，不用再设置`iconUrl`和`basePath`了~
     * 支持`cdn`引入，采用[unpkg](https://unpkg.com/)

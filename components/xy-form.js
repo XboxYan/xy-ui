@@ -8,7 +8,7 @@ export default class XyForm extends HTMLElement {
         shadowRoot.innerHTML = `
         <style>
         :host {
-            
+            display:block;
         }
         </style>
         <form id="form" method="${this.method}" action="${this.action}" ${this.novalidate?'novalidate':''}>
@@ -18,6 +18,9 @@ export default class XyForm extends HTMLElement {
     }
 
     checkValidity() {
+        if(this.novalidate){
+            return true;
+        }
         const elements = [...this.elements].reverse();
         let validity = true;
         elements.forEach(el=>{
@@ -29,7 +32,7 @@ export default class XyForm extends HTMLElement {
     }
 
     async submit() {
-        if(!this.novalidate && this.checkValidity()){
+        if(this.checkValidity()){
             //validity
             if(this.action){
                 this.submitBtn && (this.submitBtn.loading = true);
@@ -88,7 +91,7 @@ export default class XyForm extends HTMLElement {
     }
 
     get method() {
-        const method = this.getAttribute('method').toUpperCase();
+        const method = (this.getAttribute('method')||'get').toUpperCase();
         if( ['GET','POST'].includes(method) ){
             return method;
         }
@@ -101,6 +104,10 @@ export default class XyForm extends HTMLElement {
 
     get name() {
         return this.getAttribute('name');
+    }
+
+    get labelwidth() {
+        return this.getAttribute('labelwidth')||80;
     }
 
     /*
@@ -119,6 +126,10 @@ export default class XyForm extends HTMLElement {
         }else{
             this.setAttribute('novalidate', '');
         }
+    }
+
+    set labelwidth(value) {
+        this.setAttribute('labelwidth', value);
     }
 
     connectedCallback() {
@@ -157,4 +168,80 @@ export default class XyForm extends HTMLElement {
 
 if(!customElements.get('xy-form')){
     customElements.define('xy-form', XyForm);
+}
+
+
+class XyFormItem extends HTMLElement {
+    static get observedAttributes() { return ['labelwidth'] }
+
+    constructor() {
+        super();
+        const shadowRoot = this.attachShadow({ mode: 'open' });
+        shadowRoot.innerHTML = `
+        <style>
+        :host {
+            display:flex;
+            align-items: center;
+            font-size:14px;
+            color:var(--fontColor,#333);
+            margin-bottom:10px;
+        }
+        label{
+            flex-shrink: 0;
+            text-align:right;
+            padding-right:10px;
+            transition:.3s;
+            width:80px;
+        }
+        .item{
+            flex:1;
+        }
+        label.required:not(:empty)::before{
+            content:'*';
+            color:var(--errorColor,#f4615c);
+        }
+        </style>
+        <label style="width:${this.labelwidth}px">${this.label}</label>
+        <div class="item"><slot></slot></div>
+        `
+    }
+
+    get label() {
+        return this.getAttribute('label')||'';
+    }
+    
+    get labelwidth() {
+        return this.getAttribute('labelwidth')||0;
+    }
+
+    set label(value) {
+        this.setAttribute('label', value);
+    }
+
+    set labelwidth(value) {
+        this.setAttribute('labelwidth', value);
+    }
+
+    connectedCallback() {
+        this.form = this.closest('xy-form');
+        this.labels = this.shadowRoot.querySelector('label');
+        this.slots = this.shadowRoot.querySelector('slot');
+        this.input = this.querySelector('[name]');
+        this.slots.addEventListener('slotchange',()=>{
+            if(this.input && this.input.required){
+                this.labels.classList.add('required');
+            }
+        })
+        this.labelwidth = this.labelwidth || (this.form && this.form.labelwidth);
+    }
+
+    attributeChangedCallback (name, oldValue, newValue) {
+        if( name == 'labelwidth' && this.labels){
+            this.labels.style.width = newValue + 'px';
+        }
+    }
+}
+
+if(!customElements.get('xy-form-item')){
+    customElements.define('xy-form-item', XyFormItem);
 }

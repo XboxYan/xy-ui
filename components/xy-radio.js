@@ -11,7 +11,7 @@ export default class XyRadio extends HTMLElement {
         :host{ 
             display:inline-block;
             font-size:14px;
-            color:#333;
+            color:var(--fontColor,#333);
             -webkit-tap-highlight-color: transparent;
         }
         :host([disabled]){ 
@@ -28,7 +28,7 @@ export default class XyRadio extends HTMLElement {
         }
         :host(:focus-within) .cheked,:host(:not([disabled])) label:hover .cheked{ 
             border-color:var(--themeColor,#42b983);
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            /*box-shadow: 0 0 10px rgba(0,0,0,0.1);*/
             z-index:1;
         }
         :host([disabled]) .cheked{ 
@@ -48,7 +48,7 @@ export default class XyRadio extends HTMLElement {
             height: 16px;
             display: flex;
             border-radius:50%;
-            border: 1px solid var(--themeBorderColor,#d9d9d9);
+            border: 1px solid var(--borderColor,#d9d9d9);
             transition:.3s;
             margin-right:5px;
         }
@@ -154,6 +154,7 @@ export default class XyRadio extends HTMLElement {
         this.radio.addEventListener('keydown', (ev) => {
             switch (ev.keyCode) {
                 case 13://Enter
+                    ev.stopPropagation();
                     this.tocheck();
                     break;
                 default:
@@ -204,8 +205,8 @@ class XyRadioGroup extends HTMLElement {
             z-index:2;
         }
         xy-tips[show=show]{
-            --themeColor:#f5222d;
-            --themeBorderColor:#f5222d;
+            --themeColor:var(--errorColor,#f4615c);
+            --borderColor:var(--errorColor,#f4615c);
         }
         </style>
         <xy-tips id="tip" type="error"><slot></slot></xy-tips>
@@ -303,22 +304,25 @@ class XyRadioGroup extends HTMLElement {
 
     connectedCallback() {
         this.form = this.closest('xy-form');
-        this.elements  = this.querySelectorAll('xy-radio');
         this.tip  = this.shadowRoot.getElementById('tip');
-        this.value = this.defaultvalue;
-        this.elements.forEach(el=>{
-            el.addEventListener('change',()=>{
-                if(el.checked){
-                    this.checkValidity();
-                    this.dispatchEvent(new CustomEvent('change',{
-                        detail:{
-                            value:this.value
-                        }
-                    }));
-                }
+        this.slots = this.shadowRoot.querySelector('slot');
+        this.slots.addEventListener('slotchange',()=>{
+            this.elements  = this.querySelectorAll('xy-radio');
+            this.value = this.defaultvalue;
+            this.elements.forEach(el=>{
+                el.addEventListener('change',()=>{
+                    if(el.checked){
+                        this.checkValidity();
+                        this.dispatchEvent(new CustomEvent('change',{
+                            detail:{
+                                value:this.value
+                            }
+                        }));
+                    }
+                })
             })
+            this.init = true;
         })
-        this.init = true;
     }
 }
 

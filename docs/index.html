@@ -29,7 +29,9 @@
     xy-slider{
       margin: 10px 0;
     }
-
+    xy-form-item *{
+      margin-bottom: 0;
+    }
     xy-img{ 
       width: 200px; 
       height: 150px; 
@@ -134,6 +136,14 @@
           hook.doneEach(function(){
             document.getElementById('gitalk-container').innerHTML = "";
             NewGitalk().render('gitalk-container');
+            if(vm.route.file=='xy-input.md'||vm.route.file=='xy-form.md'){
+              document.getElementById('pwdAgain').customValidity = {
+                  method:(el)=>{
+                      return el.value == document.getElementById('pwd').value;
+                  },
+                  tips:'前后密码不一致'
+              }
+            }
           });
         }	
       ]
@@ -162,10 +172,32 @@
         document.body.style.setProperty('--themeColor',themeColor);
         document.body.style.setProperty('--theme-color',themeColor);
     }
+    function checkform(){
+        var form = document.getElementById('form-check');
+        if(form.checkValidity()){
+            //全部验证通过
+            XyDialog.success({
+                title:"全部验证通过",
+                content:JSON.stringify(form.formdata.json,null,4)
+            })
+            console.log(form.formdata)
+        }
+    }
+    function formSubmit(){
+        var form = document.getElementById('form-submit');
+        console.log(form.validity)
+        if(form.validity){
+            //全部验证通过
+            XyDialog.success({
+                title:"全部验证通过",
+                content:JSON.stringify(form.formdata.json,null,4)
+            })
+            console.log(form.formdata)
+        }
+    }
   </script>
   <script type="module">
     import '../index.js';
-    window.iconUrl = '../iconfont/icon.svg';
   </script>
 </body>
 

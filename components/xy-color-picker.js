@@ -159,7 +159,7 @@ class XyColorPane extends HTMLElement {
                 outline:0;
                 min-width:0;
                 width: 0;
-                border-radius:3px;
+                border-radius:var(--borderRadius,3px);
                 border:1px solid #ddd;
                 padding:0 5px;
                 line-height:28px;
@@ -177,20 +177,12 @@ class XyColorPane extends HTMLElement {
             .color-label input:focus{
                 border-color:var(--themeColor,#42b983);
             }
-            .color-label i{
-                margin-right:10px;
-                margin-left:-5px;
-                line-height:30px;
-                font-size:12px;
-                font-style:normal;
-                color:#666;
-            }
             .color-footer{
                 display:flex
             }
             .btn-switch{
                 position:relative;
-                border-radius:3px;
+                border-radius:var(--borderRadius,3px);
                 background:none;
                 border:0;
                 outline:0;

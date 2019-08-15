@@ -68,6 +68,7 @@ class XyDialog extends HTMLElement {
             overflow: auto;
             min-height: 50px;
             padding: 10px 0;
+            white-space:pre;
         }
         .dialog-footer {
             padding: 3px 0 20px 0;
@@ -177,23 +178,23 @@ class XyDialog extends HTMLElement {
         switch (type) {
             case 'info':
                 name = 'info-circle';
-                color = '#1890ff';
+                color = 'var(--infoColor,#1890ff)';
                 break;
             case 'success':
                 name = 'check-circle';
-                color = '#52c41a';
+                color = 'var(--successColor,#52c41a)';
                 break;
             case 'error':
                 name = 'close-circle';
-                color = '#f5222d';
+                color = 'var(--errorColor,#f4615c)';
                 break;
             case 'warning':
                 name = 'warning-circle';
-                color = '#faad14';
+                color = 'var(--waringColor,#faad14)';
                 break;
             case 'confirm':
                 name = 'question-circle';
-                color = '#faad14';
+                color = 'var(--waringColor,#faad14)';
                 break;
             default:
                 break;

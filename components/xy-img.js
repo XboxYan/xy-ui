@@ -60,7 +60,7 @@ class XyGallery extends HTMLElement {
             padding: 10px;
             border-radius:20px;
             background:rgba(255,255,255,.8);
-            color:#333;
+            color:var(--fontColor,#333);
             outline:0;
             z-index:10;
         }
@@ -132,7 +132,7 @@ class XyGallery extends HTMLElement {
             transform: scale(1.3);
         }
         .btn-close:hover xy-icon,.btn-close:focus xy-icon{
-            color:#f5222d;
+            color:var(--errorColor,#f4615c);
         }
         </style>
         <button id="close" class="btn-close"><xy-icon name="close"></xy-icon></button>

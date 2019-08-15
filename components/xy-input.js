@@ -8,33 +8,34 @@ export default class XyInput extends HTMLElement {
     constructor({multi}={}) {
         super();
         this.multi = multi;
+        this.$customValidity = null;
         const shadowRoot = this.attachShadow({ mode: 'open' });
         shadowRoot.innerHTML = `
         <style>
         :host{
             box-sizing:border-box;
             display:inline-block;
-            border:1px solid #d9d9d9;
-            border-radius:3px;
+            border:1px solid var(--borderColor,#d9d9d9);
+            border-radius:var(--borderRadius,3px);
             line-height: 26px;
             transition:border-color .3s,box-shadow .3s;
             padding: 4px 10px;
-            color: #333;
+            color: var(--fontColor,#333);
             font-size: 14px;
         }
         :host(:focus-within){
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            /*box-shadow: 0 0 10px rgba(0,0,0,0.1);*/
         }
         :host([block]){
             display:block
         }
         :host([error]){
-            --themeColor:#f5222d;
-            border-color:#f5222d;
-            color:#f5222d;
+            --themeColor:var(--errorColor,#f4615c);
+            border-color:var(--errorColor,#f4615c);
+            color:var(--errorColor,#f4615c);
         }
         :host([error]) xy-icon{
-            color:#f5222d;
+            color:var(--errorColor,#f4615c);
         }
         :host(:focus-within:not([disabled])),:host(:not([disabled]):hover){
             border-color:var(--themeColor,#42b983);
@@ -211,7 +212,11 @@ export default class XyInput extends HTMLElement {
             if(this.input.validity.valueMissing){
                 this.inputCon.tips = this.input.validationMessage;
             }else{
-                this.inputCon.tips = this.errortips||this.input.validationMessage;
+                if(!this.customValidity.method(this)){
+                    this.inputCon.tips = this.customValidity.tips;
+                }else{
+                    this.inputCon.tips = this.errortips||this.input.validationMessage;
+                }
             }
             return false;
         }
@@ -336,6 +341,12 @@ export default class XyInput extends HTMLElement {
         this.input.value = '';
     }
 
+    get customValidity() {
+        return this.$customValidity||{
+            method:()=>true
+        };
+    }
+
     get value() {
         return this.input.value;
     }
@@ -357,7 +368,7 @@ export default class XyInput extends HTMLElement {
     }
 
     get validity() {
-        return this.input.checkValidity();
+        return this.input.checkValidity()&&this.customValidity.method(this);
     }
 
     get errordir() {
@@ -466,6 +477,10 @@ export default class XyInput extends HTMLElement {
     set placeholder(value) {
         this.setAttribute('placeholder', value);
     }
+    
+    set customValidity(object) {
+        this.$customValidity = object;
+    }
 
     set novalidate(value) {
         if(value===null||value===false){
@@ -487,13 +502,10 @@ export default class XyInput extends HTMLElement {
 
     attributeChangedCallback (name, oldValue, newValue) {
         if(name == 'disabled' && this.input){
-            const btns = this.shadowRoot.querySelectorAll('xy-button');
             if(newValue!==null){
-                this.input.setAttribute('disabled', 'disabled');
-                btns.forEach(el=>el.disabled = true);
+                this.input.parentNode.setAttribute('tabindex', '-1');
             }else{
-                this.input.removeAttribute('disabled');
-                btns.forEach(el=>el.disabled = false);
+                this.input.parentNode.removeAttribute('tabindex');
             }
         }
         if(name == 'pattern' && this.input){

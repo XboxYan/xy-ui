@@ -81,7 +81,7 @@ class XyPopcon extends HTMLElement {
             padding: 0;
         }
         </style>
-            <xy-icon id="popcon-type" class="popcon-type" name="question-circle" color="#faad14"></xy-icon>
+            <xy-icon id="popcon-type" class="popcon-type" name="question-circle" color="var(--waringColor,#faad14)"></xy-icon>
             <div class="popcon-content">
                 <div class="popcon-title" id="title">${this.title}</div>
                 <xy-button class="btn-close" id="btn-close" type="flat" icon="close"></xy-button>

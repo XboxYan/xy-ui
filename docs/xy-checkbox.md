@@ -102,6 +102,98 @@ checkbox.setAttribute('checked','');
 checkbox.removeAttribute('checked');
 ```
 
+现新增`xy-checkbox-group`组件，表示同一组，
+
+* `defaultvalue`设置初始选中项，格式为`defaultvalue="React,Angular"`
+* 设置和获取`vaule`（数组格式）
+* 支持`change`事件
+
+<xy-checkbox-group name="books" defaultvalue="React,Angular">
+    <xy-checkbox>React</xy-checkbox>
+    <xy-checkbox>Vue</xy-checkbox>
+    <xy-checkbox>Angular</xy-checkbox>
+    <xy-checkbox>Flutter</xy-checkbox>
+    <xy-checkbox>Swift</xy-checkbox>
+</xy-checkbox-group>
+<xy-button type="primary" onclick="this.previousElementSibling.value='[\'Vue\',\'Flutter\']'">选中Vue、Flutter</xy-button>
+
+```html
+<xy-checkbox-group name="books" defaultvalue="React,Angular">
+    <xy-checkbox>React</xy-checkbox>
+    <xy-checkbox>Vue</xy-checkbox>
+    <xy-checkbox>Angular</xy-checkbox>
+    <xy-checkbox>Flutter</xy-checkbox>
+    <xy-checkbox>Swift</xy-checkbox>
+</xy-checkbox-group>
+```
+
+JavaScript操作`get`、`set`
+
+```js
+radiogroup.value;//获取
+radiogroup.value = ['React','Vue'];
+//原生属性操作
+radiogroup.getAttribute('value');
+radiogroup.setAttribute('value',['React','Vue']);
+```
+
+## 必填项`required`
+
+表单验证属性，表示必填，可作用于`xy-checkbox`或者`xy-checkbox-group`上
+
+<xy-checkbox required>remember password</xy-checkbox>
+
+```html
+<xy-checkbox required>remember password</xy-checkbox>
+```
+
+> 常用于记住密码等功能。
+
+配合[`checkValidity()`](xy-checkbox.md?id=checkValidity)方法可以主动校验
+
+## 最少项`minlength`、最多项`maxlength`
+
+表单验证属性，表示最少选中和最多选中项目
+
+<xy-checkbox-group name="books" required min="2" max="3" defaultvalue="React,Angular">
+    <xy-checkbox>React</xy-checkbox>
+    <xy-checkbox>Vue</xy-checkbox>
+    <xy-checkbox>Angular</xy-checkbox>
+    <xy-checkbox>Flutter</xy-checkbox>
+    <xy-checkbox>Swift</xy-checkbox>
+</xy-checkbox-group>
+
+```html
+<xy-checkbox-group name="books" required min="2" max="3" defaultvalue="React,Angular">
+    <xy-checkbox>React</xy-checkbox>
+    <xy-checkbox>Vue</xy-checkbox>
+    <xy-checkbox>Angular</xy-checkbox>
+    <xy-checkbox>Flutter</xy-checkbox>
+    <xy-checkbox>Swift</xy-checkbox>
+</xy-checkbox-group>
+```
+
+## 合法性`validity`
+
+可以通过属性`validity`来获取多选框的合法性。
+
+<xy-checkbox-group name="books" required min="2" max="3">
+    <xy-checkbox>React</xy-checkbox>
+    <xy-checkbox>Vue</xy-checkbox>
+    <xy-checkbox>Angular</xy-checkbox>
+    <xy-checkbox>Flutter</xy-checkbox>
+    <xy-checkbox>Swift</xy-checkbox>
+</xy-checkbox-group>
+<xy-button type="primary" onclick="XyMessage.info('合法性:'+this.previousElementSibling.validity)">合法性</xy-button>
+
+JavaScript操作`get`
+
+```js
+checkbox.validity;//获取
+//原生属性操作
+checkbox.getAttribute('validity');
+```
+
 ## 事件`event`
 
 ### onchange
@@ -136,6 +228,39 @@ checkbox.addEventListener('change',function(ev){
 })
 ```
 
+`xy-checkbox-group`支持`change`事件
+
+<xy-checkbox-group name="books" required min="2" max="3" defaultvalue="React,Angular" onchange="XyMessage.info(this.value)">
+    <xy-checkbox>React</xy-checkbox>
+    <xy-checkbox>Vue</xy-checkbox>
+    <xy-checkbox>Angular</xy-checkbox>
+    <xy-checkbox>Flutter</xy-checkbox>
+    <xy-checkbox>Swift</xy-checkbox>
+</xy-checkbox-group>
+
+
+```js
+checkboxgroup.onchange = function(ev){
+    //获取value的几种方式
+    /*
+    event:{
+        detail:{
+            value,
+        }
+    }
+    */
+    console.log(this.value);//["React","Angular"]
+    console.log(ev.target.value);
+    console.log(ev.detail.value);
+}
+
+checkboxgroup.addEventListener('change',function(ev){
+    console.log(this.value);
+    console.log(ev.target.value);
+    console.log(ev.detail.value);
+})
+```
+
 ### onfocus、onblur
 
 `focus`、`blur`后的回调事件。
@@ -153,4 +278,21 @@ checkbox.addEventListener('change',function(ev){
 
 ```js
 checkbox.focus();
+```
+
+### checkValidity
+
+用于主动校验，弹出提示信息。
+
+<xy-checkbox-group name="books" required min="2" max="3">
+    <xy-checkbox>React</xy-checkbox>
+    <xy-checkbox>Vue</xy-checkbox>
+    <xy-checkbox>Angular</xy-checkbox>
+    <xy-checkbox>Flutter</xy-checkbox>
+    <xy-checkbox>Swift</xy-checkbox>
+</xy-checkbox-group>
+<xy-button type="primary" onclick="this.previousElementSibling.checkValidity()">主动校验</xy-button>
+
+```js
+checkboxgroup.checkValidity();
 ```

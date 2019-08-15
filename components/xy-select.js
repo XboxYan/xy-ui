@@ -223,6 +223,10 @@ export default class XySelect extends HTMLElement {
         return this.getAttribute('type');
     }
 
+    get validity() {
+        return true;
+    }
+
     get disabled() {
         return this.getAttribute('disabled')!==null;
     }

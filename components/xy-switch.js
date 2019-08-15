@@ -27,20 +27,19 @@ export default class XySwitch extends HTMLElement {
             background:var(--themeColor,#42b983);
         }
         :host(:focus-within) label{ 
-            box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+            /*box-shadow: 0 0 10px rgba(0,0,0,0.1); */
         }
         :host(:focus-within) #switch,:host(:active) #switch{
             z-index:2
         }
         label{
-            box-sizing:border-box;
             cursor:pointer;
             display:flex;
-            width:44px;
-            height:22px;
+            width:2.4em;
+            height:1.2em;
             padding:2px;
-            border-radius:22px;
-            background:#ddd;
+            border-radius:1.2em;
+            background:#eee;
             transition:.3s;
         }
         label::before{
@@ -50,10 +49,10 @@ export default class XySwitch extends HTMLElement {
         }
         label::after{
             content:'';
-            width:6px;
-            height:6px;
-            border-radius:20px;
-            border:6px solid #fff;
+            width:.4em;
+            height:.4em;
+            border-radius:1.2em;
+            border:.4em solid #fff;
             background:#fff;
             transition:.3s;
             box-shadow: 0 2px 4px 0 rgba(0,35,11,0.2);

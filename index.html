@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>xy-ui</title>
     <style>
-        
         xy-button,xy-checkbox,xy-radio,xy-input,xy-textarea,xy-color-picker,xy-select{ margin: 0 10px 15px 0; vertical-align: middle; }
         xy-input:not([block]),xy-textarea:not([block]){ width:300px; }
         xy-tips>*{ margin: 0;}
@@ -21,6 +20,9 @@
         .header,.footer{ padding: 5px 10px; color: #fff; }
         xy-layout{ background: #2196f380; }
         xy-img{ width: 200px; height: 150px; }
+        xy-form-item *{
+            margin-bottom: 0;
+        }
     </style>
     <!-- <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.2.10/webcomponents-bundle.js"></script> -->
     <!--
@@ -134,7 +136,7 @@
     <xy-tips tips="some some some some some some some some some some some some some some tips" dir="leftbottom"><xy-button>leftbottom</xy-button></xy-tips>
     <p>status</p>
     <xy-tips tips="some tips" type="success"><xy-button>success</xy-button></xy-tips>
-    <xy-tips tips="some tips" type="warn"><xy-button>warn</xy-button></xy-tips>
+    <xy-tips tips="some tips" type="warning"><xy-button>warning</xy-button></xy-tips>
     <xy-tips tips="some tips" type="error"><xy-button>error</xy-button></xy-tips>
     <xy-tips tips="some tips" color="orangered"><xy-button>custom color</xy-button></xy-tips>
     <h2>select</h2>
@@ -367,37 +369,48 @@
     <p>disabled</p>
     <xy-rate disabled defaultvalue="2"></xy-rate>
     <h2>form</h2>
-    <xy-form action="/login" method="get">
-        <xy-input icon="user" name="user" required placeholder="user"></xy-input>
-        <br>
-        <xy-input icon="lock" name="password" required type="password" placeholder="password"></xy-input>
-        <h5>city</h5>
-        <xy-select name="city">
-            <xy-option value="wuhan">武汉</xy-option>
-            <xy-option value="beijin">北京</xy-option>
-            <xy-option value="shanghai">上海</xy-option>
-        </xy-select>
-        <h5>books(请选择2~3项)</h5>
-        <xy-checkbox-group name="books" required min="2" max="3">
-            <xy-checkbox>React</xy-checkbox>
-            <xy-checkbox>Vue</xy-checkbox>
-            <xy-checkbox>Angular</xy-checkbox>
-            <xy-checkbox>Flutter</xy-checkbox>
-            <xy-checkbox>Swift</xy-checkbox>
-        </xy-checkbox-group>
-        <h5>lan</h5>
-        <xy-radio-group name="lan" required>
-            <xy-radio>Html</xy-radio>
-            <xy-radio>Css</xy-radio>
-            <xy-radio>Javascript</xy-radio>
-            <xy-radio>Php</xy-radio>
-            <xy-radio>Dart</xy-radio>
-        </xy-radio-group>
-        <br>
-        <xy-checkbox name="read" checked required value="read">I have read</xy-checkbox>
-        <br>
-        <xy-button type="primary" htmltype="submit">submit</xy-button>
-        <xy-button htmltype="reset">reset</xy-button>
+    <xy-form action="/login" method="post" labelwidth="100">
+        <xy-form-item label="user">
+            <xy-input name="user" required placeholder="user"></xy-input>
+        </xy-form-item>
+        <xy-form-item label="password">
+            <xy-input name="password" id="password" required type="password" placeholder="password" minlength="6"></xy-input>
+        </xy-form-item>
+        <xy-form-item label="password align">
+            <xy-input name="password_confirm" id="password_confirm" required type="password" placeholder="password confirm"></xy-input>
+        </xy-form-item>
+        <xy-form-item label="city">
+            <xy-select name="city">
+                <xy-option value="wuhan">wuhan</xy-option>
+                <xy-option value="beijin">beijin</xy-option>
+                <xy-option value="shanghai">shanghai</xy-option>
+            </xy-select>
+        </xy-form-item>
+        <xy-form-item label="books">
+            <xy-checkbox-group name="books" required min="2" max="3" defaultvalue="React,Angular">
+                <xy-checkbox>React</xy-checkbox>
+                <xy-checkbox>Vue</xy-checkbox>
+                <xy-checkbox>Angular</xy-checkbox>
+                <xy-checkbox>Flutter</xy-checkbox>
+                <xy-checkbox>Swift</xy-checkbox>
+            </xy-checkbox-group>
+        </xy-form-item>
+        <xy-form-item label="lang">
+            <xy-radio-group name="lan" required>
+                <xy-radio>Html</xy-radio>
+                <xy-radio>Css</xy-radio>
+                <xy-radio>Javascript</xy-radio>
+                <xy-radio>Php</xy-radio>
+                <xy-radio>Dart</xy-radio>
+            </xy-radio-group>
+        </xy-form-item>
+        <xy-form-item>
+            <xy-checkbox name="read" checked required value="read">I have read</xy-checkbox>
+        </xy-form-item>
+        <xy-form-item>
+            <xy-button type="primary" htmltype="submit">submit</xy-button>
+            <xy-button htmltype="reset">reset</xy-button>
+        </xy-form-item>
     </xy-form>
     <script>
         document.getElementById('btn').addEventListener('click',function(ev){
@@ -446,6 +459,22 @@
 
         function showDialog(){
             document.getElementById('dialog01').open = true;
+        }
+
+        // document.getElementById('password_confirm').setcustomValidity(function(el){
+        //     return {
+        //         method:(el)=>{
+        //             console.log(this)
+        //             return this.value == document.getElementById('password').value;
+        //         },
+        //         tips:'前后密码不一致'
+        //     }
+        // })
+        document.getElementById('password_confirm').customValidity = {
+            method:(el)=>{
+                return el.value == document.getElementById('password').value;
+            },
+            tips:'前后密码不一致'
         }
 
         

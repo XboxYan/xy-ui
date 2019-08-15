@@ -1,0 +1,315 @@
+# xy-form
+
+表单。基于HTML5规范的表单验证交互组件。
+
+## 使用方式
+
+```html
+<!-- 引入 -->
+<script type="module">
+    import './node_modules/xy-ui/components/xy-form.js';
+</script>
+<!-- 使用 -->
+<xy-form action="/login" method="post">
+    <xy-form-item label="user">
+        <xy-input name="user" required placeholder="user"></xy-input>
+    </xy-form-item>
+    <xy-form-item>
+        <xy-button type="primary" htmltype="submit">submit</xy-button>
+        <xy-button htmltype="reset">reset</xy-button>
+    </xy-form-item>
+</xy-form>
+```
+
+需配合表单组件，比如`xy-input`、`xy-checkbox`等等。
+
+> 表单元素通过`name`属性作为标识，存在`name`属性则被认定为表单元素，所有的校验均依赖于此。
+
+## 表单域`xy-form-item`
+
+`xy-form-item`可以实现表单两栏布局，`label`属性规定了左侧文本域。
+
+可以通过`labelwidth`指定文本域宽度，可以从`xy-form`统一指定。
+
+如果内部有表单元素有`required`属性，那么文本域会出现`*`符号。
+
+<xy-form labelwidth="100">
+    <xy-form-item label="user">
+        <xy-input name="user" placeholder="user"></xy-input>
+    </xy-form-item>
+    <xy-form-item label="password">
+        <xy-input name="password" required type="password" placeholder="password"></xy-input>
+    </xy-form-item>
+</xy-form>
+
+```html
+<xy-form labelwidth="100">
+    <xy-form-item label="user">
+        <xy-input name="user" placeholder="user"></xy-input>
+    </xy-form-item>
+    <xy-form-item label="password">
+        <xy-input name="password" required type="password" placeholder="password"></xy-input>
+    </xy-form-item>
+</xy-form>
+```
+
+## 表单默认行为
+
+`xy-form`内置了以下属性，基于`html5`规范。
+
+### 属性
+
+* 表单地址`action`
+
+值为`URL`，规定向何处发送表单数据。
+
+回车键会触发表单。
+
+* 请求方式`method`
+
+规定请求方式，默认为`get`,可选`post`。
+
+* 验证`novalidate`
+
+如果使用该属性，则提交表单时不进行验证。
+
+<xy-form action="/login" method="post" novalidate>
+    <xy-form-item label="user">
+        <xy-input name="user" placeholder="user"></xy-input>
+    </xy-form-item>
+    <xy-form-item label="password">
+        <xy-input name="password" required type="password" placeholder="password"></xy-input>
+    </xy-form-item>
+</xy-form>
+
+```html
+<xy-form action="/login" method="post" novalidate>
+    <xy-form-item label="user">
+        <xy-input name="user" placeholder="user"></xy-input>
+    </xy-form-item>
+    <xy-form-item label="password">
+        <xy-input name="password" required type="password" placeholder="password"></xy-input>
+    </xy-form-item>
+</xy-form>
+```
+> 该状态下仍然可用`form.validity`获取验证合法性。
+
+### 方法
+
+* 提交`submit`
+
+当表单内包含`htmltype="submit"`的按钮时，点击该按钮可以触发表单提交。
+
+可通过`form.submit()`主动触发。
+
+* 清空`reset`
+
+当表单内包含`htmltype="reset"`的按钮时，点击该按钮可以清空表单。
+
+可通过`form.reset()`主动触发。
+
+<xy-form action="/login" method="post">
+    <xy-form-item label="user">
+        <xy-input name="user" required placeholder="user"></xy-input>
+    </xy-form-item>
+    <xy-form-item label="password">
+        <xy-input name="password" required type="password" placeholder="password" minlength="6"></xy-input>
+    </xy-form-item>
+    <xy-form-item>
+        <xy-button type="primary" htmltype="submit">submit</xy-button>
+        <xy-button htmltype="reset">reset</xy-button>
+    </xy-form-item>
+</xy-form>
+
+```html
+<xy-form action="/login" method="post">
+    <xy-form-item label="user">
+        <xy-input name="user" required placeholder="user"></xy-input>
+    </xy-form-item>
+    <xy-form-item label="password">
+        <xy-input name="password" required type="password" placeholder="password" minlength="6"></xy-input>
+    </xy-form-item>
+    <xy-form-item>
+        <xy-button type="primary" htmltype="submit">login</xy-button>
+        <xy-button htmltype="reset">reset</xy-button>
+    </xy-form-item>
+</xy-form>
+```
+
+可在控制台查看提交的表单数据，格式为`formData`，可转换`json`。
+
+当表单提交完成，如果返回数据格式为`application/json`，可触发`submit`回调
+
+```js
+form.onsubmit = function(data){
+    console.log(data)
+    //后端返回的数据
+}
+form.addEventListener('submit',function(data){
+    console.log(data)
+    //后端返回的数据
+})
+```
+
+## 自定义表单
+
+### 自定义表单提交
+
+当表单带有`action`属性时，回车键可以触发表单提交，如果包含`htmltype="submit"`的按钮时，点击该按钮可以触发表单提交。
+
+如果想手动通过`ajax`提交，可以去除`action`属性，这样就不会触发默认表单提交效果了。
+
+可通过`form.formdata`获取表单的值。
+
+```html
+<xy-form>
+    ...
+</xy-form>
+```
+
+```js
+sumbitBtn.onclick = function(){
+    fetch('/login', {
+        method: 'POST',
+        body: form.formdata,
+    })
+    .then(function(data){
+        //
+    })
+}
+```
+
+### 自定义表单验证
+
+默认情况下，如果验证失败，表单则不会提交。
+
+可以通过表单的`form.checkValidity()`方法手动校验所有表单元素，也可通过`form.validity`获取验证合法性。
+
+<xy-form id="form-check">
+    <xy-form-item label="user">
+        <xy-input name="user" required placeholder="user"></xy-input>
+    </xy-form-item>
+    <xy-form-item label="password">
+        <xy-input name="password" required type="password" placeholder="password" minlength="6"></xy-input>
+    </xy-form-item>
+    <xy-form-item>
+        <xy-button type="primary" onclick="checkform()">login</xy-button>
+    </xy-form-item>
+</xy-form>
+
+```js
+sumbitBtn.onclick = function(){
+    if(form.checkValidity()){
+        //全部验证通过
+        XyDialog.success({
+            title:"全部验证通过",
+            content:JSON.stringify(form.formdata.json)
+        })
+    }
+}
+```
+
+## 交互实例
+
+下面表单采用组件默认验证交互，即点击`submit`按钮后开启即时验证，所有有误内容标红，但是提示`tips`只会出现在第1个表单上。
+
+<xy-form action="/login" method="post" labelwidth="100" id="form-submit">
+    <xy-form-item label="user">
+        <xy-input name="user" required placeholder="user"></xy-input>
+    </xy-form-item>
+    <xy-form-item label="password">
+        <xy-input name="password" id="pwd" required type="password" placeholder="password" minlength="6"></xy-input>
+    </xy-form-item>
+    <xy-form-item label="password align">
+        <xy-input name="password_confirm" id="pwdAgain" required type="password" placeholder="password confirm"></xy-input>
+    </xy-form-item>
+    <xy-form-item label="city">
+        <xy-select name="city">
+            <xy-option value="wuhan">wuhan</xy-option>
+            <xy-option value="beijin">beijin</xy-option>
+            <xy-option value="shanghai">shanghai</xy-option>
+        </xy-select>
+    </xy-form-item>
+    <xy-form-item label="books">
+        <xy-checkbox-group name="books" required min="2" max="3" defaultvalue="React,Angular">
+            <xy-checkbox>React</xy-checkbox>
+            <xy-checkbox>Vue</xy-checkbox>
+            <xy-checkbox>Angular</xy-checkbox>
+            <xy-checkbox>Flutter</xy-checkbox>
+            <xy-checkbox>Swift</xy-checkbox>
+        </xy-checkbox-group>
+    </xy-form-item>
+    <xy-form-item label="lang">
+        <xy-radio-group name="lan" required>
+            <xy-radio>Html</xy-radio>
+            <xy-radio>Css</xy-radio>
+            <xy-radio>Javascript</xy-radio>
+            <xy-radio>Php</xy-radio>
+            <xy-radio>Dart</xy-radio>
+        </xy-radio-group>
+    </xy-form-item>
+    <xy-form-item>
+        <xy-checkbox name="remember" checked required value="remember">remember password</xy-checkbox>
+    </xy-form-item>
+    <xy-form-item>
+        <xy-button type="primary" htmltype="submit" onclick="formSubmit()">submit</xy-button>
+        <xy-button htmltype="reset">reset</xy-button>
+    </xy-form-item>
+</xy-form>
+
+```html
+<xy-form action="/login" method="post" labelwidth="100" id="form-submit">
+    <xy-form-item label="user">
+        <xy-input name="user" required placeholder="user"></xy-input>
+    </xy-form-item>
+    <xy-form-item label="password">
+        <xy-input name="password" id="pwd" required type="password" placeholder="password" minlength="6"></xy-input>
+    </xy-form-item>
+    <xy-form-item label="password again">
+        <xy-input name="password_confirm" id="pwdAgain" required type="password" placeholder="password confirm"></xy-input>
+    </xy-form-item>
+    <xy-form-item label="city">
+        <xy-select name="city">
+            <xy-option value="wuhan">wuhan</xy-option>
+            <xy-option value="beijin">beijin</xy-option>
+            <xy-option value="shanghai">shanghai</xy-option>
+        </xy-select>
+    </xy-form-item>
+    <xy-form-item label="books">
+        <xy-checkbox-group name="books" required min="2" max="3" defaultvalue="React,Angular">
+            <xy-checkbox>React</xy-checkbox>
+            <xy-checkbox>Vue</xy-checkbox>
+            <xy-checkbox>Angular</xy-checkbox>
+            <xy-checkbox>Flutter</xy-checkbox>
+            <xy-checkbox>Swift</xy-checkbox>
+        </xy-checkbox-group>
+    </xy-form-item>
+    <xy-form-item label="lang">
+        <xy-radio-group name="lan" required>
+            <xy-radio>Html</xy-radio>
+            <xy-radio>Css</xy-radio>
+            <xy-radio>Javascript</xy-radio>
+            <xy-radio>Php</xy-radio>
+            <xy-radio>Dart</xy-radio>
+        </xy-radio-group>
+    </xy-form-item>
+    <xy-form-item>
+        <xy-checkbox name="remember" checked required value="remember">remember password</xy-checkbox>
+    </xy-form-item>
+    <xy-form-item>
+        <xy-button type="primary" htmltype="submit" onclick="formSubmit()">submit</xy-button>
+        <xy-button htmltype="reset">reset</xy-button>
+    </xy-form-item>
+</xy-form>
+```
+
+针对确认密码的校验
+
+```js
+document.getElementById('pwdAgain').customValidity = {
+    method:(el)=>{
+        return el.value == document.getElementById('pwd').value;
+    },
+    tips:'前后密码不一致'
+}
+```

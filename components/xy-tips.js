@@ -306,15 +306,15 @@ export default class XyTips extends HTMLElement {
         }
         /* success */
         :host([type="success"]){
-            --color:#52c41a;
+            --color:var(--successColor,#52c41a);
         }
         /* error */
         :host([type="error"]){
-            --color:#f5222d;
+            --color:var(--errorColor,#f4615c);
         }
         /* warning */
         :host([type="warning"]){
-            --color:#faad14;
+            --color:var(--waringColor,#faad14);
         }
         </style>
         <slot></slot>

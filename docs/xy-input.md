@@ -202,6 +202,47 @@ input.setAttribute('value','name');
 <xy-input icon="mail" type="email" placeholder="email" errordir="right"></xy-input>
 ```
 
+### 3.自定义验证
+
+上面的校验均针对输入格式，如果需要对值进行校验，可使用`customValidity`，比如校验重复密码
+
+<xy-form-item labelwidth="100" label="password">
+    <xy-input name="password" id="pwd" required type="password" placeholder="password" minlength="6"></xy-input>
+</xy-form-item>
+<xy-form-item labelwidth="100" label="password align">
+    <xy-input name="password_confirm" id="pwdAgain" required type="password" placeholder="password confirm"></xy-input>
+</xy-form-item>
+
+```html
+<xy-form-item labelwidth="100" label="password">
+    <xy-input name="password" id="pwd" required type="password" placeholder="password" minlength="6"></xy-input>
+</xy-form-item>
+<xy-form-item labelwidth="100" label="password align">
+    <xy-input name="password_confirm" id="pwdAgain" required type="password" placeholder="password confirm"></xy-input>
+</xy-form-item>
+```
+
+自定义格式如下
+
+```js
+pwdAgain.customValidity = {
+    method:(el)=>{
+        return el.value == pwd.value;//校验规则
+    },
+    tips:'前后密码不一致'//错误提示
+}
+```
+
+### 4.忽略验证`novalidate`
+
+如果使用该属性，则输入时不进行验证。
+
+<xy-input icon="user" novalidate placeholder="user" minlength="6" maxlength="10"></xy-input>
+
+```html
+<xy-input icon="user" novalidate placeholder="user" minlength="6" maxlength="10"></xy-input>
+```
+
 ## 合法性`validity`
 
 可以通过属性`validity`来获取输入框内容的合法性。

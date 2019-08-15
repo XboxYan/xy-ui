@@ -84,7 +84,6 @@ radio.getAttribute('value');
 <xy-button type="primary" onclick="XyMessage.info(document.querySelector('xy-radio[name=lib][checked]').value)">获取选中状态</xy-button>
 ```
 
-
 JavaScript操作`get`、`set`
 
 ```js
@@ -95,6 +94,47 @@ radio.checked = true;
 radio.setAttribute('checked','');
 radio.removeAttribute('checked');
 ```
+
+现新增`xy-radio-group`组件，表示同一组，
+
+* `defaultvalue`设置初始选中项
+* 设置和获取`vaule`
+* 支持`change`事件
+
+<xy-radio-group name="lan" defaultvalue="Css">
+    <xy-radio>Html</xy-radio>
+    <xy-radio>Css</xy-radio>
+    <xy-radio>Javascript</xy-radio>
+    <xy-radio>Php</xy-radio>
+    <xy-radio>Dart</xy-radio>
+</xy-radio-group>
+<xy-button type="primary" onclick="this.previousElementSibling.value='Php'">选中Php</xy-button>
+
+```html
+<xy-radio-group name="lan" defaultvalue="Css">
+    <xy-radio>Html</xy-radio>
+    <xy-radio>Css</xy-radio>
+    <xy-radio>Javascript</xy-radio>
+    <xy-radio>Php</xy-radio>
+    <xy-radio>Dart</xy-radio>
+</xy-radio-group>
+```
+
+JavaScript操作`get`、`set`
+
+```js
+radiogroup.value;//获取
+radiogroup.value = 'Css';
+//原生属性操作
+radiogroup.getAttribute('value');
+radiogroup.setAttribute('value','Css');
+```
+
+## 必填项`required`
+
+表单验证属性，表示必填，作用于`xy-radio-group`
+
+配合[`checkValidity()`](xy-radio.md?id=checkValidity)方法可以主动校验
 
 ## 事件`event`
 
@@ -130,6 +170,38 @@ radio.addEventListener('change',function(ev){
 })
 ```
 
+`xy-radio-group`支持`change`事件
+
+<xy-radio-group name="lan" defaultvalue="Javascript" onchange="XyMessage.info(this.value)">
+    <xy-radio>Html</xy-radio>
+    <xy-radio>Css</xy-radio>
+    <xy-radio>Javascript</xy-radio>
+    <xy-radio>Php</xy-radio>
+    <xy-radio>Dart</xy-radio>
+</xy-radio-group>
+
+```js
+radiogroup.onchange = function(ev){
+    //获取value的几种方式
+    /*
+    event:{
+        detail:{
+            value,
+        }
+    }
+    */
+    console.log(this.value);
+    console.log(ev.target.value);
+    console.log(ev.detail.value);
+}
+
+radiogroup.addEventListener('change',function(ev){
+    console.log(this.value);
+    console.log(ev.target.value);
+    console.log(ev.detail.value);
+})
+```
+
 ### onfocus、onblur
 
 `focus`、`blur`后的回调事件。
@@ -147,4 +219,21 @@ radio.addEventListener('change',function(ev){
 
 ```js
 radio.focus();
+```
+
+### checkValidity
+
+用于主动校验，弹出提示信息。
+
+<xy-radio-group required name="lan">
+    <xy-radio>Html</xy-radio>
+    <xy-radio>Css</xy-radio>
+    <xy-radio>Javascript</xy-radio>
+    <xy-radio>Php</xy-radio>
+    <xy-radio>Dart</xy-radio>
+</xy-radio-group>
+<xy-button type="primary" onclick="this.previousElementSibling.checkValidity()">主动校验</xy-button>
+
+```js
+radiogroup.checkValidity();
 ```
