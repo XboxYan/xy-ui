@@ -68,7 +68,6 @@ class XyDialog extends HTMLElement {
             overflow: auto;
             min-height: 50px;
             padding: 10px 0;
-            white-space:pre;
         }
         .dialog-footer {
             padding: 3px 0 20px 0;

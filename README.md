@@ -13,6 +13,12 @@
 [github项目地址](https://github.com/XboxYan/xy-ui)
 
 ## 更新
+* ## 1.5.1
+    * 优化`xy-radio-group`和`xy-checkbox-group`的`hover`层级问题
+    * `xy-form`新增演示动画
+
+    ![xy-form](./screenshot/xy-form.png)
+
 * ## 1.5.0
     * 新增[`xy-form`](./docs/xy-form.md)表单组件，集成表单验证功能
     * 新增`xy-radio-group`和`xy-checkbox-group`组件

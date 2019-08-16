@@ -201,7 +201,7 @@ class XyRadioGroup extends HTMLElement {
         :host {
             display:inline-block;
         }
-        :host(:focus-within) xy-tips{
+        :host(:focus-within) xy-tips,:host(:hover) xy-tips{
             z-index:2;
         }
         xy-tips[show=show]{

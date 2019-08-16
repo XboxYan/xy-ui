@@ -190,7 +190,7 @@
             //全部验证通过
             XyDialog.success({
                 title:"全部验证通过",
-                content:JSON.stringify(form.formdata.json,null,4)
+                content:'<div style="white-space:pre">'+JSON.stringify(form.formdata.json,null,4)+'</div>'
             })
             console.log(form.formdata)
         }

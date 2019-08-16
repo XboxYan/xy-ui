@@ -1,6 +1,14 @@
 # update
+* ## 1.5.1
+    * 优化`xy-radio-group`和`xy-checkbox-group`的`hover`层级问题
+    * `xy-form`新增演示动画
+
+    ![xy-form](../screenshot/xy-form.png)
 * ## 1.5.0
     * 新增[`xy-form`](xy-form.md)表单组件，集成表单验证功能
+
+    ![xy-form](../screenshot/xy-form.png)
+
     * 新增`xy-radio-group`和`xy-checkbox-group`组件
     * `xy-img`新增加载动画
     * 主题颜色管理，`fontColor`、`errorColor`、`successColor`、`warningColor`、`borderColor`等
