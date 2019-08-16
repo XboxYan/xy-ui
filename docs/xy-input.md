@@ -209,7 +209,7 @@ input.setAttribute('value','name');
 <xy-form-item labelwidth="100" label="password">
     <xy-input name="password" id="pwd" required type="password" placeholder="password" minlength="6"></xy-input>
 </xy-form-item>
-<xy-form-item labelwidth="100" label="password align">
+<xy-form-item labelwidth="100" label="password again">
     <xy-input name="password_confirm" id="pwdAgain" required type="password" placeholder="password confirm"></xy-input>
 </xy-form-item>
 
@@ -217,7 +217,7 @@ input.setAttribute('value','name');
 <xy-form-item labelwidth="100" label="password">
     <xy-input name="password" id="pwd" required type="password" placeholder="password" minlength="6"></xy-input>
 </xy-form-item>
-<xy-form-item labelwidth="100" label="password align">
+<xy-form-item labelwidth="100" label="password again">
     <xy-input name="password_confirm" id="pwdAgain" required type="password" placeholder="password confirm"></xy-input>
 </xy-form-item>
 ```

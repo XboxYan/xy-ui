@@ -1,4 +1,4 @@
-# themeColor
+# theme
 
 `xy-ui`的所有组件均可设置`themeColor`，不同于一些框架采用`less`、`sass`等预处理器， 这里采用`CSS`[自定义属性](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Using_CSS_custom_properties)（`--themeColor`）实现。
 
@@ -18,6 +18,21 @@ xy-button{
 ```js
 document.body.style.setProperty('--themeColor','#F44336');
 ```
+
+除了主题颜色`themeColor`以外，还支持如下主题定制
+
+```css
+:root {
+    --fontColor:#333; /*文字颜色*/
+    --borderColor:#d9d9d9;/*边框颜色，按钮、输入框*/
+    --borderRadius:3px;/*圆角*/
+    --successColor:#52c41a;/*成功色*/
+    --waringColor:#faad14;/*警告色*/
+    --errorColor:#f4615c;/*错误色*/
+    --infoColor:#1890ff;/*提示色*/
+}
+```
+
 <xy-color-pane defaultvalue="#42b983" onchange="changeColor(this.value)"><xy-color-pane>
 
 实时预览（其他页面均生效）

@@ -1,5 +1,5 @@
 * [Start](README.md)
-* [ThemeColor](themeColor.md)
+* [Theme](themeColor.md)
 * [Update](update.md)
 * **Component**
     * [xy-button](xy-button.md)
