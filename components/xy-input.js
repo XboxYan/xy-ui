@@ -46,6 +46,7 @@ export default class XyInput extends HTMLElement {
         }
         :host([disabled]) xy-tips{
             pointer-events:none;
+            background:rgba(0,0,0,.1);
         }
         :host([label]) .input::placeholder{
             color:transparent;
@@ -198,7 +199,7 @@ export default class XyInput extends HTMLElement {
     }
 
     checkValidity(){
-        if(this.novalidate||this.form&&this.form.novalidate){
+        if(this.novalidate||this.disabled||this.form&&this.form.novalidate){
             return true;
         }
         if(this.validity){

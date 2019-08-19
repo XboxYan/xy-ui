@@ -181,7 +181,7 @@ export default class XyCheckbox extends HTMLElement {
     }
 
     checkValidity(){
-        if(this.novalidate||this.form&&this.form.novalidate){
+        if(this.novalidate||this.disabled||this.form&&this.form.novalidate){
             return true;
         }
         if(this.validity){
@@ -279,6 +279,8 @@ if(!customElements.get('xy-checkbox')){
 
 
 class XyCheckboxGroup extends HTMLElement {
+    static get observedAttributes() { return ['disabled','required'] }
+
     constructor() {
         super();
         const shadowRoot = this.attachShadow({ mode: 'open' });
@@ -290,12 +292,27 @@ class XyCheckboxGroup extends HTMLElement {
         :host(:focus-within) xy-tips,:host(:hover) xy-tips{
             z-index:2;
         }
+        :host([disabled]){ 
+            pointer-events: none; 
+        }
+        :host([disabled]) xy-tips{
+            pointer-events: all;
+            cursor: not-allowed;
+            outline: 0;
+        }
+        :host([disabled]) ::slotted(xy-checkbox){
+            pointer-events: none;
+            opacity:.6;
+        }
+        ::slotted(xy-checkbox){
+            transition: opacity .3s;
+        }
         xy-tips[show=show]{
             --themeColor:var(--errorColor,#f4615c);
             --borderColor:var(--errorColor,#f4615c);
         }
         </style>
-        <xy-tips id="tip" type="error"><slot></slot></xy-tips>
+        <xy-tips id="tip" ${this.disabled?"tabindex='-1'":""} type="error"><slot></slot></xy-tips>
         `
     }
 
@@ -316,6 +333,10 @@ class XyCheckboxGroup extends HTMLElement {
         return this.getAttribute('required')!==null;
     }
 
+    get disabled() {
+        return this.getAttribute('disabled')!==null;
+    }
+
     get defaultvalue() {
         return this.getAttribute('defaultvalue')||"";
     }
@@ -334,6 +355,14 @@ class XyCheckboxGroup extends HTMLElement {
             return true;
         }
         return this.len>=this.min && this.len<=this.max;
+    }
+
+    set disabled(value) {
+        if(value===null||value===false){
+            this.removeAttribute('disabled');
+        }else{
+            this.setAttribute('disabled', '');
+        }
     }
 
     set value(value) {
@@ -385,8 +414,14 @@ class XyCheckboxGroup extends HTMLElement {
         this.tip.show = false;
     }
 
+    checkall() {
+        this.elements.forEach(el=>{
+            el.checked = true;
+        })
+    }
+
     checkValidity(){
-        if(this.novalidate||this.form&&this.form.novalidate){
+        if(this.novalidate||this.disabled||this.form&&this.form.novalidate){
             return true;
         }
         if(this.validity){
@@ -424,6 +459,16 @@ class XyCheckboxGroup extends HTMLElement {
             })
             this.init = true;
         })
+    }
+
+    attributeChangedCallback (name, oldValue, newValue) {
+        if( name == 'disabled' && this.tip){
+            if(newValue!==null){
+                this.tip.setAttribute('tabindex',-1);
+            }else{
+                this.tip.removeAttribute('tabindex');
+            }
+        }
     }
 }
 

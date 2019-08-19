@@ -105,20 +105,22 @@ checkbox.removeAttribute('checked');
 现新增`xy-checkbox-group`组件，表示同一组，
 
 * `defaultvalue`设置初始选中项，格式为`defaultvalue="React,Angular"`
+* 设置和获取`disabled`
 * 设置和获取`vaule`（数组格式）
 * 支持`change`事件
 
-<xy-checkbox-group name="books" defaultvalue="React,Angular">
+<xy-checkbox-group name="books" disabled defaultvalue="React,Angular">
     <xy-checkbox>React</xy-checkbox>
     <xy-checkbox>Vue</xy-checkbox>
     <xy-checkbox>Angular</xy-checkbox>
     <xy-checkbox>Flutter</xy-checkbox>
     <xy-checkbox>Swift</xy-checkbox>
 </xy-checkbox-group>
-<xy-button type="primary" onclick="this.previousElementSibling.value='[\'Vue\',\'Flutter\']'">选中Vue、Flutter</xy-button>
+<xy-switch checked onchange="this.previousElementSibling.disabled = this.checked;"></xy-switch>
+<xy-button type="primary" onclick="this.previousElementSibling.previousElementSibling.value='[\'Vue\',\'Flutter\']'">选中Vue、Flutter</xy-button>
 
 ```html
-<xy-checkbox-group name="books" defaultvalue="React,Angular">
+<xy-checkbox-group name="books" disabled defaultvalue="React,Angular">
     <xy-checkbox>React</xy-checkbox>
     <xy-checkbox>Vue</xy-checkbox>
     <xy-checkbox>Angular</xy-checkbox>
@@ -141,17 +143,19 @@ radiogroup.setAttribute('value',['React','Vue']);
 
 表单验证属性，表示必填，可作用于`xy-checkbox`或者`xy-checkbox-group`上
 
-<xy-checkbox required>remember password</xy-checkbox>
+<xy-checkbox required>I agreen</xy-checkbox>
 
 ```html
-<xy-checkbox required>remember password</xy-checkbox>
+<xy-checkbox required>I agreen</xy-checkbox>
 ```
 
-> 常用于记住密码等功能。
+> 常用于同意用户协议等功能，默认提示信息为“如果要继续，请选中此框，可用errortips自定义提示”。
+
+如果是在`xy-checkbox-group`上，则表示必须要选一项。
 
 配合[`checkValidity()`](xy-checkbox.md?id=checkValidity)方法可以主动校验
 
-## 最少项`minlength`、最多项`maxlength`
+## 最少项`min`、最多项`max`
 
 表单验证属性，表示最少选中和最多选中项目
 
@@ -278,6 +282,23 @@ checkboxgroup.addEventListener('change',function(ev){
 
 ```js
 checkbox.focus();
+```
+
+### reset
+
+清空所有选项。
+
+<xy-checkbox-group name="books" defaultvalue="React,Angular">
+    <xy-checkbox>React</xy-checkbox>
+    <xy-checkbox>Vue</xy-checkbox>
+    <xy-checkbox>Angular</xy-checkbox>
+    <xy-checkbox>Flutter</xy-checkbox>
+    <xy-checkbox>Swift</xy-checkbox>
+</xy-checkbox-group>
+<xy-button type="primary" onclick="this.previousElementSibling.reset()">reset</xy-button>
+
+```js
+checkboxgroup.reset();
 ```
 
 ### checkValidity

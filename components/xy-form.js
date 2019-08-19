@@ -1,6 +1,6 @@
 export default class XyForm extends HTMLElement {
 
-    static get observedAttributes() { return ['novalidate'] }
+    static get observedAttributes() { return ['legendwidth','disabled'] }
 
     constructor() {
         super();
@@ -10,8 +10,11 @@ export default class XyForm extends HTMLElement {
         :host {
             display:block;
         }
+        :host([disabled]){ 
+            pointer-events: none; 
+        }
         </style>
-        <form id="form" method="${this.method}" action="${this.action}" ${this.novalidate?'novalidate':''}>
+        <form id="form" style="--legendwidth:${this.legendwidth}px" method="${this.method}" action="${this.action}" ${this.novalidate?'novalidate':''}>
             <slot></slot>
         </form>
         `
@@ -32,7 +35,7 @@ export default class XyForm extends HTMLElement {
     }
 
     async submit() {
-        if(this.checkValidity()){
+        if(this.checkValidity()&&!this.disabled){
             //validity
             if(this.action){
                 this.submitBtn && (this.submitBtn.loading = true);
@@ -75,6 +78,10 @@ export default class XyForm extends HTMLElement {
         return this.elements.every(el=>el.validity);
     }
 
+    get disabled() {
+        return this.getAttribute('novalidate')!==null;
+    }
+
     get novalidate() {
         return this.getAttribute('novalidate')!==null;
     }
@@ -82,10 +89,12 @@ export default class XyForm extends HTMLElement {
     get formdata() {
         const formdata = new FormData();
         const jsondata = {};
-        this.elements.forEach(el=>{
-            formdata.set(el.name,el.value);
-            jsondata[el.name] = el.value;
-        })
+        if(!this.disabled){
+            this.elements.forEach(el=>{
+                formdata.set(el.name,el.value);
+                jsondata[el.name] = el.value;
+            })
+        }
         formdata.json = jsondata;
         return formdata;
     }
@@ -106,8 +115,8 @@ export default class XyForm extends HTMLElement {
         return this.getAttribute('name');
     }
 
-    get labelwidth() {
-        return this.getAttribute('labelwidth')||80;
+    get legendwidth() {
+        return this.getAttribute('legendwidth')||80;
     }
 
     /*
@@ -128,8 +137,8 @@ export default class XyForm extends HTMLElement {
         }
     }
 
-    set labelwidth(value) {
-        this.setAttribute('labelwidth', value);
+    set legendwidth(value) {
+        this.setAttribute('legendwidth', value);
     }
 
     connectedCallback() {
@@ -162,7 +171,9 @@ export default class XyForm extends HTMLElement {
     }
 
     attributeChangedCallback (name, oldValue, newValue) {
-
+        if( name == 'legendwidth' && this.form){
+            this.form.style.setProperty('--legendwidth',newValue+'px');
+        }
     }
 }
 
@@ -172,7 +183,8 @@ if(!customElements.get('xy-form')){
 
 
 class XyFormItem extends HTMLElement {
-    static get observedAttributes() { return ['labelwidth'] }
+
+    static get observedAttributes() { return ['legendwidth'] }
 
     constructor() {
         super();
@@ -191,7 +203,7 @@ class XyFormItem extends HTMLElement {
             text-align:right;
             padding-right:10px;
             transition:.3s;
-            width:80px;
+            width:var(--legendwidth,80px);
         }
         .item{
             flex:1;
@@ -201,43 +213,42 @@ class XyFormItem extends HTMLElement {
             color:var(--errorColor,#f4615c);
         }
         </style>
-        <label style="width:${this.labelwidth}px">${this.label}</label>
+        <label ${this.legendwidth?"style='--legendwidth:"+this.legendwidth+"px'":""}>${this.legend}</label>
         <div class="item"><slot></slot></div>
         `
     }
 
-    get label() {
-        return this.getAttribute('label')||'';
+    get legend() {
+        return this.getAttribute('legend')||'';
     }
     
-    get labelwidth() {
-        return this.getAttribute('labelwidth')||0;
+    get legendwidth() {
+        return this.getAttribute('legendwidth');
     }
 
-    set label(value) {
-        this.setAttribute('label', value);
+    set legend(value) {
+        this.setAttribute('legend', value);
     }
 
-    set labelwidth(value) {
-        this.setAttribute('labelwidth', value);
+    set legendwidth(value) {
+        this.setAttribute('legendwidth', value);
     }
 
     connectedCallback() {
         this.form = this.closest('xy-form');
         this.labels = this.shadowRoot.querySelector('label');
         this.slots = this.shadowRoot.querySelector('slot');
-        this.input = this.querySelector('[name]');
         this.slots.addEventListener('slotchange',()=>{
+            this.input = this.querySelector('[name]');
             if(this.input && this.input.required){
                 this.labels.classList.add('required');
             }
         })
-        this.labelwidth = this.labelwidth || (this.form && this.form.labelwidth);
     }
 
     attributeChangedCallback (name, oldValue, newValue) {
-        if( name == 'labelwidth' && this.labels){
-            this.labels.style.width = newValue + 'px';
+        if( name == 'legendwidth' && this.labels ){
+            this.labels.style.setProperty('--legendwidth',newValue+'px');
         }
     }
 }

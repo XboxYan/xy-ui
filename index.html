@@ -370,24 +370,24 @@
     <xy-rate disabled defaultvalue="2"></xy-rate>
     <h2>form</h2>
     <xy-form action="/login" method="post" labelwidth="100">
-        <xy-form-item label="user">
+        <xy-form-item legend="user">
             <xy-input name="user" required placeholder="user"></xy-input>
         </xy-form-item>
-        <xy-form-item label="password">
+        <xy-form-item legend="password">
             <xy-input name="password" id="password" required type="password" placeholder="password" minlength="6"></xy-input>
         </xy-form-item>
-        <xy-form-item label="password align">
+        <xy-form-item legend="password align">
             <xy-input name="password_confirm" id="password_confirm" required type="password" placeholder="password confirm"></xy-input>
         </xy-form-item>
-        <xy-form-item label="city">
+        <xy-form-item legend="city">
             <xy-select name="city">
                 <xy-option value="wuhan">wuhan</xy-option>
                 <xy-option value="beijin">beijin</xy-option>
                 <xy-option value="shanghai">shanghai</xy-option>
             </xy-select>
         </xy-form-item>
-        <xy-form-item label="books">
-            <xy-checkbox-group name="books" required min="2" max="3" defaultvalue="React,Angular">
+        <xy-form-item legend="books">
+            <xy-checkbox-group name="books" required disabled min="2" max="3" defaultvalue="Angular">
                 <xy-checkbox>React</xy-checkbox>
                 <xy-checkbox>Vue</xy-checkbox>
                 <xy-checkbox>Angular</xy-checkbox>
@@ -395,7 +395,7 @@
                 <xy-checkbox>Swift</xy-checkbox>
             </xy-checkbox-group>
         </xy-form-item>
-        <xy-form-item label="lang">
+        <xy-form-item legend="lang">
             <xy-radio-group name="lan" required>
                 <xy-radio>Html</xy-radio>
                 <xy-radio>Css</xy-radio>

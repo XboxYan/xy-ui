@@ -4,7 +4,7 @@ import message from './xy-message.js';
 import { rgbToHsv,hslToHsv,parseToHSVA } from '../utils/color.js';
 import { HSVaColor } from '../utils/hsvacolor.js';
 
-const Material_colors = ['#f44336','#E91E63','#9C27B0','#673AB7','#3F51B5','#2196F3','#03A9F4','#00BCD4','#009688','#4CAF50','#8BC34A','#CDDC39','#FFEB3B','#FFC107','#FF9800','#FF5722','#795548','#9E9E9E','#607D8B']
+const Material_colors = ['#f44336','#E91E63','#9C27B0','#673AB7','#3F51B5','#2196F3','#03A9F4','#00BCD4','#009688','#4CAF50','#8BC34A','#CDDC39','#FFEB3B','#FFC107','#FF9800','#FF5722','#795548','#9E9E9E','#607D8B','rgba(0,0,0,.65)','transparent']
 
 class XyColorPane extends HTMLElement {
 
@@ -227,17 +227,30 @@ class XyColorPane extends HTMLElement {
                 position:relative;
                 cursor:pointer;
                 width:100%;
+                padding-bottom:0;
                 padding-top:100%;
                 border-radius:4px;
                 margin-right:10px;
                 border:0;
                 outline:0;
             }
+            .color-sign>button::before{
+                content:'';
+                position:absolute;
+                left:0;
+                top:0;
+                width:100%;
+                height:100%;
+                z-index:-1;
+                background:linear-gradient( 45deg, #ddd 25%,transparent 0,transparent 75%,#ddd 0 ),linear-gradient( 45deg, #ddd 25%,transparent 0,transparent 75%,#ddd 0 );
+                background-position:0 0,5px 5px;
+                background-size:10px 10px;
+            }
             .color-sign>button::after{
                 content:'';
                 position:absolute;
                 opacity:.5;
-                z-index:-1;
+                z-index:-2;
                 left:0;
                 top:0;
                 width:100%;
@@ -318,8 +331,8 @@ class XyColorPane extends HTMLElement {
             this.value = `hsva(${value[0]}, ${value[1]}%, ${value[2]}%, ${value[3]})`;
         })
         this.palette.addEventListener('mousedown',(ev)=>{
-            this.choose(ev);
             this.start = true;
+            this.choose(ev);
         })
         document.addEventListener('mousemove',(ev)=>{
             if(this.start){
@@ -328,6 +341,7 @@ class XyColorPane extends HTMLElement {
         })
         document.addEventListener('mouseup',(ev)=>{
             this.start = false;
+            this.value = this.value;
         })
         this.rangeOpacity.addEventListener('input',()=>{
             const value = [...this.$value];
@@ -413,7 +427,7 @@ class XyColorPane extends HTMLElement {
         this.colorHlsa[1].value = HSLA[1].toFixed(0);
         this.colorHlsa[2].value = HSLA[2].toFixed(0);
         this.colorHlsa[3].value = HSLA[3];
-        if(this.init){
+        if(this.init && !this.start){
             this.dispatchEvent(new CustomEvent('change', {
                 detail: {
                     value: this.value,

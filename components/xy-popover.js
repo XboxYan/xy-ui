@@ -54,6 +54,7 @@ class XyPopcon extends HTMLElement {
             position:absolute;
             right:10px;
             top:10px;
+            border:0;
         }
         .popcon-footer xy-button {
             height:30px;
@@ -84,7 +85,7 @@ class XyPopcon extends HTMLElement {
             <xy-icon id="popcon-type" class="popcon-type" name="question-circle" color="var(--waringColor,#faad14)"></xy-icon>
             <div class="popcon-content">
                 <div class="popcon-title" id="title">${this.title}</div>
-                <xy-button class="btn-close" id="btn-close" type="flat" icon="close"></xy-button>
+                <xy-button class="btn-close" id="btn-close" icon="close"></xy-button>
                 <div class="popcon-body">
                     <slot></slot>
                 </div>

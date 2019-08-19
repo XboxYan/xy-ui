@@ -193,6 +193,7 @@ if(!customElements.get('xy-radio')){
 }
 
 class XyRadioGroup extends HTMLElement {
+    static get observedAttributes() { return ['disabled','required'] }
     constructor() {
         super();
         const shadowRoot = this.attachShadow({ mode: 'open' });
@@ -203,6 +204,21 @@ class XyRadioGroup extends HTMLElement {
         }
         :host(:focus-within) xy-tips,:host(:hover) xy-tips{
             z-index:2;
+        }
+        :host([disabled]){ 
+            pointer-events: none; 
+        }
+        :host([disabled]) xy-tips{
+            pointer-events: all;
+            cursor: not-allowed;
+            outline: 0;
+        }
+        ::slotted(xy-radio){
+            transition: opacity .3s;
+        }
+        :host([disabled]) ::slotted(xy-radio){
+            pointer-events: none;
+            opacity:.6;
         }
         xy-tips[show=show]{
             --themeColor:var(--errorColor,#f4615c);
@@ -234,6 +250,10 @@ class XyRadioGroup extends HTMLElement {
         return this.getAttribute('novalidate')!==null;
     }
 
+    get disabled() {
+        return this.getAttribute('disabled')!==null;
+    }
+
     get validity() {
         return this.value!=='';
     }
@@ -247,7 +267,6 @@ class XyRadioGroup extends HTMLElement {
             }
         })
         if(this.init){
-            console.log(555)
             this.checkValidity();
             this.dispatchEvent(new CustomEvent('change',{
                 detail:{
@@ -273,6 +292,14 @@ class XyRadioGroup extends HTMLElement {
         }
     }
 
+    set disabled(value) {
+        if(value===null||value===false){
+            this.removeAttribute('disabled');
+        }else{
+            this.setAttribute('disabled', '');
+        }
+    }
+
     focus(){
         if(getComputedStyle(this.tip).zIndex!=2){
             this.elements[0].focus();
@@ -288,7 +315,7 @@ class XyRadioGroup extends HTMLElement {
     }
 
     checkValidity(){
-        if(this.novalidate||this.form&&this.form.novalidate){
+        if(this.novalidate||this.disabled||this.form&&this.form.novalidate){
             return true;
         }
         if(this.validity){
@@ -323,6 +350,16 @@ class XyRadioGroup extends HTMLElement {
             })
             this.init = true;
         })
+    }
+
+    attributeChangedCallback (name, oldValue, newValue) {
+        if( name == 'disabled' && this.tip){
+            if(newValue!==null){
+                this.tip.setAttribute('tabindex',-1);
+            }else{
+                this.tip.removeAttribute('tabindex');
+            }
+        }
     }
 }
 

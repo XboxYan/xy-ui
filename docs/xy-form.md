@@ -11,7 +11,7 @@
 </script>
 <!-- 使用 -->
 <xy-form action="/login" method="post">
-    <xy-form-item label="user">
+    <xy-form-item legend="user">
         <xy-input name="user" required placeholder="user"></xy-input>
     </xy-form-item>
     <xy-form-item>
@@ -27,33 +27,33 @@
 
 ## 表单域`xy-form-item`
 
-`xy-form-item`可以实现表单两栏布局，`label`属性规定了左侧文本域。
+`xy-form-item`可以实现表单两栏布局，`legend`属性规定了左侧文本域。
 
-可以通过`labelwidth`指定文本域宽度，可以从`xy-form`统一指定。
+可以通过`legendwidth`指定文本域宽度（优先级更高），可以从`xy-form`统一指定。
 
 如果内部有表单元素有`required`属性，那么文本域会出现`*`符号。
 
-<xy-form labelwidth="100">
-    <xy-form-item label="user">
+<xy-form legendwidth="100">
+    <xy-form-item legend="user">
         <xy-input name="user" placeholder="user"></xy-input>
     </xy-form-item>
-    <xy-form-item label="password">
+    <xy-form-item legend="password">
         <xy-input name="password" required type="password" placeholder="password"></xy-input>
     </xy-form-item>
 </xy-form>
 
 ```html
-<xy-form labelwidth="100">
-    <xy-form-item label="user">
+<xy-form legendwidth="100">
+    <xy-form-item legend="user">
         <xy-input name="user" placeholder="user"></xy-input>
     </xy-form-item>
-    <xy-form-item label="password">
+    <xy-form-item legend="password">
         <xy-input name="password" required type="password" placeholder="password"></xy-input>
     </xy-form-item>
 </xy-form>
 ```
 
-如果不满足布局要求，可以采用普通的布局，更加灵活。
+该组件仅仅是对常用表单布局的简单封装，如果不满足布局要求，可以采用普通的布局，比如`Flex`、`Grid`，更加灵活。
 
 ## 表单默认行为
 
@@ -78,20 +78,20 @@
 如果使用该属性，则提交表单时不进行验证。
 
 <xy-form action="/login" method="post" novalidate>
-    <xy-form-item label="user">
+    <xy-form-item legend="user">
         <xy-input name="user" placeholder="user"></xy-input>
     </xy-form-item>
-    <xy-form-item label="password">
+    <xy-form-item legend="password">
         <xy-input name="password" required type="password" placeholder="password"></xy-input>
     </xy-form-item>
 </xy-form>
 
 ```html
 <xy-form action="/login" method="post" novalidate>
-    <xy-form-item label="user">
+    <xy-form-item legend="user">
         <xy-input name="user" placeholder="user"></xy-input>
     </xy-form-item>
-    <xy-form-item label="password">
+    <xy-form-item legend="password">
         <xy-input name="password" required type="password" placeholder="password"></xy-input>
     </xy-form-item>
 </xy-form>
@@ -113,10 +113,10 @@
 可通过`form.reset()`主动触发。
 
 <xy-form action="/login" method="post">
-    <xy-form-item label="user">
+    <xy-form-item legend="user">
         <xy-input name="user" required placeholder="user"></xy-input>
     </xy-form-item>
-    <xy-form-item label="password">
+    <xy-form-item legend="password">
         <xy-input name="password" required type="password" placeholder="password" minlength="6"></xy-input>
     </xy-form-item>
     <xy-form-item>
@@ -127,10 +127,10 @@
 
 ```html
 <xy-form action="/login" method="post">
-    <xy-form-item label="user">
+    <xy-form-item legend="user">
         <xy-input name="user" required placeholder="user"></xy-input>
     </xy-form-item>
-    <xy-form-item label="password">
+    <xy-form-item legend="password">
         <xy-input name="password" required type="password" placeholder="password" minlength="6"></xy-input>
     </xy-form-item>
     <xy-form-item>
@@ -190,10 +190,10 @@ sumbitBtn.onclick = function(){
 可以通过表单的`form.checkValidity()`方法手动校验所有表单元素，也可通过`form.validity`获取验证合法性。
 
 <xy-form id="form-check">
-    <xy-form-item label="user">
+    <xy-form-item legend="user">
         <xy-input name="user" required placeholder="user"></xy-input>
     </xy-form-item>
-    <xy-form-item label="password">
+    <xy-form-item legend="password">
         <xy-input name="password" required type="password" placeholder="password" minlength="6"></xy-input>
     </xy-form-item>
     <xy-form-item>
@@ -217,24 +217,24 @@ sumbitBtn.onclick = function(){
 
 下面表单采用组件默认验证交互，即点击`submit`按钮后开启即时验证，所有有误内容标红，但是提示`tips`只会出现在第1个表单上。
 
-<xy-form action="/login" method="post" labelwidth="100" id="form-submit">
-    <xy-form-item label="user">
+<xy-form action="/login" method="post" legendwidth="100" id="form-submit">
+    <xy-form-item legend="user">
         <xy-input name="user" required placeholder="user"></xy-input>
     </xy-form-item>
-    <xy-form-item label="password">
+    <xy-form-item legend="password">
         <xy-input name="password" id="pwd" required type="password" placeholder="password" minlength="6"></xy-input>
     </xy-form-item>
-    <xy-form-item label="password align">
+    <xy-form-item legend="password again">
         <xy-input name="password_confirm" id="pwdAgain" required type="password" placeholder="password confirm"></xy-input>
     </xy-form-item>
-    <xy-form-item label="city">
+    <xy-form-item legend="city">
         <xy-select name="city">
             <xy-option value="wuhan">wuhan</xy-option>
             <xy-option value="beijin">beijin</xy-option>
             <xy-option value="shanghai">shanghai</xy-option>
         </xy-select>
     </xy-form-item>
-    <xy-form-item label="books">
+    <xy-form-item legend="books">
         <xy-checkbox-group name="books" required min="2" max="3" defaultvalue="React,Angular">
             <xy-checkbox>React</xy-checkbox>
             <xy-checkbox>Vue</xy-checkbox>
@@ -243,7 +243,7 @@ sumbitBtn.onclick = function(){
             <xy-checkbox>Swift</xy-checkbox>
         </xy-checkbox-group>
     </xy-form-item>
-    <xy-form-item label="lang">
+    <xy-form-item legend="lang">
         <xy-radio-group name="lan" required>
             <xy-radio>Html</xy-radio>
             <xy-radio>Css</xy-radio>
@@ -253,7 +253,7 @@ sumbitBtn.onclick = function(){
         </xy-radio-group>
     </xy-form-item>
     <xy-form-item>
-        <xy-checkbox name="remember" checked required value="remember">remember password</xy-checkbox>
+        <xy-checkbox name="read" checked required value="read">I have read this book</xy-checkbox>
     </xy-form-item>
     <xy-form-item>
         <xy-button type="primary" htmltype="submit" onclick="formSubmit()">submit</xy-button>
@@ -262,24 +262,24 @@ sumbitBtn.onclick = function(){
 </xy-form>
 
 ```html
-<xy-form action="/login" method="post" labelwidth="100" id="form-submit">
-    <xy-form-item label="user">
+<xy-form action="/login" method="post" legendwidth="100" id="form-submit">
+    <xy-form-item legend="user">
         <xy-input name="user" required placeholder="user"></xy-input>
     </xy-form-item>
-    <xy-form-item label="password">
+    <xy-form-item legend="password">
         <xy-input name="password" id="pwd" required type="password" placeholder="password" minlength="6"></xy-input>
     </xy-form-item>
-    <xy-form-item label="password again">
+    <xy-form-item legend="password again">
         <xy-input name="password_confirm" id="pwdAgain" required type="password" placeholder="password confirm"></xy-input>
     </xy-form-item>
-    <xy-form-item label="city">
+    <xy-form-item legend="city">
         <xy-select name="city">
             <xy-option value="wuhan">wuhan</xy-option>
             <xy-option value="beijin">beijin</xy-option>
             <xy-option value="shanghai">shanghai</xy-option>
         </xy-select>
     </xy-form-item>
-    <xy-form-item label="books">
+    <xy-form-item legend="books">
         <xy-checkbox-group name="books" required min="2" max="3" defaultvalue="React,Angular">
             <xy-checkbox>React</xy-checkbox>
             <xy-checkbox>Vue</xy-checkbox>
@@ -288,7 +288,7 @@ sumbitBtn.onclick = function(){
             <xy-checkbox>Swift</xy-checkbox>
         </xy-checkbox-group>
     </xy-form-item>
-    <xy-form-item label="lang">
+    <xy-form-item legend="lang">
         <xy-radio-group name="lan" required>
             <xy-radio>Html</xy-radio>
             <xy-radio>Css</xy-radio>
@@ -298,7 +298,7 @@ sumbitBtn.onclick = function(){
         </xy-radio-group>
     </xy-form-item>
     <xy-form-item>
-        <xy-checkbox name="remember" checked required value="remember">remember password</xy-checkbox>
+        <xy-checkbox name="read" checked required value="read">I have read this book</xy-checkbox>
     </xy-form-item>
     <xy-form-item>
         <xy-button type="primary" htmltype="submit" onclick="formSubmit()">submit</xy-button>

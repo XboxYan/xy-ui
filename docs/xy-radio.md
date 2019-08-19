@@ -98,20 +98,22 @@ radio.removeAttribute('checked');
 现新增`xy-radio-group`组件，表示同一组，
 
 * `defaultvalue`设置初始选中项
+* 设置和获取`disabled`
 * 设置和获取`vaule`
 * 支持`change`事件
 
-<xy-radio-group name="lan" defaultvalue="Css">
+<xy-radio-group name="lan" disabled defaultvalue="Css">
     <xy-radio>Html</xy-radio>
     <xy-radio>Css</xy-radio>
     <xy-radio>Javascript</xy-radio>
     <xy-radio>Php</xy-radio>
     <xy-radio>Dart</xy-radio>
 </xy-radio-group>
-<xy-button type="primary" onclick="this.previousElementSibling.value='Php'">选中Php</xy-button>
+<xy-switch checked onchange="this.previousElementSibling.disabled = this.checked;"></xy-switch>
+<xy-button type="primary" onclick="this.previousElementSibling.previousElementSibling.value='Php'">选中Php</xy-button>
 
 ```html
-<xy-radio-group name="lan" defaultvalue="Css">
+<xy-radio-group name="lan" disabled defaultvalue="Css">
     <xy-radio>Html</xy-radio>
     <xy-radio>Css</xy-radio>
     <xy-radio>Javascript</xy-radio>
@@ -212,7 +214,7 @@ radiogroup.addEventListener('change',function(ev){
 
 ### focus
 
-用于主动聚焦`focus`，聚焦以后可以响应键盘事件，`Enter`切换选中状态。
+用于主动聚焦`focus`，聚焦以后可以响应键盘事件，`Enter`选中。
 
 <xy-radio onchange="XyMessage.info('当前状态checked:'+this.checked)">radio</xy-radio>
 <xy-button type="primary" onfocus="XyMessage.info('focus')" onclick="this.previousElementSibling.focus()">主动聚焦</xy-button>

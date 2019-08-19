@@ -13,6 +13,13 @@
 [github项目地址](https://github.com/XboxYan/xy-ui)
 
 ## 更新
+* ## 1.5.2
+    * 修改属性`lable`为`legend`，`lablewidth`为`legendwidth`
+    * `xy-radio-group`、`xy-checkbox-group`新增`disabled`属性
+    * 优化`xy-form`和`xy-form-item`的`lablewidth`属性
+    * `xy-popover`优化关闭按钮样式
+    * `xy-color-picker`新增内置颜色
+    * `xy-form`表单校验不会对`disabled`属性表单元素进行校验
 * ## 1.5.1
     * 优化`xy-radio-group`和`xy-checkbox-group`的`hover`层级问题
     * `xy-form`新增演示动画
