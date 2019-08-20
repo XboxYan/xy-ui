@@ -82,7 +82,7 @@ XyDialog.confirm({
 
 ## 显示`open`
 
-当`XyDialog`内容比较复杂时，可以直接写在页面`body`上，通过`show`属性来控制显示。
+当`XyDialog`内容比较复杂时，可以直接写在页面`body`上，通过`open`属性来控制显示。
 
 <xy-dialog id="dialog01" title="标题" oktext="确 定" canceltext="取消" >
     <xy-tab>

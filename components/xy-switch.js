@@ -37,7 +37,7 @@ export default class XySwitch extends HTMLElement {
             display:flex;
             width:2.4em;
             height:1.2em;
-            padding:2px;
+            padding:.125em;
             border-radius:1.2em;
             background:#eee;
             transition:.3s;

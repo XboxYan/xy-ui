@@ -16,10 +16,10 @@ export default class XyInput extends HTMLElement {
             box-sizing:border-box;
             display:inline-block;
             border:1px solid var(--borderColor,#d9d9d9);
-            border-radius:var(--borderRadius,3px);
-            line-height: 26px;
+            border-radius:var(--borderRadius,.25em);
+            line-height: 1.8;
             transition:border-color .3s,box-shadow .3s;
-            padding: 4px 10px;
+            padding: .25em .625em;
             color: var(--fontColor,#333);
             font-size: 14px;
         }
@@ -56,17 +56,17 @@ export default class XyInput extends HTMLElement {
         }
         :host(xy-textarea){
             line-height:1.5;
-            padding-right:4px;
+            padding-right:.25em;
         }
         xy-tips{  
             display:flex;
             align-items:center;
-            margin:-4px -10px;
-            padding:4px 10px;
+            margin:-.25em -.625em;
+            padding:.25em .625em;
         }
         :host(xy-textarea) xy-tips{
-            margin-right:-4px;
-            padding-right:4px;
+            margin-right:-.25em;
+            padding-right:.25em;
             align-items:flex-start;
         }
         .input{
@@ -98,16 +98,16 @@ export default class XyInput extends HTMLElement {
         }
         .input-label{
             pointer-events:none;
-            margin-left:-2px;
+            margin-left:-0.14em;
             position:absolute;
             transition: transform .3s, color .3s, background-color .3s;
             transform-origin: left;
-            padding:0 2px;
+            padding:0 0.14em;
             color:#999;
         }
         .input:not(:placeholder-shown) ~ .input-label,
         .input:focus ~ .input-label{
-            transform: translateY( calc( -50% - 6px ) ) scale(0.8);
+            transform: translateY( calc( -50% - 0.43em ) ) scale(0.8);
             background:#fff;
         }
         .input:-moz-ui-invalid{
@@ -115,7 +115,7 @@ export default class XyInput extends HTMLElement {
         }
         .icon-pre{
             display:flex;
-            margin-right:4px;
+            margin-right:0.25em;
             color:#999;
         }
         :host(xy-textarea) .icon-pre{
@@ -124,7 +124,8 @@ export default class XyInput extends HTMLElement {
         .btn-right{
             width:2em;
             height:2em;
-            margin-right:-5px;
+            margin-right:-0.325em;
+            padding:0;
             color:#999;
             font-size:inherit;
         }
@@ -141,6 +142,7 @@ export default class XyInput extends HTMLElement {
             border-radius:0;
             width:100%;
             flex:1;
+            padding:0;
             font-size:.8em;
             transition:.2s;
         }

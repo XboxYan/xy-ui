@@ -15,6 +15,7 @@ import './components/xy-rate.js';
 import './components/xy-popover.js';
 import './components/xy-color-picker.js';
 import './components/xy-form.js';
+import './components/xy-pagination.js';
 import XyDialog from './components/xy-dialog.js';
 import XyMessage from './components/xy-message.js';
 window.XyDialog = XyDialog;

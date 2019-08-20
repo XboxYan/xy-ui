@@ -159,7 +159,7 @@ class XyColorPane extends HTMLElement {
                 outline:0;
                 min-width:0;
                 width: 0;
-                border-radius:var(--borderRadius,3px);
+                border-radius:var(--borderRadius,.25em);
                 border:1px solid #ddd;
                 padding:0 5px;
                 line-height:28px;
@@ -182,7 +182,7 @@ class XyColorPane extends HTMLElement {
             }
             .btn-switch{
                 position:relative;
-                border-radius:var(--borderRadius,3px);
+                border-radius:var(--borderRadius,.25em);
                 background:none;
                 border:0;
                 outline:0;
@@ -245,6 +245,7 @@ class XyColorPane extends HTMLElement {
                 background:linear-gradient( 45deg, #ddd 25%,transparent 0,transparent 75%,#ddd 0 ),linear-gradient( 45deg, #ddd 25%,transparent 0,transparent 75%,#ddd 0 );
                 background-position:0 0,5px 5px;
                 background-size:10px 10px;
+                border-radius: 4px;
             }
             .color-sign>button::after{
                 content:'';

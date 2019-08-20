@@ -44,18 +44,18 @@ export default class XyRadio extends HTMLElement {
         .cheked{
             position:relative;
             box-sizing: border-box;
-            width: 16px;
-            height: 16px;
+            width: 1em;
+            height: 1em;
             display: flex;
             border-radius:50%;
-            border: 1px solid var(--borderColor,#d9d9d9);
+            border: .0875em solid var(--borderColor,#d9d9d9);
             transition:.3s;
             margin-right:5px;
         }
         .cheked::before{
             content:'';
-            width:8px;
-            height:8px;
+            width:100%;
+            height:100%;
             margin:auto;
             border-radius:50%;
             background:var(--themeColor,#42b983);
@@ -83,7 +83,7 @@ export default class XyRadio extends HTMLElement {
             transform:scale(2.5);
         }
         #radio:checked+label .cheked::before{
-            transform: scale(1);
+            transform: scale(.5);
         }
         #radio:checked+label .cheked{
             border-color:var(--themeColor,#42b983);

@@ -13,17 +13,17 @@ export default class XyButton extends HTMLElement {
         :host{ 
             position:relative; 
             display:inline-flex; 
-            padding:0 .8em; 
+            padding: .25em .625em;
             box-sizing:border-box; 
-            vertical-align: middle; 
+            vertical-align: middle;
+            line-height: 1.8;
             overflow:hidden; 
-            height: 36px; 
             align-items:center;
             justify-content: center;
             border:1px solid var(--borderColor,#d9d9d9); 
             font-size: 14px; 
             color: var(--fontColor,#333);  
-            border-radius: var(--borderRadius,3px); 
+            border-radius: var(--borderRadius,.25em); 
             transition:background .3s,box-shadow .3s,border-color .3s,color .3s;
         }
         :host([shape="circle"]){ 
@@ -59,7 +59,8 @@ export default class XyButton extends HTMLElement {
             border-style:dashed 
         }
         :host([type="flat"]),:host([type="primary"]){ 
-            border:0 
+            border:0;
+            padding: calc( .25em + 1px ) calc( .625em + 1px );
         }
         :host([type="flat"]) .btn::before{ 
             content:''; 
@@ -71,7 +72,7 @@ export default class XyButton extends HTMLElement {
             top:0; 
             bottom:0; 
             opacity:0; 
-            transition:.3s; 
+            transition:.3s;
         }
         :host([type="flat"]:not([disabled]):hover) .btn::before{ 
             opacity:.1 
@@ -97,7 +98,7 @@ export default class XyButton extends HTMLElement {
             cursor: unset;
         }
         xy-loading{ 
-            margin-right: 5px;  
+            margin-right: 0.35em;  
         }
         ::-moz-focus-inner{
             border:0;
@@ -124,16 +125,17 @@ export default class XyButton extends HTMLElement {
             transition: 0s;
         }
         xy-icon{
-            margin-right: 5px;
+            margin-right: 0.35em;
             transition: none;
         }
         :host(:empty) xy-icon{
             margin: auto;
         }
         :host(:empty){
-            padding:0;
-            width:2.4em;
-            height:2.4em;
+            padding: .65em;
+        }
+        :host([type="flat"]:empty),:host([type="primary"]:empty){ 
+            padding: calc( .65em + 1px );
         }
         ::slotted(xy-icon){
             transition: none;
