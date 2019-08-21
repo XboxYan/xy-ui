@@ -46,7 +46,6 @@ switch.removeAttribute('disabled');
 <xy-switch checked></xy-switch>
 ```
 
-
 JavaScript操作
 
 ```js
@@ -56,6 +55,22 @@ switch.checked = true;
 //原生属性操作
 switch.setAttribute('checked','');
 switch.removeAttribute('checked');
+```
+
+## 自定义尺寸
+
+内部采用`em`相对尺寸，可通过`font-size`来控制大小。
+
+<xy-switch checked></xy-switch>
+<xy-slider min="10" max="50" suffix="px" showtips oninput="this.previousElementSibling.style.fontSize=this.value+'px'" ></xy-slider>
+
+```html
+<style>
+xy-switch{
+    font-size:20px;
+}
+</style>
+<xy-switch checked></xy-switch>
 ```
 
 ## 事件`event`

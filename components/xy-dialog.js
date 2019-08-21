@@ -78,6 +78,7 @@ class XyDialog extends HTMLElement {
             position:absolute;
             right:10px;
             top:10px;
+            border:0;
         }
         .dialog-footer xy-button {
             margin-left:10px;
@@ -97,7 +98,7 @@ class XyDialog extends HTMLElement {
             <xy-icon id="dialog-type" class="dialog-type"></xy-icon>
             <div class="dialog-content">
                 <div class="dialog-title" id="title">${this.title}</div>
-                <xy-button class="btn-close" id="btn-close" type="flat" icon="close"></xy-button>
+                <xy-button class="btn-close" id="btn-close" icon="close"></xy-button>
                 <div class="dialog-body">
                     <slot></slot>
                 </div>

@@ -89,6 +89,7 @@ export default class XySelect extends HTMLElement {
         #select{
             display:flex;
             width:100%;
+            height:100%;
         }
         #select span{
             flex:1;
@@ -107,6 +108,7 @@ export default class XySelect extends HTMLElement {
         }
         xy-popover{
             display:block;
+            height:inherit;
         }
         xy-popcon{
             min-width:100%;

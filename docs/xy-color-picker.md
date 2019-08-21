@@ -121,7 +121,7 @@ color.getAttribute('dir');
 color.setAttribute('dir','right');
 ```
 
-## 自定义样式
+## 自定义尺寸
 
 默认情况下，`xy-color-picker`是一个圆角正方形，可以设置宽高
 

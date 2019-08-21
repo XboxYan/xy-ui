@@ -422,12 +422,12 @@ class XyColorPane extends HTMLElement {
         this.colorRgba[0].value = RGBA[0].toFixed(0);
         this.colorRgba[1].value = RGBA[1].toFixed(0);
         this.colorRgba[2].value = RGBA[2].toFixed(0);
-        this.colorRgba[3].value = RGBA[3];
+        this.colorRgba[3].value = RGBA[3].toFixed(2);
         const HSLA = COLOR.toHSLA();
         this.colorHlsa[0].value = HSLA[0].toFixed(0);
         this.colorHlsa[1].value = HSLA[1].toFixed(0);
         this.colorHlsa[2].value = HSLA[2].toFixed(0);
-        this.colorHlsa[3].value = HSLA[3];
+        this.colorHlsa[3].value = HSLA[3].toFixed(2);
         if(this.init && !this.start){
             this.dispatchEvent(new CustomEvent('change', {
                 detail: {
@@ -489,6 +489,18 @@ export default class XyColorPicker extends HTMLElement {
         .pop-footer xy-button{
             height:30px;
             margin-left:10px;
+        }
+        .color-btn::before{
+            content:'';
+            position:absolute;
+            left:5px;
+            top:5px;
+            right:5px;
+            bottom:5px;
+            z-index:-1;
+            background:linear-gradient( 45deg, #ddd 25%,transparent 0,transparent 75%,#ddd 0 ),linear-gradient( 45deg, #ddd 25%,transparent 0,transparent 75%,#ddd 0 );
+            background-position:0 0,5px 5px;
+            background-size:10px 10px;
         }
         </style>
         <xy-popover id="popover" ${this.dir? "dir='"+this.dir+"'" : ""}>

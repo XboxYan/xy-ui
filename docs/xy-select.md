@@ -162,6 +162,37 @@ select.setAttribute('value',50);
 select.getAttribute('value');
 ```
 
+
+## 自定义尺寸
+
+默认情况下，`xy-select`尺寸跟随`xy-button`，可以自定义宽高
+
+<style>
+.xy-select-custom{
+    width:120px;
+    height:30px;
+}
+</style>
+<xy-select class="xy-select-custom">
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
+
+```html
+<style>
+.xy-select-custom{
+    width:120px;
+    height:30px;
+}
+</style>
+<xy-select class="xy-select-custom">
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
+```
+
 ## 事件`event`
 
 ### onchange

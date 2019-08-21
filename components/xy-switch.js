@@ -40,12 +40,12 @@ export default class XySwitch extends HTMLElement {
             padding:.125em;
             border-radius:1.2em;
             background:#eee;
-            transition:.3s;
+            transition:.3s width,.3s height,.3s background-color;
         }
         label::before{
             content:'';
             flex:0;
-            transition:.2s cubic-bezier(.12, .4, .29, 1.46);
+            transition:.2s cubic-bezier(.12, .4, .29, 1.46) flex;
         }
         label::after{
             content:'';
@@ -54,11 +54,11 @@ export default class XySwitch extends HTMLElement {
             border-radius:1.2em;
             border:.4em solid #fff;
             background:#fff;
-            transition:.3s;
+            transition:.3s background,.3s padding,.3s width,.3s height,.3s border-radius,.3s border;
             box-shadow: 0 2px 4px 0 rgba(0,35,11,0.2);
         }
         label:active::after{
-            padding:0 5px;
+            padding:0 .3em;
         }
         #switch:checked+label{
             background:var(--themeColor,#42b983);
