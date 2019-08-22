@@ -415,7 +415,7 @@ class XyColorPane extends HTMLElement {
         this.pane.style.setProperty('--c',this.value);
         this.copyinfo.value = this.value;
         this.rangeHue.value = h;
-        this.rangeOpacity.value = a;
+        this.rangeOpacity.value = a.toFixed(2);
         const COLOR = HSVaColor(...this.$value);
         this.colorHexa[0].value = COLOR.toHEXA().toString();
         const RGBA = COLOR.toRGBA();

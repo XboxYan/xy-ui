@@ -63,6 +63,7 @@ export default class XyInput extends HTMLElement {
             align-items:center;
             margin:-.25em -.625em;
             padding:.25em .625em;
+            font-family:inherit;
         }
         :host(xy-textarea) xy-tips{
             margin-right:-.25em;
@@ -77,11 +78,13 @@ export default class XyInput extends HTMLElement {
             outline:0;
             line-height: inherit;
             font-size:inherit;
+            font-family:inherit;
             flex:1;
             min-width: 0;
             -webkit-appearance: none;
             -moz-appearance: textfield;
             background: none;
+            overflow-x: hidden;
         }
         :host(xy-textarea) .input{
             margin:0;

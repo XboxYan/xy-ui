@@ -413,7 +413,7 @@
         </xy-form-item>
     </xy-form>
     <h2>pagination</h2>
-    <xy-pagination pagesize="3" total="20"></xy-pagination>
+    <xy-pagination onchange="console.log(this.current)" pagesize="3" total="50"></xy-pagination>
     <script>
         document.getElementById('btn').addEventListener('click',function(ev){
             console.log(ev)
