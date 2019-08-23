@@ -28,9 +28,22 @@ class XyOption extends HTMLElement {
 
     connectedCallback() {
         this.option = this.shadowRoot.getElementById('option');
-        this.option.addEventListener('click',()=>{
+        this.option.addEventListener('click',(ev)=>{
+            ev.stopPropagation();
             this.parentNode.value = this.value;
             this.parentNode.focus();
+        })
+        this.option.addEventListener('keydown',(ev)=>{
+            switch (ev.keyCode) {
+                case 13://Enter
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    this.parentNode.value = this.value;
+                    this.parentNode.focus();
+                    break;
+                default:
+                    break;
+            }
         })
     }
 
@@ -167,6 +180,17 @@ export default class XySelect extends HTMLElement {
                     default:
                         break;
                 }
+            }
+        })
+        this.select.addEventListener('keydown',(ev)=>{
+            switch (ev.keyCode) {
+                case 13://Enter
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    this.options.open = true;
+                    break;
+                default:
+                    break;
             }
         })
         this.select.addEventListener('focus',(ev)=>{

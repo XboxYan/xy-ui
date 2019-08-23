@@ -22,3 +22,4 @@
     * [xy-popover](xy-popover.md)
     * [xy-color-picker](xy-color-picker.md)
     * [xy-form](xy-form.md)
+    * [xy-pagination](xy-pagination.md)

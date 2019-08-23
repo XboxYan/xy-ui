@@ -1,4 +1,13 @@
 # update
+* ## 1.6.0
+    * 新增[`xy-pagination`](xy-pagination.md)分页组件
+
+    ![xy-pagination](../screenshot/xy-pagination.png)
+
+    * 修复`xy-form`下`xy-select`回车键触发`submit`问题
+    * 更改组件尺寸为`em`相对尺寸，部分组件除外
+    * `xy-color-pane`现在在鼠标抬起时才触发`change`回调
+    * 其他`bug`修复
 * ## 1.5.2
     * 修改属性`lable`为`legend`，`lablewidth`为`legendwidth`
     * `xy-radio-group`、`xy-checkbox-group`新增`disabled`属性

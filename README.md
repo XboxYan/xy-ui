@@ -13,6 +13,15 @@
 [github项目地址](https://github.com/XboxYan/xy-ui)
 
 ## 更新
+* ## 1.6.0
+    * 新增[`xy-pagination`](./docs/xy-pagination.md)分页组件
+
+    ![xy-pagination](./screenshot/xy-pagination.png)
+
+    * 修复`xy-form`下`xy-select`回车键触发`submit`问题
+    * 更改组件尺寸为`em`相对尺寸，部分组件除外
+    * `xy-color-pane`现在在鼠标抬起时才触发`change`回调
+    * 其他`bug`修复
 * ## 1.5.2
     * 修改属性`lable`为`legend`，`lablewidth`为`legendwidth`
     * `xy-radio-group`、`xy-checkbox-group`新增`disabled`属性
@@ -32,17 +41,6 @@
     * `xy-img`新增加载动画
     * 主题颜色管理，`fontColor`、`errorColor`、`successColor`、`warningColor`、`borderColor`等
     * 其他`bug`修复
-* ## 1.4.2
-    * 重构[`xy-icon`](./docs/xy-icon.md)的引用方式，不用再设置`iconUrl`和`basePath`了~
-    * 支持`cdn`引入，采用[unpkg](https://unpkg.com/)
-    * 新增`react`项目使用方式[demo](https://codepen.io/xboxyan/pen/mNKWaN)
-* ## 1.4.0
-    * 新增`xy-color-picker`颜色选择器、`xy-color-pane`颜色面板
-
-    ![xy-color-picker](./screenshot/color-picker.png)
-
-    * 优化[xy-popover](./docs/xy-popover.md)空白处点击处关闭逻辑
-    * 修复[xy-select](./docs/xy-select.md)`hover`层级问题
 
 [update](./docs/update.md)
 

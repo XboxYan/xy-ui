@@ -21,14 +21,14 @@ export default class XyPagination extends HTMLElement {
             font-size: inherit;
             box-sizing: content-box;
         }
-        .page-ellipsis{
-            display:flex;
-            margin: 0 .3em;
-            width: 2.3em;
-            height: 2.3em;
+        .simple-page{
+            width:auto;
+            padding:0 .625em;
+        }
+        xy-button[tabindex]{
             justify-content: center;
             align-items: center;
-            color: var(--fontColor,#333);
+            pointer-events: none;
         }
         .page-ellipsis xy-icon{
             margin:auto;
@@ -39,7 +39,7 @@ export default class XyPagination extends HTMLElement {
             color:#fff;
         }
         .page{
-            display:inline-flex
+            display:inline-flex;
         }
         </style>
         <xy-button type="flat" icon="left" id="left"></xy-button>
@@ -56,34 +56,23 @@ export default class XyPagination extends HTMLElement {
         return this.getAttribute('pagesize')||1;
     }
 
+    get simple() {
+        return this.getAttribute('simple')!==null;
+    }
+
     get total() {
         return this.getAttribute('total')||0;
     }
 
     get current(){
-        return Math.min(Math.max(0,this.$current),this.count);
+        return this.$current;
     }
 
     set current(current){
-        /*
-        const pre = this.page.querySelector(`xy-button[current]`);
-        if(pre){
-            pre.removeAttribute('current');
-        }
-        this.left.disabled = current==1;
-        this.right.disabled = current==this.count;
-        this.$current = current;
-        const cur = this.page.querySelector(`xy-button[data-current="${current}"]`);
-        cur.setAttribute('current','');
-        if(this.count>9){
-            // const p = cur.previousElementSibling;
-            // const pp = p&&p.previousElementSibling;
-            // p&&p.
-        }
-        */
         if(this.$current!==current){
+            current = Math.min(Math.max(1,current),this.count);
             this.$current = current;
-            this.render(this.pagesize,this.total,current);
+            this.updatePage(current);
             if(this.init){
                 this.dispatchEvent(new CustomEvent('change', {
                     detail: {
@@ -108,46 +97,74 @@ export default class XyPagination extends HTMLElement {
         this.setAttribute('total', value);
     }
 
-    render(pagesize,total,current=this.current){
+    render(pagesize,total){
         this.count = Math.ceil(total/pagesize);
-        this.left.disabled = current==1;
-        this.right.disabled = current==this.count;
-        if( this.count>9 ){
-            let place = [];
-            switch (current) {
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                    place = [2,3,4,5,6,7,'next'];
-                    break;
-                case this.count:
-                case this.count-1:
-                case this.count-2:
-                case this.count-3:
-                case this.count-4:
-                    place = ['pre',this.count-6,this.count-5,this.count-4,this.count-3,this.count-2,this.count-1];
-                    break;
-                default:
-                    place = ['pre',current-2,current-1,current,current+1,current+2,'next'];
-                    break;
-            }
-            const html = [1,...place,this.count].map(el=>{
-                switch (el) {
-                    case 'pre':
-                    case 'next':
-                        return `<span class="page-ellipsis">...</span>`;
-                        break;
-                    default:
-                        return `<xy-button type="flat" ${el==current?"current":""} data-current="${el}">${el}</xy-button>`;
-                        break;
-                }
-            }).join('');
+        const current = Math.min(Math.max(1,this.current),this.count);
+        if(this.simple){
+            const html = `<xy-button class="simple-page" tabindex="-1" type="flat">${current} / ${this.count}</xy-button>`;
             this.page.innerHTML = html;
         }else{
-            const html = [...new Array(this.count).keys()].map(el=>`<xy-button ${el+1==current?"current":""} data-current="${el+1}">${el+1}</xy-button>`).join('');
+            const html = [...new Array(this.count).keys()].splice(0,9).map(el=>`<xy-button ${el+1==current?"current":""} type="flat" data-current="${el+1}">${el+1}</xy-button>`).join('');
             this.page.innerHTML = html;
+        }
+        this.updatePage(current);
+    }
+
+    updatePage(current=this.current){
+        this.left.disabled = current==1;
+        this.right.disabled = current==this.count;
+        if(this.simple){
+            this.page.querySelector('.simple-page').innerText = current + ' / ' + this.count;
+        }else{
+            if( this.count>9 ){
+                let place = [];
+                switch (current) {
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                        place = [1,2,3,4,5,6,7,'next',this.count];
+                        break;
+                    case this.count:
+                    case this.count-1:
+                    case this.count-2:
+                    case this.count-3:
+                    case this.count-4:
+                        place = [1,'pre',this.count-6,this.count-5,this.count-4,this.count-3,this.count-2,this.count-1,this.count];
+                        break;
+                    default:
+                        place = [1,'pre',current-2,current-1,current,current+1,current+2,'next',this.count];
+                        break;
+                }
+                this.page.querySelectorAll('xy-button').forEach((el,i)=>{
+                    if( typeof place[i] === 'number'){
+                        el.dataset.current = place[i];
+                        el.innerText = place[i];
+                        el.disabled = false;
+                        if(place[i]==current){
+                            el.setAttribute("current","");
+                            el.focus();
+                        }else{
+                            el.removeAttribute("current");
+                        }
+                        el.removeAttribute("tabindex");
+                    }else{
+                        el.innerText = '...';
+                        el.removeAttribute("current");
+                        el.setAttribute("tabindex",-1);
+                    }
+                })
+            }else{
+                this.page.querySelectorAll('xy-button').forEach((el,i)=>{
+                    if(el.dataset.current==current){
+                        el.setAttribute("current","");
+                        el.focus();
+                    }else{
+                        el.removeAttribute("current");
+                    }
+                })
+            }
         }
     }
 
@@ -156,11 +173,23 @@ export default class XyPagination extends HTMLElement {
         this.left = this.shadowRoot.getElementById('left');
         this.right = this.shadowRoot.getElementById('right');
         this.$current = this.defaultcurrent;
-        this.render(this.pagesize,this.total,this.defaultcurrent);
+        this.render(this.pagesize,this.total);
         this.page.addEventListener('click',(ev)=>{
             const item = ev.target.closest('xy-button');
             if(item){
                 this.current = Number(item.dataset.current);
+            }
+        })
+        this.addEventListener('keydown',(ev)=>{
+            switch (ev.keyCode) {
+                case 37://ArrowLeft
+                    this.current--;
+                    break;
+                case 39://ArrowRight
+                    this.current++;
+                    break;
+                default:
+                    break;
             }
         })
         this.left.addEventListener('click',(ev)=>{
