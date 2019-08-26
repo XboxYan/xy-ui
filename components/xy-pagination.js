@@ -17,7 +17,7 @@ export default class XyPagination extends HTMLElement {
             margin: 0 .3em;
             width: 2.3em;
             height: 2.3em;
-            padding: 0;
+            padding: 1px;
             font-size: inherit;
             box-sizing: content-box;
         }
@@ -41,10 +41,19 @@ export default class XyPagination extends HTMLElement {
         .page{
             display:inline-flex;
         }
+        .icon{
+            width:1em;
+            height:1em;
+            fill: currentColor;
+        }
         </style>
-        <xy-button type="flat" icon="left" id="left"></xy-button>
+        <xy-button type="flat" id="left">
+            <svg class="icon" viewBox="0 0 1024 1024"><path d="M724 218.3V141c0-6.7-7.7-10.4-12.9-6.3L260.3 486.8c-16.4 12.8-16.4 37.5 0 50.3l450.8 352.1c5.3 4.1 12.9 0.4 12.9-6.3v-77.3c0-4.9-2.3-9.6-6.1-12.6l-360-281 360-281.1c3.8-3 6.1-7.7 6.1-12.6z"></path></svg>
+        </xy-button>
         <div class="page" id="page"></div>
-        <xy-button type="flat" icon="right" id="right"></xy-button>
+        <xy-button type="flat" id="right">
+            <svg class="icon" viewBox="0 0 1024 1024"><path d="M765.7 486.8L314.9 134.7c-5.3-4.1-12.9-0.4-12.9 6.3v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1c16.4-12.8 16.4-37.6 0-50.4z"></path></svg>
+        </xy-button>
         `
     }
 
@@ -114,7 +123,7 @@ export default class XyPagination extends HTMLElement {
         this.left.disabled = current==1;
         this.right.disabled = current==this.count;
         if(this.simple){
-            this.page.querySelector('.simple-page').innerText = current + ' / ' + this.count;
+            this.page.querySelector('.simple-page').textContent = current + ' / ' + this.count;
         }else{
             if( this.count>9 ){
                 let place = [];
@@ -140,7 +149,7 @@ export default class XyPagination extends HTMLElement {
                 this.page.querySelectorAll('xy-button').forEach((el,i)=>{
                     if( typeof place[i] === 'number'){
                         el.dataset.current = place[i];
-                        el.innerText = place[i];
+                        el.textContent = place[i];
                         el.disabled = false;
                         if(place[i]==current){
                             el.setAttribute("current","");
@@ -150,7 +159,7 @@ export default class XyPagination extends HTMLElement {
                         }
                         el.removeAttribute("tabindex");
                     }else{
-                        el.innerText = '...';
+                        el.textContent = '...';
                         el.removeAttribute("current");
                         el.setAttribute("tabindex",-1);
                     }

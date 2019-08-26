@@ -1,4 +1,8 @@
 # update
+* ## 1.6.1
+    * 优化`xy-button`的`Enter`键逻辑
+    * 优化`xy-icon`的图标加载方式
+    * 替换部分组件内置图标为`svg`方式，减少`xy-icon`依赖
 * ## 1.6.0
     * 新增[`xy-pagination`](xy-pagination.md)分页组件
 

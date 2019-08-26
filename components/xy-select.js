@@ -33,18 +33,6 @@ class XyOption extends HTMLElement {
             this.parentNode.value = this.value;
             this.parentNode.focus();
         })
-        this.option.addEventListener('keydown',(ev)=>{
-            switch (ev.keyCode) {
-                case 13://Enter
-                    ev.preventDefault();
-                    ev.stopPropagation();
-                    this.parentNode.value = this.value;
-                    this.parentNode.focus();
-                    break;
-                default:
-                    break;
-            }
-        })
     }
 
     focus() {
@@ -118,6 +106,9 @@ export default class XySelect extends HTMLElement {
             transition: all 0s, transform .3s;
             margin-left:.5em;
             pointer-events:none;
+            width:1em;
+            height:1em;
+            fill:currentColor;
         }
         xy-popover{
             display:block;
@@ -128,7 +119,7 @@ export default class XySelect extends HTMLElement {
         }
         </style>
         <xy-popover id="root">
-            <xy-button id="select" ${this.disabled? "disabled" : ""} ${this.type?("type="+this.type):""}><span id="value"></span><xy-icon class="arrow" name="down"></xy-icon></xy-button>
+            <xy-button id="select" ${this.disabled? "disabled" : ""} ${this.type?("type="+this.type):""}><span id="value"></span><svg class="arrow" viewBox="0 0 1024 1024"><path d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3 0.1-12.7-6.4-12.7z"></path></svg></xy-button>
             <xy-popcon id="options">
                 <slot id="slot"></slot>
             </xy-popcon>
@@ -281,7 +272,7 @@ export default class XySelect extends HTMLElement {
             this.focusIndex = this.nodes.indexOf(cur);
             cur.selected = true;
             textContent = cur.textContent;
-            this.txt.innerText = textContent;
+            this.txt.textContent = textContent;
             if(this.init){
                 this.dispatchEvent(new CustomEvent('change', {
                     detail: {

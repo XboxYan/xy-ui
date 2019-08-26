@@ -170,7 +170,7 @@ export default {
         message.timer && clearTimeout(message.timer);
         messageContent.appendChild(message);
         message.type = 'info';
-        message.innerText = text||'';
+        message.textContent = text||'';
         message.clientWidth;
         message.show = true;
         message.onclose = onclose;
@@ -185,7 +185,7 @@ export default {
         message.timer && clearTimeout(message.timer);
         messageContent.appendChild(message);
         message.type = 'success';
-        message.innerText = text||'';
+        message.textContent = text||'';
         message.clientWidth;
         message.show = true;
         message.onclose = onclose;
@@ -200,7 +200,7 @@ export default {
         message.timer && clearTimeout(message.timer);
         messageContent.appendChild(message);
         message.type = 'error';
-        message.innerText = text||'';
+        message.textContent = text||'';
         message.clientWidth;
         message.show = true;
         message.onclose = onclose;
@@ -215,7 +215,7 @@ export default {
         message.timer && clearTimeout(message.timer);
         messageContent.appendChild(message);
         message.type = 'warning';
-        message.innerText = text||'';
+        message.textContent = text||'';
         message.clientWidth;
         message.show = true;
         message.onclose = onclose;
@@ -230,7 +230,7 @@ export default {
         message.timer && clearTimeout(message.timer);
         messageContent.appendChild(message);
         message.type = 'loading';
-        message.innerText = text||'';
+        message.textContent = text||'';
         message.clientWidth;
         message.show = true;
         message.onclose = onclose;
@@ -247,7 +247,7 @@ export default {
         message.timer && clearTimeout(message.timer);
         messageContent.appendChild(message);
         message.icon = icon;
-        message.innerText = text||'';
+        message.textContent = text||'';
         message.clientWidth;
         message.show = true;
         message.onclose = onclose;

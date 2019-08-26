@@ -152,7 +152,7 @@ pagination.addEventListener('change',function(ev){
 
 ## 实例
 
-一个常见的完整分页组件。
+一个常见的完整分页组件，配合`xy-select`和`xy-input`实现。
 
 <style>
 .pagination-demo{
@@ -200,11 +200,11 @@ pagination.addEventListener('change',function(ev){
 </style>
 <div class="pagination-demo">
     <xy-pagination id="pagination-demo" onchange="XyMessage.info('当前页: '+this.current)" pagesize="10" total="200"></xy-pagination>
-    <xy-select defalutvalue="10" onchange="document.getElementById('pagination-demo').pagesize=this.value">
+    <xy-select defaultvalue="10" onchange="document.getElementById('pagination-demo').pagesize=this.value">
         <xy-option value="10">每页10条</xy-option>
         <xy-option value="15">每页15条</xy-option>
         <xy-option value="20">每页20条</xy-option>
     </xy-select>
-    <span>跳转</span><xy-input type="number" defalutvalue="1" min="1" onchange="document.getElementById('pagination-demo').current = this.value"></xy-input><span>页</span>
+    <span>跳转</span><xy-input type="number" defaultvalue="1" min="1" onchange="document.getElementById('pagination-demo').current = this.value"></xy-input><span>页</span>
 </div>
 ```

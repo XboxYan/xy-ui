@@ -77,8 +77,10 @@ export default class XyIcon extends HTMLElement {
         this.color = this.color;
         this.name && (this.name = this.name);
         this.path && (this.path = this.path);
-        const module = await import('../iconfont/icon.js');
-        this.svg.innerHTML = module.default();
+        if(!this.path){
+            const module = await import('../iconfont/icon.js');
+            this.svg.insertAdjacentHTML("afterbegin",module.default());
+        }
     }
 
     attributeChangedCallback (name, oldValue, newValue) {

@@ -8,11 +8,13 @@
 
 `xy-ui`是一套使用原生`Web Components`规范开发的跨框架UI组件库。[查看文档](https://xy-ui.codelabo.cn/docs)
 
-风格参考`Ant Design`、`Metiral Design`。
-
 [github项目地址](https://github.com/XboxYan/xy-ui)
 
 ## 更新
+* ## 1.6.1
+    * 优化`xy-button`的`Enter`键逻辑
+    * 优化`xy-icon`的图标加载方式
+    * 替换部分组件内置图标为`svg`方式，减少`xy-icon`依赖
 * ## 1.6.0
     * 新增[`xy-pagination`](./docs/xy-pagination.md)分页组件
 

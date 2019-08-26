@@ -245,6 +245,15 @@ export default class XyButton extends HTMLElement {
                 this.checked=!this.checked;
             }
         })
+        this.btn.addEventListener('keydown', (ev) => {
+            switch (ev.keyCode) {
+                case 13://Enter
+                    ev.stopPropagation();
+                    break;
+                default:
+                    break;
+            }
+        })
         this.disabled = this.disabled;
         this.loading = this.loading;
     }
