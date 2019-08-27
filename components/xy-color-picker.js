@@ -489,8 +489,8 @@ export default class XyColorPicker extends HTMLElement {
             padding:0 10px 10px;
         }
         .pop-footer xy-button{
-            height:30px;
-            margin-left:10px;
+            font-size: .8em;
+            margin-left: .8em;
         }
         .color-btn::before{
             content:'';

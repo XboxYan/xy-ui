@@ -57,9 +57,8 @@ class XyPopcon extends HTMLElement {
             border:0;
         }
         .popcon-footer xy-button {
-            height:30px;
-            font-size:12px;
-            margin-left:10px;
+            font-size: .8em;
+            margin-left: .8em;
         }
         .popcon-type{
             display:flex;

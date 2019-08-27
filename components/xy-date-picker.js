@@ -1,10 +1,6 @@
 import './xy-button.js';
 import './xy-popover.js';
-import message from './xy-message.js';
-import { rgbToHsv,hslToHsv,parseToHSVA } from '../utils/color.js';
 import { HSVaColor } from '../utils/hsvacolor.js';
-
-const Material_colors = ['#f44336','#E91E63','#9C27B0','#673AB7','#3F51B5','#2196F3','#03A9F4','#00BCD4','#009688','#4CAF50','#8BC34A','#CDDC39','#FFEB3B','#FFC107','#FF9800','#FF5722','#795548','#9E9E9E','#607D8B','rgba(0,0,0,.65)','transparent']
 
 class XyDatePane extends HTMLElement {
 
@@ -140,13 +136,11 @@ class XyDatePane extends HTMLElement {
         this.setAttribute('defaultvalue', value);
     }
 
-    //获取每个月天数
     getDays(year,month){
-        console.log(month)
         const lastdays = new Date(year,month,0).getDate();
         const days = new Date(year,month+1,0).getDate();
         const week = new Date(year,month,1).getDay();
-        const prev = new Array(7-week).fill().map((el,i)=>year+'-'+month+'-'+(lastdays+i-7));
+        const prev = new Array(week).fill().map((el,i)=>year+'-'+month+'-'+(lastdays+i-week+1));
         const current = new Array(days).fill().map((el,i)=>year+'-'+(month+1)+'-'+(i+1));
         if(month+2>12){
             month=1;
@@ -154,13 +148,8 @@ class XyDatePane extends HTMLElement {
         }else{
             month=month+2;
         }
-        const next = new Array(42 - days - week - 1).fill().map((el,i)=>year+'-'+month+'-'+(i+1));
+        const next = new Array(42 - days - week).fill().map((el,i)=>year+'-'+month+'-'+(i+1));
         return [...prev,...current,...next];
-    }
-
-    //获取每个月第一天星期
-    getWeek(year,month){
-        return new Date(year,month,1).getDay();
     }
 
     toDate(d){
@@ -174,6 +163,7 @@ class XyDatePane extends HTMLElement {
     render(date){
         const [year,month,day] = this.toDate(date);
         const days = this.getDays(year,month);
+        this.switch.textContent = year + '年' + (month+1) + '月';
         this.days.forEach((el,i)=>{
             el.textContent = days[i].split('-')[2];
             el.dataset.date = days[i];
@@ -189,11 +179,20 @@ class XyDatePane extends HTMLElement {
         this.datePane = this.shadowRoot.getElementById('date-pane');
         this.prev = this.datePane.querySelector('.prev');
         this.next = this.datePane.querySelector('.next');
-        this.switch = this.datePane.querySelector('.switch');
+        this.switch = this.datePane.querySelector('.date-switch');
         this.dateBody = this.datePane.querySelector('.date-body');
         this.days = this.dateBody.querySelectorAll('xy-button');
         this.$value = this.defaultvalue;
-        this.render('2019-12-15');
+        this.render(this.$value);
+        this.prev.addEventListener('click',()=>{
+            let [year,month,day] = this.toDate(this.$value);
+            this.value = new Date(year,month-1,day);
+        })
+        this.next.addEventListener('click',()=>{
+            let [year,month,day] = this.toDate(this.$value);
+            this.value = new Date(year,month+1,day);
+        })
+        this.init = true;
     }
 
     get value() {
@@ -203,6 +202,7 @@ class XyDatePane extends HTMLElement {
     set value(value) {
         //'2019-1-1'
         this.$value = value;
+        this.render(value)
     }
 
 }
@@ -238,6 +238,7 @@ export default class XyDatePicker extends HTMLElement {
             display:flex;
             width:100%;
             height:100%;
+            font-size: inherit;
         }
         #select span{
             flex:1;
@@ -263,8 +264,8 @@ export default class XyDatePicker extends HTMLElement {
             padding:0 10px 10px;
         }
         .pop-footer xy-button{
-            height:30px;
-            margin-left:10px;
+            font-size: .8em;
+            margin-left: .8em;
         }
         </style>
         <xy-popover id="popover" ${this.dir? "dir='"+this.dir+"'" : ""}>
