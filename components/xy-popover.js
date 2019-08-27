@@ -180,6 +180,7 @@ class XyPopcon extends HTMLElement {
                 if(this.type=='pane'){
                     this.btnClose.focus();
                 }
+                this.dispatchEvent(new CustomEvent('open'));
             }
         })
         this.addEventListener('transitionend',(ev)=>{

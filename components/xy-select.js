@@ -103,7 +103,6 @@ export default class XySelect extends HTMLElement {
             position:relative;
             font-size:.9em;
             transform:scaleY(.8);
-            transition: all 0s, transform .3s;
             margin-left:.5em;
             pointer-events:none;
             width:1em;
@@ -171,17 +170,6 @@ export default class XySelect extends HTMLElement {
                     default:
                         break;
                 }
-            }
-        })
-        this.select.addEventListener('keydown',(ev)=>{
-            switch (ev.keyCode) {
-                case 13://Enter
-                    ev.preventDefault();
-                    ev.stopPropagation();
-                    this.options.open = true;
-                    break;
-                default:
-                    break;
             }
         })
         this.select.addEventListener('focus',(ev)=>{
