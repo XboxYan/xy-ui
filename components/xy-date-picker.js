@@ -58,6 +58,13 @@ class XyDatePane extends HTMLElement {
             .date-day-item[other]{
                 opacity:.6;
             }
+            .date-day-item[today]{
+                color:var(--themeColor,#42b983);
+            }
+            .date-day-item[current]{
+                background-color: var(--themeColor,#42b983);
+                color:#fff;
+            }
         </style>
         <div class="date-pane" id="date-pane">
             <div class="date-head">
@@ -140,15 +147,9 @@ class XyDatePane extends HTMLElement {
         const lastdays = new Date(year,month,0).getDate();
         const days = new Date(year,month+1,0).getDate();
         const week = new Date(year,month,1).getDay();
-        const prev = new Array(week).fill().map((el,i)=>year+'-'+month+'-'+(lastdays+i-week+1));
+        const prev = new Array(week).fill().map((el,i)=>(month==0?year-1:year)+'-'+(month==0?12:month)+'-'+(lastdays+i-week+1));
         const current = new Array(days).fill().map((el,i)=>year+'-'+(month+1)+'-'+(i+1));
-        if(month+2>12){
-            month=1;
-            year++;
-        }else{
-            month=month+2;
-        }
-        const next = new Array(42 - days - week).fill().map((el,i)=>year+'-'+month+'-'+(i+1));
+        const next = new Array(42 - days - week).fill().map((el,i)=>(month==11?year+1:year)+'-'+(month==11?1:month+2)+'-'+(i+1));
         return [...prev,...current,...next];
     }
 
@@ -162,12 +163,26 @@ class XyDatePane extends HTMLElement {
 
     render(date){
         const [year,month,day] = this.toDate(date);
+        const [n_year,n_month,n_day] = this.toDate(new Date);
         const days = this.getDays(year,month);
-        this.switch.textContent = year + '年' + (month+1) + '月';
+        this.switch.textContent = year + ' - ' + (month+1+'').padStart(2,0);
         this.days.forEach((el,i)=>{
-            el.textContent = days[i].split('-')[2];
+            const [_year,_month,_day] = days[i].split('-')
             el.dataset.date = days[i];
-            if(days[i].split('-')[1]!=month+1){
+            el.textContent = _day;
+            el.dataset.year = _year;
+            el.dataset.month = _month;
+            if(year+'-'+(month+1)+'-'+day==days[i]){
+                el.setAttribute("current","");
+            }else{
+                el.removeAttribute("current");
+            }
+            if(n_year+'-'+(n_month+1)+'-'+n_day==days[i]){
+                el.setAttribute("today","");
+            }else{
+                el.removeAttribute("today");
+            }
+            if(_month!=month+1){
                 el.setAttribute("other","");
             }else{
                 el.removeAttribute("other");
@@ -192,17 +207,38 @@ class XyDatePane extends HTMLElement {
             let [year,month,day] = this.toDate(this.$value);
             this.value = new Date(year,month+1,day);
         })
+        this.dateBody.addEventListener('click',(ev)=>{
+            const item = ev.target.closest('xy-button');
+            if(item){
+                this.value = item.dataset.date;
+            }
+        })
         this.init = true;
     }
 
     get value() {
+        const [year,month,day] = this.toDate(this.$value);
+        return year + '-' + (month+1+'').padStart(2,0) + '-' + day;
+    }
+
+    get date() {
         return new Date(this.$value);
     }
 
     set value(value) {
         //'2019-1-1'
-        this.$value = value;
-        this.render(value)
+        if(this.$value!==value){
+            this.$value = value;
+            this.render(value);
+            if(this.init){
+                this.dispatchEvent(new CustomEvent('change', {
+                    detail: {
+                        value: value,
+                        date: this.date,
+                    }
+                }));
+            }
+        }
     }
 
 }

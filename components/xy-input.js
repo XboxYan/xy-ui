@@ -64,6 +64,7 @@ export default class XyInput extends HTMLElement {
             margin:-.25em -.625em;
             padding:.25em .625em;
             font-family:inherit;
+            transition:.3s background-color;
         }
         :host(xy-textarea) xy-tips{
             margin-right:-.25em;
