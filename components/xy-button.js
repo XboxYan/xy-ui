@@ -52,8 +52,8 @@ export default class XyButton extends HTMLElement {
             background-image: radial-gradient(circle, var(--themeColor,#42b983) 10%, transparent 10.01%); 
         }
         :host([type="primary"]){ 
-            color: #fff; background: 
-            var(--themeColor,#42b983) 
+            color: #fff; 
+            background:var(--themeBackground,var(--themeColor,#42b983));
         }
         :host([type="dashed"]){ 
             border-style:dashed 
@@ -65,7 +65,7 @@ export default class XyButton extends HTMLElement {
         :host([type="flat"]) .btn::before{ 
             content:''; 
             position:absolute; 
-            background: var(--themeColor,#42b983); 
+            background:var(--themeBackground,var(--themeColor,#42b983));
             pointer-events:none; 
             left:0; 
             right:0; 

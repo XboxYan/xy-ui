@@ -18,7 +18,7 @@ class XyColorPane extends HTMLElement {
                 width:300px;
             }
             .color-pane{
-                padding:10px;
+                padding:.8em;
             }
             .color-palette{
                 position:relative;
@@ -157,7 +157,7 @@ class XyColorPane extends HTMLElement {
             }
             .color-label input{
                 flex:1;
-                margin-right:10px;
+                margin-right:.8em;
                 outline:0;
                 min-width:0;
                 width: 0;
@@ -201,7 +201,7 @@ class XyColorPane extends HTMLElement {
                 top:0;
                 right:0;
                 bottom:0;
-                background:var(--themeColor,#42b983);
+                background:var(--themeBackground,var(--themeColor,#42b983));
                 opacity:.2;
                 transition:.3s;
             }
@@ -214,7 +214,9 @@ class XyColorPane extends HTMLElement {
                 height:30px;
                 overflow:hidden;
             }
-            .color-footer[type="HEXA"] .color-label:nth-child(1),.color-footer[type="RGBA"] .color-label:nth-child(2),.color-footer[type="HSLA"] .color-label:nth-child(3){
+            .color-footer[data-type="HEXA"] .color-label:nth-child(1),
+            .color-footer[data-type="RGBA"] .color-label:nth-child(2),
+            .color-footer[data-type="HSLA"] .color-label:nth-child(3){
                 opacity:1;
                 visibility:visible;
                 z-index:2;
@@ -222,7 +224,7 @@ class XyColorPane extends HTMLElement {
             .color-sign{
                 padding-top:10px;
                 display:grid;
-                grid-template-columns: repeat(auto-fit, minmax(16px, 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(15px, 1fr));
                 grid-gap: 10px;
             }
             .color-sign>button{
@@ -232,7 +234,6 @@ class XyColorPane extends HTMLElement {
                 padding-bottom:0;
                 padding-top:100%;
                 border-radius:4px;
-                margin-right:10px;
                 border:0;
                 outline:0;
             }
@@ -275,7 +276,7 @@ class XyColorPane extends HTMLElement {
                     <input class="color-opacity" value="1" min="0" max="1" step="0.01" type="range" id="range-opacity">
                 </div>
             </div>
-            <div class="color-footer" type="HEXA">
+            <div class="color-footer" data-type="HEXA">
                 <div class="color-input">
                     <div class="color-label" id="color-hexa">
                         <input spellcheck="false" />
@@ -362,7 +363,7 @@ class XyColorPane extends HTMLElement {
             this.typeindex %= 3;
             this.switch.textContent = this.type[this.typeindex];
             this.value = this.value;
-            this.switch.parentNode.setAttribute('type',this.type[this.typeindex]);
+            this.switch.parentNode.dataset.type = this.type[this.typeindex];
         })
         this.copyBtn.addEventListener('click',()=>{
             this.copyinfo.select();
@@ -458,6 +459,7 @@ export default class XyColorPicker extends HTMLElement {
             display:inline-block;
             width:30px;
             height:30px;
+            font-size:14px;
         }
         :host([block]){
             display:block;
@@ -486,10 +488,10 @@ export default class XyColorPicker extends HTMLElement {
         .pop-footer{
             display:flex;
             justify-content:flex-end;
-            padding:0 10px 10px;
+            padding:0 .8em .8em;
         }
         .pop-footer xy-button{
-            font-size: .8em;
+            font-size: inherit;
             margin-left: .8em;
         }
         .color-btn::before{

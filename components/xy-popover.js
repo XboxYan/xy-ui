@@ -75,6 +75,8 @@ class XyPopcon extends HTMLElement {
         }
         :host([type="confirm"]){
             min-width:250px;
+        }
+        :host([type="confirm"]) .popcon-body{
             font-size:14px;
         }
         :host(:not([type])) .popcon-content,:host(:not([type])) .popcon-body{

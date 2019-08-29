@@ -61,7 +61,7 @@ export default class XySwitch extends HTMLElement {
             padding:0 .3em;
         }
         #switch:checked+label{
-            background:var(--themeColor,#42b983);
+            background:var(--themeBackground,var(--themeColor,#42b983));
         }
         #switch:checked+label::before{
             flex:1;

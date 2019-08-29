@@ -431,7 +431,7 @@ export default class XyImg extends HTMLElement {
         }
         .animation .shape {
             border-radius: 50%;
-            background:var(--themeColor,#42b983);
+            background:var(--themeBackground,var(--themeColor,#42b983));
         }
         .animation{
             width:2em;

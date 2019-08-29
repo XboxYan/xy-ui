@@ -34,7 +34,7 @@ export default class XyPagination extends HTMLElement {
             margin:auto;
         }
         xy-button[current] {
-            background-color: var(--themeColor,#42b983);
+            background: var(--themeBackground,var(--themeColor,#42b983));
             border-color: var(--themeColor,#42b983);
             color:#fff;
         }
@@ -113,7 +113,7 @@ export default class XyPagination extends HTMLElement {
             const html = `<xy-button class="simple-page" tabindex="-1" type="flat">${current} / ${this.count}</xy-button>`;
             this.page.innerHTML = html;
         }else{
-            const html = [...new Array(this.count).keys()].splice(0,9).map(el=>`<xy-button ${el+1==current?"current":""} type="flat" data-current="${el+1}">${el+1}</xy-button>`).join('');
+            const html = Array.from({length:this.count},(el,i)=>i).splice(0,9).map(el=>`<xy-button ${el+1==current?"current":""} type="flat" data-current="${el+1}">${el+1}</xy-button>`).join('');
             this.page.innerHTML = html;
         }
         this.updatePage(current);
