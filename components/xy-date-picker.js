@@ -110,7 +110,7 @@ class XyDatePane extends HTMLElement {
                 opacity:0;
                 visibility:hidden;
                 z-index:-1;
-                transition:.3s opacity;
+                transition:.3s opacity,.3s visibility;
             }
             .date-con[data-type="day"] .date-day,
             .date-con[data-type="month"] .date-month,
