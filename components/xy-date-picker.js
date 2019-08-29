@@ -505,6 +505,7 @@ export default class XyDatePicker extends HTMLElement {
         this.btnCancel = this.shadowRoot.getElementById('btn-cancel');
         this.btnSubmit = this.shadowRoot.getElementById('btn-submit');
         this.select.addEventListener('click',()=>{
+            this.datePane.type = 'day';
             this.datePane.value = this.$value;
         })
         this.btnCancel.addEventListener('click',()=>{
@@ -512,7 +513,6 @@ export default class XyDatePicker extends HTMLElement {
         })
         this.btnSubmit.addEventListener('click',()=>{
             this.value = this.datePane.value;
-            this.datePane.type = 'day';
             this.popcon.open = false;
         })
         this.value = this.defaultvalue;
