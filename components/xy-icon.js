@@ -8,7 +8,6 @@ export default class XyIcon extends HTMLElement {
         super();
         const shadowRoot = this.attachShadow({ mode: 'open' });
         shadowRoot.innerHTML = `
-        <div style="display:none" id="svg"></div>
         <style>
         :host{
             font-size:inherit;
@@ -78,14 +77,14 @@ export default class XyIcon extends HTMLElement {
         this.name && (this.name = this.name);
         this.path && (this.path = this.path);
         if(!this.path){
-            const module = await import('../iconfont/icon.js');
-            this.svg.insertAdjacentHTML("afterbegin",module.default());
+            //const module = await import('../iconfont/icon.js');
+            //this.svg.insertAdjacentHTML("afterbegin",module.default());
         }
     }
 
     attributeChangedCallback (name, oldValue, newValue) {
         if( name == 'name' && this.use){
-            this.use.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', `#icon-${newValue}`);
+            this.use.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', `../iconfont/icon.svg#icon-${newValue}`);
         }
         if( name == 'path' && this.d){
             this.d.setAttribute("d", newValue);
