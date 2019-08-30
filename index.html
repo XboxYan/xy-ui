@@ -44,7 +44,7 @@
     -->
     <!-- <script type="module" src="./components/xy.js" async></script> -->
     
-    <script type="module">
+    <script type="module" defer>
         import './index.js';
     </script>
 </head>
@@ -310,7 +310,19 @@
     <h2>color-picker</h2>
     <xy-color-picker defaultvalue="orangered" dir="righttop" onchange="console.log(event)"></xy-color-picker>
     <h2>date-picker</h2>
+    <p>type="date"</p>
     <xy-date-picker></xy-date-picker>
+    <xy-date-picker  defaultvalue="2018-02-28"></xy-date-picker>
+    <p>type="month"</p>
+    <xy-date-picker type="month"></xy-date-picker>
+    <xy-date-picker type="month" defaultvalue="2019-02"></xy-date-picker>
+    <p>type="year"</p>
+    <xy-date-picker type="year"></xy-date-picker>
+    <xy-date-picker type="year" defaultvalue="2018"></xy-date-picker>
+    <p>min、max</p>
+    <xy-date-picker></xy-date-picker>
+    <xy-date-picker type="month"></xy-date-picker>
+    <xy-date-picker type="year" min="2010" max="2050"></xy-date-picker>
     <h2>message</h2>
     <xy-button onclick="XyMessage.info('This a info message')">info</xy-button>
     <xy-button onclick="XyMessage.success('This a success message')">success</xy-button>

@@ -1,6 +1,5 @@
 import './xy-button.js';
 import './xy-popover.js';
-import { HSVaColor } from '../utils/hsvacolor.js';
 
 const toDate = (d) => {
     const date = new Date(d);
@@ -28,6 +27,9 @@ class XyDatePane extends HTMLElement {
             }
             .date-switch{
                 flex:1;
+            }
+            .date-switch[disabled]{
+                opacity:1;
             }
             xy-button {
                 padding: 1px;
@@ -68,7 +70,49 @@ class XyDatePane extends HTMLElement {
                 grid-template-rows: repeat(6, 1fr);
                 grid-gap:.3em;
             }
+            .date-button{
+                position:relative;
+                overflow:hidden;
+                background:none;
+                border:0;
+                padding: 0;
+                color: var(--fontColor,#333);
+                border-radius: var(--borderRadius,.25em);
+                transition:background .3s,color .3s,opacity .3s;
+                display:inline-flex;
+                align-items:center;
+                justify-content: center;
+                outline:0;
+            }
+            .date-button::before{
+                content:'';
+                position:absolute; 
+                background:var(--themeBackground,var(--themeColor,#42b983));
+                pointer-events:none; 
+                left:0; 
+                right:0; 
+                top:0; 
+                bottom:0; 
+                opacity:0; 
+                transition:.3s;
+                z-index:-1;
+            }
+            .date-button:not([disabled]):hover,.date-button:not([disabled]):focus{
+                color:var(--themeColor,#42b983);
+            }
+            .date-button:not([disabled]):hover::before{
+                opacity:.1 
+            }
+            .date-button:not([disabled]):focus::before{
+                opacity:.2
+            }
+            .date-button[disabled]{
+                cursor: not-allowed;
+                opacity:.6;
+            }
             .date-day-item{
+                box-sizing:content-box;
+                padding:1px;
                 min-width: 2.3em;
                 height: 2.3em;
                 justify-self: center;
@@ -76,12 +120,10 @@ class XyDatePane extends HTMLElement {
             .date-day-item[other]{
                 opacity:.6;
             }
-            .date-day-item[today]{
+            .date-button[now]{
                 color:var(--themeColor,#42b983);
             }
-            .date-day-item[current],
-            .date-month-item[current],
-            .date-year-item[current]{
+            .date-button:not([disabled])[current]{
                 background: var(--themeBackground,var(--themeColor,#42b983));
                 color:#fff;
             }
@@ -95,9 +137,15 @@ class XyDatePane extends HTMLElement {
                 top:.8em;
                 right:0;
                 bottom:0;
+                grid-gap:.3em;
+            }
+            .date-month{
                 grid-template-columns: repeat(3, 1fr);
                 grid-template-rows: repeat(4, 1fr);
-                grid-gap:.3em;
+            }
+            .date-year{
+                grid-template-columns: repeat(4, 1fr);
+                grid-template-rows: repeat(5, 1fr);
             }
             .date-month-item,
             .date-year-item{
@@ -106,13 +154,13 @@ class XyDatePane extends HTMLElement {
                 width: 100%;
                 height: 100%;
             }
-            .date-model{
+            .date-mode{
                 opacity:0;
                 visibility:hidden;
                 z-index:-1;
                 transition:.3s opacity,.3s visibility;
             }
-            .date-con[data-type="day"] .date-day,
+            .date-con[data-type="date"] .date-date,
             .date-con[data-type="month"] .date-month,
             .date-con[data-type="year"] .date-year{
                 opacity:1;
@@ -132,8 +180,8 @@ class XyDatePane extends HTMLElement {
                     <svg class="icon" viewBox="0 0 1024 1024"><path d="M765.7 486.8L314.9 134.7c-5.3-4.1-12.9-0.4-12.9 6.3v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1c16.4-12.8 16.4-37.6 0-50.4z"></path></svg>
                 </xy-button>
             </div>
-            <div class="date-con" data-type="day">
-                <div class="date-model date-day">
+            <div class="date-con" data-type="date">
+                <div class="date-mode date-date">
                     <div class="date-week">
                         <span class="date-week-item">日</span>
                         <span class="date-week-item">一</span>
@@ -144,77 +192,20 @@ class XyDatePane extends HTMLElement {
                         <span class="date-week-item">六</span>
                     </div>
                     <div class="date-body">
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
-                        <xy-button class="date-day-item" type="flat"></xy-button>
+                        ${
+                            Array.from({length:42},el=>'<button class="date-button date-day-item" type="flat"></button>').join('')
+                        }
                     </div>
                 </div>
-                <div class="date-model date-month">
-                    <xy-button class="date-month-item" type="flat" data-month="1">一月</xy-button>
-                    <xy-button class="date-month-item" type="flat" data-month="2">二月</xy-button>
-                    <xy-button class="date-month-item" type="flat" data-month="3">三月</xy-button>
-                    <xy-button class="date-month-item" type="flat" data-month="4">四月</xy-button>
-                    <xy-button class="date-month-item" type="flat" data-month="5">五月</xy-button>
-                    <xy-button class="date-month-item" type="flat" data-month="6">六月</xy-button>
-                    <xy-button class="date-month-item" type="flat" data-month="7">七月</xy-button>
-                    <xy-button class="date-month-item" type="flat" data-month="8">八月</xy-button>
-                    <xy-button class="date-month-item" type="flat" data-month="9">九月</xy-button>
-                    <xy-button class="date-month-item" type="flat" data-month="10">十月</xy-button>
-                    <xy-button class="date-month-item" type="flat" data-month="11">十一月</xy-button>
-                    <xy-button class="date-month-item" type="flat" data-month="12">十二月</xy-button>
+                <div class="date-mode date-month">
+                    ${
+                        this.getMonths().map((el,i)=>'<button class="date-button date-month-item" type="flat" data-month="'+((i+1).toString().padStart(2,0))+'">'+el+'</button>').join('')
+                    }
                 </div>
-                <div class="date-model date-year">
-                    <xy-button class="date-year-item" type="flat"></xy-button>
-                    <xy-button class="date-year-item" type="flat"></xy-button>
-                    <xy-button class="date-year-item" type="flat"></xy-button>
-                    <xy-button class="date-year-item" type="flat"></xy-button>
-                    <xy-button class="date-year-item" type="flat" current></xy-button>
-                    <xy-button class="date-year-item" type="flat"></xy-button>
-                    <xy-button class="date-year-item" type="flat"></xy-button>
-                    <xy-button class="date-year-item" type="flat"></xy-button>
-                    <xy-button class="date-year-item" type="flat"></xy-button>
-                    <xy-button class="date-year-item" type="flat"></xy-button>
-                    <xy-button class="date-year-item" type="flat"></xy-button>
-                    <xy-button class="date-year-item" type="flat"></xy-button>
+                <div class="date-mode date-year">
+                    ${
+                        Array.from({length:20},(el,i)=>'<button class="date-button date-year-item" type="flat"></button>').join('')
+                    }
                 </div>
             </div>
         </div>
@@ -223,6 +214,24 @@ class XyDatePane extends HTMLElement {
 
     get defaultvalue() {
         return this.getAttribute('defaultvalue')||new Date;
+    }
+
+    get min() {
+        const min = this.getAttribute('min');
+        const d = [1000,0,1];
+        d.default = true;
+        return min?toDate(min):d;
+    }
+
+    get max() {
+        const max = this.getAttribute('max');
+        const d = [9999,12,31];
+        d.default = true;
+        return max?toDate(max):d;
+    }
+
+    get minormax(){
+        return !this.min.default || !this.max.default;
     }
 
     set defaultvalue(value){
@@ -239,31 +248,37 @@ class XyDatePane extends HTMLElement {
         return [...prev,...current,...next];
     }
 
+    getMonths(){
+        return ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月']
+    }
+
     getYears(year){
-        return [year-4,year-3,year-2,year-1,year,year+1,year+2,year+3,year+4,year+5,year+6,year+7]
+        const start = parseInt(year/20)*20;
+        return Array.from({length:20},(el,i)=>start+i);
     }
 
     render(date=this.$value){
         const [year,month,day] = toDate(date);
-        switch (this.type) {
-            case 'day':
+        const [n_year,n_month,n_day] = toDate(new Date);
+        switch (this.mode) {
+            case 'date':
                 const days = this.getDays(year,month);
-                const [n_year,n_month,n_day] = toDate(new Date);
                 this.days.forEach((el,i)=>{
                     const [_year,_month,_day] = days[i].split('-');
-                    el.dataset.date = days[i];
-                    el.textContent = _day;
+                    el.dataset.date = _year+'-'+_month.toString().padStart(2,0)+'-'+_day.toString().padStart(2,0);
                     el.dataset.year = _year;
-                    el.dataset.month = _month;
+                    el.dataset.month = _month.toString().padStart(2,0);
+                    el.dataset.day = _day.toString().padStart(2,0);
+                    el.textContent = _day.toString().padStart(2,0);
                     if(year+'-'+(month+1)+'-'+day==days[i]){
                         el.setAttribute("current","");
                     }else{
                         el.removeAttribute("current");
                     }
                     if(n_year+'-'+(n_month+1)+'-'+n_day==days[i]){
-                        el.setAttribute("today","");
+                        el.setAttribute("now","");
                     }else{
-                        el.removeAttribute("today");
+                        el.removeAttribute("now");
                     }
                     if(_month!=month+1){
                         el.setAttribute("other","");
@@ -276,10 +291,17 @@ class XyDatePane extends HTMLElement {
                 break;
             case 'month':
                 this.months.forEach((el,i)=>{
+                    el.dataset.date = year + '-' + el.dataset.month;
+                    el.dataset.year = year;
                     if(el.dataset.month == month+1){
                         el.setAttribute("current","");
                     }else{
                         el.removeAttribute("current");
+                    }
+                    if(n_year+'-'+(n_month+1) == year + '-' + Number(el.dataset.month)){
+                        el.setAttribute("now","");
+                    }else{
+                        el.removeAttribute("now");
                     }
                 })
                 this.switch.textContent = year + '年';
@@ -288,11 +310,30 @@ class XyDatePane extends HTMLElement {
             case 'year':
                 const years = this.getYears(year);
                 this.years.forEach((el,i)=>{
-                    el.textContent = years[i];
                     el.dataset.year = years[i];
+                    el.dataset.date = years[i];
+                    el.textContent = years[i];
+                    if(el.dataset.year)
+                    if(el.dataset.year == year){
+                        el.setAttribute("current","");
+                    }else{
+                        el.removeAttribute("current");
+                    }
+                    if(el.dataset.year == n_year){
+                        el.setAttribute("now","");
+                    }else{
+                        el.removeAttribute("now");
+                    }
+                    if(this.minormax){
+                        el.disabled = el.dataset.year<this.min[0] || el.dataset.year>this.max[0];
+                    }
                 })
-                this.switch.textContent = (year-4) + '年-'+(year+7) + '年';
+                this.switch.textContent = years[0] + '年 - '+ (years[0]+19) + '年';
                 this.switch.disabled = true;
+                if(this.minormax){
+                    this.prev.disabled = this.years[0].disabled;
+                    this.next.disabled = this.years[19].disabled;
+                }
             default:
                 break;
         }
@@ -307,22 +348,22 @@ class XyDatePane extends HTMLElement {
         this.dateCon = this.datePane.querySelector('.date-con');
         this.dateMonth = this.datePane.querySelector('.date-month');
         this.dateYear = this.datePane.querySelector('.date-year');
-        this.days = this.dateBody.querySelectorAll('xy-button');
-        this.months = this.dateMonth.querySelectorAll('xy-button');
-        this.years = this.dateYear.querySelectorAll('xy-button');
+        this.days = this.dateBody.querySelectorAll('button');
+        this.months = this.dateMonth.querySelectorAll('button');
+        this.years = this.dateYear.querySelectorAll('button');
         this.$value = this.defaultvalue;
-        this.render(this.$value);
+        this.render();
         this.prev.addEventListener('click',()=>{
             let [year,month,day] = toDate(this.$value);
-            switch (this.type) {
-                case 'day':
+            switch (this.mode) {
+                case 'date':
                     this.value = new Date(year,month-1,day);
                     break;
                 case 'month':
-                    this.value = new Date(year-1,month,day);
+                    this.value = new Date(year-1,month);
                     break;
                 case 'year':
-                    this.value = new Date(year-12,month,day);
+                    this.value = new Date(year-20,0);
                 default:
                     break;
             }
@@ -330,51 +371,66 @@ class XyDatePane extends HTMLElement {
         })
         this.next.addEventListener('click',()=>{
             let [year,month,day] = toDate(this.$value);
-            switch (this.type) {
-                case 'day':
+            switch (this.mode) {
+                case 'date':
                     this.value = new Date(year,month+1,day);
                     break;
                 case 'month':
-                    this.value = new Date(year+1,month,day);
+                    this.value = new Date(year+1,month);
                     break;
                 case 'year':
-                    this.value = new Date(year+12,month,day);
+                    this.value = new Date(year+20,0);
                 default:
                     break;
             }
         })
         this.switch.addEventListener('click',()=>{
-            switch (this.type) {
-                case 'day':
-                    this.type = 'month';
+            switch (this.mode) {
+                case 'date':
+                    this.mode = 'month';
                     break;
                 case 'month':
-                    this.type = 'year';
+                    this.mode = 'year';
                     break;
                 default:
                     break;
             }
         })
         this.dateBody.addEventListener('click',(ev)=>{
-            const item = ev.target.closest('xy-button');
+            const item = ev.target.closest('button');
             if(item){
                 this.value = item.dataset.date;
             }
         })
         this.dateMonth.addEventListener('click',(ev)=>{
-            const item = ev.target.closest('xy-button');
+            const item = ev.target.closest('button');
             let [year,month,day] = toDate(this.$value);
             if(item){
-                this.type = 'day';
-                this.value = year+'-'+item.dataset.month+'-'+day;
+                if(this.type == 'date'){
+                    this.mode = 'date';
+                    this.value = item.dataset.date+'-'+day;
+                }else{
+                    this.value = item.dataset.date+'';
+                }
             }
         })
         this.dateYear.addEventListener('click',(ev)=>{
-            const item = ev.target.closest('xy-button');
+            const item = ev.target.closest('button');
             let [year,month,day] = toDate(this.$value);
             if(item){
-                this.type = 'month';
-                this.value = item.dataset.year+'-'+(month+1)+'-'+day;
+                switch (this.type) {
+                    case 'date':
+                        this.mode = 'month';
+                        this.value = item.dataset.date+'-'+(month+1)+'-'+day;
+                        break;
+                    case 'month':
+                        this.mode = 'month';
+                        this.value = item.dataset.date+'-'+(month+1);
+                        break;
+                    default:
+                        this.value = item.dataset.date+'';
+                        break;
+                }
             }
         })
         this.init = true;
@@ -382,7 +438,19 @@ class XyDatePane extends HTMLElement {
 
     get value() {
         const [year,month,day] = toDate(this.$value);
-        return year + '-' + (month+1+'').padStart(2,0) + '-' + (day+'').padStart(2,0);
+        let value = '';
+        switch (this.type) {
+            case 'date':
+                value = year + '-' + (month+1+'').padStart(2,0) + '-' + (day+'').padStart(2,0);
+                break;
+            case 'month':
+                value = year + '-' + (month+1+'').padStart(2,0);
+                break;
+            default:
+                value = year + '';
+                break;
+        }
+        return value;
     }
 
     get date() {
@@ -390,18 +458,37 @@ class XyDatePane extends HTMLElement {
     }
 
     get type(){
-        return this.$type||'day';
+        return this.getAttribute('type')||'date';
+    }
+
+    set min(value){
+        this.setAttribute('min', value);
+    }
+
+    set max(value){
+        this.setAttribute('max', value);
+    }
+
+    get mode(){
+        return this.$mode||this.type;
     }
 
     set type(value){
-        this.$type = value;
-        const [year,month] = toDate(this.$value);
+        this.mode = value;
+        this.setAttribute('type', value);
+    }
+
+    set mode(value){
+        this.$mode = value;
         this.render();
         this.dateCon.dataset.type= value;
     }
 
     set value(value) {
         //'2019-1-1'
+        if(this.minormax){
+            value = Math.max(Math.min(new Date(value),new Date(...this.max)),new Date(...this.min));
+        }
         if(this.$value!==value){
             this.$value = value;
             this.render(value);
@@ -480,9 +567,8 @@ export default class XyDatePicker extends HTMLElement {
         }
         </style>
         <xy-popover id="popover" ${this.dir? "dir='"+this.dir+"'" : ""}>
-            <xy-button id="select" ${this.disabled? "disabled" : ""} ${this.type?("type="+this.type):""}><span id="datetxt"></span><svg class="icon" viewBox="0 0 1024 1024"><path d="M880 184H712v-64c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H384v-64c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H144c-17.7 0-32 14.3-32 32v664c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V216c0-17.7-14.3-32-32-32z m-40 656H184V460h656v380zM184 392V256h128v48c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-48h256v48c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-48h128v136H184z" p-id="8054"></path></svg></xy-button>
+            <xy-button id="select" ${this.disabled? "disabled" : ""}><span id="datetxt"></span><svg class="icon" viewBox="0 0 1024 1024"><path d="M880 184H712v-64c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H384v-64c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H144c-17.7 0-32 14.3-32 32v664c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V216c0-17.7-14.3-32-32-32z m-40 656H184V460h656v380zM184 392V256h128v48c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-48h256v48c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-48h128v136H184z" p-id="8054"></path></svg></xy-button>
             <xy-popcon id="popcon">
-                <xy-date-pane id="date-pane"></xy-date-pane>
                 <div class="pop-footer">
                     <xy-button id="btn-cancel">取消</xy-button>
                     <xy-button type="primary" id="btn-submit">确认</xy-button>
@@ -499,13 +585,19 @@ export default class XyDatePicker extends HTMLElement {
     connectedCallback() {
         this.popover = this.shadowRoot.getElementById('popover');
         this.popcon = this.shadowRoot.getElementById('popcon');
-        this.datePane = this.shadowRoot.getElementById('date-pane');
         this.select = this.shadowRoot.getElementById('select');
         this.datetxt = this.shadowRoot.getElementById('datetxt');
         this.btnCancel = this.shadowRoot.getElementById('btn-cancel');
         this.btnSubmit = this.shadowRoot.getElementById('btn-submit');
         this.select.addEventListener('click',()=>{
-            this.datePane.type = 'day';
+            if(!this.datePane){
+                this.datePane = new XyDatePane();
+                this.popcon.prepend(this.datePane);
+                this.datePane.type = this.type;
+                this.min && (this.datePane.min = this.min);
+                this.max && (this.datePane.max = this.max);
+            }
+            this.datePane.mode = this.type;
             this.datePane.value = this.$value;
         })
         this.btnCancel.addEventListener('click',()=>{
@@ -519,7 +611,13 @@ export default class XyDatePicker extends HTMLElement {
         this.init = true;
     }
 
-    
+    get min() {
+        return this.getAttribute('min');
+    }
+
+    get max() {
+        return this.getAttribute('max');
+    }
 
     get defaultvalue() {
         return this.getAttribute('defaultvalue')||new Date;
@@ -527,16 +625,27 @@ export default class XyDatePicker extends HTMLElement {
 
     get value() {
         const [year,month,day] = toDate(this.$value);
-        return year + '-' + (month+1+'').padStart(2,0) + '-' + (day+'').padStart(2,0);
+        let value = '';
+        switch (this.type) {
+            case 'date':
+                value = year + '-' + (month+1+'').padStart(2,0) + '-' + (day+'').padStart(2,0);
+                break;
+            case 'month':
+                value = year + '-' + (month+1+'').padStart(2,0);
+                break;
+            default:
+                value = year + '';
+                break;
+        }
+        return value;
     }
 
     get date() {
         return new Date(this.$value);
     }
 
-
     get type() {
-        return this.getAttribute('type');
+        return this.getAttribute('type')||'date';
     }
 
     get disabled() {
@@ -547,8 +656,20 @@ export default class XyDatePicker extends HTMLElement {
         return this.getAttribute('dir');
     }
 
+    set min(value){
+        this.setAttribute('min', value);
+    }
+
+    set max(value){
+        this.setAttribute('max', value);
+    }
+
     set dir(value){
         this.setAttribute('dir', value);
+    }
+
+    set type(value){
+        this.setAttribute('type', value);
     }
 
     set disabled(value) {

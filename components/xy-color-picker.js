@@ -526,7 +526,6 @@ export default class XyColorPicker extends HTMLElement {
     connectedCallback() {
         this.popover = this.shadowRoot.getElementById('popover');
         this.popcon = this.shadowRoot.getElementById('popcon');
-        this.colorPane = this.shadowRoot.getElementById('color-pane');
         this.colorBtn = this.shadowRoot.getElementById('color-btn');
         this.btnCancel = this.shadowRoot.getElementById('btn-cancel');
         this.btnSubmit = this.shadowRoot.getElementById('btn-submit');
