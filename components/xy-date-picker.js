@@ -204,7 +204,7 @@ class XyDatePane extends HTMLElement {
                 </div>
                 <div class="date-mode date-year">
                     ${
-                        Array.from({length:20},(el,i)=>'<button class="date-button date-year-item" type="flat"></button>').join('')
+                        Array.from({length:20},el=>'<button class="date-button date-year-item" type="flat"></button>').join('')
                     }
                 </div>
             </div>
