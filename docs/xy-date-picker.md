@@ -40,7 +40,6 @@
 
 支持设置日期选择类型，可选择`date`（默认）、`month`、`year`，分别实现日期选择器、月选择器、年选择器。
 
-日期选择器
 <xy-date-picker></xy-date-picker>
 <xy-date-picker type="month"></xy-date-picker>
 <xy-date-picker type="year"></xy-date-picker>
