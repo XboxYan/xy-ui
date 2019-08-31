@@ -106,10 +106,6 @@ class XyDatePane extends HTMLElement {
             .date-button:not([disabled]):focus::before{
                 opacity:.2
             }
-            .date-button[disabled]{
-                cursor: not-allowed;
-                opacity:.6;
-            }
             .date-day-item{
                 box-sizing:content-box;
                 padding:1px;
@@ -117,8 +113,13 @@ class XyDatePane extends HTMLElement {
                 height: 2.3em;
                 justify-self: center;
             }
-            .date-day-item[other]{
+            .date-button[other]{
                 opacity:.6;
+            }
+            .date-button[disabled]{
+                cursor: not-allowed;
+                opacity:.6;
+                color:var(--errorColor,#f4615c);
             }
             .date-button[now]{
                 color:var(--themeColor,#42b983);
@@ -218,7 +219,7 @@ class XyDatePane extends HTMLElement {
 
     get min() {
         const min = this.getAttribute('min');
-        const d = [1000,0,1];
+        const d = [0,0,1];
         d.default = true;
         return min?toDate(min):d;
     }
@@ -257,6 +258,12 @@ class XyDatePane extends HTMLElement {
         return Array.from({length:20},(el,i)=>start+i);
     }
 
+    toDay(year,month,day){
+        const len = new Date(year,month+1,0).getDate();
+        day = day>len?len:day;
+        return [year,month,day];
+    }
+
     render(date=this.$value){
         const [year,month,day] = toDate(date);
         const [n_year,n_month,n_day] = toDate(new Date);
@@ -285,9 +292,17 @@ class XyDatePane extends HTMLElement {
                     }else{
                         el.removeAttribute("other");
                     }
+                    if(this.minormax){
+                        el.disabled = el.dataset.date<this.min[0]+'-'+(this.min[1]+1+'').padStart(2,0)+'-'+(this.min[2]+'').padStart(2,0) || el.dataset.date>this.max[0]+'-'+(this.max[1]+1+'').padStart(2,0)+'-'+(this.max[2]+'').padStart(2,0);
+                    }
                 })
                 this.switch.textContent = year + '年' + (month+1+'').padStart(2,0) + '月';
                 this.switch.disabled = false;
+                if(this.minormax){
+                    const _days = [...this.days].filter(el=>el.dataset.month==month+1);
+                    this.prev.disabled = _days[0].disabled;
+                    this.next.disabled = _days[_days.length-1].disabled;
+                }
                 break;
             case 'month':
                 this.months.forEach((el,i)=>{
@@ -303,9 +318,16 @@ class XyDatePane extends HTMLElement {
                     }else{
                         el.removeAttribute("now");
                     }
+                    if(this.minormax){
+                        el.disabled = el.dataset.date<this.min[0]+'-'+(this.min[1]+1+'').padStart(2,0) || el.dataset.date>this.max[0]+'-'+(this.max[1]+1+'').padStart(2,0);
+                    }
                 })
                 this.switch.textContent = year + '年';
                 this.switch.disabled = false;
+                if(this.minormax){
+                    this.prev.disabled = this.months[0].disabled;
+                    this.next.disabled = this.months[11].disabled;
+                }
                 break;
             case 'year':
                 const years = this.getYears(year);
@@ -325,7 +347,7 @@ class XyDatePane extends HTMLElement {
                         el.removeAttribute("now");
                     }
                     if(this.minormax){
-                        el.disabled = el.dataset.year<this.min[0] || el.dataset.year>this.max[0];
+                        el.disabled = el.dataset.date<this.min[0] || el.dataset.date>this.max[0];
                     }
                 })
                 this.switch.textContent = years[0] + '年 - '+ (years[0]+19) + '年';
@@ -357,13 +379,13 @@ class XyDatePane extends HTMLElement {
             let [year,month,day] = toDate(this.$value);
             switch (this.mode) {
                 case 'date':
-                    this.value = new Date(year,month-1,day);
+                    this.value = new Date(...this.toDay(year,month-1,day));
                     break;
                 case 'month':
-                    this.value = new Date(year-1,month);
+                    this.value = new Date(...this.toDay(year-1,month,day));
                     break;
                 case 'year':
-                    this.value = new Date(year-20,0);
+                    this.value = new Date(...this.toDay(year-20,month,day));
                 default:
                     break;
             }
@@ -373,13 +395,13 @@ class XyDatePane extends HTMLElement {
             let [year,month,day] = toDate(this.$value);
             switch (this.mode) {
                 case 'date':
-                    this.value = new Date(year,month+1,day);
+                    this.value = new Date(...this.toDay(year,month+1,day));
                     break;
                 case 'month':
-                    this.value = new Date(year+1,month);
+                    this.value = new Date(...this.toDay(year+1,month,day));
                     break;
                 case 'year':
-                    this.value = new Date(year+20,0);
+                    this.value = new Date(...this.toDay(year+20,month,day));
                 default:
                     break;
             }
@@ -407,8 +429,9 @@ class XyDatePane extends HTMLElement {
             let [year,month,day] = toDate(this.$value);
             if(item){
                 if(this.type == 'date'){
+                    const len = new Date(year,item.dataset.month,0).getDate();
                     this.mode = 'date';
-                    this.value = item.dataset.date+'-'+day;
+                    this.value = item.dataset.date+'-'+(day>len?len:day);
                 }else{
                     this.value = item.dataset.date+'';
                 }
@@ -420,8 +443,9 @@ class XyDatePane extends HTMLElement {
             if(item){
                 switch (this.type) {
                     case 'date':
+                        const len = new Date(item.dataset.year,month+1,0).getDate();
                         this.mode = 'month';
-                        this.value = item.dataset.date+'-'+(month+1)+'-'+day;
+                        this.value = item.dataset.date+'-'+(month+1)+'-'+(day>len?len:day);
                         break;
                     case 'month':
                         this.mode = 'month';

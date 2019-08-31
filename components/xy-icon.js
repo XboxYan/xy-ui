@@ -67,8 +67,7 @@ export default class XyIcon extends HTMLElement {
     }
 
     
-    async connectedCallback() {
-        this.svg = this.shadowRoot.getElementById('svg');
+    connectedCallback() {
         this.icon = this.shadowRoot.getElementById('icon');
         this.use = this.icon.querySelector('use');
         this.d = this.icon.querySelector('path');
@@ -76,10 +75,6 @@ export default class XyIcon extends HTMLElement {
         this.color = this.color;
         this.name && (this.name = this.name);
         this.path && (this.path = this.path);
-        if(!this.path){
-            //const module = await import('../iconfont/icon.js');
-            //this.svg.insertAdjacentHTML("afterbegin",module.default());
-        }
     }
 
     attributeChangedCallback (name, oldValue, newValue) {
