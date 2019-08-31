@@ -40,6 +40,7 @@
 
 支持设置日期选择类型，可选择`date`（默认）、`month`、`year`，分别实现日期选择器、月选择器、年选择器。
 
+日期选择器
 <xy-date-picker></xy-date-picker>
 <xy-date-picker type="month"></xy-date-picker>
 <xy-date-picker type="year"></xy-date-picker>
@@ -84,16 +85,16 @@ date.setAttribute('value','2019-10-10');
 
 ## 最小值`min`、最大值`max`
 
-设置时间范围的最小值和最大值，超出范围之外的不可选中，格式同`defaultvalue`。
+设置日期选择范围，超出范围之外的不可选中，格式同`defaultvalue`。
 
-<xy-date-picker min="2018-10-20" max="2023-3-5"></xy-date-picker>
-<xy-date-picker type="month" min="2018-10" max="2020-3"></xy-date-picker>
-<xy-date-picker type="year" min="2010" max="2020"></xy-date-picker>
+<xy-date-picker min="2019-8-20" max="2019-12-21"></xy-date-picker>
+<xy-date-picker type="month" min="2019-5" max="2019-12"></xy-date-picker>
+<xy-date-picker type="year" min="2018" max="2050"></xy-date-picker>
 
 ```html
-<xy-date-picker min="2016-10-20" max="2023-3-5"></xy-date-picker>
-<xy-date-picker type="month" min="2010-10" max="2025-3"></xy-date-picker>
-<xy-date-picker type="year" min="2010" max="2020"></xy-date-picker>
+<xy-date-picker min="2019-8-20" max="2019-12-21"></xy-date-picker>
+<xy-date-picker type="month" min="2019-5" max="2019-12"></xy-date-picker>
+<xy-date-picker type="year" min="2018" max="2050"></xy-date-picker>
 ```
 
 ## 禁用`disabled`
