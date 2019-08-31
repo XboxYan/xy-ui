@@ -324,6 +324,26 @@ btn.focus();
 <xy-button type="primary" class="custom-button">primary</xy-button>
 ```
 
+也可以通过修改`font-size`来控制按钮尺寸
+
+<style>
+.custom-button2{
+    font-size:30px;
+}
+</style>
+<xy-button type="primary" class="custom-button2">primary</xy-button>
+
+```html
+<style>
+.custom-button2{
+    font-size:30px;
+}
+</style>
+<xy-button type="primary" class="custom-button2">primary</xy-button>
+```
+
+> 大部分组件均可通过`font-size`来控制组件尺寸
+
 此外，所有组件均有主题颜色`themeColor`，通过`CSS`自定义属性实现
 
 详细可参考[主题](themeColor.md)。

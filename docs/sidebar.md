@@ -23,3 +23,4 @@
     * [xy-color-picker](xy-color-picker.md)
     * [xy-form](xy-form.md)
     * [xy-pagination](xy-pagination.md)
+    * [xy-date-picker](xy-date-picker.md)

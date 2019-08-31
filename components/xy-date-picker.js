@@ -82,6 +82,7 @@ class XyDatePane extends HTMLElement {
                 display:inline-flex;
                 align-items:center;
                 justify-content: center;
+                font-size: inherit;
                 outline:0;
             }
             .date-button::before{
@@ -722,7 +723,7 @@ export default class XyDatePicker extends HTMLElement {
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-        if (name == 'disabled' && this.colorBtn) {
+        if (name == 'disabled' && this.select) {
             if (newValue != null) {
                 this.select.setAttribute('disabled', 'disabled');
             } else {
