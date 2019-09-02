@@ -11,6 +11,14 @@
 [github项目地址](https://github.com/XboxYan/xy-ui)
 
 ## 更新
+* ## 1.7.0
+    * 新增[`xy-date-picker`](./docs/xy-form.md)组件
+
+    ![xy-date-picker](./screenshot/xy-date-picker.png)
+
+    * 优化`xy-icon`的图标加载方式，不会再阻塞页面渲染了~
+    * 主题配置新增`--themeBackground`
+    * 其他`bug`修复
 * ## 1.6.1
     * 优化`xy-button`的`Enter`键逻辑
     * 优化`xy-icon`的图标加载方式
@@ -23,25 +31,6 @@
     * 修复`xy-form`下`xy-select`回车键触发`submit`问题
     * 更改组件尺寸为`em`相对尺寸，部分组件除外
     * `xy-color-pane`现在在鼠标抬起时才触发`change`回调
-    * 其他`bug`修复
-* ## 1.5.2
-    * 修改属性`lable`为`legend`，`lablewidth`为`legendwidth`
-    * `xy-radio-group`、`xy-checkbox-group`新增`disabled`属性
-    * 优化`xy-form`和`xy-form-item`的`lablewidth`属性
-    * `xy-popover`优化关闭按钮样式
-    * `xy-color-picker`新增内置颜色
-    * `xy-form`表单校验不会对`disabled`属性表单元素进行校验
-* ## 1.5.1
-    * 优化`xy-radio-group`和`xy-checkbox-group`的`hover`层级问题
-    * `xy-form`新增演示动画
-
-    ![xy-form](./screenshot/xy-form.png)
-
-* ## 1.5.0
-    * 新增[`xy-form`](./docs/xy-form.md)表单组件，集成表单验证功能
-    * 新增`xy-radio-group`和`xy-checkbox-group`组件
-    * `xy-img`新增加载动画
-    * 主题颜色管理，`fontColor`、`errorColor`、`successColor`、`warningColor`、`borderColor`等
     * 其他`bug`修复
 
 [update](./docs/update.md)

@@ -1,4 +1,12 @@
 # update
+* ## 1.7.0
+    * 新增[`xy-date-picker`](xy-form.md)组件
+
+    ![xy-date-picker](../screenshot/xy-date-picker.png)
+
+    * 优化`xy-icon`的图标加载方式，不会再阻塞页面渲染了~
+    * 主题配置新增`--themeBackground`
+    * 其他`bug`修复
 * ## 1.6.1
     * 优化`xy-button`的`Enter`键逻辑
     * 优化`xy-icon`的图标加载方式

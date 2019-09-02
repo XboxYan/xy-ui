@@ -65,7 +65,7 @@ export default class XyButton extends HTMLElement {
         :host([type="flat"]) .btn::before{ 
             content:''; 
             position:absolute; 
-            background:var(--themeBackground,var(--themeColor,#42b983));
+            background:var(--themeColor,#42b983);
             pointer-events:none; 
             left:0; 
             right:0; 
