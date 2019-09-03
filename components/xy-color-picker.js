@@ -28,6 +28,11 @@ class XyColorPane extends HTMLElement {
                 background-size:100% 100%, 100% 100%, 10px 10px, 10px 10px;
                 user-select: none;
                 cursor: crosshair;
+                opacity:1;
+                transition:opacity .1s;
+            }
+            .color-palette:active{
+                opacity:.99;
             }
             .color-palette::after{
                 pointer-events:none;
@@ -218,7 +223,7 @@ class XyColorPane extends HTMLElement {
             .color-footer[data-type="RGBA"] .color-label:nth-child(2),
             .color-footer[data-type="HSLA"] .color-label:nth-child(3){
                 opacity:1;
-                visibility:visible;
+                visibility:inherit;
                 z-index:2;
             }
             .color-sign{
@@ -329,6 +334,7 @@ class XyColorPane extends HTMLElement {
         this.colorHexa = this.shadowRoot.getElementById('color-hexa').querySelectorAll('input');
         this.colorRgba = this.shadowRoot.getElementById('color-rgba').querySelectorAll('input');
         this.colorHlsa = this.shadowRoot.getElementById('color-hlsa').querySelectorAll('input');
+        this.$value = this.defaultvalue;
         this.rangeHue.addEventListener('input',()=>{
             const value = [...this.$value];
             value[0] = Number(this.rangeHue.value);
@@ -345,7 +351,14 @@ class XyColorPane extends HTMLElement {
         })
         document.addEventListener('mouseup',(ev)=>{
             this.start = false;
-            this.value = this.value;
+            if(getComputedStyle(this.palette).opacity!==1){
+                this.dispatchEvent(new CustomEvent('change', {
+                    detail: {
+                        value: this.value,
+                        color: this.color
+                    }
+                }));
+            }
         })
         this.rangeOpacity.addEventListener('input',()=>{
             const value = [...this.$value];
@@ -391,7 +404,6 @@ class XyColorPane extends HTMLElement {
                 this.value = `hsla(${value[0]}, ${value[1]}%, ${value[2]}%, ${value[3]})`;
             })
         })
-        this.value = this.defaultvalue;
         this.init = true;
     }
 
@@ -603,6 +615,9 @@ export default class XyColorPicker extends HTMLElement {
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
+        if(this.init){
+            return
+        }
         if (name == 'disabled' && this.colorBtn) {
             if (newValue != null) {
                 this.colorBtn.setAttribute('disabled', 'disabled');

@@ -4,7 +4,7 @@ class XyPopcon extends HTMLElement {
 
     static get observedAttributes() { return ['open','title','oktext','canceltext','loading','type'] }
 
-    constructor() {
+    constructor(type) {
         super();
         const shadowRoot = this.attachShadow({ mode: 'open' });
         shadowRoot.innerHTML = `
@@ -67,12 +67,14 @@ class XyPopcon extends HTMLElement {
             font-size:22px;
             margin: 15px -10px 0 15px;
         }
+        /*
         :host(:not([type="confirm"])) .popcon-type,
         :host(:not([type="confirm"])) .popcon-footer,
         :host(:not([type])) .popcon-title,
         :host(:not([type])) .btn-close{
             display:none;
         }
+        */
         :host([type="confirm"]){
             min-width:250px;
         }
@@ -83,17 +85,19 @@ class XyPopcon extends HTMLElement {
             padding: 0;
         }
         </style>
-            <xy-icon id="popcon-type" class="popcon-type" name="question-circle" color="var(--waringColor,#faad14)"></xy-icon>
+            ${
+                (type||this.type)==='confirm'?'<xy-icon id="popcon-type" class="popcon-type" name="question-circle" color="var(--waringColor,#faad14)"></xy-icon>':''
+            }
             <div class="popcon-content">
-                <div class="popcon-title" id="title">${this.title}</div>
-                <xy-button class="btn-close" id="btn-close" icon="close"></xy-button>
+                ${
+                    (type||this.type)!==null?'<div class="popcon-title" id="title">'+this.title+'</div><xy-button class="btn-close" id="btn-close" icon="close"></xy-button>':''
+                }
                 <div class="popcon-body">
                     <slot></slot>
                 </div>
-                <div class="popcon-footer">
-                    <xy-button id="btn-cancel">${this.canceltext}</xy-button>
-                    <xy-button id="btn-submit" type="primary">${this.oktext}</xy-button>
-                </div>
+                ${
+                    (type||this.type)==='confirm'?'<div class="popcon-footer"><xy-button id="btn-cancel">'+this.canceltext+'</xy-button><xy-button id="btn-submit" type="primary">'+this.oktext+'</xy-button></div>':''
+                }
             </div>
         `
     }
@@ -497,7 +501,7 @@ class XyPopover extends HTMLElement {
         this.popcon = this.querySelector('xy-popcon');
         if(!this.disabled){
             if(!this.popcon){
-                this.popcon = new XyPopcon();
+                this.popcon = new XyPopcon(this.type);
                 this.popcon.type = this.type;
                 this.popcon.title = this.title||'popover';
                 this.appendChild(this.popcon);
