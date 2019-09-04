@@ -4,7 +4,7 @@ import './xy-popover.js';
 const toDate = (d) => {
     const date = new Date(d);
     const year = date.getFullYear();
-    const month = date.getMonth();
+    const month = date.getMonth()+1;
     const day = date.getDate();
     return [year,month,day];
 }
@@ -14,10 +14,10 @@ const parseDate = (date,type="date") => {
     let value = '';
     switch (type) {
         case 'date':
-            value = year + '-' + (month+1+'').padStart(2,0) + '-' + (day+'').padStart(2,0);
+            value = year + '-' + (month+'').padStart(2,0) + '-' + (day+'').padStart(2,0);
             break;
         case 'month':
-            value = year + '-' + (month+1+'').padStart(2,0);
+            value = year + '-' + (month+'').padStart(2,0);
             break;
         default:
             value = year + '';
@@ -38,6 +38,11 @@ class XyDatePane extends HTMLElement {
             :host{
                 display: block;
             }
+            /*
+            :host(:not([range])) .date-body{
+                --borderRadius:50%;
+            }
+            */
             .date-pane{
                 padding:.8em;
             }
@@ -92,17 +97,16 @@ class XyDatePane extends HTMLElement {
                 display:grid;
                 grid-template-columns: repeat(7, 1fr);
                 grid-template-rows: repeat(6, 1fr);
-                grid-gap:.3em;
+                grid-gap:.5em;
             }
             .date-button{
                 position:relative;
-                overflow:hidden;
                 background:none;
-                border:0;
+                border: 0;
                 padding: 0;
                 color: var(--fontColor,#333);
                 border-radius: var(--borderRadius,.25em);
-                transition:background .3s,color .3s,opacity .3s;
+                transition:background .3s,color .3s,opacity .3s,border-color .3s,border-radius .3s;
                 display:inline-flex;
                 align-items:center;
                 justify-content: center;
@@ -120,9 +124,10 @@ class XyDatePane extends HTMLElement {
                 bottom:0; 
                 opacity:0; 
                 transition:.3s;
+                border: 1px solid transparent;
                 z-index:-1;
             }
-            .date-button:not([disabled]):not([current]):not([select]):hover,.date-button:not([disabled]):not([current]):not([select]):focus{
+            .date-button:not([disabled]):not([current]):not([select]):not([selectstart]):not([selectend]):hover,.date-button:not([disabled]):not([current]):not([select]):not([selectstart]):not([selectend]):focus{
                 color:var(--themeColor,#42b983);
             }
             .date-button:not([disabled]):hover::before{
@@ -133,9 +138,8 @@ class XyDatePane extends HTMLElement {
             }
             .date-day-item{
                 box-sizing:content-box;
-                border:1px solid transparent;
-                min-width: 2.3em;
-                height: 2.3em;
+                min-width: 2em;
+                height: 2em;
                 justify-self: center;
             }
             .date-button[other]{
@@ -151,13 +155,51 @@ class XyDatePane extends HTMLElement {
                 color:var(--themeColor,#42b983);
             }
             .date-button[current]{
-                background: var(--themeBackground,var(--themeColor,#42b983));
+                background-color: var(--themeBackground,var(--themeColor,#42b983));
                 color:#fff;
             }
             .date-button[select]:not([other]){
-                background: var(--themeBackground,var(--themeColor,#42b983));
                 color:#fff;
+                background-color: var(--themeBackground,var(--themeColor,#42b983));
             }
+            .date-button[selectstart]:not([other]),.date-button[selectend]:not([other]){
+                color: #fff;
+                border-color: var(--themeColor,#42b983);
+                background-color: var(--themeBackground,var(--themeColor,#42b983));
+            }
+            .date-button[selectstart]:not([other])::after,.date-button[selectend]:not([other])::after{
+                content:'';
+                position: absolute;
+                width: 0;
+                height: 0;
+                top: 50%;
+                overflow: hidden;
+                border: .3em solid transparent;
+                transform: translate(0, -50%);
+            }
+            .date-button[selectstart]:not([other])::after{
+                border-left-color: var(--themeColor,#42b983);
+                right: 100%;
+            }
+            .date-button[selectend]:not([other])::after{
+                border-right-color: var(--themeColor,#42b983);
+                left: 100%;
+            }
+            .date-button[selectstart][selectend]:not([other])::after{
+                opacity:0;
+            }
+            /*
+            .date-button[selectend]:not([other]){
+                color: var(--themeColor,#42b983);
+                border-color: var(--themeColor,#42b983);
+                border-top-left-radius:0;
+                border-bottom-left-radius:0;
+            }
+            .date-button[selectstart][selectend]:not([other]){
+                border-color: var(--themeColor,#42b983);
+                border-radius:var(--borderRadius,.25em);
+            }
+            */
             .date-button[disabled][current]{
                 /*background: var(--errorColor,#f4615c);*/
                 color:#fff;
@@ -172,7 +214,7 @@ class XyDatePane extends HTMLElement {
                 top:.8em;
                 right:0;
                 bottom:0;
-                grid-gap:.3em;
+                grid-gap:.5em;
             }
             .date-month{
                 grid-template-columns: repeat(3, 1fr);
@@ -262,7 +304,7 @@ class XyDatePane extends HTMLElement {
 
     get min() {
         const min = this.getAttribute('min');
-        const d = [0,0,1];
+        const d = [0,1,1];
         d.default = true;
         return min?toDate(min):d;
     }
@@ -283,12 +325,12 @@ class XyDatePane extends HTMLElement {
     }
 
     getDays(year,month){
-        const lastdays = new Date(year,month,0).getDate();
-        const days = new Date(year,month+1,0).getDate();
-        const week = new Date(year,month,1).getDay();
-        const prev = Array.from({length:week},(el,i)=>(month==0?year-1:year)+'-'+(month==0?12:month)+'-'+(lastdays+i-week+1));
-        const current = Array.from({length:days},(el,i)=>year+'-'+(month+1)+'-'+(i+1));
-        const next = Array.from({length:42 - days - week},(el,i)=>(month==11?year+1:year)+'-'+(month==11?1:month+2)+'-'+(i+1));
+        const lastdays = new Date(year,month-1,0).getDate();
+        const days = new Date(year,month,0).getDate();
+        const week = new Date(year,month-1,1).getDay();
+        const prev = Array.from({length:week},(el,i)=>(month==0?year-1:year)+'-'+(month==0?12:month-1)+'-'+(lastdays+i-week+1));
+        const current = Array.from({length:days},(el,i)=>year+'-'+month+'-'+(i+1));
+        const next = Array.from({length:42 - days - week},(el,i)=>(month==12?year+1:year)+'-'+(month==12?1:month+1)+'-'+(i+1));
         return [...prev,...current,...next];
     }
 
@@ -317,12 +359,12 @@ class XyDatePane extends HTMLElement {
     }
 
     render(date=this.$value){
-        //console.log('render')
+        console.log('render')
         this.$value = date;
         const [year,month,day] = toDate(date);
         const [n_year,n_month,n_day] = toDate(new Date);
-        const [year1,month1,day1] = toDate(this.rangedate[0]);
-        const [year2,month2,day2] = toDate(this.rangedate[1]);
+        const left = this.range?this.previousElementSibling:null;
+        const right = this.range?this.nextElementSibling:null;
         switch (this.mode) {
             case 'date':
                 const days = this.getDays(year,month);
@@ -332,105 +374,127 @@ class XyDatePane extends HTMLElement {
                     el.dataset.year = _year;
                     el.dataset.month = _month.toString().padStart(2,0);
                     el.dataset.day = _day.toString().padStart(2,0);
-                    el.textContent = _day.toString().padStart(2,0);
-                    if(n_year+'-'+(n_month+1)+'-'+n_day==days[i]){
+                    el.textContent = _day;
+                    if(n_year+'-'+n_month+'-'+n_day==days[i]){
                         el.setAttribute("now","");
                     }else{
                         el.removeAttribute("now");
                     }
-                    if(_month!=month+1){
+                    if(_month!=month){
                         el.setAttribute("other","");
                     }else{
                         el.removeAttribute("other");
                     }
+                    if(this.minormax){
+                        el.disabled = el.dataset.date<parseDate(this.min) || el.dataset.date>parseDate(this.max);
+                    }else{
+                        el.disabled = false;
+                    }
                     if(this.range){
-                        if( el.dataset.date>=year1+'-'+(month1+1+'').padStart(2,0)+'-'+(day1+'').padStart(2,0) && el.dataset.date<=year2+'-'+(month2+1+'').padStart(2,0)+'-'+(day2+'').padStart(2,0) ){
+                        if( el.dataset.date>parseDate(this.rangedate[0]) && el.dataset.date<parseDate(this.rangedate[1]) ){
                             el.setAttribute('select','');
                         }else{
                             el.removeAttribute('select');
                         }
+                        if( el.dataset.date == parseDate(this.rangedate[0])){
+                            el.setAttribute('selectstart','');
+                        }else{
+                            el.removeAttribute('selectstart');
+                        }
+                        if( el.dataset.date == parseDate(this.rangedate[1])){
+                            el.setAttribute('selectend','');
+                        }else{
+                            el.removeAttribute('selectend');
+                        }
+                        const disabled = this.range === 'left'&& parseDate(el.dataset.date,'month') > parseDate(right.value,'month') || this.range === 'right' && parseDate(el.dataset.date,'month') < parseDate(left.value,'month');
+                        disabled && ( el.disabled = true);
                     }else{
-                        if(year+'-'+(month+1)+'-'+day==days[i]){
+                        if(year+'-'+month+'-'+day==days[i]){
                             el.setAttribute("current","");
                         }else{
                             el.removeAttribute("current");
                         }
                     }
-                    if(this.minormax){
-                        el.disabled = el.dataset.date<this.min[0]+'-'+(this.min[1]+1+'').padStart(2,0)+'-'+(this.min[2]+'').padStart(2,0) || 
-                        el.dataset.date>this.max[0]+'-'+(this.max[1]+1+'').padStart(2,0)+'-'+(this.max[2]+'').padStart(2,0);
-                    }else{
-                        el.disabled = false;
-                    }
-                    if(this.rangedate.selected){
-                        const disabled = (this.range === 'left' && el.dataset.date > this.rangedate[0] || this.range === 'right' && el.dataset.date < this.rangedate[0]);
-                        disabled && (el.disabled = true);
-                    }
                 })
-                this.switch.textContent = year + '年' + (month+1+'').padStart(2,0) + '月';
+                this.switch.textContent = year + '年' + (month+'').padStart(2,0) + '月';
                 this.switch.disabled = false;
                 if(this.minormax){
-                    const _days = [...this.days].filter(el=>el.dataset.month==month+1);
-                    this.prev.disabled = _days[0].disabled;
-                    this.next.disabled = _days[_days.length-1].disabled;
+                    this.prev.disabled = parseDate(this.min,'month') >= parseDate(date,'month');
+                    this.next.disabled = parseDate(this.max,'month') <= parseDate(date,'month');
                 }else{
                     this.prev.disabled = false;
                     this.next.disabled = false;
                 }
-                if(!this.rangedate.selected){
-                    const disabledPrev = (this.range === 'right' && parseDate(date) < year1+'-'+(month1+2+'').padStart(2,0)+'-'+(day1+'').padStart(2,0));
-                    const disabledNext = (this.range === 'left' && parseDate(date) > year2+'-'+(month2+'').padStart(2,0)+'-'+(day2+'').padStart(2,0));
-                    disabledPrev && ( this.prev.disabled = true);
-                    disabledNext && ( this.next.disabled = true);
+                
+                if(this.range === 'left'){
+                    const disabled = parseDate(date,'month') >= parseDate(right.value,'month');
+                    disabled && ( this.next.disabled = true);
+                }
+                if(this.range === 'right'){
+                    const disabled = parseDate(date,'month') <= parseDate(left.value,'month');
+                    disabled && ( this.prev.disabled = true);
                 }
                 break;
             case 'month':
                 this.months.forEach((el,i)=>{
                     el.dataset.date = year + '-' + el.dataset.month;
                     el.dataset.year = year;
-                    if(n_year+'-'+(n_month+1) == year + '-' + Number(el.dataset.month)){
+                    if(n_year+'-'+(n_month) == year + '-' + Number(el.dataset.month)){
                         el.setAttribute("now","");
                     }else{
                         el.removeAttribute("now");
                     }
+                    if(this.minormax){
+                        el.disabled = el.dataset.date<parseDate(this.min,'month') || el.dataset.date>parseDate(this.max,'month');
+                    }else{
+                        el.disabled = false;
+                    }
                     if(this.range){
-                        if( el.dataset.date>=year1+'-'+(month1+1+'').padStart(2,0) && el.dataset.date<=year2+'-'+(month2+1+'').padStart(2,0)){
+                        if( el.dataset.date>parseDate(this.rangedate[0],'month') && el.dataset.date<parseDate(this.rangedate[1],'month')){
                             el.setAttribute('select','');
                         }else{
                             el.removeAttribute('select');
                         }
+                        if( el.dataset.date == parseDate(this.rangedate[0],'month')){
+                            el.setAttribute('selectstart','');
+                        }else{
+                            el.removeAttribute('selectstart');
+                        }
+                        if( el.dataset.date == parseDate(this.rangedate[1],'month')){
+                            el.setAttribute('selectend','');
+                        }else{
+                            el.removeAttribute('selectend');
+                        }
+                        if(this.type=='date'){
+                            const disabled = this.range === 'left'&& parseDate(el.dataset.date,'month') > parseDate(right.value,'month') || this.range === 'right' && parseDate(el.dataset.date,'month') < parseDate(left.value,'month');
+                            disabled && ( el.disabled = true);
+                        }
                     }else{
-                        if(el.dataset.month == month+1){
+                        if(el.dataset.month == month){
                             el.setAttribute("current","");
                         }else{
                             el.removeAttribute("current");
                         }
                     }
-                    if(this.minormax){
-                        el.disabled = el.dataset.date<this.min[0]+'-'+(this.min[1]+1+'').padStart(2,0) || 
-                        el.dataset.date>this.max[0]+'-'+(this.max[1]+1+'').padStart(2,0);
-                    }else{
-                        el.disabled = false;
-                    }
-                    if(this.rangedate.selected){
-                        const disabled = (this.range === 'left' && el.dataset.date > this.rangedate[0] || this.range === 'right' && el.dataset.date < this.rangedate[0]);
-                        disabled && (el.disabled = true);
-                    }
                 })
                 this.switch.textContent = year + '年';
                 this.switch.disabled = false;
                 if(this.minormax){
-                    this.prev.disabled = this.months[0].disabled;
-                    this.next.disabled = this.months[11].disabled;
+                    this.prev.disabled = this.min[0] >= year;
+                    this.next.disabled = this.max[0] <= year;
                 }else{
                     this.prev.disabled = false;
                     this.next.disabled = false;
                 }
-                if(!this.rangedate.selected){
-                    const disabledPrev = (this.range === 'right' && parseDate(date,'month') < (year1+1)+'-'+(month1+1+'').padStart(2,0));
-                    const disabledNext = (this.range === 'left' && parseDate(date,'month') > (year2-1)+'-'+(month2+1+'').padStart(2,0));
-                    disabledPrev && ( this.prev.disabled = true);
-                    disabledNext && ( this.next.disabled = true);
+                if(this.range === 'left'){
+                    const right = this.nextElementSibling;
+                    const disabled = year >= parseDate(right.value,'year');
+                    disabled && ( this.next.disabled = true);
+                }
+                if(this.range === 'right'){
+                    const left = this.previousElementSibling;
+                    const disabled = year <= parseDate(left.value,'year');
+                    disabled && ( this.prev.disabled = true);
                 }
                 break;
             case 'year':
@@ -444,11 +508,30 @@ class XyDatePane extends HTMLElement {
                     }else{
                         el.removeAttribute("now");
                     }
+                    if(this.minormax){
+                        el.disabled = el.dataset.date<this.min[0] || el.dataset.date>this.max[0];
+                    }else{
+                        el.disabled = false;
+                    }
                     if(this.range){
-                        if( el.dataset.date>=year1 && el.dataset.date<=year2){
+                        if( el.dataset.date>parseDate(this.rangedate[0],'year') && el.dataset.date<parseDate(this.rangedate[1],'year')){
                             el.setAttribute('select','');
                         }else{
                             el.removeAttribute('select');
+                        }
+                        if( el.dataset.date == parseDate(this.rangedate[0],'year')){
+                            el.setAttribute('selectstart','');
+                        }else{
+                            el.removeAttribute('selectstart');
+                        }
+                        if( el.dataset.date == parseDate(this.rangedate[1],'year')){
+                            el.setAttribute('selectend','');
+                        }else{
+                            el.removeAttribute('selectend');
+                        }
+                        if(this.type!=='year'){
+                            const disabled = this.range === 'left'&& el.dataset.year > parseDate(right.value,'year') || this.range === 'right' && el.dataset.year < parseDate(left.value,'year');
+                            disabled && ( el.disabled = true);
                         }
                     }else{
                         if(el.dataset.year == year){
@@ -457,30 +540,25 @@ class XyDatePane extends HTMLElement {
                             el.removeAttribute("current");
                         }
                     }
-                    if(this.minormax){
-                        el.disabled = el.dataset.date<this.min[0] || el.dataset.date>this.max[0];
-                    }else{
-                        el.disabled = false;
-                    }
-                    if(this.rangedate.selected){
-                        const disabled = (this.range === 'left' && el.dataset.date > this.rangedate[0] || this.range === 'right' && el.dataset.date < this.rangedate[0]);
-                        disabled && (el.disabled = true);
-                    }
                 })
                 this.switch.textContent = years[0] + '年 - '+ (years[0]+19) + '年';
                 this.switch.disabled = true;
                 if(this.minormax){
-                    this.prev.disabled = this.years[0].disabled;
-                    this.next.disabled = this.years[19].disabled;
+                    this.prev.disabled = this.min[0] >= this.years[0].dataset.year;
+                    this.next.disabled = this.max[0] <= this.years[19].dataset.year;
                 }else{
                     this.prev.disabled = false;
                     this.next.disabled = false;
                 }
-                if(!this.rangedate.selected){
-                    const disabledPrev = (this.range === 'right' && parseDate(date,'year') < year1+20);
-                    const disabledNext = (this.range === 'left' && parseDate(date,'year') > year2-20);
-                    disabledPrev && ( this.prev.disabled = true);
-                    disabledNext && ( this.next.disabled = true);
+                if(this.range === 'left'){
+                    const right = this.nextElementSibling;
+                    const disabled = this.years[19].dataset.year >= right.years[0].dataset.year-1;
+                    disabled && ( this.next.disabled = true);
+                }
+                if(this.range === 'right'){
+                    const left = this.previousElementSibling;
+                    const disabled = this.years[0].dataset.year-1 <= left.years[19].dataset.year;
+                    disabled && ( this.prev.disabled = true);
                 }
             default:
                 break;
@@ -521,13 +599,13 @@ class XyDatePane extends HTMLElement {
             let [year,month,day] = toDate(this.$value);
             switch (this.mode) {
                 case 'date':
-                    this.value = new Date(...this.toDay(year,month-1,day));
+                    this.value = new Date(...this.toDay(year,month-2,day));
                     break;
                 case 'month':
-                    this.value = new Date(...this.toDay(year-1,month,day));
+                    this.value = new Date(...this.toDay(year-1,month-1,day));
                     break;
                 case 'year':
-                    this.value = new Date(...this.toDay(year-20,month,day));
+                    this.value = new Date(...this.toDay(year-20,month-1,day));
                 default:
                     break;
             }
@@ -537,13 +615,13 @@ class XyDatePane extends HTMLElement {
             let [year,month,day] = toDate(this.$value);
             switch (this.mode) {
                 case 'date':
-                    this.value = new Date(...this.toDay(year,month+1,day));
+                    this.value = new Date(...this.toDay(year,month,day));
                     break;
                 case 'month':
-                    this.value = new Date(...this.toDay(year+1,month,day));
+                    this.value = new Date(...this.toDay(year+1,month-1,day));
                     break;
                 case 'year':
-                    this.value = new Date(...this.toDay(year+20,month,day));
+                    this.value = new Date(...this.toDay(year+20,month-1,day));
                 default:
                     break;
             }
@@ -589,13 +667,13 @@ class XyDatePane extends HTMLElement {
             if(item){
                 switch (this.type) {
                     case 'date':
-                        const len = new Date(item.dataset.year,month+1,0).getDate();
+                        const len = new Date(item.dataset.year,month,0).getDate();
                         this.mode = 'month';
-                        this.value = item.dataset.date+'-'+(month+1)+'-'+(day>len?len:day);
+                        this.value = item.dataset.date+'-'+month+'-'+(day>len?len:day);
                         break;
                     case 'month':
                         this.mode = 'month';
-                        this.value = item.dataset.date+'-'+(month+1);
+                        this.value = item.dataset.date+'-'+month;
                         break;
                     default:
                         this.select(item.dataset.date+'');
@@ -652,9 +730,17 @@ class XyDatePane extends HTMLElement {
     set value(value) {
         //'2019-1-1'
         if(this.minormax){
-            value = Math.max(Math.min(new Date(value),new Date(...this.max)),new Date(...this.min));
+            value = Math.max(Math.min(new Date(value),new Date(this.max)),new Date(this.min));
         }
         this.render(value);
+        if(this.range === 'left'){
+            const right = this.nextElementSibling;
+            right.render();
+        }
+        if(this.range === 'right'){
+            const left = this.previousElementSibling;
+            left.render();
+        }
         if(this.init){
             this.dispatchEvent(new CustomEvent('change', {
                 detail: {
@@ -708,40 +794,30 @@ class XyDateRangePane extends HTMLElement {
             font-size: inherit;
         }
         </style>
-        <xy-date-pane id="date-left" type=${this.type} range="left"></xy-date-pane>
-        <xy-date-pane id="date-right" type=${this.type} range="right"></xy-date-pane>
+        <xy-date-pane id="date-left" range="left"></xy-date-pane>
+        <xy-date-pane id="date-right" range="right"></xy-date-pane>
         `
     }
 
-    choose(value,datepicker){
+    choose(value){
         if(!this.selected){
             this.$date[0] = value;
             this.$date[1] = value;
-            this.$date.selected = true;
         }else{
             this.$date[1] = value;
-            this.$date.selected = false;
             if(this.$date[0]>this.$date[1]){
                 [this.$date[0],this.$date[1]] = [this.$date[1],this.$date[0]];
             }
         }
-        this.render(this.$date,datepicker,this.selected);
+        this.render(this.$date,this.selected);
         this.selected = !this.selected;
     }
 
-    render(value=this.$value,datepicker,change){
+    render(value=this.$value,change){
         this.date01.rangedate = value;
         this.date02.rangedate = value;
-        if(datepicker){
-            datepicker.render();
-        }else{
-            this.selected = false;
-            this.date01.render(value[0]);
-            this.date02.render(value[1]);
-        }
         if(change){
             this.$value = value;
-            //console.log('change')
             this.dispatchEvent(new CustomEvent('change', {
                 detail: {
                     value: value,
@@ -790,45 +866,18 @@ class XyDateRangePane extends HTMLElement {
     }
 
     set value(value) {
-        if(value[0]>value[1]){
+        if(parseDate(value[0])>parseDate(value[1])){
             [value[0],value[1]] = [value[1],value[0]];
         }
         this.render(value);
+        this.date01.render(value[0]);
+        this.date02.render(value[1]);
+        this.selected = false;
     }
 
     set mode(value){
         this.date01.mode = value;
         this.date02.mode = value;
-    }
-
-    showArrow(){
-        const [year1,month1,day1] = toDate(this.date01.value);
-        const [year2,month2,day2] = toDate(this.date02.value);
-        const showdate = year1+'-'+(month1+1+'').padStart(2,0)<=year2+'-'+(month2+'').padStart(2,0);
-        const showmonth = year1+1<=year2;
-        const showyear = year1+20<=year2;
-        switch (this.date01.mode) {
-            case 'date':
-                this.date01.showNext(showdate);
-                break;
-            case 'month':
-                this.date01.showNext(showmonth);
-                break;
-            default:
-                this.date01.showNext(showyear);
-                break;
-        }
-        switch (this.date02.mode) {
-            case 'date':
-                this.date02.showPre(showdate);
-                break;
-            case 'month':
-                this.date02.showPre(showmonth);
-                break;
-            default:
-                this.date02.showPre(showyear);
-                break;
-        }
     }
 
     connectedCallback() {
@@ -840,16 +889,11 @@ class XyDateRangePane extends HTMLElement {
         this.min && (this.min = this.min);
         this.max && (this.max = this.max);
         this.date01.addEventListener('select',(ev)=>{
-            this.choose(ev.detail.value,this.date02);
+            this.choose(ev.detail.value);
         })
         this.date02.addEventListener('select',(ev)=>{
-            this.choose(ev.detail.value,this.date01);
+            this.choose(ev.detail.value);
         })
-        /*
-        this.showArrow();
-        this.date01.addEventListener('change',()=>this.showArrow());
-        this.date02.addEventListener('change',()=>this.showArrow());
-        */
     }
 
     attributeChangedCallback (name, oldValue, newValue) {
