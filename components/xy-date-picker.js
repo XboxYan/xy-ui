@@ -359,7 +359,7 @@ class XyDatePane extends HTMLElement {
     }
 
     render(date=this.$value){
-        console.log('render')
+        //console.log('render')
         this.$value = date;
         const [year,month,day] = toDate(date);
         const [n_year,n_month,n_day] = toDate(new Date);
@@ -565,22 +565,6 @@ class XyDatePane extends HTMLElement {
         }
     }
 
-    showPre(show){
-        if(show){
-            this.prev.removeAttribute('hidden');
-        }else{
-            this.prev.setAttribute('hidden','');
-        }
-    }
-
-    showNext(show){
-        if(show){
-            this.next.removeAttribute('hidden');
-        }else{
-            this.next.setAttribute('hidden','');
-        }
-    }
-
     connectedCallback() {
         this.datePane = this.shadowRoot.getElementById('date-pane');
         this.prev = this.datePane.querySelector('.prev');
@@ -593,8 +577,10 @@ class XyDatePane extends HTMLElement {
         this.days = this.dateBody.querySelectorAll('button');
         this.months = this.dateMonth.querySelectorAll('button');
         this.years = this.dateYear.querySelectorAll('button');
-        this.$value = this.defaultvalue;
         this.mode = this.type;
+        if(this.offsetParent.className!=="date-pane"){
+            this.value = this.defaultvalue;
+        }
         this.prev.addEventListener('click',()=>{
             let [year,month,day] = toDate(this.$value);
             switch (this.mode) {
@@ -884,10 +870,10 @@ class XyDateRangePane extends HTMLElement {
         this.$date = ['',''];
         this.date01 = this.shadowRoot.getElementById('date-left');
         this.date02 = this.shadowRoot.getElementById('date-right');
-        this.$value = this.defaultvalue;
         this.type = this.type;
         this.min && (this.min = this.min);
         this.max && (this.max = this.max);
+        this.$value = this.defaultvalue;
         this.date01.addEventListener('select',(ev)=>{
             this.choose(ev.detail.value);
         })
@@ -982,9 +968,9 @@ export default class XyDatePicker extends HTMLElement {
             margin-left: .8em;
         }
         </style>
-        <xy-popover id="popover" ${this.dir? "dir='"+this.dir+"'" : ""}>
+        <xy-popover class="date-picker" id="popover" ${this.dir? "dir='"+this.dir+"'" : ""}>
             <xy-button id="select" ${this.disabled? "disabled" : ""}><span id="datetxt"></span><svg class="icon" viewBox="0 0 1024 1024"><path d="M880 184H712v-64c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H384v-64c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H144c-17.7 0-32 14.3-32 32v664c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V216c0-17.7-14.3-32-32-32z m-40 656H184V460h656v380zM184 392V256h128v48c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-48h256v48c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-48h128v136H184z" p-id="8054"></path></svg></xy-button>
-            <xy-popcon id="popcon">
+            <xy-popcon id="popcon" class="date-pane">
                 <div class="pop-footer">
                     <xy-button id="btn-cancel">取消</xy-button>
                     <xy-button type="primary" id="btn-submit">确认</xy-button>
