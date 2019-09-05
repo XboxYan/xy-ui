@@ -139,6 +139,45 @@ date.getAttribute('dir');
 date.setAttribute('dir','right');
 ```
 
+## 范围选择`range`
+
+添加`range`属性可以实现日期范围选择。
+
+<xy-date-picker range></xy-date-picker>
+
+```html
+<xy-date-picker range></xy-date-picker>
+```
+
+可以指定一个默认范围`defaultvalue`，格式形如`2019-10-10~2019-12-31`，用`~`链接。默认为当前日期。
+
+<xy-date-picker range defaultvalue="2019-10-10~2019-12-31"></xy-date-picker>
+
+```html
+<xy-date-picker range defaultvalue="2019-10-10~2019-12-31"></xy-date-picker>
+```
+
+范围选择模式下的`value`和`date`均为数组
+
+```js
+//value
+["2019-05-15", "2019-12-26"]
+//date
+["Wed May 15 2019 08:00:00 GMT+0800 (中国标准时间)", "Thu Dec 26 2019 08:00:00 GMT+0800 (中国标准时间)"]
+```
+
+其他属性均可叠加，比如`type`
+
+<xy-date-picker range></xy-date-picker>
+<xy-date-picker range type="month"></xy-date-picker>
+<xy-date-picker range type="year" dir="bottom"></xy-date-picker>
+
+```html
+<xy-date-picker range></xy-date-picker>
+<xy-date-picker range type="month"></xy-date-picker>
+<xy-date-picker range type="year" dir="bottom"></xy-date-picker>
+```
+
 ## 自定义尺寸
 
 默认情况下，`xy-date-picker`尺寸跟随`xy-button`，可以自定义宽高，同[`xy-select`](xy-select.md)
@@ -221,8 +260,6 @@ date.addEventListener('change',function(ev){
     console.log(ev.detail.date);
 })
 ```
-
-
 
 ## 其他
 

@@ -1,6 +1,13 @@
 # update
+* ## 1.7.1
+    * [`xy-date-picker`](xy-date-picke.md)新增[`range`](xy-date-picke.md?id=范围选择range)属性
+
+    ![xy-date-range-picker](../screenshot/xy-date-range-picker.png)
+
+    * 优化`xy-color-picker`和`xy-date-picker`初始化逻辑
+    * 其他`bug`修复
 * ## 1.7.0
-    * 新增[`xy-date-picker`](xy-form.md)组件
+    * 新增[`xy-date-picker`](xy-date-picke.md)组件
 
     ![xy-date-picker](../screenshot/xy-date-picker.png)
 

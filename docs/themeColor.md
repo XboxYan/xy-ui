@@ -79,9 +79,8 @@ document.body.style.setProperty('--themeColor','#F44336');
 <xy-button type="flat">flat</xy-button>
 <xy-button>default</xy-button>
 <xy-button type="primary" loading>loading</xy-button>
-<xy-slider defaultvalue="30" min="-100" max="100" step="1"></xy-slider>
 <p></p>
-<xy-select>
+<xy-select type="primary">
     <xy-option value="1">Option1</xy-option>
     <xy-option value="2">Option2</xy-option>
     <xy-option value="3">Option3</xy-option>
@@ -89,18 +88,7 @@ document.body.style.setProperty('--themeColor','#F44336');
 <p></p>
 <xy-switch checked></xy-switch>
 <p></p>
-<xy-radio name="b" checked>React</xy-radio>
-<xy-radio name="b">Vue</xy-radio>
-<xy-radio name="b">Angular</xy-radio>
-<xy-radio name="b">Other</xy-radio>
-<p></p>
-<xy-checkbox name="a" checked>Html</xy-checkbox>
-<xy-checkbox name="a">Css</xy-checkbox>
-<xy-checkbox name="a">Javascript</xy-checkbox>
-<xy-checkbox name="a">Python</xy-checkbox>
-<xy-checkbox name="a">Php</xy-checkbox>
-<xy-checkbox name="a">Dart</xy-checkbox>
-<xy-checkbox name="a">Swift</xy-checkbox>
+<xy-date-pane style="width:400px"></xy-date-pane>
 </div>
 
 > 注意和`--themeColor`搭配使用，其他比如字体颜色仍取自`--themeColor`，只有背景部分才优先取自`--themeBackground`，同时，使用`--themeBackground`会失去动画效果。

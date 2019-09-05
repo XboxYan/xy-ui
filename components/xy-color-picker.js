@@ -334,7 +334,7 @@ class XyColorPane extends HTMLElement {
         this.colorHexa = this.shadowRoot.getElementById('color-hexa').querySelectorAll('input');
         this.colorRgba = this.shadowRoot.getElementById('color-rgba').querySelectorAll('input');
         this.colorHlsa = this.shadowRoot.getElementById('color-hlsa').querySelectorAll('input');
-        this.$value = this.defaultvalue;
+        this.value = this.defaultvalue;
         this.rangeHue.addEventListener('input',()=>{
             const value = [...this.$value];
             value[0] = Number(this.rangeHue.value);
@@ -417,6 +417,10 @@ class XyColorPane extends HTMLElement {
 
     get defaultvalue() {
         return this.getAttribute('defaultvalue')||'#ff0000';
+    }
+
+    set defaultvalue(value) {
+        this.setAttribute("defaultvalue",value);
     }
 
     set value(value) {
@@ -544,9 +548,9 @@ export default class XyColorPicker extends HTMLElement {
         this.colorBtn.addEventListener('click',()=>{
             if(!this.colorPane){
                 this.colorPane = new XyColorPane();
+                this.colorPane.defaultvalue = this.defaultvalue;
                 this.popcon.prepend(this.colorPane);
             }
-            this.colorPane.value = this.$value;
         })
         this.btnCancel.addEventListener('click',()=>{
             this.popcon.open = false;
@@ -554,6 +558,9 @@ export default class XyColorPicker extends HTMLElement {
         this.btnSubmit.addEventListener('click',()=>{
             this.value = this.colorPane.value;
             this.popcon.open = false;
+        })
+        this.popcon.addEventListener('close',()=>{
+            this.colorPane.value = this.value;
         })
         this.value = this.defaultvalue;
         this.init = true;

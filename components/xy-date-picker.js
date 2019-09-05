@@ -126,6 +126,7 @@ class XyDatePane extends HTMLElement {
                 transition:.3s;
                 border: 1px solid transparent;
                 z-index:-1;
+                border-radius:inherit;
             }
             .date-button:not([disabled]):not([current]):not([select]):not([selectstart]):not([selectend]):hover,.date-button:not([disabled]):not([current]):not([select]):not([selectstart]):not([selectend]):focus{
                 color:var(--themeColor,#42b983);
@@ -138,8 +139,8 @@ class XyDatePane extends HTMLElement {
             }
             .date-day-item{
                 box-sizing:content-box;
-                min-width: 2em;
-                height: 2em;
+                min-width: 2.3em;
+                height: 2.3em;
                 justify-self: center;
             }
             .date-button[other]{
@@ -155,17 +156,17 @@ class XyDatePane extends HTMLElement {
                 color:var(--themeColor,#42b983);
             }
             .date-button[current]{
-                background-color: var(--themeBackground,var(--themeColor,#42b983));
+                background: var(--themeBackground,var(--themeColor,#42b983));
                 color:#fff;
             }
             .date-button[select]:not([other]){
                 color:#fff;
-                background-color: var(--themeBackground,var(--themeColor,#42b983));
+                background: var(--themeBackground,var(--themeColor,#42b983));
             }
             .date-button[selectstart]:not([other]),.date-button[selectend]:not([other]){
                 color: #fff;
                 border-color: var(--themeColor,#42b983);
-                background-color: var(--themeBackground,var(--themeColor,#42b983));
+                background: var(--themeBackground,var(--themeColor,#42b983));
             }
             .date-button[selectstart]:not([other])::after,.date-button[selectend]:not([other])::after{
                 content:'';
@@ -406,7 +407,7 @@ class XyDatePane extends HTMLElement {
                         }else{
                             el.removeAttribute('selectend');
                         }
-                        const disabled = this.range === 'left'&& parseDate(el.dataset.date,'month') > parseDate(right.value,'month') || this.range === 'right' && parseDate(el.dataset.date,'month') < parseDate(left.value,'month');
+                        const disabled = this.range === 'left' && right && parseDate(el.dataset.date,'month') > parseDate(right.value,'month') || this.range === 'right' && left && parseDate(el.dataset.date,'month') < parseDate(left.value,'month');
                         disabled && ( el.disabled = true);
                     }else{
                         if(year+'-'+month+'-'+day==days[i]){
@@ -550,14 +551,14 @@ class XyDatePane extends HTMLElement {
                     this.prev.disabled = false;
                     this.next.disabled = false;
                 }
-                if(this.range === 'left'){
+                if(this.range === 'left' && this.init){
                     const right = this.nextElementSibling;
-                    const disabled = this.years[19].dataset.year >= right.years[0].dataset.year-1;
+                    const disabled = this.years[19].dataset.year >= right.years[0].dataset.year;
                     disabled && ( this.next.disabled = true);
                 }
-                if(this.range === 'right'){
+                if(this.range === 'right' && this.init){
                     const left = this.previousElementSibling;
-                    const disabled = this.years[0].dataset.year-1 <= left.years[19].dataset.year;
+                    const disabled = this.years[0].dataset.year <= left.years[19].dataset.year;
                     disabled && ( this.prev.disabled = true);
                 }
             default:
@@ -578,9 +579,7 @@ class XyDatePane extends HTMLElement {
         this.months = this.dateMonth.querySelectorAll('button');
         this.years = this.dateYear.querySelectorAll('button');
         this.mode = this.type;
-        if(this.offsetParent.className!=="date-pane"){
-            this.value = this.defaultvalue;
-        }
+        this.value = this.defaultvalue;
         this.prev.addEventListener('click',()=>{
             let [year,month,day] = toDate(this.$value);
             switch (this.mode) {
@@ -719,15 +718,15 @@ class XyDatePane extends HTMLElement {
             value = Math.max(Math.min(new Date(value),new Date(this.max)),new Date(this.min));
         }
         this.render(value);
-        if(this.range === 'left'){
-            const right = this.nextElementSibling;
-            right.render();
-        }
-        if(this.range === 'right'){
-            const left = this.previousElementSibling;
-            left.render();
-        }
         if(this.init){
+            if(this.range === 'left'){
+                const right = this.nextElementSibling;
+                right.render();
+            }
+            if(this.range === 'right'){
+                const left = this.previousElementSibling;
+                left.render();
+            }
             this.dispatchEvent(new CustomEvent('change', {
                 detail: {
                     value: value,
@@ -843,6 +842,10 @@ class XyDateRangePane extends HTMLElement {
         this.setAttribute('type', value);
     }
 
+    set defaultvalue(value){
+        this.setAttribute('defaultvalue', value.join('~'));
+    }
+
     set min(value){
         this.setAttribute('min', value);
     }
@@ -856,8 +859,8 @@ class XyDateRangePane extends HTMLElement {
             [value[0],value[1]] = [value[1],value[0]];
         }
         this.render(value);
-        this.date01.render(value[0]);
         this.date02.render(value[1]);
+        this.date01.render(value[0]);
         this.selected = false;
     }
 
@@ -873,13 +876,14 @@ class XyDateRangePane extends HTMLElement {
         this.type = this.type;
         this.min && (this.min = this.min);
         this.max && (this.max = this.max);
-        this.$value = this.defaultvalue;
+        this.value = this.defaultvalue;
         this.date01.addEventListener('select',(ev)=>{
             this.choose(ev.detail.value);
         })
         this.date02.addEventListener('select',(ev)=>{
             this.choose(ev.detail.value);
         })
+        this.init = true;
     }
 
     attributeChangedCallback (name, oldValue, newValue) {
@@ -1001,10 +1005,9 @@ export default class XyDatePicker extends HTMLElement {
                 this.min && (this.datePane.min = this.min);
                 this.max && (this.datePane.max = this.max);
                 this.datePane.type = this.type;
+                this.datePane.defaultvalue = this.defaultvalue;
                 this.popcon.prepend(this.datePane);
             }
-            this.datePane.mode = this.type;
-            this.datePane.value = this.$value;
         })
         this.btnCancel.addEventListener('click',()=>{
             this.popcon.open = false;
@@ -1012,6 +1015,10 @@ export default class XyDatePicker extends HTMLElement {
         this.btnSubmit.addEventListener('click',()=>{
             this.value = this.datePane.value;
             this.popcon.open = false;
+        })
+        this.popcon.addEventListener('close',()=>{
+            this.datePane.value = this.value;
+            this.datePane.mode = this.type;
         })
         this.value = this.defaultvalue;
         this.init = true;
