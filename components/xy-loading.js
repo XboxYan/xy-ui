@@ -9,13 +9,14 @@ export default class XyLoading extends HTMLElement {
         <style>
         :host{
             font-size:inherit;
-            display:inline-block;
+            display:inline-flex;
             color:var(--themeColor,#42b983);
         }
         .loading{
             display: block;
             width: 1em;
             height: 1em;
+            margin: auto;
             animation: rotate 1.4s linear infinite;
         }
         .circle {

@@ -116,7 +116,7 @@ class XyDatePane extends HTMLElement {
             .date-button::before{
                 content:'';
                 position:absolute; 
-                background:var(--themeBackground,var(--themeColor,#42b983));
+                background:var(--themeColor,#42b983);
                 pointer-events:none; 
                 left:0; 
                 right:0; 
@@ -329,7 +329,7 @@ class XyDatePane extends HTMLElement {
         const lastdays = new Date(year,month-1,0).getDate();
         const days = new Date(year,month,0).getDate();
         const week = new Date(year,month-1,1).getDay();
-        const prev = Array.from({length:week},(el,i)=>(month==0?year-1:year)+'-'+(month==0?12:month-1)+'-'+(lastdays+i-week+1));
+        const prev = Array.from({length:week},(el,i)=>(month==1?year-1:year)+'-'+(month==1?12:month-1)+'-'+(lastdays+i-week+1));
         const current = Array.from({length:days},(el,i)=>year+'-'+month+'-'+(i+1));
         const next = Array.from({length:42 - days - week},(el,i)=>(month==12?year+1:year)+'-'+(month==12?1:month+1)+'-'+(i+1));
         return [...prev,...current,...next];

@@ -350,8 +350,7 @@ class XyColorPane extends HTMLElement {
             }
         })
         document.addEventListener('mouseup',(ev)=>{
-            this.start = false;
-            if(getComputedStyle(this.palette).opacity!==1){
+            if(getComputedStyle(this.palette).opacity!==1 &&　this.start){
                 this.dispatchEvent(new CustomEvent('change', {
                     detail: {
                         value: this.value,
@@ -359,6 +358,7 @@ class XyColorPane extends HTMLElement {
                     }
                 }));
             }
+            this.start = false;
         })
         this.rangeOpacity.addEventListener('input',()=>{
             const value = [...this.$value];

@@ -439,9 +439,43 @@
             <xy-button htmltype="reset">reset</xy-button>
         </xy-form-item>
     </xy-form>
+    <h2>table</h2>
+    <xy-table>
+        <xy-tr>
+            <xy-th>Name</xy-th>
+            <xy-th>Age</xy-th>
+            <xy-th>Address</xy-th>
+        </xy-tr>
+        <xy-tr>
+            <xy-td>John Brown</xy-td>
+            <xy-td>32</xy-td>
+            <xy-td>New York No. 1 Lake Park</xy-td>
+        </xy-tr>
+        <xy-tr>
+            <xy-td>Jim Green</xy-td>
+            <xy-td>42</xy-td>
+            <xy-td>London No. 1 Lake Park</xy-td>
+        </xy-tr>
+        <xy-tr>
+            <xy-td>Jim Green</xy-td>
+            <xy-td>42</xy-td>
+            <xy-td>London No. 1 Lake Park</xy-td>
+        </xy-tr>
+        <xy-tr>
+            <xy-td>Jim Green</xy-td>
+            <xy-td>42</xy-td>
+            <xy-td>London No. 1 Lake Park</xy-td>
+        </xy-tr>
+        <xy-tr>
+            <xy-td>Jim Green</xy-td>
+            <xy-td>42</xy-td>
+            <xy-td>London No. 1 Lake Park</xy-td>
+        </xy-tr>
+    </xy-table>
     <h2>pagination</h2>
     <xy-pagination onchange="console.log(this.current)" pagesize="3" total="50" defaultcurrent="9"></xy-pagination>
     <xy-pagination simple onchange="console.log(this.current)" pagesize="3" total="50" defaultcurrent="9"></xy-pagination>
+    
     <script>
         document.getElementById('btn').addEventListener('click',function(ev){
             console.log(ev)

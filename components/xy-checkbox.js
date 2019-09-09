@@ -53,14 +53,18 @@ export default class XyCheckbox extends HTMLElement {
             --borderColor:var(--errorColor,#f4615c);
         }
         .cheked{
-            margin-right:5px;
+            margin-right:.5em;
             position:relative;
             box-sizing: border-box;
             width: 16px;
             height: 16px;
             border: 1px solid var(--borderColor,#d9d9d9);
             border-radius: 2px;
+            text-align: initial;
             transition:.3s;
+        }
+        :host(:empty) .cheked{
+            margin-right:0;
         }
         .cheked::before{
             position:absolute;

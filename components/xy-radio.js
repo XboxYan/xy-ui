@@ -50,7 +50,10 @@ export default class XyRadio extends HTMLElement {
             border-radius:50%;
             border: 1px solid var(--borderColor,#d9d9d9);
             transition:.3s;
-            margin-right:5px;
+            margin-right:.5em;
+        }
+        :host(:empty) .cheked{
+            margin-right:0;
         }
         .cheked::before{
             content:'';
