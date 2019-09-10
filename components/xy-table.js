@@ -2,6 +2,8 @@ import './xy-loading.js';
 
 class XyTr extends HTMLElement {
 
+    static get observedAttributes() { return ['checked'] }
+
     constructor() {
         super();
         const shadowRoot = this.attachShadow({ mode: 'open' });
@@ -10,19 +12,53 @@ class XyTr extends HTMLElement {
         :host {
             display:contents;
         }
-        :host(:hover) ::slotted(*)::before{
+        :host(:hover) ::slotted(xy-td)::before{
             opacity:.1;
         }
-
+        :host(:hover) .select::before{
+            opacity:.1;
+        }
+        .select{
+            display:var(--select,none);
+        }
+        .select xy-checkbox{
+            background-color: #fff;
+            border-radius: 2px;
+            z-index: 5;
+        }
         </style>
+        <xy-td class="select"><xy-checkbox></xy-checkbox></xy-td>
         <slot></slot>
         `
     }
 
+    get checked() {
+        return this.getAttribute('checked')!==null;
+    }
+
+    set checked(value) {
+        if(value===null||value===false){
+            this.removeAttribute('checked');
+        }else{
+            this.setAttribute('checked', '');
+        }
+    }
+
     connectedCallback() {
-        const table = this.closest('xy-table');
-        if(table && !getComputedStyle(table).getPropertyValue('--columns')){
-            table.style.setProperty('--columns',this.querySelectorAll('xy-td,xy-th').length);
+        this.checkbox = this.shadowRoot.querySelector('xy-checkbox');
+        this.checkbox.addEventListener('change',()=>{
+            this.checked = this.checkbox.checked;
+            this.dispatchEvent(new CustomEvent('change', {
+                detail: {
+                    checked: this.checked
+                }
+            }));
+        })
+    }
+
+    attributeChangedCallback (name, oldValue, newValue) {
+        if( name == 'checked' && this.checkbox){
+            this.checkbox.checked = newValue;
         }
     }
 }
@@ -43,10 +79,8 @@ class XyTd extends HTMLElement {
             padding: .625em;
             color: var(--fontColor,#333);
             font-size: 14px;
-            /*
             display: flex;
             align-items: center;
-            */
         }
         :host::before,:host::after{
             content:'';
@@ -57,6 +91,7 @@ class XyTd extends HTMLElement {
             bottom:0;
             transition:.3s opacity;
             pointer-events:none;
+            z-index: -1;
         }
         :host::before{
             background:var(--themeColor,#42b983);
@@ -76,42 +111,6 @@ if(!customElements.get('xy-td')){
     customElements.define('xy-td', XyTd);
 }
 
-class XyTh extends HTMLElement {
-
-    constructor() {
-        super();
-        const shadowRoot = this.attachShadow({ mode: 'open' });
-        shadowRoot.innerHTML = `
-        <style>
-        :host {
-            position:relative;
-            padding: .625em;
-            text-align:center;
-            color: var(--themeColor,#42b983);
-        }
-        :host::before{
-            content:'';
-            position:absolute;
-            background:var(--themeColor,#42b983);
-            opacity:.2;
-            left:0;
-            right:0;
-            top:0;
-            bottom:0;
-            pointer-events:none;
-        }
-
-        </style>
-        <slot></slot>
-        `
-    }
-}
-
-if(!customElements.get('xy-th')){
-    customElements.define('xy-th', XyTh);
-}
-
-
 export default class XyTable extends HTMLElement {
 
     constructor() {
@@ -122,17 +121,12 @@ export default class XyTable extends HTMLElement {
         :host {
             line-height: 1.5;
             display:grid;
-            grid-template-columns:repeat(var(--columns),1fr);
+            grid-template-columns:${this.select?'auto':''} repeat(var(--columns),1fr);
+            grid-row-gap: 1px;
             position:relative;
+            --columns:${this.thead.length||1};
         }
-        /*
-        ::slotted(xy-tr:not(:last-child):not(:first-child))::after{
-            content:'';
-            grid-column:span var(--columns);
-            border-bottom:1px solid var(--borderColor,#d9d9d9);
-        }
-        */
-        ::slotted(xy-tr:nth-child(odd)){
+        ::slotted(xy-tr:nth-child(even)){
             --cellColor:var(--themeColor,#42b983);
         }
         .loading{
@@ -150,14 +144,62 @@ export default class XyTable extends HTMLElement {
             visibility:visible;
             opacity:1;
         }
+        .th{
+            position:relative;
+            display: flex;
+            align-items: center;
+            padding: .625em;
+            justify-content:center;
+            color: var(--themeColor,#42b983);
+            font-weight: bold;
+        }
+        .th::before{
+            content:'';
+            position:absolute;
+            background:var(--themeColor,#42b983);
+            opacity:.2;
+            left:0;
+            right:0;
+            top:0;
+            bottom:0;
+            pointer-events:none;
+            z-index: -1;
+        }
+        :host([select]) ::slotted(xy-tr){
+            --select: flex;
+        }
+        .th xy-checkbox{
+            background-color: #fff;
+            border-radius: 2px;
+            z-index: 5;
+        }
         </style>
+        ${
+            this.select?'<div class="th"><xy-checkbox></xy-checkbox></div>':''
+        }
+        ${
+            this.thead.map(el=>'<div class="th">'+el+'</div>').join('')
+        }
         <slot></slot>
         <xy-loading class="loading"></xy-loading>
         `
     }
 
+    get thead(){
+        const thead = this.getAttribute('thead');
+        return thead?thead.split(','):[];
+    }
+
+    get select(){
+        return this.getAttribute('select')!==null;
+    }
+
     get loading() {
         return this.getAttribute('loading')!==null;
+    }
+
+    get value() {
+        return Array.from(this.querySelectorAll('xy-tr[checked]'),el=>el.id||el.index);
     }
 
     set loading(value) {
@@ -165,6 +207,50 @@ export default class XyTable extends HTMLElement {
             this.removeAttribute('loading');
         }else{
             this.setAttribute('loading', '');
+        }
+    }
+
+    changecell(cell){
+        if(!this.selectAll){
+            this.selectOne = true;
+            let isAll = true;
+            let isEmpty = true;
+            cell.forEach(el=>{
+                if(!el.checked){
+                    isAll = false;
+                }else{
+                    isEmpty = false;
+                }
+            })
+            this.checkbox.indeterminate = !isEmpty && !isAll;
+            this.checkbox.checked = isAll;
+            this.selectOne = false;
+        }
+    }
+
+    connectedCallback() {
+        if(this.select){
+            this.checkbox = this.shadowRoot.querySelector('xy-checkbox');
+            this.slots = this.shadowRoot.querySelector('slot');
+            this.slots.addEventListener('slotchange',()=>{
+                this.cell = [...this.querySelectorAll('xy-tr')];
+                this.cell.forEach((el,i)=>{
+                    !el.id && (el.index = i);
+                    el.onchange = () => {
+                        this.changecell(this.cell);
+                    }
+                })
+                this.changecell(this.cell);
+            })
+            this.checkbox.addEventListener('change',()=>{
+                if(!this.selectOne){
+                    this.selectAll = true;
+                    this.cell.forEach(el=>{
+                        el.checked = this.checkbox.checked;
+                    })
+                    this.selectAll = false;
+                }
+            })
         }
     }
 

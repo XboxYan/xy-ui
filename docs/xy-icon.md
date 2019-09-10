@@ -15,6 +15,8 @@
 <xy-icon name="user" size="30" color="orangered"></xy-icon>
 ```
 
+!> 如果采用`cdn`引用方式，需手动将图标库放在项目，因为采用`svg spirit`相对路径，并且不能跨域
+
 ## 名称`name`
 
 图标名称与图标包名称相同，可参考[iconfont](https://www.iconfont.cn/collections/detail?spm=a313x.7781069.1998910419.d9df05512&cid=9402)

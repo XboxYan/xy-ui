@@ -1,4 +1,9 @@
 # update
+* ## 1.8.0
+    * 新增[`xy-table`](./docs/xy-table.md)组件
+    * `xy-checkbox`新增`indeterminate`状态
+    * 修复`xy-date-picker`在`1`月份选取去年`12`月份的`bug`
+    * 修复`xy-color-pane`在空白处触发`change`的`bug`
 * ## 1.7.1
     * [`xy-date-picker`](xy-date-picke.md)新增[`range`](xy-date-picke.md?id=范围选择range)属性
 

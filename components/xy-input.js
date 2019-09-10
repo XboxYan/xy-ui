@@ -15,7 +15,7 @@ export default class XyInput extends HTMLElement {
         :host{
             box-sizing:border-box;
             display:inline-block;
-            border:1px solid var(--borderColor,#d9d9d9);
+            border:1px solid var(--borderColor,rgba(0,0,0,.2));
             border-radius:var(--borderRadius,.25em);
             line-height: 1.8;
             transition:border-color .3s,box-shadow .3s;

@@ -11,6 +11,11 @@
 [github项目地址](https://github.com/XboxYan/xy-ui)
 
 ## 更新
+* ## 1.8.0
+    * 新增[`xy-table`](./docs/xy-table.md)组件
+    * `xy-checkbox`新增`indeterminate`状态
+    * 修复`xy-date-picker`在`1`月份选取去年`12`月份的`bug`
+    * 修复`xy-color-pane`在空白处触发`change`的`bug`
 * ## 1.7.1
     * [`xy-date-picker`](./docs/xy-date-picke.md)新增[`range`](./docs/xy-date-picke.md?id=范围选择range)属性
 
@@ -25,19 +30,6 @@
 
     * 优化`xy-icon`的图标加载方式，不会再阻塞页面渲染了~
     * 主题配置新增`--themeBackground`
-    * 其他`bug`修复
-* ## 1.6.1
-    * 优化`xy-button`的`Enter`键逻辑
-    * 优化`xy-icon`的图标加载方式
-    * 替换部分组件内置图标为`svg`方式，减少`xy-icon`依赖
-* ## 1.6.0
-    * 新增[`xy-pagination`](./docs/xy-pagination.md)分页组件
-
-    ![xy-pagination](./screenshot/xy-pagination.png)
-
-    * 修复`xy-form`下`xy-select`回车键触发`submit`问题
-    * 更改组件尺寸为`em`相对尺寸，部分组件除外
-    * `xy-color-pane`现在在鼠标抬起时才触发`change`回调
     * 其他`bug`修复
 
 [update](./docs/update.md)

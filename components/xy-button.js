@@ -20,7 +20,7 @@ export default class XyButton extends HTMLElement {
             overflow:hidden; 
             align-items:center;
             justify-content: center;
-            border:1px solid var(--borderColor,#d9d9d9); 
+            border:1px solid var(--borderColor,rgba(0,0,0,.2)); 
             font-size: 14px; 
             color: var(--fontColor,#333);  
             border-radius: var(--borderRadius,.25em); 

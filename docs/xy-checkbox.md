@@ -139,17 +139,32 @@ radiogroup.getAttribute('value');
 radiogroup.setAttribute('value',['React','Vue']);
 ```
 
+## 不确定状态`indeterminate`
+
+可以通过`JavaScript`设置`xy-checkbox`的不确定状态
+
+<xy-checkbox>indeterminate</xy-checkbox>
+<xy-button type="primary" onclick="this.previousElementSibling.indeterminate='true'">设置indeterminate</xy-button>
+
+JavaScript操作`get`、`set`
+
+```js
+checkbox.indeterminate;//获取
+checkbox.indeterminate = false;
+checkbox.indeterminate = true;
+```
+
 ## 必填项`required`
 
 表单验证属性，表示必填，可作用于`xy-checkbox`或者`xy-checkbox-group`上
 
-<xy-checkbox required>I agreen</xy-checkbox>
+<xy-checkbox required>I agree</xy-checkbox>
 
 ```html
-<xy-checkbox required>I agreen</xy-checkbox>
+<xy-checkbox required>I agree</xy-checkbox>
 ```
 
-> 常用于同意用户协议等功能，默认提示信息为“如果要继续，请选中此框，可用errortips自定义提示”。
+> 常用于同意用户协议等功能，默认提示信息为"如果要继续，请选中此框"，可用`errortips`自定义提示。
 
 如果是在`xy-checkbox-group`上，则表示必须要选一项。
 

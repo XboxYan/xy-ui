@@ -45,21 +45,23 @@ export default class XyCheckbox extends HTMLElement {
         }
         xy-tips{
             display:block;
-            padding-left: 8px;
-            margin-left: -8px;
+            padding-left: 0.575em;
+            margin-left: -0.575em;
         }
         xy-tips[show=show]{
             --themeColor:var(--errorColor,#f4615c);
             --borderColor:var(--errorColor,#f4615c);
         }
         .cheked{
+            display:flex;
+            justify-content: center;
+            align-items: center;
             margin-right:.5em;
             position:relative;
-            box-sizing: border-box;
-            width: 16px;
-            height: 16px;
-            border: 1px solid var(--borderColor,#d9d9d9);
-            border-radius: 2px;
+            width: 1em;
+            height: 1em;
+            border: 0.0875em solid var(--borderColor,rgba(0,0,0,.2));
+            border-radius: 0.15em;
             text-align: initial;
             transition:.3s;
         }
@@ -69,13 +71,11 @@ export default class XyCheckbox extends HTMLElement {
         .cheked::before{
             position:absolute;
             content:'';
-            width:4px;
-            height:9px;
-            margin:0px 4px;
-            border: 2px solid #fff;
-            border-top: 0;
-            border-left: 0;
-            transform: rotate(45deg) scale(0);
+            width:74%;
+            height:0.15em;
+            background:#fff;
+            transform:scale(0);
+            border-radius: 0.15em;
             transition: .2s cubic-bezier(.12, .4, .29, 1.46) .1s;
         }
         .cheked::after{
@@ -95,19 +95,33 @@ export default class XyCheckbox extends HTMLElement {
             transform:scale(2.5);
         }
         */
-
+        .icon{
+            width: 100%;
+            height: 100%;
+            transform: scale(0);
+            transition: .2s cubic-bezier(.12, .4, .29, 1.46) .1s;
+        }
         #checkbox:focus-visible+label .cheked::after{
             transform:scale(2.5);
         }
-        #checkbox:checked+label .cheked::before{
-            transform: rotate(45deg) scale(1);
+        #checkbox:checked+label .cheked .icon{
+            transform: scale(1.5);
         }
-        #checkbox:checked+label .cheked{
+        #checkbox:checked+label .cheked,#checkbox:indeterminate:not(:checked)+label .cheked{
             border-color:transparent;
             background-color:var(--themeColor,#42b983);
         }
+        #checkbox:indeterminate:not(:checked)+label .cheked::before{
+            transform:scale(1);
+        }
         </style>
-        <xy-tips id="tip" type="error" dir="topleft"><input type="checkbox" id="checkbox"><label for="checkbox"><span class="cheked"></span><slot></slot></label></xy-tips>
+        <xy-tips id="tip" type="error" dir="topleft">
+            <input type="checkbox" id="checkbox">
+            <label for="checkbox">
+                <span class="cheked"><svg class="icon" style="fill: #fff;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1408"><path d="M700.7232 331.008l73.984 70.7584-329.5744 344.7808-192.6656-190.1056 71.936-72.9088L443.0336 600.576z"></path></svg></span>
+                <slot></slot>
+            </label>
+        </xy-tips>
         `
     }
 
@@ -129,6 +143,10 @@ export default class XyCheckbox extends HTMLElement {
 
     get checked() {
         return this.getAttribute('checked')!==null;
+    }
+
+    get indeterminate() {
+        return this.checkbox.indeterminate;
     }
 
     get value() {
@@ -156,6 +174,14 @@ export default class XyCheckbox extends HTMLElement {
             this.removeAttribute('checked');
         }else{
             this.setAttribute('checked', '');
+        }
+    }
+
+    set indeterminate(value) {
+        if(value===null||value===false){
+            this.checkbox.indeterminate = false;
+        }else{
+            this.checkbox.indeterminate = true;
         }
     }
 

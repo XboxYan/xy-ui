@@ -48,7 +48,7 @@ export default class XyRadio extends HTMLElement {
             height: 16px;
             display: flex;
             border-radius:50%;
-            border: 1px solid var(--borderColor,#d9d9d9);
+            border: 1px solid var(--borderColor,rgba(0,0,0,.2));
             transition:.3s;
             margin-right:.5em;
         }
