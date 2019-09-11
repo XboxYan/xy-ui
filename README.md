@@ -11,6 +11,8 @@
 [github项目地址](https://github.com/XboxYan/xy-ui)
 
 ## 更新
+* ## 1.8.1
+    * 新增[`xy-text`](./docs/xy-text.md)组件
 * ## 1.8.0
     * 新增[`xy-table`](./docs/xy-table.md)组件
     * `xy-checkbox`新增`indeterminate`状态

@@ -1,4 +1,5 @@
 # update
+* 新增[`xy-text`](xy-text.md)组件
 * ## 1.8.0
     * 新增[`xy-table`](xy-table.md)组件
     * `xy-checkbox`新增`indeterminate`状态

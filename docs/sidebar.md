@@ -25,3 +25,4 @@
     * [xy-pagination](xy-pagination.md)
     * [xy-date-picker](xy-date-picker.md)
     * [xy-table](xy-table.md)
+    * [xy-text](xy-text.md)
