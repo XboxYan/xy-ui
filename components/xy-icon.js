@@ -71,8 +71,8 @@ export default class XyIcon extends HTMLElement {
         this.icon = this.shadowRoot.getElementById('icon');
         this.use = this.icon.querySelector('use');
         this.d = this.icon.querySelector('path');
-        this.size = this.size;
-        this.color = this.color;
+        this.size && (this.size = this.size);
+        this.color && (this.color = this.color);
         this.name && (this.name = this.name);
         this.path && (this.path = this.path);
     }

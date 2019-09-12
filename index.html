@@ -23,6 +23,10 @@
         xy-form-item *{
             margin-bottom: 0;
         }
+        xy-col{
+            background: #2196f380;
+            color:#fff;
+        }
         :not(:defined) {
             opacity: 0;
         }
@@ -235,6 +239,12 @@
         </xy-layout>
         <xy-layout class="footer">FOOTER</xy-layout>
     </xy-layout>
+    <h2>grid</h2>
+    <xy-row gutter="10">
+        <xy-col span="8">11</xy-col>
+        <xy-col span="8">22</xy-col>
+        <xy-col span="16">22</xy-col>
+    </xy-row>
     <h2>dialog</h2>
     <xy-button type="primary" onclick="showDialog()">open dialog</xy-button>
     <xy-button onclick="XyDialog.alert('alert')">alert</xy-button>

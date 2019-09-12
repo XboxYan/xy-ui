@@ -1,5 +1,11 @@
 # update
-* 新增[`xy-text`](xy-text.md)组件
+* ## 1.8.2
+    * [`xy-layout`](xy-layout.md?id=栅格row、col)新增`grid`栅格布局
+    * `xy-button`新增`danger`类型
+    * 修复`xy-slider`在火狐上的`input`触发问题
+    * 其他`bug`修复
+* ## 1.8.1
+    * 新增[`xy-text`](xy-text.md)组件
 * ## 1.8.0
     * 新增[`xy-table`](xy-table.md)组件
     * `xy-checkbox`新增`indeterminate`状态

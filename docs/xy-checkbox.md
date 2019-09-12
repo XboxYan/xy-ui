@@ -290,7 +290,7 @@ checkboxgroup.addEventListener('change',function(ev){
 
 ### focus
 
-用于主动聚焦`focus`，聚焦以后可以响应键盘事件，`Enter`切换选中状态。
+用于主动聚焦`focus`，聚焦以后可以响应键盘事件，`Enter`或者`Space`切换选中状态。
 
 <xy-checkbox onfocus="XyMessage.info('focus')" onchange="XyMessage.info('当前状态checked:'+this.checked)">checkbox</xy-checkbox>
 <xy-button type="primary" onclick="this.previousElementSibling.focus()">主动聚焦</xy-button>

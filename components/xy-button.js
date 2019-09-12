@@ -43,22 +43,26 @@ export default class XyButton extends HTMLElement {
             cursor: not-allowed; 
             pointer-events: all; 
         }
-        :host(:not([type="primary"]):not([disabled]):hover),
-        :host(:not([type="primary"]):focus-within){ 
+        :host(:not([type="primary"]:not([type="danger"])):not([disabled]):hover),
+        :host(:not([type="primary"]:not([type="danger"])):focus-within){ 
             color:var(--themeColor,#42b983); 
             border-color: var(--themeColor,#42b983); 
         }
-        :host(:not([type="primary"])) .btn::after{ 
+        :host(:not([type="primary"]):not([type="danger"])) .btn::after{ 
             background-image: radial-gradient(circle, var(--themeColor,#42b983) 10%, transparent 10.01%); 
         }
         :host([type="primary"]){ 
             color: #fff; 
             background:var(--themeBackground,var(--themeColor,#42b983));
         }
+        :host([type="danger"]){ 
+            color: #fff; 
+            background:var(--themeBackground,var(--dangerColor,#ff7875));
+        }
         :host([type="dashed"]){ 
             border-style:dashed 
         }
-        :host([type="flat"]),:host([type="primary"]){ 
+        :host([type="flat"]),:host([type="primary"]),:host([type="danger"]){ 
             border:0;
             padding: calc( .25em + 1px ) calc( .625em + 1px );
         }

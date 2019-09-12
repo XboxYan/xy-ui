@@ -30,6 +30,7 @@ document.body.style.setProperty('--themeColor','#F44336');
     --waringColor:#faad14;/*警告色*/
     --errorColor:#f4615c;/*错误色*/
     --infoColor:#1890ff;/*提示色*/
+    --dangerColor:#ff7875/*危险色*/
 }
 ```
 

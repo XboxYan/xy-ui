@@ -82,3 +82,26 @@ loading.color = 'orangered';
 loading.getAttribute('color');
 loading.setAttribute('color','orangered');
 ```
+
+## 其他
+
+可以直接嵌套文本作为加载提示语
+
+<xy-loading>loading...</xy-loading>
+
+```html
+<xy-loading>loading...</xy-loading>
+```
+
+如果需要垂直排列，设置一下`css`就可以了
+
+<xy-loading style="flex-direction:column">loading...</xy-loading>
+
+```html
+<style>
+xy-loading{
+    flex-direction:column
+}
+</style>
+<xy-loading>loading...</xy-loading>
+```

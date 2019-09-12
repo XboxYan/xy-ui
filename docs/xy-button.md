@@ -15,17 +15,19 @@
 
 ## 风格`type`
 
-按钮有4种风格，分别为`primary`，`dashed`，`flat`和默认。
+按钮有5种风格，分别为`primary`，`dashed`，`flat`，`danger`和默认。
 
 <xy-button type="primary" id="btn">primary</xy-button>
 <xy-button type="dashed">dashed</xy-button>
 <xy-button type="flat">flat</xy-button>
+<xy-button type="danger">danger</xy-button>
 <xy-button>default</xy-button>
 
 ```html
 <xy-button type="primary">primary</xy-button>
 <xy-button type="dashed">dashed</xy-button>
 <xy-button type="flat">flat</xy-button>
+<xy-button type="danger">danger</xy-button>
 <xy-button>default</xy-button>
 ```
 

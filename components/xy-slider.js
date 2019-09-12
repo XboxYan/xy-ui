@@ -93,6 +93,12 @@ export default class XySlider extends HTMLElement {
         this.slider.addEventListener('input',function(ev){
             _this.value = this.value;
             _this._oninput = true;
+            ev.stopPropagation();
+            _this.dispatchEvent(new CustomEvent('input',{
+                detail:{
+                    value:this.value
+                }
+            }));
         })
         this.slider.addEventListener('change',function(ev){
             _this.value = this.value;

@@ -177,6 +177,8 @@ slider.addEventListener('change',function(ev){
 
 滑动条在滑动时触发。
 
+<xy-slider oninput="XyMessage.info('当前value: '+this.value)"></xy-slider>
+
 ```html
 <xy-slider oninput="fn(event)"></xy-slider>
 ```

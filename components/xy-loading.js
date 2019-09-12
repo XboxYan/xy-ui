@@ -10,6 +10,8 @@ export default class XyLoading extends HTMLElement {
         :host{
             font-size:inherit;
             display:inline-flex;
+            align-items: center;
+            justify-content:center;
             color:var(--themeColor,#42b983);
         }
         .loading{
@@ -25,6 +27,9 @@ export default class XyLoading extends HTMLElement {
             stroke-dasharray: 80px, 200px;
             stroke-dashoffset: 0px;
             transition:.3s;
+        }
+        :host(:not(:empty)) .loading{
+            margin:.5em;
         }
         @keyframes rotate{
             to{
@@ -47,6 +52,7 @@ export default class XyLoading extends HTMLElement {
         }
         </style>
         <svg class="loading" id="loading" viewBox="22 22 44 44"><circle class="circle" cx="44" cy="44" r="20.2" fill="none" stroke-width="3.6"></circle></svg>
+        <slot></slot>
         `
     }
 
@@ -68,8 +74,8 @@ export default class XyLoading extends HTMLElement {
     
     connectedCallback() {
         this.loading = this.shadowRoot.getElementById('loading');
-        this.size = this.size;
-        this.color = this.color;
+        this.size && (this.size = this.size);
+        this.color && (this.color = this.color);
     }
 
     attributeChangedCallback (name, oldValue, newValue) {

@@ -214,7 +214,7 @@ radiogroup.addEventListener('change',function(ev){
 
 ### focus
 
-用于主动聚焦`focus`，聚焦以后可以响应键盘事件，`Enter`选中。
+用于主动聚焦`focus`，聚焦以后可以响应键盘事件，`Enter`或者`Space`选中。
 
 <xy-radio onchange="XyMessage.info('当前状态checked:'+this.checked)">radio</xy-radio>
 <xy-button type="primary" onfocus="XyMessage.info('focus')" onclick="this.previousElementSibling.focus()">主动聚焦</xy-button>

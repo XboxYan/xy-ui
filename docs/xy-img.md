@@ -49,7 +49,7 @@ img.setAttribute('src','img.jpg');
 .img-placeholder{
     background:#333;
     color:#f1f1f1;
-    font-size:20px;
+    font-size:16px;
 }
 </style>
 <xy-img src="https://images.xxx.jpg" class="img-placeholder"></xy-img>
@@ -59,7 +59,7 @@ img.setAttribute('src','img.jpg');
 .img-placeholder{
     background:#333;
     color:#f1f1f1;
-    font-size:20px;
+    font-size:16px;
 }
 </style>
 <xy-img src="https://images.xxx.jpg" class="img-placeholder"></xy-img>
