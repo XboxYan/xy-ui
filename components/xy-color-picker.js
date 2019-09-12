@@ -622,7 +622,7 @@ export default class XyColorPicker extends HTMLElement {
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-        if(this.init){
+        if(!this.init){
             return
         }
         if (name == 'disabled' && this.colorBtn) {
