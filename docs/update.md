@@ -1,4 +1,6 @@
 # update
+* ## 1.8.4
+    * `xy-slider`在`vertical`属性下支持动态样式修改
 * ## 1.8.3
     * `xy-slider`新增`vertical`、`prefix`属性
 * ## 1.8.2

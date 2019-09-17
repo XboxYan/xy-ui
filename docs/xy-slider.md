@@ -133,7 +133,7 @@ slider.setAttribute('step',10);
 <xy-slider vertical showtips defaultvalue="50"></xy-slider>
 ```
 
-默认高度为`300px`，宽度为`20px`，可以使用`CSS`修改，暂不支持动态修改
+默认高度为`300px`，宽度为`20px`，可以使用`CSS`修改
 
 ```css
 slider{

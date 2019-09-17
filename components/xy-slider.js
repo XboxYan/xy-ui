@@ -129,7 +129,13 @@ export default class XySlider extends HTMLElement {
         this.slider = this.shadowRoot.getElementById('slider');
         this.sliderCon = this.shadowRoot.getElementById('slider-con');
         if( this.vertical ){
-            this.sliderCon.style.setProperty('--h',this.offsetHeight + 'px');
+            this.resizeObserver = new ResizeObserver(entries => {
+                for (let entry of entries) {
+                    const { height } = entry.contentRect;
+                    this.sliderCon.style.setProperty('--h',height + 'px');
+                }
+            });
+            this.resizeObserver.observe(this);
         }
         this.slider.addEventListener('input',(ev) => {
             this.value = this.slider.value;
@@ -150,6 +156,12 @@ export default class XySlider extends HTMLElement {
                 }
             }));
         })
+    }
+
+    disconnectedCallback() {
+        if( this.vertical ){
+            this.resizeObserver.unobserve(this);
+        }
     }
 
     get value() {
