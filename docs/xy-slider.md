@@ -71,14 +71,18 @@ slider.setAttribute('showtips','');
 slider.removeAttribute('showtips');
 ```
 
-## 后缀`suffix`
+## 前缀`prefix`、后缀`suffix`
 
-在`showtips`的情况下，如果添加`suffix`，可以在显示`value`时追加一个后缀。比如单位，百分比。
+在`showtips`的情况下，如果添加`prefix`或者`suffix`，可以在显示`value`时追加一个前（后）缀。比如单位，百分比。
 
+<xy-slider defaultvalue="30" showtips prefix="$"></xy-slider>
+<xy-slider defaultvalue="50" showtips prefix="value:"></xy-slider>
 <xy-slider defaultvalue="30" showtips suffix="%"></xy-slider>
 <xy-slider defaultvalue="50" showtips suffix="km"></xy-slider>
 
 ```html
+<xy-slider defaultvalue="30" showtips prefix="$"></xy-slider>
+<xy-slider defaultvalue="50" showtips prefix="value:"></xy-slider>
 <xy-slider defaultvalue="30" showtips suffix="%"></xy-slider>
 <xy-slider defaultvalue="50" showtips suffix="km"></xy-slider>
 ```
@@ -86,8 +90,10 @@ slider.removeAttribute('showtips');
 JavaScript操作`set`
 
 ```js
-slider.suffix = '%';
+slider.prefix = '%';
+slider.suffix = '$';
 //原生属性操作
+slider.setAttribute('prefix','$');
 slider.setAttribute('suffix','%');
 ```
 
@@ -115,6 +121,29 @@ slider.step = 10;
 slider.getAttribute('step');
 slider.setAttribute('step',10);
 ```
+
+## 垂直滑动条`vertical`
+
+添加`vertical`属性可以垂直展示
+
+<xy-slider vertical showtips defaultvalue="10"></xy-slider>
+<xy-slider vertical showtips defaultvalue="50"></xy-slider>
+
+```html
+<xy-slider vertical showtips defaultvalue="50"></xy-slider>
+```
+
+默认高度为`300px`，宽度为`20px`，可以使用`CSS`修改，暂不支持动态修改
+
+```css
+slider{
+    width:50px;
+    height:150px;
+}
+```
+
+<xy-slider style="width:50px;height:150px;" vertical showtips defaultvalue="10"></xy-slider>
+<xy-slider style="width:50px;height:150px;" vertical showtips defaultvalue="50"></xy-slider>
 
 ## 值`value`
 

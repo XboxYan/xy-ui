@@ -1,4 +1,6 @@
 # update
+* ## 1.8.3
+    * `xy-slider`新增`vertical`、`prefix`属性
 * ## 1.8.2
     * [`xy-layout`](xy-layout.md?id=栅格row、col)新增`grid`栅格布局
     * `xy-button`新增`danger`类型

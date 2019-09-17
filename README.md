@@ -11,6 +11,8 @@
 [github项目地址](https://github.com/XboxYan/xy-ui)
 
 ## 更新
+* ## 1.8.3
+    * `xy-slider`新增`vertical`、`prefix`属性
 * ## 1.8.2
     * [`xy-layout`](./docs/xy-layout.md?id=栅格row、col)新增`grid`栅格布局
     * `xy-button`新增`danger`类型

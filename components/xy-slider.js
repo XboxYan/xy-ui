@@ -9,18 +9,37 @@ export default class XySlider extends HTMLElement {
         const shadowRoot = this.attachShadow({ mode: 'open' });
         shadowRoot.innerHTML = `
         <style>
-        :host{ box-sizing:border-box; display:flex; padding:0 5px;}
-        :host([disabled]){ opacity:.8; --themeColor:#999; cursor:not-allowed; }
-        :host([disabled]) input[type="range"]{ pointer-events:none; }
-        #slider-con{ display:flex; padding:5px 0; width:100%; }
-        ::-moz-focus-inner,::-moz-focus-outer{border:0;outline : 0;}
+        :host{ 
+            box-sizing:border-box; 
+            display:flex; 
+            padding:0 10px;
+            ${this.vertical?'height:var(--h,300px)':''}
+        }
+        :host([disabled]){ 
+            opacity:.8; 
+            --themeColor:#999; 
+            cursor:not-allowed; 
+        }
+        :host([disabled]) input[type="range"]{ 
+            pointer-events:none; 
+        }
+        #slider-con{ 
+            display:flex; 
+            padding:5px 0; 
+            width:100%;
+            margin: auto;
+        }
+        ::-moz-focus-inner,::-moz-focus-outer{
+            border:0;
+            outline : 0;
+        }
         :host([showtips]){
             pointer-events:all;
         }
         input[type="range"]{
             pointer-events:all;
             margin:0 -5px;
-            width:calc( 100% + 10px );
+            width: calc( 100% + 10px );
             -webkit-appearance: none;
             outline : 0;
             background: rgba(0,0,0,.1);
@@ -77,8 +96,28 @@ export default class XySlider extends HTMLElement {
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             background: #fff;
         }
+        :host([vertical]) #slider-con{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform:translate(-50%, -50%) rotate(-90deg);
+            width:calc( var(--h,300px) - 10px)
+            
+        }
+        :host([vertical]) #slider-con::before{
+            writing-mode: vertical-lr;
+            padding: 10px 6px;
+        }
+        :host([vertical]){
+            display:inline-flex;
+            position:relative;
+            width:20px;
+        }
+        :host(:focus-within) #slider-con,:host(:hover) #slider-con{
+            z-index:10
+        }
         </style>
-        <xy-tips id='slider-con' dir="top" style="--percent:${(this.defaultvalue-this.min)/(this.max-this.min)}" tips="${this.showtips&&!this.disabled?this.defaultvalue:''}" suffix="${this.suffix}"><input id='slider' value=${this.defaultvalue} min=${this.min} max=${this.max} step=${this.step} ${this.disabled?"disabled":""} type='range'></xy-tips>
+        <xy-tips id='slider-con' dir=${this.vertical?"bottom":"top"} style="--percent:${(this.defaultvalue-this.min)/(this.max-this.min)}" tips="${this.showtips&&!this.disabled?this.defaultvalue:''}" suffix="${this.suffix}" prefix="${this.prefix}"><input id='slider' value=${this.defaultvalue} min=${this.min} max=${this.max} step=${this.step} ${this.disabled?"disabled":""} type='range'></xy-tips>
         `
     } 
 
@@ -87,25 +126,27 @@ export default class XySlider extends HTMLElement {
     }
     
     connectedCallback() {
-        const _this = this;
         this.slider = this.shadowRoot.getElementById('slider');
         this.sliderCon = this.shadowRoot.getElementById('slider-con');
-        this.slider.addEventListener('input',function(ev){
-            _this.value = this.value;
-            _this._oninput = true;
+        if( this.vertical ){
+            this.sliderCon.style.setProperty('--h',this.offsetHeight + 'px');
+        }
+        this.slider.addEventListener('input',(ev) => {
+            this.value = this.slider.value;
+            this._oninput = true;
             ev.stopPropagation();
-            _this.dispatchEvent(new CustomEvent('input',{
+            this.dispatchEvent(new CustomEvent('input',{
                 detail:{
-                    value:this.value
+                    value:this.slider.value
                 }
             }));
         })
-        this.slider.addEventListener('change',function(ev){
-            _this.value = this.value;
-            _this._oninput = false;
-            _this.dispatchEvent(new CustomEvent('change',{
+        this.slider.addEventListener('change',(ev) => {
+            this.value = this.slider.value;
+            this._oninput = false;
+            this.dispatchEvent(new CustomEvent('change',{
                 detail:{
-                    value:this.value
+                    value:this.slider.value
                 }
             }));
         })
@@ -123,6 +164,10 @@ export default class XySlider extends HTMLElement {
         return this.getAttribute('suffix')||'';
     }
 
+    get prefix() {
+        return this.getAttribute('prefix')||'';
+    }
+
     get min() {
         return this.getAttribute('min')||0;
     }
@@ -137,6 +182,10 @@ export default class XySlider extends HTMLElement {
 
     get showtips() {
         return this.getAttribute('showtips')!==null;
+    }
+
+    get vertical() {
+        return this.getAttribute('vertical')!==null;
     }
 
     set disabled(value) {
@@ -181,6 +230,10 @@ export default class XySlider extends HTMLElement {
         this.setAttribute('step', value);
     }
 
+    set prefix(value) {
+        this.setAttribute('prefix', value);
+    }
+    
     set suffix(value) {
         this.setAttribute('suffix', value);
     }

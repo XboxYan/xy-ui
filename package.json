@@ -1,6 +1,6 @@
 {
   "name": "xy-ui",
-  "version": "1.8.2",
+  "version": "1.8.3",
   "description": "a front end cross-framework ui library based on web-components",
   "main": "index.js",
   "directories": {
@@ -52,6 +52,9 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/XboxYan/xy-ui/issues"
+  },
+  "publishConfig": { 
+    "registry": "https://npm.pkg.github.com/@XboxYan" 
   },
   "homepage": "https://github.com/XboxYan/xy-ui#readme"
 }

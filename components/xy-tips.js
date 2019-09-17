@@ -27,7 +27,7 @@ export default class XyTips extends HTMLElement {
             pointer-events: none;
         }
         :host::before {
-            content: attr(tips) attr(suffix);
+            content:attr(prefix) attr(tips) attr(suffix);
             border-radius: 3px;
             padding: 6px 10px;
             line-height: 18px;
@@ -107,7 +107,7 @@ export default class XyTips extends HTMLElement {
         /* bottom */
         :host([dir="bottom"])::before,
         :host([dir="bottom"])::after{
-            left: 50%;
+            left: calc( var(--percent,.5) * 100% );
             top: 100%;
             transform: translate(-50%, 20px);
         }
@@ -341,6 +341,10 @@ export default class XyTips extends HTMLElement {
         return this.getAttribute('suffix')||'';
     }
 
+    get prefix() {
+        return this.getAttribute('prefix')||'';
+    }
+
     get show() {
         return this.getAttribute('show')!==null;
     }
@@ -359,6 +363,10 @@ export default class XyTips extends HTMLElement {
 
     set suffix(value) {
         this.setAttribute('suffix', value);
+    }
+
+    set prefix(value) {
+        this.setAttribute('prefix', value);
     }
 
     set show(value) {
