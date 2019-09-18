@@ -48,14 +48,40 @@ export default class XyText extends HTMLElement {
         return this.getAttribute('rows');
     }
 
+    get truncated() {
+        return this.getAttribute('truncated')!==null;
+    }
+
     set rows(value) {
         this.setAttribute('rows', value);
+    }
+    
+    set truncated(value) {
+        if(value===null||value===false){
+            this.removeAttribute('truncated');
+        }else{
+            this.setAttribute('truncated', '');
+        }
+    }
+
+    connectedCallback(){
+        this.resizeObserver = new ResizeObserver(entries => {
+            for (let entry of entries) {
+                const { height } = entry.contentRect;
+                this.truncated = this.scrollHeight>height;
+            }
+        });
+        this.resizeObserver.observe(this);
     }
 
     attributeChangedCallback (name, oldValue, newValue) {
         if( name == 'rows' && this.shadowRoot){
             this.style.setProperty('--rows',newValue);
         }
+    }
+
+    disconnectedCallback() {
+        this.resizeObserver.unobserve(this);
     }
 }
 

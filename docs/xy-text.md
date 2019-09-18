@@ -56,6 +56,17 @@ text.getAttribute('rows');
 text.setAttribute('rows',5);
 ```
 
+另外，当出现省略号时，`xy-text`会自动添加上`truncated`属性。
+
+```css
+xy-text+button::before{
+    content:'收起'
+}
+xy-text[truncated]+button::before{
+    content:'展开'
+}
+```
+
 ## 其他
 
 其他还内置了`mark`、`code`属性
