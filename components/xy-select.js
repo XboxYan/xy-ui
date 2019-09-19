@@ -115,6 +115,7 @@ export default class XySelect extends HTMLElement {
         }
         xy-popcon{
             min-width:100%;
+            overflow:hidden;
         }
         </style>
         <xy-popover id="root">
@@ -152,10 +153,8 @@ export default class XySelect extends HTMLElement {
         this.focusIndex = 0;
         this.addEventListener('keydown', (ev) => {
             if (this.options.open) {
+                ev.preventDefault();
                 switch (ev.keyCode) {
-                    case 9://Tab
-                        ev.preventDefault();
-                        break;
                     case 38://ArrowUp
                         this.move(-1);
                         break;
@@ -164,7 +163,6 @@ export default class XySelect extends HTMLElement {
                         break;
                     case 8://Backspace
                     case 27://Esc
-                        ev.preventDefault();
                         this.options.open = false;
                         break;
                     default:

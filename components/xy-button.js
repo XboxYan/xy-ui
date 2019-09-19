@@ -43,8 +43,8 @@ export default class XyButton extends HTMLElement {
             cursor: not-allowed; 
             pointer-events: all; 
         }
-        :host(:not([type="primary"]:not([type="danger"])):not([disabled]):hover),
-        :host(:not([type="primary"]:not([type="danger"])):focus-within){ 
+        :host(:not([type="primary"]):not([type="danger"]):not([disabled]):hover),
+        :host(:not([type="primary"]):not([type="danger"]):focus-within){ 
             color:var(--themeColor,#42b983); 
             border-color: var(--themeColor,#42b983); 
         }
