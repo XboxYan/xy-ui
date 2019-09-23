@@ -2,14 +2,14 @@ import './xy-button.js';
 import './xy-popover.js';
 
 class XyOption extends HTMLElement {
-    static get observedAttributes() { return ["value", "selected"]; }
+    static get observedAttributes() { return ["value", "selected","disabled"]; }
     constructor() {
         super();
         const shadowRoot = this.attachShadow({ mode: 'open' });
         shadowRoot.innerHTML = `
         <style>
             :host{
-                display: block;
+                display: contents;
             }
             .option {
                 display: flex;
@@ -21,7 +21,7 @@ class XyOption extends HTMLElement {
                 color:var(--themeColor,#42b983)
             }
         </style>
-        <xy-button id="option" class="option" type="flat"><slot></slot></xy-button>
+        <xy-button id="option" class="option" type="flat" ${this.disabled?"disabled":""}><slot></slot></xy-button>
         `
     }
 
@@ -42,6 +42,18 @@ class XyOption extends HTMLElement {
     get value() {
         return this.getAttribute('value');
     }
+    
+    get disabled() {
+        return this.getAttribute('disabled')!==null;
+    }
+
+    set disabled(value) {
+        if (value === null || value === false) {
+            this.removeAttribute('disabled');
+        } else {
+            this.setAttribute('disabled', '');
+        }
+    }
 
     /**
      * @param {boolean} value
@@ -51,6 +63,14 @@ class XyOption extends HTMLElement {
             this.setAttribute('selected','');
         } else {
             this.removeAttribute('selected');
+        }
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (name == 'disabled' && this.option) {
+            if (newValue != null) {
+                this.option.disabled = newValue;
+            }
         }
     }
 
@@ -83,8 +103,12 @@ export default class XySelect extends HTMLElement {
             border-color:var(--themeColor,#42b983);
             color:var(--themeColor,#42b983);
         }
+
+        :host([disabled]){
+            pointer-events:none;
+        }
         
-        :host(:focus-within) xy-popover{ 
+        :host(:focus-within) xy-popover,:host(:active) xy-popover{ 
             z-index: 2;
         }
         #select{
@@ -136,6 +160,11 @@ export default class XySelect extends HTMLElement {
         }
     }
 
+    movein(dir) {
+        this.focusIndex = (dir + this.focusIndex + 99999) % this.nodes.length;
+        this.value = this.nodes[this.focusIndex].value;     
+    }
+
     focus() {
         this.select.focus();
     }
@@ -168,6 +197,19 @@ export default class XySelect extends HTMLElement {
                     default:
                         break;
                 }
+            }else{
+                switch (ev.keyCode) {
+                    case 38://ArrowUp
+                        ev.preventDefault();
+                        this.movein(-1);
+                        break;
+                    case 40://ArrowDown
+                        ev.preventDefault();
+                        this.movein(1);
+                        break;
+                    default:
+                        break;
+                }
             }
         })
         this.select.addEventListener('focus',(ev)=>{
@@ -179,6 +221,9 @@ export default class XySelect extends HTMLElement {
                     }
                 }));
             }
+        })
+        this.options.addEventListener('click',(ev)=>{
+            this.select.focus();
         })
         this.select.addEventListener('blur',(ev)=>{
             ev.stopPropagation();
@@ -194,7 +239,7 @@ export default class XySelect extends HTMLElement {
             }
         })
         this.slots.addEventListener('slotchange', () => {
-            this.nodes = [...this.querySelectorAll(`xy-option`)];
+            this.nodes = [...this.querySelectorAll(`xy-option:not([disabled])`)];
             if (!this.defaultvalue) {
                 this.value = this.nodes[0].value;
             } else {
@@ -274,9 +319,9 @@ export default class XySelect extends HTMLElement {
     attributeChangedCallback(name, oldValue, newValue) {
         if (name == 'disabled' && this.select) {
             if (newValue != null) {
-                this.select.setAttribute('disabled', 'disabled');
+                this.select.disabled = true;
             } else {
-                this.select.removeAttribute('disabled');
+                this.select.disabled = false;
             }
         }
     }

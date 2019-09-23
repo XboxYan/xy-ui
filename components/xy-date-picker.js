@@ -934,6 +934,9 @@ export default class XyDatePicker extends HTMLElement {
         :host(:focus-within) xy-popover,:host(:hover) xy-popover{ 
             z-index: 2;
         }
+        :host([disabled]){
+            pointer-events:none;
+        }
         xy-popover{
             width:100%;
             height:100%;

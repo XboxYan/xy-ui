@@ -134,6 +134,7 @@ class XyMessage extends HTMLElement {
             }
         })
         this.type= this.type;
+        this.clientWidth;
     }
 
     attributeChangedCallback (name, oldValue, newValue) {
@@ -171,7 +172,6 @@ export default {
         messageContent.appendChild(message);
         message.type = 'info';
         message.textContent = text||'';
-        message.clientWidth;
         message.show = true;
         message.onclose = onclose;
         message.timer = setTimeout(()=>{
@@ -186,7 +186,6 @@ export default {
         messageContent.appendChild(message);
         message.type = 'success';
         message.textContent = text||'';
-        message.clientWidth;
         message.show = true;
         message.onclose = onclose;
         message.timer = setTimeout(()=>{
@@ -201,7 +200,6 @@ export default {
         messageContent.appendChild(message);
         message.type = 'error';
         message.textContent = text||'';
-        message.clientWidth;
         message.show = true;
         message.onclose = onclose;
         message.timer = setTimeout(()=>{
@@ -216,7 +214,6 @@ export default {
         messageContent.appendChild(message);
         message.type = 'warning';
         message.textContent = text||'';
-        message.clientWidth;
         message.show = true;
         message.onclose = onclose;
         message.timer = setTimeout(()=>{
@@ -231,7 +228,6 @@ export default {
         messageContent.appendChild(message);
         message.type = 'loading';
         message.textContent = text||'';
-        message.clientWidth;
         message.show = true;
         message.onclose = onclose;
         if(duration!==0){
@@ -248,7 +244,6 @@ export default {
         messageContent.appendChild(message);
         message.icon = icon;
         message.textContent = text||'';
-        message.clientWidth;
         message.show = true;
         message.onclose = onclose;
         if(duration!==0){

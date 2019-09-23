@@ -81,6 +81,7 @@ export default class XyTab extends HTMLElement {
         <style>
         :host{
             display:block;
+            text-align: unset;
         }
         .tab{
             display:flex;
@@ -101,6 +102,7 @@ export default class XyTab extends HTMLElement {
             border-radius:0;
             box-shadow:none;
             flex-shrink: 0;
+            border:0;
         }
         .nav-item.active{
             color:var(--themeColor,#42b983);
@@ -124,6 +126,28 @@ export default class XyTab extends HTMLElement {
             height:100%;
             transition:.2s;
         }
+        :host([type="card"]) .tab-line{
+            visibility:hidden;
+        }
+        :host([type="card"]) .nav-item{
+            border-radius:.5em .5em 0 0;
+        }
+        :host([type="card"]) .nav-item:
+        :host([type="card"]) .nav-item:not(:first-child){
+            margin-left:.5em;
+        }
+        :host([type="card"]) .nav-item.active,:host([type="card"]) .tab-content{
+            background-color:#fff;
+        }
+        :host([type="card"]) .tab-content-wrap{
+            transition:none;
+        }
+        :host([align="center"]) .tab-nav{
+            justify-content:center;
+        }
+        :host([align="end"]) .tab-nav{
+            justify-content:flex-end;
+        }
         </style>
         <div class="tab">
             <div class="tab-nav-con">
@@ -137,15 +161,24 @@ export default class XyTab extends HTMLElement {
         `
     }
 
+    get align() {
+        return this.getAttribute('align')||'start';
+    }
+
     get activekey() {
         return this.getAttribute('activekey');
+    }
+
+    set align(value) {
+        this.setAttribute('align', value);
+        this.inittab();
     }
 
     set activekey(value) {
         this.setAttribute('activekey', value);
     }
 
-    init() {
+    inittab() {
         this.items = this.nav.querySelectorAll('.nav-item');
         Array.from(this.items).forEach((item,index)=>{
             this.tabPos[item.dataset.key] = {
@@ -155,13 +188,16 @@ export default class XyTab extends HTMLElement {
                 label:item.textContent
             };
         })
+        if(this.activekey){
+            this.tabline.style = `width:${this.tabPos[this.activekey].width}px;transform:translateX(${this.tabPos[this.activekey].left}px)`;
+        }
     }
 
     updatalabel(key,label) {
         const nav = this.nav.querySelector(`.nav-item[data-key='${key}']`);
         if(nav){
             nav.innerHTML = label;
-            this.init();
+            this.inittab();
         }
     }
 
@@ -185,10 +221,10 @@ export default class XyTab extends HTMLElement {
                 if(item.key===null){
                     item.key = index;
                 }
-                html += `<xy-button class="nav-item ${item.key===this.activekey?'active':''}" icon=${item.icon} type="flat" ${item.disabled!==null?"disabled":""} data-key=${item.key}>${item.label}</xy-button>`;
+                html += `<xy-button class="nav-item ${item.key===this.activekey?'active':''}" icon=${item.icon} ${item.disabled!==null?"disabled":""} data-key=${item.key}>${item.label}</xy-button>`;
             })
             this.nav.innerHTML = html;
-            this.init();
+            this.inittab();
             if(this.activekey===null){
                 this.activekey = slots[0].key;
             }else{

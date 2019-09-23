@@ -11,6 +11,13 @@
 [github项目地址](https://github.com/XboxYan/xy-ui)
 
 ## 更新
+* ## 1.8.5
+    * `xy-tab`新增`card`风格
+    * `xy-dialog`新增`prompt`方法
+    * `xy-select`现在在不打开的情况下也可以用键盘上下键快速选中
+    * `xy-slider`更改`vertical`属性下的`tips`方向
+    * `xy-text`在出现省略时会添加`truncated`属性标识
+    * 修复`xy-select`、`xy-color-picker`、`xy-date-picker`在`disabled`状态下打开的问题
 * ## 1.8.4
     * `xy-slider`在`vertical`属性下支持动态样式修改
 * ## 1.8.3

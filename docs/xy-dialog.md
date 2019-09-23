@@ -34,6 +34,8 @@
 
 * `XyDialog.confirm(config)`
 
+* `XyDialog.prompt(config)`
+
 所有方法返回均为`<xy-dialog></xy-dialog>`对象。
 
 `config`支持两种类型的参数。
@@ -44,6 +46,7 @@ XyDialog.alert(title, ok);
 XyDialog.alert({
     title:'title',//标题
     oktext:'ok',//确定键文本
+    canceltext:'cancel',//取消键文本
     ok:function(){
         //按确定键的操作
     },
@@ -66,6 +69,7 @@ XyDialog.confirm(title, ok, cancel);
 XyDialog.confirm({
     title:'title',//标题
     oktext:'ok',//确定键文本
+    canceltext:'cancel',//取消键文本
     type:'error',//类型，可选择以上几类
     ok:function(){
         //按确定键的操作
@@ -76,9 +80,31 @@ XyDialog.confirm({
     content:'content',//内容
 });
 ```
-
 <xy-button type="primary" onclick="XyDialog.confirm('this is a question',()=>{XyMessage.info('ok')},()=>{XyMessage.info('cancel')})">confirm</xy-button>
 <xy-button type="primary" onclick="XyDialog.confirm({type:'error',content:'this is a danger confirm'})">danger confirm</xy-button>
+
+`XyDialog.prompt`用于显示可提示用户进行输入的对话框。
+
+```js
+XyDialog.prompt(title, ok, cancel);
+//object传入
+XyDialog.prompt({
+    title:'title',//标题
+    oktext:'ok',//确定键文本
+    ok:function(value){
+        console.log(value);
+        //返回输入内容
+        //按确定键的操作
+    },
+    cancel:function(){
+        //按取消键的操作
+    },
+    content:'content',//内容描述
+});
+```
+
+<xy-button type="primary" onclick="XyDialog.prompt('',(value)=>{XyMessage.info(value)},()=>{XyMessage.info('cancel')})">prompt</xy-button>
+<xy-button type="primary" onclick="XyDialog.prompt({content:'please input your name',ok:(value)=>{XyMessage.info(value)}})">prompt with content</xy-button>
 
 ## 显示`open`
 

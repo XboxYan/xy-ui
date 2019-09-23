@@ -240,9 +240,11 @@ export default class XyButton extends HTMLElement {
         this.btn.addEventListener('mousedown',function(ev){
             //ev.preventDefault();
             //ev.stopPropagation();
-            const { left, top } = this.getBoundingClientRect();
-            this.style.setProperty('--x',(ev.clientX - left)+'px');
-            this.style.setProperty('--y',(ev.clientY - top)+'px');
+            if(!this.disabled){
+                const { left, top } = this.getBoundingClientRect();
+                this.style.setProperty('--x',(ev.clientX - left)+'px');
+                this.style.setProperty('--y',(ev.clientY - top)+'px');
+            }
         })
         this.addEventListener('click',function(ev){
             if(this.toggle){

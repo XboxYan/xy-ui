@@ -159,8 +159,68 @@ JavaScript操作`get`、`set`
 content.icon;
 content.icon = 'name';
 //原生属性操作
-content.getAttribute('name');
+content.getAttribute('icon');
 content.setAttribute('icon','name');
+```
+
+## 风格`type`
+
+可选择标签页风格，`flat`、`card`，默认为`flat`
+
+`card`卡片式风格，通常适用于有背景的卡片中
+
+<xy-tab type="card" style="padding:.8em; background:#f1f1f1">
+    <xy-tab-content label="home" icon="home">tab1</xy-tab-content>
+    <xy-tab-content label="message" icon="message">tab2</xy-tab-content>
+    <xy-tab-content label="user" icon="user">tab3</xy-tab-content>
+</xy-tab>
+
+```css
+xy-tab[type="card"]{
+    padding:.8em; 
+    background:#f1f1f1;
+}
+```
+```html
+<xy-tab type="card">
+    ...
+</xy-tab>
+```
+
+> 纯`CSS`修改(属性选择器)，当设置成`card`风格时，容器不再有滚动动画
+
+## 对齐`align`
+
+设置标签头的对齐方式，默认为`start`(居左)，可设置`center`(居中)、`end`（居右）
+
+<xy-radio-group onchange="this.nextElementSibling.align=this.value" defaultvalue="start">
+    <xy-radio value="start">start</xy-radio>
+    <xy-radio value="center">center</xy-radio>
+    <xy-radio value="end">end</xy-radio>
+</xy-radio-group>
+<xy-tab type="card" style="padding:.8em; background:#f1f1f1">
+    <xy-tab-content label="home" icon="home">tab1</xy-tab-content>
+    <xy-tab-content label="message" icon="message">tab2</xy-tab-content>
+    <xy-tab-content label="user" icon="user">tab3</xy-tab-content>
+</xy-tab>
+
+```html
+<xy-tab type="card" align="center">
+    ...
+</xy-tab>
+```
+
+JavaScript操作`get`、`set`
+
+> 作用于`xy-tab`
+
+```js
+//xy-tab
+tab.align;
+tab.align = 'center';
+//原生属性操作
+tab.getAttribute('align');
+tab.setAttribute('align','center');
 ```
 
 ## 事件`event`

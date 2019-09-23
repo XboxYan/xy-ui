@@ -133,6 +133,22 @@ select.setAttribute('disabled','');
 select.removeAttribute('disabled');
 ```
 
+如果设置在`xy-option`可单独禁用某一项
+
+<xy-select>
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2" disabled>Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
+
+```html
+<xy-select>
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2" disabled>Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
+```
+
 ## 值`value`、文本`text`
 
 设置或返回下拉选择器的当前`value`属性值。

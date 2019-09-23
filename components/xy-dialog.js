@@ -1,10 +1,11 @@
 import './xy-button.js';
+import './xy-input.js';
 
 class XyDialog extends HTMLElement {
 
     static get observedAttributes() { return ['open','title','oktext','canceltext','loading','type'] }
 
-    constructor() {
+    constructor({type}={}) {
         super();
         const shadowRoot = this.attachShadow({ mode: 'open' });
         shadowRoot.innerHTML = `
@@ -30,7 +31,7 @@ class XyDialog extends HTMLElement {
         .dialog {
             display:flex;
             position:relative;
-            min-width: 400px;
+            min-width: 360px;
             margin:auto;
             box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
             box-sizing: border-box;
@@ -90,8 +91,21 @@ class XyDialog extends HTMLElement {
             height:30px;
             font-size:24px;
         }
-        :host(:not([type])) .dialog-type{
+        #btn-cancel{
+            visibility:hidden;
+        }
+        :host(:not([type])) .dialog-type,
+        :host([type="prompt"]) .dialog-type{
             display:none;
+        }
+        xy-input{
+            width:100%;
+        }
+        :host(:not(:empty)) xy-input{
+            margin-top:10px;
+        }
+        :host(:empty) .dialog-body{
+            min-height:0;
         }
         </style>
         <div class="dialog">
@@ -101,6 +115,7 @@ class XyDialog extends HTMLElement {
                 <xy-button class="btn-close" id="btn-close" icon="close"></xy-button>
                 <div class="dialog-body">
                     <slot></slot>
+                    ${(type||this.type)==="prompt"?"<xy-input></xy-input>":""}
                 </div>
                 <div class="dialog-footer">
                     <xy-button id="btn-cancel">${this.canceltext}</xy-button>
@@ -207,15 +222,21 @@ class XyDialog extends HTMLElement {
     
     connectedCallback() {
         this.remove = false;
+        this.autoclose = true;
         this.titles = this.shadowRoot.getElementById('title');
         this.btnClose = this.shadowRoot.getElementById('btn-close');
         this.btnCancel = this.shadowRoot.getElementById('btn-cancel');
         this.btnSubmit = this.shadowRoot.getElementById('btn-submit');
         this.dialogType = this.shadowRoot.getElementById('dialog-type');
-        this.width = document.documentElement.clientWidth;
+        this.input = this.shadowRoot.querySelector('xy-input');
+        this.clientWidth;
         this.shadowRoot.addEventListener('transitionend',(ev)=>{
             if(ev.propertyName === 'transform' && this.open){
-                this.btnSubmit.focus();
+                if(this.input){
+                    this.input.focus();
+                }else{
+                    this.btnSubmit.focus();
+                }  
             }
         })
         this.shadowRoot.addEventListener('transitionend',(ev)=>{
@@ -224,6 +245,7 @@ class XyDialog extends HTMLElement {
                     document.body.removeChild(this);
                 }
                 this.dispatchEvent(new CustomEvent('close'));
+                this.btnActive && this.btnActive.focus();
             }
         })
         this.btnClose.addEventListener('click',()=>{
@@ -235,12 +257,9 @@ class XyDialog extends HTMLElement {
         })
         this.btnSubmit.addEventListener('click',()=>{
             this.dispatchEvent(new CustomEvent('submit'));
-            if(!this.loading){
+            if(!this.loading && this.autoclose){
                 this.open = false;
             }
-        })
-        window.addEventListener('resize',()=>{
-            this.width = document.documentElement.clientWidth;
         })
     }
 
@@ -248,12 +267,8 @@ class XyDialog extends HTMLElement {
         if( name == 'open' && this.shadowRoot){
             if(newValue!==null){
                 this.btnActive = document.activeElement;
-                document.body.style.overflowY = 'hidden';
-                document.body.style.paddingRight = (document.documentElement.clientWidth - this.width)+'px';
             }else{
-                this.btnActive.focus();
-                document.body.style.overflowY = 'auto';
-                document.body.style.paddingRight = '0px';
+                //this.btnActive.focus();
             }
         }
         if( name == 'loading' && this.shadowRoot){
@@ -265,17 +280,17 @@ class XyDialog extends HTMLElement {
         }
         if( name == 'title' && this.titles){
             if(newValue!==null){
-                this.titles.innerHTML = newValue;
+                this.titles.textContent = newValue;
             }
         }
         if( name == 'oktext' && this.btnSubmit){
             if(newValue!==null){
-                this.btnSubmit.innerHTML = newValue;
+                this.btnSubmit.textContent = newValue;
             }
         }
         if( name == 'canceltext' && this.btnCancel){
             if(newValue!==null){
-                this.btnCancel.innerHTML = newValue;
+                this.btnCancel.textContent = newValue;
             }
         }
         if( name == 'type' && this.dialogType){
@@ -296,7 +311,6 @@ export default {
     alert: function() {
         const dialog = new XyDialog();
         document.body.appendChild(dialog);
-        dialog.btnCancel.parentNode.removeChild(dialog.btnCancel);
         dialog.remove = true;
         if( typeof arguments[0] === 'object' ){
             const { title, oktext, content, ok} = arguments[0];
@@ -317,7 +331,6 @@ export default {
     info: function() {
         const dialog = new XyDialog();
         document.body.appendChild(dialog);
-        dialog.btnCancel.parentNode.removeChild(dialog.btnCancel);
         dialog.type = 'info';
         dialog.remove = true;
         if( typeof arguments[0] === 'object' ){
@@ -339,7 +352,6 @@ export default {
     success: function() {
         const dialog = new XyDialog();
         document.body.appendChild(dialog);
-        dialog.btnCancel.parentNode.removeChild(dialog.btnCancel);
         dialog.type = 'success';
         dialog.remove = true;
         if( typeof arguments[0] === 'object' ){
@@ -361,7 +373,6 @@ export default {
     error: function() {
         const dialog = new XyDialog();
         document.body.appendChild(dialog);
-        dialog.btnCancel.parentNode.removeChild(dialog.btnCancel);
         dialog.type = 'error';
         dialog.remove = true;
         if( typeof arguments[0] === 'object' ){
@@ -383,7 +394,6 @@ export default {
     warning: function() {
         const dialog = new XyDialog();
         document.body.appendChild(dialog);
-        dialog.btnCancel.parentNode.removeChild(dialog.btnCancel);
         dialog.type = 'warning';
         dialog.remove = true;
         if( typeof arguments[0] === 'object' ){
@@ -406,6 +416,7 @@ export default {
         //const dialog = document.createElement('xy-dialog');
         const dialog = new XyDialog();
         document.body.appendChild(dialog);
+        dialog.btnCancel.style.visibility = 'visible';
         dialog.remove = true;
         if( typeof arguments[0] === 'object' ){
             const { type, title, content, oktext, canceltext, ok, cancel} = arguments[0];
@@ -423,6 +434,50 @@ export default {
             dialog.canceltext = '取 消';
             dialog.innerHTML = arguments[0]||'';
             dialog.onsubmit = arguments[1]||null;
+            dialog.oncancel = arguments[2]||null;
+        }
+        dialog.open = true;
+        return dialog;
+    },
+
+    prompt: function() {
+        const dialog = new XyDialog({type:'prompt'});
+        document.body.appendChild(dialog);
+        dialog.btnCancel.style.visibility = 'visible';
+        dialog.remove = true;
+        dialog.autoclose = false;
+        if( typeof arguments[0] === 'object' ){
+            const { title, content, oktext, canceltext, ok, cancel} = arguments[0];
+            dialog.title = title||'Prompt';
+            dialog.oktext = oktext||'确 定';
+            dialog.canceltext = canceltext||'取 消';
+            dialog.innerHTML = content||'';
+            dialog.input.onsubmit = dialog.onsubmit = ()=>{
+                const value = dialog.input.value;
+                if(value){
+                    ok&&ok(value);
+                    dialog.open = false;
+                }else{
+                    XyMessage.error('内容不能为空');
+                    dialog.input.focus();
+                }
+            };
+            dialog.oncancel = cancel||null;
+        }else{
+            dialog.title = 'Prompt';
+            dialog.oktext = '确 定';
+            dialog.canceltext = '取 消';
+            dialog.innerHTML = arguments[0]||'';
+            dialog.input.onsubmit = dialog.onsubmit = ()=>{
+                const value = dialog.input.value;
+                if(value){
+                    arguments[1]&&arguments[1](value);
+                    dialog.open = false;
+                }else{
+                    XyMessage.error('内容不能为空');
+                    dialog.input.focus();
+                }
+            };
             dialog.oncancel = arguments[2]||null;
         }
         dialog.open = true;

@@ -480,6 +480,10 @@ export default class XyColorPicker extends HTMLElement {
         :host([block]){
             display:block;
         }
+
+        :host([disabled]){
+            pointer-events:none;
+        }
         
         :host(:focus-within) xy-popover,:host(:hover) xy-popover{ 
             z-index: 2;
