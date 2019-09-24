@@ -102,9 +102,9 @@ export default class XyTab extends HTMLElement {
             border-radius:0;
             box-shadow:none;
             flex-shrink: 0;
-            border:0;
+            border-color:transparent;
         }
-        .nav-item.active{
+        :host(:not([type="line"])) .nav-item.active{
             color:var(--themeColor,#42b983);
         }
         .tab-line{
@@ -119,6 +119,7 @@ export default class XyTab extends HTMLElement {
         .tab-content{
             overflow:hidden;
             flex:1;
+            transition:.2s;
         }
         .tab-content-wrap{
             display:flex;
@@ -126,20 +127,46 @@ export default class XyTab extends HTMLElement {
             height:100%;
             transition:.2s;
         }
-        :host([type="card"]) .tab-line{
+        :host([type="card"]) .tab-line,
+        :host([type="line"]) .tab-line{
             visibility:hidden;
         }
         :host([type="card"]) .nav-item{
             border-radius:.5em .5em 0 0;
         }
-        :host([type="card"]) .nav-item:
-        :host([type="card"]) .nav-item:not(:first-child){
-            margin-left:.5em;
+        :host([type="line"]) .nav-item{
+            border-radius:var(--borderRadius,.25em) var(--borderRadius,.25em) 0 0;
         }
         :host([type="card"]) .nav-item.active,:host([type="card"]) .tab-content{
             background-color:#fff;
         }
-        :host([type="card"]) .tab-content-wrap{
+        :host([type="line"]) .nav-item.active{
+            border-color:var(--borderColor,rgba(0,0,0,.2)) var(--borderColor,rgba(0,0,0,.2)) transparent;
+        }
+        :host([type="line"]) .tab-nav-con{
+            oveflow:hidden;
+        }
+        :host([type="line"]) .tab-line{
+            transition:none;
+        }
+        :host([type="line"]) .tab-line::before,
+        :host([type="line"]) .tab-line::after{
+            content:'';
+            position:absolute;
+            visibility:visible;
+            width:9999px;
+            height:1px;
+            bottom:0;
+            background:var(--borderColor,rgba(0,0,0,.2));
+        }
+        :host([type="line"]) .tab-line::before{
+            right:100%;
+        }
+        :host([type="line"]) .tab-line::after{
+            left:100%;
+        }
+        :host([type="card"]) .tab-content-wrap,
+        :host([type="line"]) .tab-content-wrap{
             transition:none;
         }
         :host([align="center"]) .tab-nav{
@@ -165,6 +192,10 @@ export default class XyTab extends HTMLElement {
         return this.getAttribute('align')||'start';
     }
 
+    get type() {
+        return this.getAttribute('type')||'flat';
+    }
+
     get activekey() {
         return this.getAttribute('activekey');
     }
@@ -176,6 +207,10 @@ export default class XyTab extends HTMLElement {
 
     set activekey(value) {
         this.setAttribute('activekey', value);
+    }
+
+    set type(value) {
+        this.setAttribute('type', value);
     }
 
     inittab() {

@@ -167,13 +167,24 @@ content.setAttribute('icon','name');
 
 可选择标签页风格，`flat`、`card`，默认为`flat`
 
-`card`卡片式风格，通常适用于有背景的卡片中
+* `card`卡片式风格，通常适用于有背景的卡片中
+* `line`线框式风格
 
-<xy-tab type="card" style="padding:.8em; background:#f1f1f1">
+<xy-radio-group onchange="this.nextElementSibling.type=this.value" defaultvalue="flat">
+    <xy-radio value="flat">flat</xy-radio>
+    <xy-radio value="card">card</xy-radio>
+    <xy-radio value="line">line</xy-radio>
+</xy-radio-group>
+<xy-tab type="flat" style="padding:.8em;">
     <xy-tab-content label="home" icon="home">tab1</xy-tab-content>
     <xy-tab-content label="message" icon="message">tab2</xy-tab-content>
     <xy-tab-content label="user" icon="user">tab3</xy-tab-content>
 </xy-tab>
+<style>
+xy-tab[type="card"]{
+    background:#f1f1f1;
+}
+</style>
 
 ```css
 xy-tab[type="card"]{
@@ -187,7 +198,8 @@ xy-tab[type="card"]{
 </xy-tab>
 ```
 
-> 纯`CSS`修改(属性选择器)，当设置成`card`风格时，容器不再有滚动动画
+> 纯`CSS`修改(属性选择器)，当设置成`card`或者`line`风格时，容器不再有滚动动画
+
 
 ## 对齐`align`
 

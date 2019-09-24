@@ -206,18 +206,18 @@ input.setAttribute('value','name');
 
 上面的校验均针对输入格式，如果需要对值进行校验，可使用`customValidity`，比如校验重复密码
 
-<xy-form-item labelwidth="100" label="password">
+<xy-form-item labelwidth="100" legend="password">
     <xy-input name="password" id="pwd" required type="password" placeholder="password" minlength="6"></xy-input>
 </xy-form-item>
-<xy-form-item labelwidth="100" label="password again">
+<xy-form-item labelwidth="100" legend="password again">
     <xy-input name="password_confirm" id="pwdAgain" required type="password" placeholder="password confirm"></xy-input>
 </xy-form-item>
 
 ```html
-<xy-form-item labelwidth="100" label="password">
+<xy-form-item labelwidth="100" legend="password">
     <xy-input name="password" id="pwd" required type="password" placeholder="password" minlength="6"></xy-input>
 </xy-form-item>
-<xy-form-item labelwidth="100" label="password again">
+<xy-form-item labelwidth="100" legend="password again">
     <xy-input name="password_confirm" id="pwdAgain" required type="password" placeholder="password confirm"></xy-input>
 </xy-form-item>
 ```
