@@ -178,6 +178,37 @@ select.setAttribute('value',50);
 select.getAttribute('value');
 ```
 
+## 搜索`search`
+
+添加`search`可对选项进行搜索。
+
+过滤的条件是`xy-option`中的`value`属性（不区分大小写）。
+
+<xy-select search>
+    <xy-option value="html">html</xy-option>
+    <xy-option value="css">css</xy-option>
+    <xy-option value="javascript">javascript</xy-option>
+    <xy-option value="react">react</xy-option>
+    <xy-option value="vue">vue</xy-option>
+    <xy-option value="agular">agular</xy-option>
+    <xy-option value="dart">dart</xy-option>
+    <xy-option value="flutter">flutter</xy-option>
+</xy-select>
+
+```html
+<xy-select search>
+    <xy-option value="html">html</xy-option>
+    <xy-option value="css">css</xy-option>
+    <xy-option value="javascript">javascript</xy-option>
+    <xy-option value="react">react</xy-option>
+    <xy-option value="vue">vue</xy-option>
+    <xy-option value="agular">agular</xy-option>
+    <xy-option value="dart">dart</xy-option>
+    <xy-option value="flutter">flutter</xy-option>
+</xy-select>
+```
+
+> 内部通过属性选择器`xy-option:not([value*="${value}" i])`简单实现
 
 ## 自定义尺寸
 

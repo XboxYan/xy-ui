@@ -441,6 +441,10 @@ class XyPopover extends HTMLElement {
         return this.getAttribute('type');
     }
 
+    get accomplish() {
+        return this.getAttribute('accomplish')!==null;
+    }
+
     get content() {
         return this.getAttribute('content');
     }
@@ -524,7 +528,11 @@ class XyPopover extends HTMLElement {
                 const path = ev.path || (ev.composedPath && ev.composedPath());
                 if(!path.includes(this.popcon)){
                     window.xyActiveElement = document.activeElement;
-                    this.popcon.open = !this.popcon.open;
+                    if(this.accomplish){
+                        this.popcon.open = true;
+                    }else{
+                        this.popcon.open = !this.popcon.open;
+                    }
                 }
             }
         }else{

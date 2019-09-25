@@ -79,6 +79,29 @@ input.setAttribute('disabled','');
 input.removeAttribute('disabled');
 ```
 
+## 只读`readonly`
+
+通过`readonly`让输入框只读。
+
+<xy-input label="user" readonly defaultvalue="XboxYan"></xy-input>
+<xy-switch checked onchange="this.previousElementSibling.readonly = this.checked;"></xy-switch>
+
+```html
+<xy-input label="user" readonly defaultvalue="XboxYan"></xy-input>
+```
+
+JavaScript操作`get`、`set`
+
+```js
+input.readonly;//获取
+input.readonly = false;
+input.readonly = true;
+//原生属性操作
+input.getAttribute('readonly');
+input.setAttribute('readonly','');
+input.removeAttribute('readonly');
+```
+
 ## 块状`block`
 
 `block`属性将使按钮适合其父宽度。

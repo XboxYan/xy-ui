@@ -3,7 +3,7 @@ import './xy-button.js';
 
 export default class XyInput extends HTMLElement {
 
-    static get observedAttributes() { return ['label','disabled','pattern','required'] }
+    static get observedAttributes() { return ['label','disabled','pattern','required','readonly','placeholder'] }
 
     constructor({multi}={}) {
         super();
@@ -22,6 +22,7 @@ export default class XyInput extends HTMLElement {
             padding: .25em .625em;
             color: var(--fontColor,#333);
             font-size: 14px;
+            cursor: text;
         }
         :host(:focus-within){
             /*box-shadow: 0 0 10px rgba(0,0,0,0.1);*/
@@ -60,6 +61,7 @@ export default class XyInput extends HTMLElement {
         }
         xy-tips{  
             display:flex;
+            width:100%;
             align-items:center;
             margin:-.25em -.625em;
             padding:.25em .625em;
@@ -86,6 +88,8 @@ export default class XyInput extends HTMLElement {
             -moz-appearance: textfield;
             background: none;
             overflow-x: hidden;
+            transition: color .3s;
+            cursor: inherit;
         }
         :host(xy-textarea) .input{
             margin:0;
@@ -176,6 +180,7 @@ export default class XyInput extends HTMLElement {
                 ''
             }
             <${multi?'textarea':'input'} id="input" name="${this.name}" class="input" ${this.type === 'number'?'min="'+this.min+'" max="'+this.max+'" step="'+this.step+'"':""} value="${this.defaultvalue}" type="${this.typeMap(this.type)}" placeholder="${this.placeholder}" minlength="${this.minlength}" rows="${this.rows}" maxlength="${this.maxlength}">${multi?'</textarea>':''}
+            <slot></slot>
             ${
                 this.label&&!this.icon?
                 '<label class="input-label">'+this.label+'</label>'
@@ -321,6 +326,7 @@ export default class XyInput extends HTMLElement {
         }
         this.disabled = this.disabled;
         this.required = this.required;
+        this.readonly = this.readonly;
     }
 
     typeMap(type) {
@@ -372,6 +378,10 @@ export default class XyInput extends HTMLElement {
 
     get error() {
         return this.getAttribute('error')!==null;
+    }
+
+    get readonly() {
+        return this.getAttribute('readonly')!==null;
     }
 
     get validity() {
@@ -457,6 +467,14 @@ export default class XyInput extends HTMLElement {
         }
     }
 
+    set readonly(value) {
+        if(value===null||value===false){
+            this.removeAttribute('readonly');
+        }else{
+            this.setAttribute('readonly', '');
+        }
+    }
+
     set error(value) {
         if(value===null||value===false){
             this.removeAttribute('error');
@@ -522,11 +540,25 @@ export default class XyInput extends HTMLElement {
                 this.input.removeAttribute('pattern');
             }
         }
+        if(name == 'placeholder' && this.input){
+            if(newValue!==null){
+                this.input.setAttribute('placeholder', newValue);
+            }else{
+                this.input.removeAttribute('placeholder');
+            }
+        }
         if(name == 'required' && this.input){
             if(newValue!==null){
                 this.input.setAttribute('required', 'required');
             }else{
                 this.input.removeAttribute('required');
+            }
+        }
+        if(name == 'readonly' && this.input){
+            if(newValue!==null){
+                this.input.setAttribute('readonly', 'readonly');
+            }else{
+                this.input.removeAttribute('readonly');
             }
         }
     }

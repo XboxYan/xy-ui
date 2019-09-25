@@ -248,6 +248,9 @@ class XyDialog extends HTMLElement {
                 this.btnActive && this.btnActive.focus();
             }
         })
+        this.addEventListener('wheel',(ev)=>{
+            ev.preventDefault();
+        })
         this.btnClose.addEventListener('click',()=>{
             this.open = false;
         })

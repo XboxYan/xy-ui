@@ -44,7 +44,8 @@ export default class XyButton extends HTMLElement {
             pointer-events: all; 
         }
         :host(:not([type="primary"]):not([type="danger"]):not([disabled]):hover),
-        :host(:not([type="primary"]):not([type="danger"]):focus-within){ 
+        :host(:not([type="primary"]):not([type="danger"]):focus-within),
+        :host([type="flat"][focus]){ 
             color:var(--themeColor,#42b983); 
             border-color: var(--themeColor,#42b983); 
         }
@@ -81,7 +82,8 @@ export default class XyButton extends HTMLElement {
         :host([type="flat"]:not([disabled]):hover) .btn::before{ 
             opacity:.1 
         }
-        :host([type="flat"]:focus-within) .btn:before{ 
+        :host([type="flat"]:focus-within) .btn:before,
+        :host([type="flat"][focus]) .btn:before{ 
             opacity:.2; 
         }
         :host(:focus-within){ 

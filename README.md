@@ -11,6 +11,10 @@
 [github项目地址](https://github.com/XboxYan/xy-ui)
 
 ## 更新
+* ## 1.8.6
+    * [`xy-select`](./docs/xy-select.md?id=搜索search)新增`search`属性
+    * `xy-input`新增`readonly`属性
+    * `xy-tab`新增`line`风格
 * ## 1.8.5
     * `xy-tab`新增`card`风格
     * `xy-dialog`新增`prompt`方法
