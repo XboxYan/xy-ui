@@ -103,6 +103,24 @@
 </xy-select>
 ```
 
+## 占位`placeholder`
+
+当没有设置初始值`defaultvalue`时，可设置默认提示，默认为`请选择`。
+
+<xy-select placeholder="请选择一项">
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
+
+```html
+<xy-select placeholder="请选择一项">
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
+```
+
 ## 禁用`disabled`
 
 通过`disabled`可以禁用下拉选择器。
@@ -157,6 +175,8 @@ select.removeAttribute('disabled');
 
 `value`指定在`xy-option`上，`text`指`xy-option`的`textContent`。
 
+每个`xy-option`必须指定一个不重复的`value`。
+
 该属性值在`xy-select`标签上不可见。
 
 <xy-select>
@@ -182,33 +202,90 @@ select.getAttribute('value');
 
 添加`search`可对选项进行搜索。
 
-过滤的条件是`xy-option`中的`value`属性（不区分大小写）。
+过滤的条件是`xy-option`中的`key`属性（不区分大小写）。
 
 <xy-select search>
-    <xy-option value="html">html</xy-option>
-    <xy-option value="css">css</xy-option>
-    <xy-option value="javascript">javascript</xy-option>
-    <xy-option value="react">react</xy-option>
-    <xy-option value="vue">vue</xy-option>
-    <xy-option value="agular">agular</xy-option>
-    <xy-option value="dart">dart</xy-option>
-    <xy-option value="flutter">flutter</xy-option>
+    <xy-option value="wuhan" key="wuhan-武汉-wh">武汉</xy-option>
+    <xy-option value="beijing" key="beijing-北京-bj">北京</xy-option>
+    <xy-option value="shnaghai" key="shnaghai-上海-sh">上海</xy-option>
+    <xy-option value="shenzhen" key="shenzhen-深圳-sz">深圳</xy-option>
+    <xy-option value="chongqing" key="chongqing-重庆-cq">重庆</xy-option>
+    <xy-option value="hangzhou" key="hangzhou-杭州-hz">杭州</xy-option>
+    <xy-option value="guangzhou" key="guangzhou-广州-gz">广州</xy-option>
+    <xy-option value="hongkong" key="hongkong-香港-hk">香港</xy-option>
 </xy-select>
 
 ```html
 <xy-select search>
-    <xy-option value="html">html</xy-option>
-    <xy-option value="css">css</xy-option>
-    <xy-option value="javascript">javascript</xy-option>
-    <xy-option value="react">react</xy-option>
-    <xy-option value="vue">vue</xy-option>
-    <xy-option value="agular">agular</xy-option>
-    <xy-option value="dart">dart</xy-option>
-    <xy-option value="flutter">flutter</xy-option>
+    <xy-option value="wuhan" key="wuhan-武汉-wh">武汉</xy-option>
+    <xy-option value="beijing" key="beijing-北京-bj">北京</xy-option>
+    <xy-option value="shnaghai" key="shnaghai-上海-sh">上海</xy-option>
+    <xy-option value="shenzhen" key="shenzhen-深圳-sz">深圳</xy-option>
+    <xy-option value="chongqing" key="chongqing-重庆-cq">重庆</xy-option>
+    <xy-option value="hangzhou" key="hangzhou-杭州-hz">杭州</xy-option>
+    <xy-option value="guangzhou" key="guangzhou-广州-gz">广州</xy-option>
+    <xy-option value="hongkong" key="hongkong-香港-hk">香港</xy-option>
 </xy-select>
 ```
 
-> 内部通过属性选择器`xy-option:not([value*="${value}" i])`简单实现
+> 内部通过属性选择器`xy-option:not([key*="${value}" i])`简单实现，设置`search`后，`type`风格失效
+
+## 必填项`required`
+
+表单验证属性，表示必填
+
+<xy-select required>
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
+
+<xy-select type="flat" required>
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
+
+<xy-select type="primary" required>
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
+
+<xy-select type="dashed" required>
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
+
+```html
+<xy-select required>
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
+```
+
+> 默认提示信息为`请选择一项`，可通过`errortips`自定义提示。
+
+## 合法性`validity`
+
+可以通过属性`validity`来获取下拉框的合法性。
+
+<xy-select required>
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
+<xy-button type="primary" onclick="XyMessage.info('合法性:'+this.previousElementSibling.validity)">合法性</xy-button>
+
+JavaScript操作`get`
+
+```js
+select.validity;//获取
+//原生属性操作
+select.getAttribute('validity');
+```
 
 ## 自定义尺寸
 
@@ -310,6 +387,36 @@ select.addEventListener('change',function(ev){
 
 ```js
 select.focus();
+```
+
+### reset
+
+清空选项。
+
+<xy-select defaultvalue="2">
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
+<xy-button type="primary" onclick="this.previousElementSibling.reset()">reset</xy-button>
+
+```js
+select.reset();
+```
+
+### checkValidity
+
+用于主动校验，弹出提示信息。
+
+<xy-select required>
+    <xy-option value="1">Option1</xy-option>
+    <xy-option value="2">Option2</xy-option>
+    <xy-option value="3">Option3</xy-option>
+</xy-select>
+<xy-button type="primary" onclick="this.previousElementSibling.checkValidity()">主动校验</xy-button>
+
+```js
+select.checkValidity();
 ```
 
 ## 其他

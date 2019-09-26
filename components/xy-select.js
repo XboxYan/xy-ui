@@ -9,7 +9,7 @@ class XyOption extends HTMLElement {
         shadowRoot.innerHTML = `
         <style>
             :host{
-                display: contents;
+                display: block;
             }
             .option {
                 display: flex;
@@ -28,11 +28,6 @@ class XyOption extends HTMLElement {
 
     connectedCallback() {
         this.option = this.shadowRoot.getElementById('option');
-        // this.option.addEventListener('click',(ev)=>{
-        //     ev.stopPropagation();
-        //     this.parentNode.value = this.value;
-        //     this.parentNode.focus();
-        // })
     }
 
     focus() {
@@ -69,6 +64,9 @@ class XyOption extends HTMLElement {
         if (value) {
             this.setAttribute('focusin','');
             this.option.setAttribute('focus','');
+            this.scrollIntoView({
+                block: "nearest"
+            });
         } else {
             this.removeAttribute('focusin');
             this.option.removeAttribute('focus');
@@ -104,16 +102,15 @@ export default class XySelect extends HTMLElement {
         :host([block]){
             display:block;
         }
-        :host xy-button{
-            font-size: inherit;
-        }
         
-        :host(:not([disabled]):not([type="primary"]):focus-within) xy-button{
+        :host(:not([disabled]):not([type="primary"]):focus-within) #select,
+        :host(:not([disabled]):not([type="primary"]):hover) #select{
             border-color:var(--themeColor,#42b983);
             color:var(--themeColor,#42b983);
         }
 
-        :host([search]:focus-within:not([disabled])), :host([search]:not([disabled]):hover) {
+        :host([search]:focus-within:not([disabled])) #select, 
+        :host([search]:not([disabled]):hover) #select{
             color: var(--themeColor,#42b983);
         }
 
@@ -124,23 +121,48 @@ export default class XySelect extends HTMLElement {
         :host(:focus-within) xy-popover,:host(:active) xy-popover{ 
             z-index: 2;
         }
-        #select{
+        xy-tips{
+            display:block;
+            width: 100%;
+            height: 100%;
+        }
+        
+        #select:not([type="primary"]){
             display:flex;
             width:100%;
             height:100%;
+            font-size: inherit;
+            color: currentColor;
         }
         :host([search]) #select{
             color:currentColor;
         }
+
+        xy-tips[show=show]{
+            --themeColor:var(--errorColor,#f4615c);
+            --borderColor:var(--errorColor,#f4615c);
+        }
+        :host([invalid]) #select:not([type="primary"]){
+            color:var(--errorColor,#f4615c);
+        }
+
         #select span{
             flex:1;
             text-align:left;
         }
-        #select[readonly]{
-            cursor: default;
+        
+        xy-input::after{
+            content:'';
+            position:absolute;
+            left:0;
+            top:0;
+            right:0;
+            bottom:0;
+            cursor:default;
+            pointer-events:none;
         }
-        #select[data-show=true] .arrow{
-            transform:scaleY(-.8);
+        #select[readonly]::after{
+            pointer-events:all;
         }
         .arrow{
             position:relative;
@@ -151,9 +173,13 @@ export default class XySelect extends HTMLElement {
             width:1em;
             height:1em;
             fill:currentColor;
+            transition:.3s transform cubic-bezier(.645, .045, .355, 1);
         }
         :host([search]) .arrow{
-            transition:color .3s;
+            transition:color .3s  cubic-bezier(.645, .045, .355, 1),.3s transform cubic-bezier(.645, .045, .355, 1);
+        }
+        xy-popover[open] .arrow{
+            transform:scaleY(-.8);
         }
         xy-popover{
             display:block;
@@ -161,7 +187,9 @@ export default class XySelect extends HTMLElement {
         }
         xy-popcon{
             min-width:100%;
-            overflow:hidden;
+            overflow:auto;
+            max-height:50vh;
+            scroll-behavior: smooth;
         }
         :host([search]) xy-popcon::before{
             display:none;
@@ -180,7 +208,9 @@ export default class XySelect extends HTMLElement {
         </style>
         <style id="filter"></style>
         <xy-popover id="root" ${this.search?"accomplish":""}>
-            <${this.search?'xy-input':'xy-button'} id="select" debounce="200" readonly ${this.disabled? "disabled" : ""} ${this.type?("type="+this.type):""}>${this.search?"":'<span id="value"></span>'}<svg class="arrow" viewBox="0 0 1024 1024"><path d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3 0.1-12.7-6.4-12.7z"></path></svg></${this.search?'xy-input':'xy-button'}>
+            <xy-tips id="tip" type="error">
+                <${this.search?'xy-input':'xy-button'} id="select" debounce="200" readonly ${this.disabled? "disabled" : ""} ${this.type?("type="+this.type):""}>${this.search?"":'<span id="value"></span>'}<svg class="arrow" viewBox="0 0 1024 1024"><path d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3 0.1-12.7-6.4-12.7z"></path></svg></${this.search?'xy-input':'xy-button'}>
+            </xy-tips>
             <xy-popcon id="options">
                 <slot id="slot"></slot>
             </xy-popcon>
@@ -193,7 +223,9 @@ export default class XySelect extends HTMLElement {
         const focusIndex = dir + this.focusIndex;
         const current = this.nodes[focusIndex];
         if (current) {
-            pre.focusin = false;
+            if(pre){
+                pre.focusin = false;
+            }
             current.focusin = true;
             this.focusIndex = focusIndex;
         }
@@ -215,16 +247,37 @@ export default class XySelect extends HTMLElement {
     }
 
     reset() {
+        this.tip.show = false;
+        this.invalid = false;
         this.value = '';
     }
 
+    checkValidity(){
+        if(this.novalidate||this.disabled||this.form&&this.form.novalidate){
+            return true;
+        }
+        if(this.validity){
+            this.tip.show = false;
+            this.invalid = false;
+            return true;
+        }else{
+            this.focus();
+            this.tip.show = 'show';
+            this.invalid = true;
+            this.tip.tips = this.errortips;
+            return false;
+        }
+    }
+
     connectedCallback() {
+        this.form = this.closest('xy-form');
         this.root = this.shadowRoot.getElementById('root');
         this.select = this.shadowRoot.getElementById('select');
         this.options = this.shadowRoot.getElementById('options');
         this.slots = this.shadowRoot.getElementById('slot');
         this.txt = this.shadowRoot.getElementById('value');
-        this.focusIndex = 0;
+        this.tip = this.shadowRoot.getElementById('tip');
+        this.focusIndex = -1;
         this.addEventListener('keydown', (ev) => {
             if (this.options.open) {
                 switch (ev.keyCode) {
@@ -264,6 +317,7 @@ export default class XySelect extends HTMLElement {
         this.select.addEventListener('focus',(ev)=>{
             ev.stopPropagation();
             if(!this.isfocus){
+                this.checkValidity();
                 this.dispatchEvent(new CustomEvent('focus',{
                     detail:{
                         value:this.value
@@ -281,7 +335,7 @@ export default class XySelect extends HTMLElement {
         this.options.addEventListener('close',(ev)=>{
             if(this.search){
                 this.select.readonly = true;
-                this.select.value = this.$value;
+                this.value = this.$value;
                 this.nodes = [...this.querySelectorAll(`xy-option:not([disabled])`)];
                 this.filter.textContent = '';
                 this.empty = false;
@@ -295,6 +349,8 @@ export default class XySelect extends HTMLElement {
             if(current){
                 current.focusin = true;
                 this.focusIndex = this.nodes.indexOf(current);
+            }else{
+                this.focusIndex = -1;
             }
         })
         this.options.addEventListener('open',(ev)=>{
@@ -312,11 +368,12 @@ export default class XySelect extends HTMLElement {
                     this.nodes = [...this.querySelectorAll(`xy-option:not([disabled])`)];
                     this.filter.textContent = '';
                 }else{
-                    this.nodes = [...this.querySelectorAll(`xy-option[value*="${value}" i]:not([disabled])`)];
+                    this.nodes = [...this.querySelectorAll(`xy-option[key*="${value}" i]:not([disabled])`)];
                     this.filter.textContent = `
-                    :host([search]) ::slotted(xy-option:not([value*="${value}" i])){
+                    :host([search]) ::slotted(xy-option:not([key*="${value}" i]))
+                    {
                             display:none;
-                        }
+                    }
                     `
                 }
                 const place = this.querySelector(`xy-option[focusin]`);
@@ -339,7 +396,7 @@ export default class XySelect extends HTMLElement {
                     if(item){
                         this.value = item.value;
                     }else{
-                        this.select.value = this.$value;
+                        this.value = this.$value;
                         this.options.open = false;
                     }
                 }
@@ -370,7 +427,7 @@ export default class XySelect extends HTMLElement {
         this.slots.addEventListener('slotchange', () => {
             this.nodes = [...this.querySelectorAll(`xy-option:not([disabled])`)];
             if (!this.defaultvalue) {
-                this.value = this.nodes[0].value;
+                this.value = '';
             } else {
                 this.value = this.defaultvalue;
             }
@@ -385,7 +442,7 @@ export default class XySelect extends HTMLElement {
     }
 
     get value() {
-        return this.$value;
+        return this.$value||'';
     }
 
     get text() {
@@ -405,7 +462,23 @@ export default class XySelect extends HTMLElement {
     }
 
     get validity() {
-        return true;
+        return this.required?this.value!=='':true;
+    }
+
+    get novalidate() {
+        return this.getAttribute('novalidate')!==null;
+    }
+
+    get errortips() {
+        return this.getAttribute('errortips')||'请选择一项';
+    }
+
+    get required() {
+        return this.getAttribute('required')!==null;
+    }
+
+    get invalid() {
+        return this.getAttribute('invalid')!==null;
     }
 
     get disabled() {
@@ -414,6 +487,34 @@ export default class XySelect extends HTMLElement {
 
     get search() {
         return this.getAttribute('search')!==null;
+    }
+
+    get placeholder() {
+        return this.getAttribute('placeholder')||'请选择';
+    }
+
+    set required(value) {
+        if(value===null||value===false){
+            this.removeAttribute('required');
+        }else{
+            this.setAttribute('required', '');
+        }
+    }
+
+    set invalid(value) {
+        if(value===null||value===false){
+            this.removeAttribute('invalid');
+        }else{
+            this.setAttribute('invalid', '');
+        }
+    }
+
+    set novalidate(value) {
+        if(value===null||value===false){
+            this.removeAttribute('novalidate');
+        }else{
+            this.setAttribute('novalidate', '');
+        }
     }
 
     set disabled(value) {
@@ -437,6 +538,24 @@ export default class XySelect extends HTMLElement {
     }
 
     set value(value) {
+        if(value === ''){
+            this.$value = '';
+            if(this.focusIndex>=0){
+                const current = this.nodes[this.focusIndex];
+                if(current){
+                    this.focusIndex = -1;
+                    current.selected = false;
+                    current.focusin = false;
+                }
+            }
+            if(this.search){
+                this.select.placeholder = this.placeholder;
+                this.select.value = '';
+            }else{
+                this.txt.textContent = this.placeholder;
+            }
+            return
+        }
         let textContent = '';
         if (value !== this.value) {
             this.$value = value;
@@ -457,6 +576,7 @@ export default class XySelect extends HTMLElement {
                 this.txt.textContent = textContent;
             }
             if(this.init){
+                this.checkValidity();
                 this.dispatchEvent(new CustomEvent('change', {
                     detail: {
                         value: value,

@@ -22,7 +22,6 @@ export default class XyInput extends HTMLElement {
             padding: .25em .625em;
             color: var(--fontColor,#333);
             font-size: 14px;
-            cursor: text;
         }
         :host(:focus-within){
             /*box-shadow: 0 0 10px rgba(0,0,0,0.1);*/
@@ -30,12 +29,14 @@ export default class XyInput extends HTMLElement {
         :host([block]){
             display:block
         }
-        :host([error]){
-            --themeColor:var(--errorColor,#f4615c);
-            border-color:var(--errorColor,#f4615c);
+        xy-tips[show=show]{
             color:var(--errorColor,#f4615c);
         }
-        :host([error]) xy-icon{
+        :host([invalid]){
+            --themeColor:var(--errorColor,#f4615c);
+            border-color:var(--errorColor,#f4615c);
+        }
+        :host([invalid]) xy-icon{
             color:var(--errorColor,#f4615c);
         }
         :host(:focus-within:not([disabled])),:host(:not([disabled]):hover){
@@ -61,7 +62,8 @@ export default class XyInput extends HTMLElement {
         }
         xy-tips{  
             display:flex;
-            width:100%;
+            width: 100%;
+            height: 100%;
             align-items:center;
             margin:-.25em -.625em;
             padding:.25em .625em;
@@ -89,7 +91,6 @@ export default class XyInput extends HTMLElement {
             background: none;
             overflow-x: hidden;
             transition: color .3s;
-            cursor: inherit;
         }
         :host(xy-textarea) .input{
             margin:0;
@@ -215,12 +216,12 @@ export default class XyInput extends HTMLElement {
         }
         if(this.validity){
             this.inputCon.show = false;
-            this.error = false;
+            this.invalid = false;
             return true;
         }else{
             this.input.focus();
             this.inputCon.show = 'show';
-            this.error = true;
+            this.invalid = true;
             if(this.input.validity.valueMissing){
                 this.inputCon.tips = this.input.validationMessage;
             }else{
@@ -350,7 +351,7 @@ export default class XyInput extends HTMLElement {
 
     reset() {
         this.inputCon.show = false;
-        this.error = false;
+        this.invalid = false;
         this.input.value = '';
     }
 
@@ -376,8 +377,8 @@ export default class XyInput extends HTMLElement {
         return this.getAttribute('name')||'';
     }
 
-    get error() {
-        return this.getAttribute('error')!==null;
+    get invalid() {
+        return this.getAttribute('invalid')!==null;
     }
 
     get readonly() {
@@ -475,11 +476,11 @@ export default class XyInput extends HTMLElement {
         }
     }
 
-    set error(value) {
+    set invalid(value) {
         if(value===null||value===false){
-            this.removeAttribute('error');
+            this.removeAttribute('invalid');
         }else{
-            this.setAttribute('error', '');
+            this.setAttribute('invalid', '');
         }
     }
 

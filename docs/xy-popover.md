@@ -466,6 +466,31 @@ popcon.getAttribute('open');
 popcon.setAttribute('open',true);
 ```
 
+也可以给需要关闭的元素添加`autoclose`属性，点击后自动关闭
+
+<xy-popover>
+    <xy-tips tips="点击查看提示" style="margin:0"><xy-icon size="16" name="question-circle"></xy-icon></xy-tips>
+    <xy-popcon type="pane" title="提示">
+        <div class="pop-tips">
+            <div>这是一段提示提示提示提示提示</div>
+            <div>这是一段提示</div>
+            <div>这是一段提示</div>
+            <div>这是一段提示</div>
+        </div>
+        <xy-button style="margin:10px 0 0 0;" autoclose>关闭</xy-button>
+    </xy-popcon>
+</xy-popover>
+
+```html
+<xy-popover>
+    <xy-tips tips="点击查看提示"><xy-icon size="16" name="question-circle"></xy-icon></xy-tips>
+    <xy-popcon type="pane" title="提示">
+        ...
+        <xy-button autoclose>关闭</xy-button>
+    </xy-popcon>
+</xy-popover>
+```
+
 ## 示例
 
 这是一个很常见的下拉菜单。

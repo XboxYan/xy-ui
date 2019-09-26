@@ -70,11 +70,11 @@ document.body.style.setProperty('--themeColor','#F44336');
 
 ```css
 :root{
-    --themeBackground:linear-gradient(to right, #42b983 0%,#3cb206 100%)
+    --themeBackground:linear-gradient(-180deg,#2fcb53,#269f42 90%);
 }
 ```
 
-<div style="--themeBackground:linear-gradient(to right, #42b983 0%,#3cb206 100%);--themeColor: #42b983">
+<div style="--themeBackground:linear-gradient(-180deg,#2fcb53,#269f42 90%);--themeColor: #269f42">
 <xy-button type="primary">primary</xy-button>
 <xy-button type="dashed">dashed</xy-button>
 <xy-button type="flat">flat</xy-button>

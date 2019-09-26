@@ -12,7 +12,7 @@ export default class XySlider extends HTMLElement {
         :host{ 
             box-sizing:border-box; 
             display:flex; 
-            padding:0 10px;
+            padding:0 5px;
             ${this.vertical?'height:var(--h,300px)':''}
         }
         :host([disabled]){ 
@@ -42,8 +42,11 @@ export default class XySlider extends HTMLElement {
             width: calc( 100% + 10px );
             -webkit-appearance: none;
             outline : 0;
+            /*
             background: rgba(0,0,0,.1);
-            height: 2px;
+            */
+            height: 12px;
+            background:none;
             border-radius:2px;
         }
         input[type="range"]::-webkit-slider-runnable-track{
@@ -52,7 +55,7 @@ export default class XySlider extends HTMLElement {
             position: relative;
             height: 2px;
             border-radius:2px;
-            background:linear-gradient(to right, var(--themeColor,#42b983) calc(100% * var(--percent)), transparent 0% )
+            background:linear-gradient(to right, var(--themeColor,#42b983) calc(100% * var(--percent)), rgba(0,0,0,.1) 0% )
         }
         input[type="range"]::-moz-range-progress {
             display: flex;
@@ -62,6 +65,10 @@ export default class XySlider extends HTMLElement {
             border-radius:2px;
             outline : 0;
             background:var(--themeColor,#42b983)
+        }
+        input[type="range"]::-moz-range-track{
+            height: 2px;
+            background: rgba(0,0,0,.1);
         }
         input[type="range"]::-webkit-slider-thumb{
             -webkit-appearance: none;
@@ -159,6 +166,21 @@ export default class XySlider extends HTMLElement {
                 }
             }));
         })
+        this.addEventListener('wheel',(ev)=>{
+            if(document.activeElement === this){
+                ev.preventDefault();
+                if(ev.deltaY<0 && !this.vertical || ev.deltaY>0 && this.vertical){
+                    this.value -= this.step*5;
+                }else{
+                    this.value += this.step*5;
+                }
+                this.dispatchEvent(new CustomEvent('change',{
+                    detail:{
+                        value:this.value
+                    }
+                }));
+            }
+        })
     }
 
     disconnectedCallback() {
@@ -168,7 +190,7 @@ export default class XySlider extends HTMLElement {
     }
 
     get value() {
-        return this.slider.value;
+        return Number(this.slider.value);
     }
 
     get defaultvalue() {

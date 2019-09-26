@@ -531,8 +531,8 @@ export default class XyColorPicker extends HTMLElement {
             <xy-button class="color-btn" id="color-btn" ${this.disabled? "disabled" : ""}></xy-button>
             <xy-popcon id="popcon">
                 <div class="pop-footer">
-                    <xy-button id="btn-cancel">取消</xy-button>
-                    <xy-button type="primary" id="btn-submit">确认</xy-button>
+                    <xy-button autoclose>取消</xy-button>
+                    <xy-button type="primary" id="btn-submit" autoclose>确认</xy-button>
                 </div>
             </xy-popcon>
         </xy-popover>
@@ -547,7 +547,6 @@ export default class XyColorPicker extends HTMLElement {
         this.popover = this.shadowRoot.getElementById('popover');
         this.popcon = this.shadowRoot.getElementById('popcon');
         this.colorBtn = this.shadowRoot.getElementById('color-btn');
-        this.btnCancel = this.shadowRoot.getElementById('btn-cancel');
         this.btnSubmit = this.shadowRoot.getElementById('btn-submit');
         this.colorBtn.addEventListener('click',()=>{
             if(!this.colorPane){
@@ -556,12 +555,8 @@ export default class XyColorPicker extends HTMLElement {
                 this.popcon.prepend(this.colorPane);
             }
         })
-        this.btnCancel.addEventListener('click',()=>{
-            this.popcon.open = false;
-        })
         this.btnSubmit.addEventListener('click',()=>{
             this.value = this.colorPane.value;
-            this.popcon.open = false;
         })
         this.popcon.addEventListener('close',()=>{
             this.colorPane.value = this.value;

@@ -166,12 +166,12 @@ if(!messageContent){
 
 export default {
 
-    info: function(text,duration,onclose) {
+    info: function(text='',duration,onclose) {
         const message = new XyMessage();
         message.timer && clearTimeout(message.timer);
         messageContent.appendChild(message);
         message.type = 'info';
-        message.textContent = text||'';
+        message.textContent = text;
         message.show = true;
         message.onclose = onclose;
         message.timer = setTimeout(()=>{
@@ -180,12 +180,12 @@ export default {
         return message;
     },
 
-    success: function(text,duration,onclose) {
+    success: function(text='',duration,onclose) {
         const message = new XyMessage();
         message.timer && clearTimeout(message.timer);
         messageContent.appendChild(message);
         message.type = 'success';
-        message.textContent = text||'';
+        message.textContent = text;
         message.show = true;
         message.onclose = onclose;
         message.timer = setTimeout(()=>{
@@ -194,12 +194,12 @@ export default {
         return message;
     },
 
-    error: function(text,duration,onclose) {
+    error: function(text='',duration,onclose) {
         const message = new XyMessage();
         message.timer && clearTimeout(message.timer);
         messageContent.appendChild(message);
         message.type = 'error';
-        message.textContent = text||'';
+        message.textContent = text;
         message.show = true;
         message.onclose = onclose;
         message.timer = setTimeout(()=>{
@@ -208,12 +208,12 @@ export default {
         return message;
     },
 
-    warning: function(text,duration,onclose) {
+    warning: function(text='',duration,onclose) {
         const message = new XyMessage();
         message.timer && clearTimeout(message.timer);
         messageContent.appendChild(message);
         message.type = 'warning';
-        message.textContent = text||'';
+        message.textContent = text;
         message.show = true;
         message.onclose = onclose;
         message.timer = setTimeout(()=>{
@@ -222,12 +222,12 @@ export default {
         return message;
     },
 
-    loading: function(text,duration=0,onclose) {
+    loading: function(text='',duration=0,onclose) {
         const message = new XyMessage();
         message.timer && clearTimeout(message.timer);
         messageContent.appendChild(message);
         message.type = 'loading';
-        message.textContent = text||'';
+        message.textContent = text;
         message.show = true;
         message.onclose = onclose;
         if(duration!==0){

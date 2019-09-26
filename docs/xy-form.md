@@ -228,7 +228,7 @@ sumbitBtn.onclick = function(){
         <xy-input name="password_confirm" id="pwdAgain" required type="password" placeholder="password confirm"></xy-input>
     </xy-form-item>
     <xy-form-item legend="city">
-        <xy-select name="city">
+        <xy-select name="city" required>
             <xy-option value="wuhan">wuhan</xy-option>
             <xy-option value="beijin">beijin</xy-option>
             <xy-option value="shanghai">shanghai</xy-option>
@@ -253,7 +253,7 @@ sumbitBtn.onclick = function(){
         </xy-radio-group>
     </xy-form-item>
     <xy-form-item>
-        <xy-checkbox name="read" checked required value="read">I have read this book</xy-checkbox>
+        <xy-checkbox name="read" required value="read">I have read this book</xy-checkbox>
     </xy-form-item>
     <xy-form-item>
         <xy-button type="primary" htmltype="submit" onclick="formSubmit()">submit</xy-button>
@@ -273,7 +273,7 @@ sumbitBtn.onclick = function(){
         <xy-input name="password_confirm" id="pwdAgain" required type="password" placeholder="password confirm"></xy-input>
     </xy-form-item>
     <xy-form-item legend="city">
-        <xy-select name="city">
+        <xy-select name="city" required>
             <xy-option value="wuhan">wuhan</xy-option>
             <xy-option value="beijin">beijin</xy-option>
             <xy-option value="shanghai">shanghai</xy-option>
@@ -298,7 +298,7 @@ sumbitBtn.onclick = function(){
         </xy-radio-group>
     </xy-form-item>
     <xy-form-item>
-        <xy-checkbox name="read" checked required value="read">I have read this book</xy-checkbox>
+        <xy-checkbox name="read" required value="read">I have read this book</xy-checkbox>
     </xy-form-item>
     <xy-form-item>
         <xy-button type="primary" htmltype="submit" onclick="formSubmit()">submit</xy-button>

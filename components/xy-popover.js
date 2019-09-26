@@ -153,8 +153,10 @@ class XyPopcon extends HTMLElement {
     set open(value) {
         if(value===null||value===false){
             this.removeAttribute('open');
+            this.parentNode.removeAttribute('open');
         }else{
             this.setAttribute('open', '');
+            this.parentNode.setAttribute('open','');
             this.loading && (this.loading = false);
         }
     }
@@ -195,6 +197,12 @@ class XyPopcon extends HTMLElement {
                     //document.body.removeChild(this);
                 }
                 this.dispatchEvent(new CustomEvent('close'));
+            }
+        })
+        this.addEventListener('click',(ev)=>{
+            if( ev.target.closest('[autoclose]')){
+                this.open = false;
+                window.xyActiveElement.focus();
             }
         })
         if(this.type){

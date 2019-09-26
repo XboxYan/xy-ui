@@ -238,6 +238,8 @@ slider.addEventListener('input',function(ev){
 
 用于主动聚焦`focus`，聚焦以后可以响应键盘事件，支持方向键。
 
+现支持鼠标滚轮操作，滚动速率是`step`的`5`倍，也就是说，如果`step`是`1`，那么每次滚动会增加（或减少）`5`
+
 <xy-slider onfocus="XyMessage.info('focus')" onchange="XyMessage.info(this.value)"></xy-slider>
 <xy-button type="primary" onclick="this.previousElementSibling.focus()">主动聚焦</xy-button>
 
