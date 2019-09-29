@@ -1,4 +1,7 @@
 # update
+* ## 1.8.8
+    *  所有表单元素在表单校验失败时会添加`invalid`属性
+    * `xy-tab`在切换时会自适应高度
 * ## 1.8.7
     * `xy-slider`新增鼠标滚轮操作
     * `xy-select`新增`placeholder`,`required`属性，支持表单验证

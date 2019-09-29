@@ -153,6 +153,10 @@ export default class XyCheckbox extends HTMLElement {
         return this.getAttribute('value')||this.textContent;
     }
 
+    get invalid() {
+        return this.getAttribute('invalid')!==null;
+    }
+
     get validity() {
         return this.checkbox.checkValidity();
     }
@@ -201,11 +205,20 @@ export default class XyCheckbox extends HTMLElement {
         }
     }
 
+    set invalid(value) {
+        if(value===null||value===false){
+            this.removeAttribute('invalid');
+        }else{
+            this.setAttribute('invalid', '');
+        }
+    }
+
     focus() {
         this.checkbox.focus();
     }
 
     reset() {
+        this.invalid = false;
         this.tip.show = false;
         this.checkbox.checked = false;
     }
@@ -215,10 +228,12 @@ export default class XyCheckbox extends HTMLElement {
             return true;
         }
         if(this.validity){
+            this.invalid = false;
             this.tip.show = false;
             return true;
         }else{
             this.focus();
+            this.invalid = true;
             this.tip.show = 'show';
             this.tip.tips = this.errortips||this.checkbox.validationMessage;
             return false;
@@ -387,6 +402,10 @@ class XyCheckboxGroup extends HTMLElement {
         return this.len>=this.min && this.len<=this.max;
     }
 
+    get invalid() {
+        return this.getAttribute('invalid')!==null;
+    }
+
     set disabled(value) {
         if(value===null||value===false){
             this.removeAttribute('disabled');
@@ -430,6 +449,14 @@ class XyCheckboxGroup extends HTMLElement {
         }
     }
 
+    set invalid(value) {
+        if(value===null||value===false){
+            this.removeAttribute('invalid');
+        }else{
+            this.setAttribute('invalid', '');
+        }
+    }
+
     focus(){
         if(getComputedStyle(this.tip).zIndex!=2){
             this.elements[0].focus();
@@ -440,7 +467,7 @@ class XyCheckboxGroup extends HTMLElement {
         this.elements.forEach(el=>{
             el.checked = false;
         })
-        this.error = false;
+        this.invalid = false;
         this.tip.show = false;
     }
 
@@ -456,10 +483,12 @@ class XyCheckboxGroup extends HTMLElement {
         }
         if(this.validity){
             this.tip.show = false;
+            this.invalid = false;
             return true;
         }else{
             this.focus();
             this.tip.show = 'show';
+            this.invalid = true;
             if(this.len<this.min){
                 this.tip.tips = `请至少选择${this.min}项`;
             }

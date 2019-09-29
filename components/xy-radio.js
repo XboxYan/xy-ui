@@ -261,6 +261,10 @@ class XyRadioGroup extends HTMLElement {
         return this.value!=='';
     }
 
+    get invalid() {
+        return this.getAttribute('invalid')!==null;
+    }
+
     set value(value) {
         this.elements.forEach(el=>{
             if(value == el.value){
@@ -303,6 +307,14 @@ class XyRadioGroup extends HTMLElement {
         }
     }
 
+    set invalid(value) {
+        if(value===null||value===false){
+            this.removeAttribute('invalid');
+        }else{
+            this.setAttribute('invalid', '');
+        }
+    }
+
     focus(){
         if(getComputedStyle(this.tip).zIndex!=2){
             this.elements[0].focus();
@@ -314,6 +326,7 @@ class XyRadioGroup extends HTMLElement {
             el.checked = false;
         })
         this.error = false;
+        this.invalid = false;
         this.tip.show = false;
     }
 
@@ -323,9 +336,11 @@ class XyRadioGroup extends HTMLElement {
         }
         if(this.validity){
             this.tip.show = false;
+            this.invalid = false;
             return true;
         }else{
             this.focus();
+            this.invalid = true;
             this.tip.show = 'show';
             this.tip.tips = '请选择1项';
             return false;

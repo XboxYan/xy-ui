@@ -173,9 +173,12 @@ form.addEventListener('submit',function(data){
 
 ```js
 sumbitBtn.onclick = function(){
+    //form.formdata（默认为formdata格式数据）
+    //form.formdata.json（json格式数据）
     fetch('/login', {
         method: 'POST',
         body: form.formdata,
+        
     })
     .then(function(data){
         //

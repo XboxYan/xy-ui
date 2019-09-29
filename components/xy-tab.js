@@ -6,16 +6,6 @@ class XyTabContent extends HTMLElement {
         super();
         const shadowRoot = this.attachShadow({ mode: 'open' });
         shadowRoot.innerHTML = `
-        <style>
-            :host{
-                box-sizing:border-box;
-                width:100%;
-                height:100%;
-                padding:10px;
-                flex-shrink:0;
-                overflow:auto;
-            }
-        </style>
         <slot></slot>
         `
     }
@@ -175,7 +165,16 @@ export default class XyTab extends HTMLElement {
         :host([align="end"]) .tab-nav{
             justify-content:flex-end;
         }
+        ::slotted(xy-tab-content){
+            box-sizing:border-box;
+            width:100%;
+            height:100%;
+            padding:10px;
+            flex-shrink:0;
+            overflow:auto;
+        }
         </style>
+        <style id="filter"></style>
         <div class="tab">
             <div class="tab-nav-con">
                 <div class="tab-nav" id="nav"></div>
@@ -249,6 +248,7 @@ export default class XyTab extends HTMLElement {
         this.tab = this.shadowRoot.getElementById('tab-content');
         this.tabline = this.shadowRoot.getElementById('tab-line');
         this.slots = this.shadowRoot.getElementById('slot');
+        this.filter = this.shadowRoot.getElementById('filter');
         this.slots.addEventListener('slotchange', ()=>{
             const slots = this.slots.assignedElements();
             let html = ''
@@ -284,6 +284,12 @@ export default class XyTab extends HTMLElement {
             }
             this.tabline.style = `width:${active.width}px;transform:translateX(${active.left}px)`;
             this.tab.style.transform = `translateX(${-(active.index) * 100}%)`;
+            this.filter.textContent = `
+            ::slotted(xy-tab-content:not([key="${this.activekey}"])){
+                height:0;
+                overflow:visible;
+            }
+            `
             if( oldValue!==newValue){
                 this.nav.parentNode.scrollLeft = active.left+active.width/2-this.nav.parentNode.offsetWidth/2;
                 const pre = this.nav.querySelector(`.nav-item.active`);

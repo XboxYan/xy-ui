@@ -31,6 +31,7 @@ export default class XyForm extends HTMLElement {
                 validity = false;
             }
         })
+        this.invalid = !validity;
         return validity;
     }
 
@@ -69,6 +70,7 @@ export default class XyForm extends HTMLElement {
     }
 
     reset() {
+        this.invalid = false;
         this.elements.forEach(el=>{
             el.reset();
         })
@@ -119,6 +121,10 @@ export default class XyForm extends HTMLElement {
         return this.getAttribute('legendwidth')||80;
     }
 
+    get invalid() {
+        return this.getAttribute('invalid')!==null;
+    }
+
     /*
     get enctype() {
         const enctype = this.getAttribute('enctype');
@@ -139,6 +145,14 @@ export default class XyForm extends HTMLElement {
 
     set legendwidth(value) {
         this.setAttribute('legendwidth', value);
+    }
+
+    set invalid(value) {
+        if(value===null||value===false){
+            this.removeAttribute('invalid');
+        }else{
+            this.setAttribute('invalid', '');
+        }
     }
 
     connectedCallback() {
@@ -168,6 +182,19 @@ export default class XyForm extends HTMLElement {
                     break;
             }
         })
+        if(!this.novalidate){
+            this.elements.forEach((el)=>{
+                if(el.tagName=="XY-INPUT"){
+                    el.addEventListener('input',()=>{
+                        this.invalid = !this.validity;
+                    })
+                }else{
+                    el.addEventListener('change',()=>{
+                        this.invalid = !this.validity;
+                    })
+                }
+            })
+        }
     }
 
     attributeChangedCallback (name, oldValue, newValue) {

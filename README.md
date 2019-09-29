@@ -11,12 +11,15 @@
 [github项目地址](https://github.com/XboxYan/xy-ui)
 
 ## 更新
+* ## 1.8.8
+    *  所有表单元素在表单校验失败时会添加`invalid`属性
+    * `xy-tab`在切换时会自适应高度
 * ## 1.8.7
     * `xy-slider`新增鼠标滚轮操作
     * `xy-select`新增`placeholder`,`required`属性，支持表单验证
     * `xy-select`搜索条件改为根据`key`查找
     * `xy-popover`现支持点击内部属性带有`autoclose`的元素自动关闭
-    * `xy-input`在表单校验失败是会添加`invalid`属性
+    * `xy-input`在表单校验失败时会添加`invalid`属性
     * 其他功能优化
 * ## 1.8.6
     * [`xy-select`](./docs/xy-select.md?id=搜索search)新增`search`属性
