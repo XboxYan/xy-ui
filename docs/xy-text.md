@@ -36,7 +36,7 @@
 
 ## 行数`rows`
 
-可以设置行数`rows`，超出部分会出现省略号
+可以设置行数`rows`，超出部分会出现省略号。
 
 <xy-slider type="number" min="1" max="10" defaultvalue="3" showtips oninput="this.nextElementSibling.rows=this.value"></xy-slider>
 <xy-text rows="3">xy-ui is a front end cross-framework ui library based on web-components.xy-ui is a front end cross-framework ui library based on web-components.xy-ui is a front end cross-framework ui library based on web-components.xy-ui is a front end cross-framework ui library based on web-components.xy-ui is a front end cross-framework ui library based on web-components.xy-ui is a front end cross-framework ui library based on web-components.xy-ui is a front end cross-framework ui library based on web-components.xy-ui is a front end cross-framework ui library based on web-components.xy-ui is a front end cross-framework ui library based on web-components.xy-ui is a front end cross-framework ui library based on web-components.xy-ui is a front end cross-framework ui library based on web-components.xy-ui is a front end cross-framework ui library based on web-components.xy-ui is a front end cross-framework ui library based on web-components.xy-ui is a front end cross-framework ui library based on web-components.xy-ui is a front end cross-framework ui library based on web-components.xy-ui is a front end cross-framework ui library based on web-components.xy-ui is a front end cross-framework ui library based on web-components.xy-ui is a front end cross-framework ui library based on web-components.xy-ui is a front end cross-framework ui library based on web-components.xy-ui is a front end cross-framework ui library based on web-components.xy-ui is a front end cross-framework ui library based on web-components.xy-ui is a front end cross-framework ui library based on web-components.xy-ui is a front end cross-framework ui library based on web-components.xy-ui is a front end cross-framework ui library based on web-components.xy-ui is a front end cross-framework ui library based on web-components.xy-ui is a front end cross-framework ui library based on web-components.xy-ui is a front end cross-framework ui library based on web-components.xy-ui is a front end cross-framework ui library based on web-components.xy-ui is a front end cross-framework ui library based on web-components.</xy-text>
@@ -67,9 +67,21 @@ xy-text[truncated]+button::before{
 }
 ```
 
+## 拖拽`draggable`
+
+添加`draggable`属性可以将文本拖拽至指定容器，比如输入框，可用`ondrop`接收，同原生`drag`。
+
+<xy-text draggable>13299999999</xy-text>
+
+<xy-input placeholder="drop in here"></xy-input>
+
+```html
+<xy-text draggable>13299999999</xy-text>
+```
+
 ## 其他
 
-其他还内置了`mark`、`code`属性
+其他还内置了`mark`、`code`属性。
 
 <xy-text mark>mark</xy-text>
 

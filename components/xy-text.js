@@ -1,6 +1,6 @@
 export default class XyText extends HTMLElement {
 
-    static get observedAttributes() { return ['rows'] }
+    static get observedAttributes() { return ['rows','draggable'] }
 
     constructor() {
         super();
@@ -33,6 +33,12 @@ export default class XyText extends HTMLElement {
             color: #e96900;
         }
         :host([rows]){
+            display:block;
+        }
+        :host([draggable]){
+            cursor:default;
+        }
+        :host([rows]) span{
             --rows:${this.rows};
             display: -webkit-box;
             -webkit-box-orient: vertical;
@@ -40,12 +46,16 @@ export default class XyText extends HTMLElement {
             overflow: hidden;
         }
         </style>
-        <slot></slot>
+        <span id="txt"><slot></slot></span>
         `
     }
 
     get rows() {
         return this.getAttribute('rows');
+    }
+
+    get draggable() {
+        return this.getAttribute('draggable')!==null;
     }
 
     get truncated() {
@@ -64,24 +74,39 @@ export default class XyText extends HTMLElement {
         }
     }
 
+    set draggable(value) {
+        if(value===null||value===false){
+            this.removeAttribute('draggable');
+        }else{
+            this.setAttribute('draggable', true);
+        }
+    }
+
     connectedCallback(){
+        this.txt = this.shadowRoot.getElementById('txt');
         this.resizeObserver = new ResizeObserver(entries => {
             for (let entry of entries) {
                 const { height } = entry.contentRect;
-                this.truncated = this.scrollHeight>height;
+                this.truncated = this.txt.scrollHeight>height;
             }
         });
-        this.resizeObserver.observe(this);
+        this.draggable = this.draggable;
+        if(this.draggable){
+            this.addEventListener('dragstart',(ev)=>{
+                ev.dataTransfer.setData("text",this.textContent);
+            })
+        }
+        this.resizeObserver.observe(this.txt);
     }
 
     attributeChangedCallback (name, oldValue, newValue) {
-        if( name == 'rows' && this.shadowRoot){
-            this.style.setProperty('--rows',newValue);
+        if( name == 'rows' && this.txt){
+            this.txt.style.setProperty('--rows',newValue);
         }
     }
 
     disconnectedCallback() {
-        this.resizeObserver.unobserve(this);
+        this.resizeObserver.unobserve(this.txt);
     }
 }
 

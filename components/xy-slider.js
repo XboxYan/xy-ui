@@ -91,6 +91,9 @@ export default class XySlider extends HTMLElement {
             background:var(--themeColor,#42b983);
             transition:.2s cubic-bezier(.12, .4, .29, 1.46);
         }
+        input[type="range"]:focus{
+            z-index:2;
+        }
         input[type="range"]::-webkit-slider-thumb:active,
         input[type="range"]:focus::-webkit-slider-thumb{
             transform:scale(1.2);
@@ -167,7 +170,7 @@ export default class XySlider extends HTMLElement {
             }));
         })
         this.addEventListener('wheel',(ev)=>{
-            if(document.activeElement === this){
+            if(getComputedStyle(this.slider).zIndex==2){
                 ev.preventDefault();
                 if(ev.deltaY<0 && !this.vertical || ev.deltaY>0 && this.vertical){
                     this.value -= this.step*5;
@@ -180,7 +183,7 @@ export default class XySlider extends HTMLElement {
                     }
                 }));
             }
-        })
+        },true)
     }
 
     disconnectedCallback() {
