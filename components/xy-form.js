@@ -157,7 +157,7 @@ export default class XyForm extends HTMLElement {
 
     connectedCallback() {
         this.form  = this.shadowRoot.getElementById('form');
-        this.elements  = [...this.querySelectorAll('[name]')];
+        this.elements  = [...this.querySelectorAll('[name]:not([disabled])')];
         this.submitBtn = this.querySelector('[htmltype=submit]');
         this.resetBtn = this.querySelector('[htmltype=reset]');
         if(this.submitBtn){

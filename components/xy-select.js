@@ -1,6 +1,40 @@
 import './xy-button.js';
 import './xy-popover.js';
 
+class XyOptionGroup extends HTMLElement {
+    constructor() {
+        super();
+        const shadowRoot = this.attachShadow({ mode: 'open' });
+        shadowRoot.innerHTML = `
+        <style>
+            :host{
+                display: contents;
+            }
+            .group{
+                line-height:2;
+                padding:0 .625em;
+                opacity:.6;
+                font-size: .9em;
+            }
+            ::slotted(xy-option){
+                --paddingLeft:1em;
+            }
+        </style>
+        <div class="group">${this.label}</div>
+        <slot></slot>
+        `
+    }
+
+    get label() {
+        return this.getAttribute('label');
+    }
+
+}
+
+if(!customElements.get('xy-option-group')){
+    customElements.define('xy-option-group', XyOptionGroup);
+}
+
 class XyOption extends HTMLElement {
     static get observedAttributes() { return ["value", "selected","disabled"]; }
     constructor() {
@@ -16,6 +50,7 @@ class XyOption extends HTMLElement {
                 justify-content: flex-start;
                 border-radius:0;
                 font-size: inherit;
+                padding-left:var(--paddingLeft,.625em);
             }
             :host([selected]) .option{
                 color:var(--themeColor,#42b983)
@@ -83,7 +118,9 @@ class XyOption extends HTMLElement {
 
 }
 
-customElements.define('xy-option', XyOption);
+if(!customElements.get('xy-option')){
+    customElements.define('xy-option', XyOption);
+}
 
 export default class XySelect extends HTMLElement {
 
@@ -335,7 +372,8 @@ export default class XySelect extends HTMLElement {
         this.options.addEventListener('close',(ev)=>{
             if(this.search){
                 this.select.readonly = true;
-                this.value = this.$value;
+                this.select.value = this.$text;
+                //this.value = this.$value;
                 this.nodes = [...this.querySelectorAll(`xy-option:not([disabled])`)];
                 this.filter.textContent = '';
                 this.empty = false;
@@ -372,7 +410,7 @@ export default class XySelect extends HTMLElement {
                     this.filter.textContent = `
                     :host([search]) ::slotted(xy-option:not([key*="${value}" i]))
                     {
-                            display:none;
+                        display:none;
                     }
                     `
                 }
@@ -446,7 +484,7 @@ export default class XySelect extends HTMLElement {
     }
 
     get text() {
-        return this.select.textContent;
+        return this.$text||this.placeholder;
     }
 
     get name() {
@@ -540,6 +578,7 @@ export default class XySelect extends HTMLElement {
     set value(value) {
         if(value === ''){
             this.$value = '';
+            this.$text = this.placeholder;
             if(this.focusIndex>=0){
                 const current = this.nodes[this.focusIndex];
                 if(current){
@@ -569,6 +608,7 @@ export default class XySelect extends HTMLElement {
             cur.selected = true;
             cur.focusin = true;
             textContent = cur.textContent;
+            this.$text = textContent;
             if(this.search){
                 this.select.placeholder = textContent;
                 this.select.value = textContent;

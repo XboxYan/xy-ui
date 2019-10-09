@@ -198,6 +198,39 @@ select.setAttribute('value',50);
 select.getAttribute('value');
 ```
 
+## 分组`xy-option-group`
+
+可以通过`xy-option-group`进行分组，名称为`label`。
+
+<xy-select>
+    <xy-option-group label="group1">
+        <xy-option value="1">Option1</xy-option>
+        <xy-option value="2">Option2</xy-option>
+        <xy-option value="3">Option3</xy-option>
+    </xy-option-group>
+    <xy-option-group label="group2">
+        <xy-option value="4">Option4</xy-option>
+        <xy-option value="5">Option5</xy-option>
+    </xy-option-group>
+    <xy-option value="6">Option6</xy-option>
+</xy-select>
+
+```html
+<xy-select>
+    <xy-option-group label="group1">
+        <xy-option value="1">Option1</xy-option>
+        <xy-option value="2">Option2</xy-option>
+        <xy-option value="3">Option3</xy-option>
+    </xy-option-group>
+    <xy-option-group label="group2">
+        <xy-option value="4">Option4</xy-option>
+        <xy-option value="5">Option5</xy-option>
+    </xy-option-group>
+    <xy-option value="6">Option6</xy-option>
+</xy-select>
+```
+
+
 ## 搜索`search`
 
 添加`search`可对选项进行搜索。
