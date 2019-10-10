@@ -31,8 +31,8 @@ class XyOptionGroup extends HTMLElement {
 
 }
 
-if(!customElements.get('xy-option-group')){
-    customElements.define('xy-option-group', XyOptionGroup);
+if(!customElements.get('xy-optgroup')){
+    customElements.define('xy-optgroup', XyOptionGroup);
 }
 
 class XyOption extends HTMLElement {
@@ -595,7 +595,6 @@ export default class XySelect extends HTMLElement {
             }
             return
         }
-        let textContent = '';
         if (value !== this.value) {
             this.$value = value;
             const pre = this.querySelector(`xy-option[selected]`);
@@ -607,20 +606,19 @@ export default class XySelect extends HTMLElement {
             this.focusIndex = this.nodes.indexOf(cur);
             cur.selected = true;
             cur.focusin = true;
-            textContent = cur.textContent;
-            this.$text = textContent;
+            this.$text = cur.textContent;
             if(this.search){
-                this.select.placeholder = textContent;
-                this.select.value = textContent;
+                this.select.placeholder = this.$text;
+                this.select.value = this.$text;
             }else{
-                this.txt.textContent = textContent;
+                this.txt.textContent = this.$text;
             }
             if(this.init){
                 this.checkValidity();
                 this.dispatchEvent(new CustomEvent('change', {
                     detail: {
                         value: value,
-                        text: textContent
+                        text: this.$text
                     }
                 }));
             }

@@ -10,9 +10,6 @@ export default class XyForm extends HTMLElement {
         :host {
             display:block;
         }
-        :host([disabled]){ 
-            pointer-events: none; 
-        }
         </style>
         <form id="form" style="--legendwidth:${this.legendwidth}px" method="${this.method}" action="${this.action}" ${this.novalidate?'novalidate':''}>
             <slot></slot>
@@ -81,7 +78,7 @@ export default class XyForm extends HTMLElement {
     }
 
     get disabled() {
-        return this.getAttribute('novalidate')!==null;
+        return this.getAttribute('disabled')!==null;
     }
 
     get novalidate() {
