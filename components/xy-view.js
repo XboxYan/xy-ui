@@ -24,7 +24,7 @@ class XyView extends HTMLElement {
         this.addEventListener('mousemove',function(ev){
             const { left, top } = this.getBoundingClientRect();
             this.con.style.setProperty('--'+this.coord[0], parseInt(ev.clientX - left));
-            this.con.style.setProperty('--'+this.coord[y], parseInt(ev.clientY - top));
+            this.con.style.setProperty('--'+this.coord[1], parseInt(ev.clientY - top));
         })
     }
 }
