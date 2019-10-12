@@ -33,6 +33,29 @@
         :root{
             /*--themeBackground:linear-gradient(to bottom, #42b983 0%,#06b2a1 100%)*/
         }
+        .parent[coord]{
+            display: flex;
+            width: 500px;
+            height: 500px;
+            background: #fff;
+            color: #fff;
+            border: 10px solid #f1f1f1;
+        }
+        .child{
+            width: 50px;
+            height: 50px;
+            background: #42b983;
+        }
+        .child:active{
+            transform: translate( calc(var(--x) * 1px) ,calc(var(--y) * 1px));
+        }
+        xy-view[coord] span{
+            margin: auto;
+        }
+        xy-view[coord] span::after{
+            counter-reset: x var(--x) y var(--y);
+            content: counter(x) ',' counter(y);
+        }
     </style>
     <!-- <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.2.10/webcomponents-bundle.js"></script> -->
     <!--
@@ -450,6 +473,10 @@
             <xy-button htmltype="reset">reset</xy-button>
         </xy-form-item>
     </xy-form>
+    <h2>view</h2>
+    <xy-view class="parent" coord>
+        <xy-view class="child" coord="x2,y2"></xy-view>
+    </xy-view>
     <h2>table</h2>
     <xy-table thead="Name,Age,Address">
         <xy-tr>
