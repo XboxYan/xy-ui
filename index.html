@@ -40,14 +40,32 @@
             background: #fff;
             color: #fff;
             border: 10px solid #f1f1f1;
+            position: relative;
         }
         .child{
             width: 50px;
             height: 50px;
             background: #42b983;
+            transition: 0.1s;
+            transform: translate(100px,100px);
         }
+        .ball{
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #42b983;
+        }
+        .parent[coord]:hover .ball{
+            transform: translate( calc( var(--x) * 1px - 10px - 25px ) ,calc(var(--y) * 1px - 10px - 25px ))!important;
+        }
+  
         .child:active{
-            transform: translate( calc(var(--x) * 1px) ,calc(var(--y) * 1px));
+            background: #2c9666;
+            pointer-events: none;
+            transition: transform 0s;
+            transform-origin: 0 0;
+            transform: translate( calc( var(--x) * 1px - var(--_x) * 1px - 10px ) ,calc(var(--y) * 1px - var(--_y) * 1px - 10px ))!important;
         }
         xy-view[coord] span{
             margin: auto;
@@ -474,6 +492,18 @@
         </xy-form-item>
     </xy-form>
     <h2>view</h2>
+    <xy-view class="parent" coord>
+        <div class="ball"></div>
+        <div class="ball"></div>
+        <div class="ball"></div>
+        <div class="ball"></div>
+        <div class="ball"></div>
+        <div class="ball"></div>
+        <div class="ball"></div>
+        <div class="ball"></div>
+        <div class="ball"></div>
+        <div class="ball"></div>
+    </xy-view>
     <xy-view class="parent" coord>
         <xy-view class="child" coord="x2,y2"></xy-view>
     </xy-view>
