@@ -1,4 +1,10 @@
 # update
+* ## 1.9
+    * `xy-form-item`布局采用`grid`实现，去除`legendwidth`属性
+    * `xy-text`新增`draggable`属性
+    * 表单元素的`reset`方法现定义为"重置"，即还原成默认值
+    * `xy-select`新增分组`xy-optgroup`
+    * 新增`xy-view`组件（实验性），扩展常见功能，如`drag`等（进行中）
 * ## 1.8.8
     *  所有表单元素在表单校验失败时会添加`invalid`属性
     * `xy-tab`在切换时会自适应高度

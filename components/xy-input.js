@@ -350,9 +350,9 @@ export default class XyInput extends HTMLElement {
     }
 
     reset() {
+        this.input.value = this.defaultvalue;
         this.inputCon.show = false;
         this.invalid = false;
-        this.input.value = '';
     }
 
     get customValidity() {

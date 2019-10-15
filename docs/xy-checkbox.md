@@ -301,7 +301,7 @@ checkbox.focus();
 
 ### reset
 
-清空所有选项。
+复原选项，回到默认值。
 
 <xy-checkbox-group name="books" defaultvalue="React,Angular">
     <xy-checkbox>React</xy-checkbox>

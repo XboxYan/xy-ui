@@ -322,10 +322,7 @@ class XyRadioGroup extends HTMLElement {
     }
 
     reset() {
-        this.elements.forEach(el=>{
-            el.checked = false;
-        })
-        this.error = false;
+        this.value = this.defaultvalue;
         this.invalid = false;
         this.tip.show = false;
     }

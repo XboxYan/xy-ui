@@ -218,9 +218,9 @@ export default class XyCheckbox extends HTMLElement {
     }
 
     reset() {
+        this.checkbox.checked = false;
         this.invalid = false;
         this.tip.show = false;
-        this.checkbox.checked = false;
     }
 
     checkValidity(){
@@ -383,7 +383,8 @@ class XyCheckboxGroup extends HTMLElement {
     }
 
     get defaultvalue() {
-        return this.getAttribute('defaultvalue')||"";
+        const defaultvalue = this.getAttribute('defaultvalue');
+        return defaultvalue?defaultvalue.split(','):[];
     }
 
     get value() {
@@ -464,9 +465,7 @@ class XyCheckboxGroup extends HTMLElement {
     }
 
     reset() {
-        this.elements.forEach(el=>{
-            el.checked = false;
-        })
+        this.value = this.defaultvalue;
         this.invalid = false;
         this.tip.show = false;
     }
@@ -505,7 +504,7 @@ class XyCheckboxGroup extends HTMLElement {
         this.slots = this.shadowRoot.querySelector('slot');
         this.slots.addEventListener('slotchange',()=>{
             this.elements  = this.querySelectorAll('xy-checkbox');
-            this.value = this.defaultvalue.split(',');
+            this.value = this.defaultvalue;
             this.elements.forEach(el=>{
                 el.addEventListener('change',()=>{
                     this.checkValidity();

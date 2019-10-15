@@ -223,6 +223,23 @@ radiogroup.addEventListener('change',function(ev){
 radio.focus();
 ```
 
+### reset
+
+复原选项，回到默认值。
+
+<xy-radio-group name="books" defaultvalue="React">
+    <xy-radio>React</xy-radio>
+    <xy-radio>Vue</xy-radio>
+    <xy-radio>Angular</xy-radio>
+    <xy-radio>Flutter</xy-radio>
+    <xy-radio>Swift</xy-radio>
+</xy-radio-group>
+<xy-button type="primary" onclick="this.previousElementSibling.reset()">reset</xy-button>
+
+```js
+radiogroup.reset();
+```
+
 ### checkValidity
 
 用于主动校验，弹出提示信息。

@@ -284,9 +284,9 @@ export default class XySelect extends HTMLElement {
     }
 
     reset() {
+        this.value = this.defaultvalue;
         this.tip.show = false;
         this.invalid = false;
-        this.value = '';
     }
 
     checkValidity(){

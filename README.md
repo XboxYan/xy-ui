@@ -11,6 +11,12 @@
 [github项目地址](https://github.com/XboxYan/xy-ui)
 
 ## 更新
+* ## 1.9
+    * `xy-form-item`布局采用`grid`实现，去除`legendwidth`属性
+    * `xy-text`新增`draggable`属性
+    * 表单元素的`reset`方法现定义为"重置"，即还原成默认值
+    * `xy-select`新增分组`xy-optgroup`
+    * 新增`xy-view`组件（实验性），扩展常见功能，如`drag`等（进行中）
 * ## 1.8.8
     *  所有表单元素在表单校验失败时会添加`invalid`属性
     * `xy-tab`在切换时会自适应高度
@@ -48,21 +54,6 @@
     * `xy-checkbox`新增`indeterminate`状态
     * 修复`xy-date-picker`在`1`月份选取去年`12`月份的`bug`
     * 修复`xy-color-pane`在空白处触发`change`的`bug`
-* ## 1.7.1
-    * [`xy-date-picker`](./docs/xy-date-picke.md)新增[`range`](./docs/xy-date-picke.md?id=范围选择range)属性
-
-    ![xy-date-range-picker](./screenshot/xy-date-range-picker.png)
-
-    * 优化`xy-color-picker`和`xy-date-picker`初始化逻辑
-    * 其他`bug`修复
-* ## 1.7.0
-    * 新增[`xy-date-picker`](./docs/xy-date-picker.md)组件
-
-    ![xy-date-picker](./screenshot/xy-date-picker.png)
-
-    * 优化`xy-icon`的图标加载方式，不会再阻塞页面渲染了~
-    * 主题配置新增`--themeBackground`
-    * 其他`bug`修复
 
 [update](./docs/update.md)
 

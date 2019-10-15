@@ -424,7 +424,7 @@ select.focus();
 
 ### reset
 
-清空选项。
+复原选项，回到默认值。
 
 <xy-select defaultvalue="2">
     <xy-option value="1">Option1</xy-option>
@@ -435,6 +435,12 @@ select.focus();
 
 ```js
 select.reset();
+```
+
+当然，直接操作也是可行的
+
+```js
+this.value = this.defaultvalue;
 ```
 
 ### checkValidity

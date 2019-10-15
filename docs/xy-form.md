@@ -29,11 +29,9 @@
 
 `xy-form-item`可以实现表单两栏布局，`legend`属性规定了左侧文本域。
 
-可以通过`legendwidth`指定文本域宽度（优先级更高），可以从`xy-form`统一指定。
-
 如果内部有表单元素有`required`属性，那么文本域会出现`*`符号。
 
-<xy-form legendwidth="100">
+<xy-form>
     <xy-form-item legend="user">
         <xy-input name="user" placeholder="user"></xy-input>
     </xy-form-item>
@@ -43,7 +41,7 @@
 </xy-form>
 
 ```html
-<xy-form legendwidth="100">
+<xy-form>
     <xy-form-item legend="user">
         <xy-input name="user" placeholder="user"></xy-input>
     </xy-form-item>
@@ -220,7 +218,7 @@ sumbitBtn.onclick = function(){
 
 下面表单采用组件默认验证交互，即点击`submit`按钮后开启即时验证，所有有误内容标红，但是提示`tips`只会出现在第1个表单上。
 
-<xy-form action="/login" method="post" legendwidth="100" id="form-submit">
+<xy-form action="/login" method="post" id="form-submit">
     <xy-form-item legend="user">
         <xy-input name="user" required placeholder="user"></xy-input>
     </xy-form-item>
@@ -265,7 +263,7 @@ sumbitBtn.onclick = function(){
 </xy-form>
 
 ```html
-<xy-form action="/login" method="post" legendwidth="100" id="form-submit">
+<xy-form action="/login" method="post" id="form-submit">
     <xy-form-item legend="user">
         <xy-input name="user" required placeholder="user"></xy-input>
     </xy-form-item>

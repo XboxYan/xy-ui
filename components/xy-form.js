@@ -1,6 +1,6 @@
 export default class XyForm extends HTMLElement {
 
-    static get observedAttributes() { return ['legendwidth','disabled'] }
+    static get observedAttributes() { return ['disabled'] }
 
     constructor() {
         super();
@@ -10,8 +10,14 @@ export default class XyForm extends HTMLElement {
         :host {
             display:block;
         }
+        form {
+            display:grid;
+            grid-template-columns:auto 1fr;
+            grid-gap:.8em;
+            align-items: center;
+        }
         </style>
-        <form id="form" style="--legendwidth:${this.legendwidth}px" method="${this.method}" action="${this.action}" ${this.novalidate?'novalidate':''}>
+        <form id="form"  method="${this.method}" action="${this.action}" ${this.novalidate?'novalidate':''}>
             <slot></slot>
         </form>
         `
@@ -69,7 +75,7 @@ export default class XyForm extends HTMLElement {
     reset() {
         this.invalid = false;
         this.elements.forEach(el=>{
-            el.reset();
+            el.reset && el.reset();
         })
     }
 
@@ -114,10 +120,6 @@ export default class XyForm extends HTMLElement {
         return this.getAttribute('name');
     }
 
-    get legendwidth() {
-        return this.getAttribute('legendwidth')||80;
-    }
-
     get invalid() {
         return this.getAttribute('invalid')!==null;
     }
@@ -138,10 +140,6 @@ export default class XyForm extends HTMLElement {
         }else{
             this.setAttribute('novalidate', '');
         }
-    }
-
-    set legendwidth(value) {
-        this.setAttribute('legendwidth', value);
     }
 
     set invalid(value) {
@@ -193,12 +191,6 @@ export default class XyForm extends HTMLElement {
             })
         }
     }
-
-    attributeChangedCallback (name, oldValue, newValue) {
-        if( name == 'legendwidth' && this.form){
-            this.form.style.setProperty('--legendwidth',newValue+'px');
-        }
-    }
 }
 
 if(!customElements.get('xy-form')){
@@ -208,36 +200,24 @@ if(!customElements.get('xy-form')){
 
 class XyFormItem extends HTMLElement {
 
-    static get observedAttributes() { return ['legendwidth'] }
-
     constructor() {
         super();
         const shadowRoot = this.attachShadow({ mode: 'open' });
         shadowRoot.innerHTML = `
         <style>
         :host {
-            display:flex;
-            align-items: center;
-            font-size:14px;
-            color:var(--fontColor,#333);
-            margin-bottom:10px;
+            display:contents;
         }
         label{
-            flex-shrink: 0;
-            text-align:right;
-            padding-right:10px;
-            transition:.3s;
-            width:var(--legendwidth,80px);
-        }
-        .item{
-            flex:1;
+            color:var(--fontColor,#333);
+            justify-self: end;
         }
         label.required:not(:empty)::before{
             content:'*';
             color:var(--errorColor,#f4615c);
         }
         </style>
-        <label ${this.legendwidth?"style='--legendwidth:"+this.legendwidth+"px'":""}>${this.legend}</label>
+        <label>${this.legend}</label>
         <div class="item"><slot></slot></div>
         `
     }
@@ -245,17 +225,9 @@ class XyFormItem extends HTMLElement {
     get legend() {
         return this.getAttribute('legend')||'';
     }
-    
-    get legendwidth() {
-        return this.getAttribute('legendwidth');
-    }
 
     set legend(value) {
         this.setAttribute('legend', value);
-    }
-
-    set legendwidth(value) {
-        this.setAttribute('legendwidth', value);
     }
 
     connectedCallback() {
@@ -268,12 +240,6 @@ class XyFormItem extends HTMLElement {
                 this.labels.classList.add('required');
             }
         })
-    }
-
-    attributeChangedCallback (name, oldValue, newValue) {
-        if( name == 'legendwidth' && this.labels ){
-            this.labels.style.setProperty('--legendwidth',newValue+'px');
-        }
     }
 }
 
