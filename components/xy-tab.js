@@ -253,10 +253,12 @@ export default class XyTab extends HTMLElement {
             const slots = this.slots.assignedElements();
             let html = ''
             slots.forEach((item,index)=>{
-                if(item.key===null){
-                    item.key = index;
+                if( item.tagName === 'XY-TAB-CONTENT' ){
+                    if(item.key===null){
+                        item.key = index;
+                    }
+                    html += `<xy-button class="nav-item ${item.key===this.activekey?'active':''}" icon=${item.icon} ${item.disabled!==null?"disabled":""} data-key=${item.key}>${item.label}</xy-button>`;
                 }
-                html += `<xy-button class="nav-item ${item.key===this.activekey?'active':''}" icon=${item.icon} ${item.disabled!==null?"disabled":""} data-key=${item.key}>${item.label}</xy-button>`;
             })
             this.nav.innerHTML = html;
             this.inittab();

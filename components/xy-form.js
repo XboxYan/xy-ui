@@ -15,9 +15,18 @@ export default class XyForm extends HTMLElement {
             grid-template-columns:auto 1fr;
             grid-gap:.8em;
             align-items: center;
+            justify-items: end;
+        }
+        :host([block]) form{
+            grid-template-columns:1fr;
+            justify-items: start;
+        }
+        :host(:not([block])) ::slotted(:not(xy-form-item)){
+            justify-self: stretch;
+            grid-column:span 2;
         }
         </style>
-        <form id="form"  method="${this.method}" action="${this.action}" ${this.novalidate?'novalidate':''}>
+        <form id="form" method="${this.method}" action="${this.action}" ${this.novalidate?'novalidate':''}>
             <slot></slot>
         </form>
         `
@@ -210,15 +219,17 @@ class XyFormItem extends HTMLElement {
         }
         label{
             color:var(--fontColor,#333);
-            justify-self: end;
         }
         label.required:not(:empty)::before{
             content:'*';
             color:var(--errorColor,#f4615c);
         }
+        .item{
+            justify-self: stretch;
+        }
         </style>
         <label>${this.legend}</label>
-        <div class="item"><slot></slot></div>
+        <div class="item"><slot></slot></slot>
         `
     }
 

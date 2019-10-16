@@ -476,7 +476,7 @@ export default class XySelect extends HTMLElement {
     
 
     get defaultvalue() {
-        return this.getAttribute('defaultvalue');
+        return this.getAttribute('defaultvalue')||'';
     }
 
     get value() {
