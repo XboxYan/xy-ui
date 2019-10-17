@@ -53,6 +53,41 @@
 
 该组件仅仅是对常用表单布局的简单封装，如果不满足布局要求，可以采用普通的布局，比如`Flex`、`Grid`，更加灵活。
 
+## 表单风格`type`
+
+可以设置表单的风格样式，可选`normal`（默认）、`full`、`none`
+
+* `normal` 默认风格，配合`xy-form-item`可实现两栏布局
+* `full` 通栏风格，配合`xy-form-item`可实现通栏布局
+* `none` 无风格，需自定义布局
+
+<xy-radio-group onchange="this.nextElementSibling.type=this.value" defaultvalue="normal">
+    <xy-radio value="normal">normal</xy-radio>
+    <xy-radio value="full">full</xy-radio>
+    <xy-radio value="none">none</xy-radio>
+</xy-radio-group>
+<xy-form>
+    <xy-form-item legend="user">
+        <xy-input name="user" placeholder="user"></xy-input>
+    </xy-form-item>
+    <xy-form-item legend="password">
+        <xy-input name="password" required type="password" placeholder="password"></xy-input>
+    </xy-form-item>
+    <xy-form-item>
+        <xy-button type="primary" htmltype="submit">login</xy-button>
+        <xy-button htmltype="reset">reset</xy-button>
+    </xy-form-item>
+</xy-form>
+
+
+```html
+<xy-form type="full">
+    ...
+</xy-form>
+```
+
+> 纯`CSS`修改(属性选择器)
+
 ## 表单默认行为
 
 `xy-form`内置了以下属性，基于`html5`规范。

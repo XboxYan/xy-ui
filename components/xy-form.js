@@ -17,11 +17,14 @@ export default class XyForm extends HTMLElement {
             align-items: center;
             justify-items: end;
         }
-        :host([block]) form{
+        :host([type=full]) form{
             grid-template-columns:1fr;
             justify-items: start;
         }
-        :host(:not([block])) ::slotted(:not(xy-form-item)){
+        :host([type=none]) form{
+            display:contents;
+        }
+        :host(:not([type=full])) ::slotted(:not(xy-form-item)){
             justify-self: stretch;
             grid-column:span 2;
         }
@@ -157,6 +160,10 @@ export default class XyForm extends HTMLElement {
         }else{
             this.setAttribute('invalid', '');
         }
+    }
+
+    set type(value) {
+        this.setAttribute('type', value);
     }
 
     connectedCallback() {
