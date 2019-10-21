@@ -79,6 +79,20 @@
             counter-reset: x var(--x) y var(--y);
             content: counter(x) ',' counter(y);
         }
+        .dropbox{
+            width: 300px;
+            height: 300px;
+            background: #fff;
+            color: #fff;
+            border: 10px solid #f1f1f1;
+        }
+        .dropbox-parent{
+            width: 500px;
+            height: 500px;
+        }
+        .dropbox[over]{
+            border-color: #2c9666;
+        }
     </style>
     <!-- <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.2.10/webcomponents-bundle.js"></script> -->
     <!--
@@ -498,21 +512,12 @@
     </xy-form>
     <h2>view</h2>
     <xy-view class="parent" coord>
-        <div class="ball"></div>
-        <div class="ball"></div>
-        <div class="ball"></div>
-        <div class="ball"></div>
-        <div class="ball"></div>
-        <div class="ball"></div>
-        <div class="ball"></div>
-        <div class="ball"></div>
-        <div class="ball"></div>
-        <div class="ball"></div>
-    </xy-view>
-    <xy-view class="parent" coord>
         <xy-view class="child" coord="x2,y2"></xy-view>
     </xy-view>
     <xy-view draggable></xy-view>
+    <xy-view allowdrop class="dropbox dropbox-parent" ondrop="console.log(event)">
+        <xy-view allowdrop class="dropbox"  ondrop="console.log(event)"></xy-view>
+    </xy-view>
     <h2>table</h2>
     <xy-table thead="Name,Age,Address">
         <xy-tr>

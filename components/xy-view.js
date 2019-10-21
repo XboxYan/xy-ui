@@ -9,13 +9,14 @@ class XyView extends HTMLElement {
         :host {
             display:block;
         }
-        :host([dragging]){
-            ponter-events:none;
-            visibility:hidden;
+        :host(:not([fake])[dragging]){
+            pointer-events:none;
+            /*visibility:hidden;*/
+            opacity:.5;
         }
         :host([fake]){
-            ponter-events:none;
-            position:absolute;
+            pointer-events:none;
+            position:fixed;
             left:0;
             top:0;
             transform:translate3d( calc( var(--left) * 1px ) ,calc(var(--top) * 1px),0);
@@ -40,6 +41,14 @@ class XyView extends HTMLElement {
 
     get dragging() {
         return this.getAttribute('dragging') !== null;
+    }
+
+    get allowdrop() {
+        return this.getAttribute('allowdrop') !== null;
+    }
+
+    get allowhover() {
+        return this.getAttribute('allowhover') !== null;
     }
 
     set dragging(value) {
@@ -74,23 +83,78 @@ class XyView extends HTMLElement {
                     this.cloneObj = this.cloneNode(true);
                 }
                 this.cloneObj.setAttribute('fake','');
-                this.cloneObj.style.setProperty('--left', ev.pageX-this.startX);
-                this.cloneObj.style.setProperty('--top', ev.pageY-this.startY);
+                this.cloneObj.style.setProperty('--left', left);
+                this.cloneObj.style.setProperty('--top', top);
                 document.body.appendChild(this.cloneObj);
                 this.dragging = true;
+                window.dragging = true;
+                this.dispatchEvent(new CustomEvent('dargstart',{
+                    detail:{
+                        dragElement:this
+                    }
+                }));
             })
             document.addEventListener('mousemove', (ev) => {
                 if(this.dragging){
                     window.getSelection().removeAllRanges();
-                    this.cloneObj.style.setProperty('--left', ev.pageX-this.startX);
-                    this.cloneObj.style.setProperty('--top', ev.pageY-this.startY);
+                    this.cloneObj.style.setProperty('--left', ev.clientX-this.startX);
+                    this.cloneObj.style.setProperty('--top', ev.clientY-this.startY);
+                    if(ev.target.allowdrop){
+                        ev.target.setAttribute('over','');
+                        this.dispatchEvent(new CustomEvent('dargover',{
+                            detail:{
+                                dragElement:this
+                            }
+                        }));
+                    }
                 }
             })
             document.addEventListener('mouseup', (ev) => {
                 if(this.dragging){
                     document.body.removeChild(this.cloneObj);
                     this.dragging = false;
+                    window.dragging = false;
+                    if(ev.target.allowdrop){
+                        ev.target.dispatchEvent(new CustomEvent('drop',{
+                            detail:{
+                                dragElement:this
+                            }
+                        }));
+                    }
                 }
+            })
+        }
+
+        if(this.allowdrop) {
+            this.addEventListener('mouseout', (ev) => {
+                ev.stopPropagation();
+                if(window.dragging){
+                    this.removeAttribute('over');
+                }
+            })
+            this.addEventListener('dragover', (ev) => {
+                ev.stopPropagation();
+                ev.preventDefault();
+                this.setAttribute('over','');
+                //ev.dataTransfer.dropEffect = 'copy';
+            })
+            this.addEventListener('drop', (ev) => {
+                ev.stopPropagation();
+                ev.preventDefault();
+                ev.target.removeAttribute('over');
+            })
+            this.addEventListener('dragleave', (ev) => {
+                this.removeAttribute('over');
+            })
+        }
+
+        if(this.allowhover) {
+            this.addEventListener('mouseover', (ev) => {
+                this.setAttribute('hover','');
+            })
+            this.addEventListener('mouseout', (ev) => {
+                ev.stopPropagation();
+                this.removeAttribute('hover');
             })
         }
 
