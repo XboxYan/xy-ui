@@ -93,6 +93,11 @@
         .dropbox[over]{
             border-color: #2c9666;
         }
+        xy-view[resizable]{
+            width: 200px;
+            height: 200px;
+            background: #f1f1f1;
+        }
     </style>
     <!-- <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.2.10/webcomponents-bundle.js"></script> -->
     <!--
@@ -511,13 +516,17 @@
         </xy-form-item>
     </xy-form>
     <h2>view</h2>
+    <p>coord</p>
     <xy-view class="parent" coord>
         <xy-view class="child" coord="x2,y2"></xy-view>
     </xy-view>
+    <p>draggable & allowdrop</p>
     <xy-view draggable></xy-view>
     <xy-view allowdrop class="dropbox dropbox-parent" ondrop="console.log(event)">
         <xy-view allowdrop class="dropbox"  ondrop="console.log(event)"></xy-view>
     </xy-view>
+    <p>resizable</p>
+    <xy-view resizable draggable>edit</xy-view>
     <h2>table</h2>
     <xy-table thead="Name,Age,Address">
         <xy-tr>

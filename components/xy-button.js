@@ -29,6 +29,9 @@ export default class XyButton extends HTMLElement {
         :host([shape="circle"]){ 
             border-radius:50%; 
         }
+        :host(:not([disabled]):active){
+            transform:translateY(.1em);
+        }
         :host([disabled]),:host([loading]){
             pointer-events: none; 
             opacity:.6; 
