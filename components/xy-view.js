@@ -211,7 +211,7 @@ class XyView extends HTMLElement {
                     window.getSelection().removeAllRanges();
                     if(ev.target.allowdrop){
                         ev.target.setAttribute('over','');
-                        this.dispatchEvent(new CustomEvent('dargover',{
+                        this.dispatchEvent(new CustomEvent('dragover',{
                             detail:{
                                 dragElement:this
                             }
