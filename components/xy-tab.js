@@ -213,8 +213,8 @@ export default class XyTab extends HTMLElement {
     }
 
     inittab() {
-        this.items = this.nav.querySelectorAll('.nav-item');
-        Array.from(this.items).forEach((item,index)=>{
+        const items = this.nav.querySelectorAll('.nav-item');
+        Array.from(items).forEach((item,index)=>{
             this.tabPos[item.dataset.key] = {
                 index:index,
                 width:item.offsetWidth,

@@ -10,8 +10,8 @@ class XyView extends HTMLElement {
             display:block;
         }
         :host(:not([fake])[dragging]){
-            pointer-events:none;
-            visibility:hidden;
+            /*pointer-events:none;*/
+            /*visibility:hidden;*/
             opacity:.5;
         }
         :host([fake]){
@@ -19,7 +19,8 @@ class XyView extends HTMLElement {
             position:fixed!important;
             left:0;
             top:0;
-            transition:0s;
+            transition:none;
+            transform:translate3d( calc( var(--left) * 1px ) ,calc(var(--top) * 1px),0);
         }
         :host([resizable]){
             position:relative;
@@ -169,57 +170,83 @@ class XyView extends HTMLElement {
         }
 
         if (this.draggable) {
-            this.setAttribute('draggable', true);
             let clientX = 0;
             let clientY = 0;
             let startX = 0;
             let startY = 0;
             let dragstart = false;
-            this.addEventListener('dragstart', (ev) => {
-                if(this.resizing){
-                    ev.preventDefault();
-                    return false;
-                }
-                const img = new Image();
-                /*
-                var cloneDom = this.cloneNode(true);
-                cloneDom.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
-                img.src = 'data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="' + this.offsetWidth + '" height="' + this.offsetHeight + '"><foreignObject x="0" y="0" width="100%" height="100%">'+ 
-                    new XMLSerializer().serializeToString(cloneDom).replace(/#/g, '%23').replace(/\n/g, '%0A') +'</foreignObject></svg>';
-                document.body.style.backgroundImage = `url('${img.src}')`
-                */
-                this.cloneObj = this.cloneNode(true);
-                img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS41LWMwMTQgNzkuMTUxNDgxLCAyMDEzLzAzLzEzLTEyOjA5OjE1ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ0MgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkZENDBGQkRDRjU0RDExRTlBRkY5ODREMkFDQzJFQ0I3IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkZENDBGQkRERjU0RDExRTlBRkY5ODREMkFDQzJFQ0I3Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6RkQ0MEZCREFGNTREMTFFOUFGRjk4NEQyQUNDMkVDQjciIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6RkQ0MEZCREJGNTREMTFFOUFGRjk4NEQyQUNDMkVDQjciLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4B//79/Pv6+fj39vX08/Lx8O/u7ezr6uno5+bl5OPi4eDf3t3c29rZ2NfW1dTT0tHQz87NzMvKycjHxsXEw8LBwL++vby7urm4t7a1tLOysbCvrq2sq6qpqKempaSjoqGgn56dnJuamZiXlpWUk5KRkI+OjYyLiomIh4aFhIOCgYB/fn18e3p5eHd2dXRzcnFwb25tbGtqaWhnZmVkY2JhYF9eXVxbWllYV1ZVVFNSUVBPTk1MS0pJSEdGRURDQkFAPz49PDs6OTg3NjU0MzIxMC8uLSwrKikoJyYlJCMiISAfHh0cGxoZGBcWFRQTEhEQDw4NDAsKCQgHBgUEAwIBAAAh+QQBAAAAACwAAAAAAQABAAACAkQBADs=";
-                ev.dataTransfer.setDragImage(img,0,0);
-                ev.dataTransfer.setData('text/plain',this.textContent);
-                event.dataTransfer.effectAllowed = 'all'; 
+            this.addEventListener('mousedown', (ev) => {
                 const { left, top } = this.getBoundingClientRect();
+                clientX = ev.clientX;
+                clientY = ev.clientY;
                 startX = ev.clientX - left;
                 startY = ev.clientY - top;
                 this.cloneObj = this.cloneNode(true);
                 this.cloneObj.setAttribute('fake','');
-                this.cloneObj.style.transform = `translate3d( ${left}px ,${top}px,0)`;
-                document.body.appendChild(this.cloneObj);
+                this.dispatchEvent(new CustomEvent('dragstart',{
+                    detail:{
+                        dragElement:this
+                    }
+                }));
+                dragstart = true;
             })
-            document.addEventListener('dragover', (ev) => {
-                if(this.cloneObj){
+            document.addEventListener('mousemove', (ev) => {
+                if(dragstart && (clientX!==ev.clientX || clientY!==ev.clientY)){
+                    if(this.cloneObj){
+                        document.body.appendChild(this.cloneObj);
+                        this.cloneObj.style.setProperty('--left', ev.clientX-startX);
+                        this.cloneObj.style.setProperty('--top', ev.clientY-startY);
+                    }
                     this.dragging = true;
-                    this.cloneObj.style.transform = `translate3d( ${ev.clientX-startX}px ,${ev.clientY-startY}px,0)`;
-                    //this.cloneObj.style.left = ev.clientX-startX + 'px';
-                    //this.cloneObj.style.top = ev.clientY-startY + 'px';
+                    window.dragging = true;
+                    window.getSelection().removeAllRanges();
+                    if(ev.target.allowdrop){
+                        ev.target.setAttribute('over','');
+                        this.dispatchEvent(new CustomEvent('dragover',{
+                            detail:{
+                                dragElement:this.cloneObj
+                            }
+                        }));
+                    }
                 }
             })
 
-            this.addEventListener('dragend', (ev) => {
-                document.body.removeChild(this.cloneObj);
-                this.cloneObj = null;
-                this.dragging = false;
+            document.addEventListener('mouseup', (ev) => {
+                if(dragstart){
+                    if(this.cloneObj && this.dragging){
+                        document.body.removeChild(this.cloneObj);
+                    }
+                    this.dragging = false;
+                    dragstart = false;
+                    window.dragging = false;
+                    if(ev.target.allowdrop){
+                        ev.target.dispatchEvent(new CustomEvent('drop',{
+                            detail:{
+                                dragElement:this
+                            }
+                        }));
+                    }
+                    ev.target.dispatchEvent(new CustomEvent('dragend',{
+                        detail:{
+                            dragElement:this
+                        }
+                    }));
+                }
             })
         }
 
         if(this.allowdrop) {
+            this.addEventListener('mouseout', (ev) => {
+                ev.stopPropagation();
+                if(window.dragging){
+                    this.removeAttribute('over');
+                }
+            })
             this.addEventListener('dragover', (ev) => {
+                ev.stopPropagation();
                 ev.preventDefault();
+                this.setAttribute('over','');
+                //ev.dataTransfer.dropEffect = 'copy';
             })
             this.addEventListener('drop', (ev) => {
                 ev.stopPropagation();
@@ -227,12 +254,7 @@ class XyView extends HTMLElement {
                 ev.target.removeAttribute('over');
             })
             this.addEventListener('dragleave', (ev) => {
-                ev.stopPropagation();
                 this.removeAttribute('over');
-            })
-            this.addEventListener('dragenter', (ev) => {
-                ev.stopPropagation();
-                this.setAttribute('over','');
             })
         }
 
@@ -255,6 +277,7 @@ class XyView extends HTMLElement {
             let height = 0;
             let offsetX = 0;
             let offsetY = 0;
+            let resizing = false;
             this.addEventListener('click',()=>{
                 resizeCon.focus();
             })
@@ -262,7 +285,7 @@ class XyView extends HTMLElement {
                 ev.stopPropagation();
                 const path = ev.path || (ev.composedPath && ev.composedPath());
                 if(path[0].tagName === 'I'){
-                    this.resizing = true;
+                    resizing = true;
                     startX = ev.pageX;
                     startY = ev.pageY;
                     mode = path[0].className;
@@ -280,7 +303,7 @@ class XyView extends HTMLElement {
                 }
             })
             document.addEventListener('mousemove',(ev)=>{
-                if(this.resizing){
+                if(resizing){
                     ev.stopPropagation();
                     window.getSelection().removeAllRanges();
                     offsetX = ev.pageX - startX;
@@ -328,7 +351,7 @@ class XyView extends HTMLElement {
                 }
             })
             document.addEventListener('mouseup',(ev)=>{
-                this.resizing = false;
+                resizing = false;
                 this.dispatchEvent(new CustomEvent('resizend',{
                     detail:{
                         offsetX:offsetX,
@@ -341,61 +364,6 @@ class XyView extends HTMLElement {
         }
     }
 }
-
-var domToImg = (function () {
-    // 转png需要的canvas对象及其上下文
-    var canvas = document.createElement('canvas');
-    var context = canvas.getContext('2d');
-    
-    // canvas绘制图片元素方法
-    var draw = function (img) {
-        var width = img.width, height = img.height;
-        // canvas绘制
-        canvas.width = width;
-        canvas.height = height;
-        // 画布清除
-        context.clearRect(0, 0, width, height);    
-        // 绘制图片到canvas
-        context.drawImage(img, 0, 0);
-    };
-
-    // canvas画布绘制的原图片
-    var img = new Image();
-    // 回调
-    var callback = function () {};
-    
-    // 图片回调
-    img.onload = function () {
-        draw(this);
-        // 回调方法
-        callback();
-    };
-    
-    var exports = {
-        dom: null,
-        // DOM变成svg，并作为图片显示
-        dom2Svg: function () {
-            var dom = this.dom;
-            if (!dom) {
-                return this;    
-            }
-            
-            // 复制DOM节点
-            var cloneDom = dom.cloneNode(true);
-            cloneDom.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
-            // 图片地址显示为DOM转换的svg
-            img.src = 'data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="' + dom.offsetWidth + '" height="' + dom.offsetHeight + '"><foreignObject x="0" y="0" width="100%" height="100%">'+ 
-                new XMLSerializer().serializeToString(cloneDom).replace(/#/g, '%23').replace(/\n/g, '%0A') +
-                document.querySelector('style').outerHTML +
-             '</foreignObject></svg>';
-            
-            return this;
-        }, 
-    };
-    
-    return exports;
-})();
-
 
 if (!customElements.get('xy-view')) {
     customElements.define('xy-view', XyView);
