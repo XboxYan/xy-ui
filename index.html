@@ -80,8 +80,8 @@
             content: counter(x) ',' counter(y);
         }
         .dropbox{
-            width: 300px;
-            height: 300px;
+            width: 200px;
+            height: 200px;
             background: #fff;
             color: #fff;
             border: 10px solid #f1f1f1;
@@ -90,7 +90,7 @@
             width: 500px;
             height: 500px;
         }
-        .dropbox[over]{
+        .dropbox[over],.dropbox:focus{
             border-color: #2c9666;
         }
         xy-view[resizable]{
@@ -522,9 +522,11 @@
     </xy-view>
     <p>draggable & allowdrop</p>
     <xy-view draggable></xy-view>
-    <xy-view allowdrop class="dropbox dropbox-parent" ondrop="console.log(event)">
-        <xy-view allowdrop class="dropbox"  ondrop="console.log(event)"></xy-view>
+    <xy-view allowdrop class="dropbox dropbox-parent" ondrop="console.log(this)">
+        <xy-view allowdrop class="dropbox" ondrop="console.log(this)"></xy-view>
+        <div class="dropbox" ondrop="console.log(this)"></div>
     </xy-view>
+    <button id="fakebutton">focus</button>
     <p>resizable</p>
     <xy-view resizable draggable>edit</xy-view>
     <h2>table</h2>

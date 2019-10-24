@@ -26,3 +26,4 @@
     * [date-picker](xy-date-picker.md)
     * [table](xy-table.md)
     * [text](xy-text.md)
+    * [view](xy-view.md)

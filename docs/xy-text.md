@@ -69,7 +69,13 @@ xy-text[truncated]+button::before{
 
 ## 拖拽`draggable`
 
-添加`draggable`属性可以将文本拖拽至指定容器，比如输入框，可用`ondrop`接收，同原生`drag`。
+添加`draggable`属性可以将文本拖拽至指定容器，比如输入框，可用`drop`接收，同原生`drag`。
+
+```js
+dropbox.addEventListener('drop',(event)=>{
+    event.dataTransfer.getData('text')
+})
+```
 
 <xy-text draggable>13299999999</xy-text>
 
