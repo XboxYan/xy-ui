@@ -13,6 +13,7 @@ class XyView extends HTMLElement {
             pointer-events:none;
             visibility:hidden;
             opacity:0;
+            transition:0s!important;
         }
         :host([fake]){
             box-sizing:border-box!important;
@@ -21,7 +22,7 @@ class XyView extends HTMLElement {
             left:0!important;
             top:0!important;
             margin:0!important;
-            transition:0s;
+            transition:0s!important;
         }
         :host([resizable]){
             position:relative;
@@ -61,12 +62,19 @@ class XyView extends HTMLElement {
             right:-5px;
             bottom:-5px;
         }
-        :host([resizable]:focus-within) .resize{
+        :host([resizable]:focus-within) .resize,
+        /*:host([resizable]:hover) .resize,*/
+        .resize:active{
             border-color: var(--themeColor,#42b983);
         }
-        :host([resizable]:focus-within) .resize>i{
+        :host([resizable]:focus-within) .resize>i,
+        /*:host([resizable]:hover) .resize>i,*/
+        .resize:active>i{
             visibility:visible;
             opacity:1;
+        }
+        :host([resizable]:hover) .resize>i{
+            visibility:visible;
         }
         .tl{
             top:-5px;
@@ -139,6 +147,10 @@ class XyView extends HTMLElement {
         return this.getAttribute('resizable') !== null;
     }
 
+    get resizing() {
+        return this.getAttribute('resizing') !== null;
+    }
+
     get allowdrop() {
         return this.getAttribute('allowdrop') !== null;
     }
@@ -152,6 +164,14 @@ class XyView extends HTMLElement {
             this.removeAttribute('dragging');
         }else{
             this.setAttribute('dragging', '');
+        }
+    }
+
+    set resizing(value) {
+        if(value===null||value===false){
+            this.removeAttribute('resizing');
+        }else{
+            this.setAttribute('resizing', '');
         }
     }
 
@@ -181,14 +201,17 @@ class XyView extends HTMLElement {
                     return false;
                 }
                 const img = new Image();
-                this.cloneObj = this.cloneNode(true);
                 img.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' %3E%3Cpath /%3E%3C/svg%3E";
                 ev.dataTransfer.setDragImage(img,0,0);
-                ev.dataTransfer.setData('text/plain',this.textContent);
-                event.dataTransfer.effectAllowed = 'all'; 
+                ev.dataTransfer.effectAllowed = 'all'; 
                 const { left, top } = this.getBoundingClientRect();
                 startX = ev.clientX - left;
                 startY = ev.clientY - top;
+                ev.dataTransfer.setData('dragData', JSON.stringify({
+                    id:this.id,
+                    offsetX:startX,
+                    offsetY:startY,
+                }));
                 this.cloneObj = this.cloneNode(true);
                 this.cloneObj.setAttribute('fake','');
                 this.cloneObj.setAttribute('dragging','');
@@ -206,9 +229,25 @@ class XyView extends HTMLElement {
             })
 
             this.addEventListener('dragend', (ev) => {
-                document.body.removeChild(this.cloneObj);
-                this.cloneObj = null;
-                this.dragging = false;
+                if(this.cloneObj){
+                    const rect = this.getBoundingClientRect();
+                    const { left, top } = this.getBoundingClientRect();
+                    const reset = this.cloneObj.animate(
+                        [
+                            { transform: this.cloneObj.style.transform},
+                            { transform: `translate3d( ${left}px ,${top}px,0)` }
+                        ],
+                        {
+                            duration: 200,
+                            easing:"ease-in-out",
+                        }
+                    )
+                    reset.onfinish = () => {
+                        document.body.removeChild(this.cloneObj);
+                        this.cloneObj = null;
+                        this.dragging = false;
+                    }
+                }
             })
         }
 
