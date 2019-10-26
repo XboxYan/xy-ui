@@ -27,10 +27,13 @@
     height: 50px;
     background: #42b983;
     position:relative;
+    transform: translateX(20px);
     left:20px;
 }
 .dragbox[dragging]{
-    box-shadow:0 3px 10px rgba(0,0,0,.2)
+    box-shadow:0 3px 10px rgba(0,0,0,.2);
+    transform: rotate(10deg)!important;
+    transform-origin: left top;
 }
 .dropbox{
     display:flex;
@@ -70,7 +73,9 @@
 
 ```css
 .dragbox[dragging]{
-    box-shadow:0 3px 10px rgba(0,0,0,.2)
+    box-shadow:0 3px 10px rgba(0,0,0,.2);
+    transform: rotate(10deg)!important; /**需要覆盖初始transform**/
+    transform-origin: left top;
 }
 .dropbox[over]{
     border-color: #2c9666;

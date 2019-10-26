@@ -9,7 +9,7 @@ class XyView extends HTMLElement {
         :host {
             display:block;
         }
-        :host(:not([fake])[dragging]){
+        :host([dragstart]){
             pointer-events:none;
             visibility:hidden;
             opacity:0;
@@ -18,11 +18,10 @@ class XyView extends HTMLElement {
         :host([fake]){
             box-sizing:border-box!important;
             pointer-events:none;
-            position:fixed!important;
+            position:static!important;
             left:0!important;
             top:0!important;
             margin:0!important;
-            transition:0s!important;
         }
         :host([resizable]){
             position:relative;
@@ -139,12 +138,16 @@ class XyView extends HTMLElement {
         return this.getAttribute('draggable') !== null;
     }
 
-    get dragging() {
-        return this.getAttribute('dragging') !== null;
+    get dragstart() {
+        return this.getAttribute('dragstart') !== null;
     }
 
     get resizable() {
         return this.getAttribute('resizable') !== null;
+    }
+
+    get dragaxis() {
+        return this.getAttribute('dragaxis');
     }
 
     get resizing() {
@@ -159,11 +162,11 @@ class XyView extends HTMLElement {
         return this.getAttribute('allowhover') !== null;
     }
 
-    set dragging(value) {
+    set dragstart(value) {
         if(value===null||value===false){
-            this.removeAttribute('dragging');
+            this.removeAttribute('dragstart');
         }else{
-            this.setAttribute('dragging', '');
+            this.setAttribute('dragstart', '');
         }
     }
 
@@ -212,18 +215,21 @@ class XyView extends HTMLElement {
                     offsetX:startX,
                     offsetY:startY,
                 }));
-                this.cloneObj = this.cloneNode(true);
-                this.cloneObj.setAttribute('fake','');
-                this.cloneObj.setAttribute('dragging','');
-                this.cloneObj.style.width = this.offsetWidth + 'px';
-                this.cloneObj.style.height = this.offsetHeight + 'px';
-                this.cloneObj.style.transform = `translate3d( ${left}px ,${top}px,0)`;
+                this.cloneObj = document.createElement('DIV');
+                const fakeObj = this.cloneNode(true);
+                fakeObj.setAttribute('fake','');
+                fakeObj.setAttribute('dragging','');
+                fakeObj.style.width = this.offsetWidth + 'px';
+                fakeObj.style.height = this.offsetHeight + 'px';
+                fakeObj.style.transform = 'translate3d(0,0,0)';
+                this.cloneObj.appendChild(fakeObj);
+                this.cloneObj.style = `position:fixed;left:0;top:0;z-index:999;pointer-events:none;transform:translate3d( ${left}px ,${top}px,0)`;
                 document.body.appendChild(this.cloneObj);
             })
             document.addEventListener('dragover', (ev) => {
                 if(this.cloneObj){
                     //ev.preventDefault();
-                    this.dragging = true;
+                    this.dragstart = true;
                     this.cloneObj.style.transform = `translate3d( ${ev.clientX-startX}px ,${parseInt(ev.clientY-startY)}px,0)`;
                 }
             })
@@ -245,7 +251,7 @@ class XyView extends HTMLElement {
                     reset.onfinish = () => {
                         document.body.removeChild(this.cloneObj);
                         this.cloneObj = null;
-                        this.dragging = false;
+                        this.dragstart = false;
                     }
                 }
             })
