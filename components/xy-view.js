@@ -197,19 +197,25 @@ class XyView extends HTMLElement {
             this.setAttribute('draggable', true);
             let startX = 0;
             let startY = 0;
+            let offsetX = 0;
+            let offsetY = 0;
             let dragstart = false;
+            let _dragaxis = this.dragaxis;
             this.addEventListener('dragstart', (ev) => {
                 if(this.resizing){
                     ev.preventDefault();
                     return false;
                 }
+                this.dragData = {};
                 const img = new Image();
                 img.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' %3E%3Cpath /%3E%3C/svg%3E";
                 ev.dataTransfer.setDragImage(img,0,0);
                 ev.dataTransfer.effectAllowed = 'all'; 
                 const { left, top } = this.getBoundingClientRect();
-                startX = ev.clientX - left;
-                startY = ev.clientY - top;
+                startX = ev.clientX;
+                startY = ev.clientY;
+                offsetX = startX - left;
+                offsetY = startY - top;
                 ev.dataTransfer.setData('dragData', JSON.stringify({
                     id:this.id,
                     offsetX:startX,
@@ -230,13 +236,29 @@ class XyView extends HTMLElement {
                 if(this.cloneObj){
                     //ev.preventDefault();
                     this.dragstart = true;
-                    this.cloneObj.style.transform = `translate3d( ${ev.clientX-startX}px ,${parseInt(ev.clientY-startY)}px,0)`;
+                    let left = ~~(ev.clientX - offsetX);
+                    let top = ~~(ev.clientY - offsetY);
+                    if(ev.shiftKey || this.dragaxis ){
+                        if(_dragaxis==='X'){
+                            top = ~~(startY - offsetY);
+                        }else if(_dragaxis==='Y'){
+                            left = ~~(startX - offsetX);
+                        }else{
+                            _dragaxis = ~~Math.abs(ev.clientX-startX)>~~Math.abs(ev.clientY-startY) && 'X' || ~~Math.abs(ev.clientX-startX)<~~Math.abs(ev.clientY-startY) && 'Y' || '';
+                        }
+                    }else{
+                        _dragaxis = '';
+                    }
+                    startX = left + offsetX;
+                    startY = top + offsetY;
+                    this.dragData.left = left;
+                    this.dragData.top = top;
+                    this.cloneObj.style.transform = `translate3d( ${left}px ,${parseInt(top)}px,0)`;
                 }
             })
 
             this.addEventListener('dragend', (ev) => {
                 if(this.cloneObj){
-                    const rect = this.getBoundingClientRect();
                     const { left, top } = this.getBoundingClientRect();
                     const reset = this.cloneObj.animate(
                         [
@@ -251,6 +273,7 @@ class XyView extends HTMLElement {
                     reset.onfinish = () => {
                         document.body.removeChild(this.cloneObj);
                         this.cloneObj = null;
+                        this.dragData = null;
                         this.dragstart = false;
                     }
                 }
