@@ -23,12 +23,17 @@
 
 <style>
 .dragbox{
-    width: 50px;
-    height: 50px;
+    width: 100px;
+    height: 100px;
     background: #42b983;
-    position:relative;
+    color:#fff;
+    display:flex;
+    justify-content: center;
+    align-items: center;
     transform: translateX(20px);
-    left:20px;
+}
+.dragbox:empty::after{
+    content:'drag me'
 }
 .dragbox[dragging]{
     box-shadow:0 3px 10px rgba(0,0,0,.2);
@@ -100,6 +105,24 @@ allowdrop.addEventListener('dragover',()=>{})
 allowdrop.addEventListener('dragenter',()=>{})
 allowdrop.addEventListener('dragleave',()=>{})
 allowdrop.addEventListener('drop',()=>{})
+```
+
+## 拖拽轴`dragaxis`
+
+设置`dragaxis`可以用来限制拖拽的方向，取值为`X|Y`。
+
+不设置可以按住`Shift`键来限制水平拖拽或竖直拖拽。
+
+<xy-view class="dragbox" draggable dragaxis="X">dragaxis="X"</xy-view>
+
+<xy-view class="dragbox" draggable dragaxis="Y">dragaxis="Y"</xy-view>
+
+<xy-view class="dragbox" draggable>press shift</xy-view>
+
+```html
+<xy-view class="dragbox" draggable dragaxis="X">dragaxis="X"</xy-view>
+<xy-view class="dragbox" draggable dragaxis="Y">dragaxis="Y"</xy-view>
+<xy-view class="dragbox" draggable>press shift</xy-view>
 ```
 
 ## 可改变（尺寸）`resizable`

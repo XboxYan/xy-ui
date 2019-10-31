@@ -277,8 +277,6 @@ JavaScript操作`get`
 
 ```js
 input.validity;//获取
-//原生属性操作
-input.getAttribute('validity');
 ```
 
 ## 事件`event`

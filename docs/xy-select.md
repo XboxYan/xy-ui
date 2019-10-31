@@ -316,8 +316,6 @@ JavaScript操作`get`
 
 ```js
 select.validity;//获取
-//原生属性操作
-select.getAttribute('validity');
 ```
 
 ## 自定义尺寸

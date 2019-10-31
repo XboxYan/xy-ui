@@ -1,5 +1,8 @@
 # update
-* ## 1.9
+* ## 1.9.1
+    * [`xy-view`](xy-view.md)新增`draggable`、`allowdrop`、`resizable`等特性
+    * 新增[`xy-button-group`](xy-button-group.md?id=按钮组xy-button-group)组件
+* ## 1.9.0
     * `xy-form-item`布局采用`grid`实现，去除`legendwidth`属性
     * `xy-text`新增`draggable`属性
     * 表单元素的`reset`方法现定义为"重置"，即还原成默认值

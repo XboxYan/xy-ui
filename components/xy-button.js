@@ -30,6 +30,7 @@ export default class XyButton extends HTMLElement {
             border-radius:50%; 
         }
         :host(:not([disabled]):active){
+            z-index:1;
             transform:translateY(.1em);
         }
         :host([disabled]),:host([loading]){
@@ -84,6 +85,9 @@ export default class XyButton extends HTMLElement {
         }
         :host([type="flat"]:not([disabled]):hover) .btn::before{ 
             opacity:.1 
+        }
+        :host(:not([disabled]):hover){ 
+            z-index:1 
         }
         :host([type="flat"]:focus-within) .btn:before,
         :host([type="flat"][focus]) .btn:before{ 
@@ -308,4 +312,65 @@ export default class XyButton extends HTMLElement {
 
 if(!customElements.get('xy-button')){
     customElements.define('xy-button', XyButton);
+}
+
+class XyButtonGroup extends HTMLElement {
+    static get observedAttributes() { return ['disabled'] }
+    constructor() {
+        super();
+        const shadowRoot = this.attachShadow({ mode: 'open' });
+        shadowRoot.innerHTML = `
+        <style>
+        :host {
+            display:inline-flex;
+        }
+        ::slotted(xy-button:not(:first-of-type):not(:last-of-type)){
+            border-radius:0;
+        }
+        ::slotted(xy-button){
+            margin:0!important;
+        }
+        ::slotted(xy-button:not(:first-of-type)){
+            margin-left:-1px!important;
+        }
+        ::slotted(xy-button[type]:not([type="dashed"]):not(:first-of-type)){
+            margin-left:1px!important;
+        }
+        ::slotted(xy-button:first-of-type){
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0px;
+        }
+        ::slotted(xy-button:last-of-type){
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        </style>
+        <slot></slot>
+        `
+    }
+
+
+    get disabled() {
+        return this.getAttribute('disabled')!==null;
+    }
+
+    set disabled(value) {
+        if(value===null||value===false){
+            this.removeAttribute('disabled');
+        }else{
+            this.setAttribute('disabled', '');
+        }
+    }
+
+    connectedCallback() {
+        
+    }
+
+    attributeChangedCallback (name, oldValue, newValue) {
+        
+    }
+}
+
+if(!customElements.get('xy-button-group')){
+    customElements.define('xy-button-group', XyButtonGroup);
 }

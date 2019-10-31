@@ -209,8 +209,6 @@ JavaScript操作`get`
 
 ```js
 checkbox.validity;//获取
-//原生属性操作
-checkbox.getAttribute('validity');
 ```
 
 ## 事件`event`

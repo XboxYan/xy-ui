@@ -103,6 +103,63 @@ com.setAttribute('props',newProps);
 com.removeAttribute('props');
 ```
 
+## 按钮组`xy-button-group`
+
+`<xy-button-group>`可以将一组同类型的按钮组合起来。
+
+<xy-button-group>
+    <xy-button>button1</xy-button>
+    <xy-button>button2</xy-button>
+    <xy-button>button3</xy-button>
+    <xy-button>button4</xy-button>
+</xy-button-group>
+
+<p></p>
+
+<xy-button-group>
+    <xy-button type="primary">button1</xy-button>
+    <xy-button type="primary">button2</xy-button>
+    <xy-button type="primary">button3</xy-button>
+    <xy-button type="primary">button4</xy-button>
+</xy-button-group>
+
+<p></p>
+
+<xy-button-group>
+    <xy-button type="dashed">button1</xy-button>
+    <xy-button type="dashed">button2</xy-button>
+    <xy-button type="dashed">button3</xy-button>
+    <xy-button type="dashed">button4</xy-button>
+</xy-button-group>
+
+<p></p>
+
+<xy-button-group>
+    <xy-button type="flat">button1</xy-button>
+    <xy-button type="flat">button2</xy-button>
+    <xy-button type="flat">button3</xy-button>
+    <xy-button type="flat">button4</xy-button>
+</xy-button-group>
+
+<p></p>
+
+<xy-button-group>
+    <xy-button type="primary">button1</xy-button>
+    <xy-button type="primary">button2</xy-button>
+    <xy-button>button3</xy-button>
+    <xy-button>button4</xy-button>
+</xy-button-group>
+
+```html
+<xy-button-group>
+    <xy-button>button1</xy-button>
+    <xy-button>button2</xy-button>
+    <xy-button>button3</xy-button>
+    <xy-button>button4</xy-button>
+</xy-button-group>
+```
+
+
 ## 状态切换`toggle`
 
 可以给按钮添加`toggle`属性，来实现简单的按钮状态切换。
