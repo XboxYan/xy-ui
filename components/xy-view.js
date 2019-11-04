@@ -195,6 +195,8 @@ class XyView extends HTMLElement {
 
         if (this.draggable) {
             this.setAttribute('draggable', true);
+            const img = new Image();
+            img.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' %3E%3Cpath /%3E%3C/svg%3E";
             let startX = 0;
             let startY = 0;
             let offsetX = 0;
@@ -207,8 +209,6 @@ class XyView extends HTMLElement {
                     return false;
                 }
                 this.dragData = {};
-                const img = new Image();
-                img.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' %3E%3Cpath /%3E%3C/svg%3E";
                 ev.dataTransfer.setDragImage(img,0,0);
                 ev.dataTransfer.effectAllowed = 'all'; 
                 const { left, top } = this.getBoundingClientRect();
