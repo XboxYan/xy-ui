@@ -138,10 +138,13 @@ allowdrop.addEventListener('drop',()=>{})
     height:200px;
     outline:10px solid #f1f1f1;
     outline-offset:-10px;
+    transform:translate(100px,50px)
 }
 </style>
 
+<div style="height:500px">
 <xy-view resizable class="resizebox"></xy-view>
+</div>
 
 ```html
 <xy-view resizable class="resizebox"></xy-view>
@@ -149,7 +152,9 @@ allowdrop.addEventListener('drop',()=>{})
 
 改变尺寸会触发一下三个回调事件`resizestart`、`resize`、`resizend`
 
-<xy-view resizable class="resizebox" onresize="this.textContent=event.detail.width+','+event.detail.height"></xy-view>
+<div style="height:500px">
+<xy-view resizable draggable class="resizebox" onresize="this.textContent=event.detail.width+','+event.detail.height"></xy-view>
+</div>
 
 ```js
 resizebox.addEventListener('resizestart',()=>{})
@@ -166,3 +171,60 @@ resizebox.addEventListener('resize',(ev)=>{
 })
 resizebox.addEventListener('resizend',()=>{})
 ```
+
+> 当拖拽左上部分时，除了改变宽高以外，为了保证拖拽自然性，此时会给`transform`添加`offsetX`和`offsetY`偏移
+
+## 坐标`coord`
+
+`CSS`获取不到鼠标位置信息，可以设置`coord`属性，将坐标信息在内部通过自定义属性`--x`、`--y`传递下来，取值范围为`0~1`。
+
+很多鼠标跟随的效果就可以借助`CSS`实现了。
+
+<style>
+.coord-con{
+    position:relative;
+    height:500px;
+    border:10px solid #f1f1f1;
+    display:flex;
+    perspective: 550px;
+    transform-style: preserve-3d;
+}
+.coord-box{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    color:#fff;
+    width:200px;
+    height:200px;
+    background: #42b983;
+    margin:auto;
+    transition:.2s;
+}
+.coord-con:hover .coord-box{
+    transition: 0s;
+    transform: rotateX(calc((var(--y) - .5) * 45deg)) rotateY(calc((var(--x) - .5) * 45deg));
+}
+</style>
+
+<xy-view coord class="coord-con">
+    <div class="coord-box">look me</div>
+</xy-view>
+
+```css
+.coord-con{
+    perspective: 550px;
+    transform-style: preserve-3d;
+}
+.coord-con:hover .coord-box{
+    transform: rotateX(calc( (var(--y) - .5) * 45deg)) rotateY(calc( (var(--x) - .5) * 45deg));
+    /**通过calc计算旋转角度**/
+}
+```
+
+```html
+<xy-view coord class="coord-con">
+    <div class="coord-box">look me</div>
+</xy-view>
+```
+
+更多实用场景...

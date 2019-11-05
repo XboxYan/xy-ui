@@ -182,15 +182,16 @@ class XyView extends HTMLElement {
         const con = this.shadowRoot.getElementById('con');
         if (this.coord) {
             this.addEventListener('mousemove', (ev) => {
-                const { left, top } = this.getBoundingClientRect();
-                con.style.setProperty('--x', ev.clientX - left);
-                con.style.setProperty('--y', ev.clientY - top);
+                const { left, top, width, height } = this.getBoundingClientRect();
+                con.style.setProperty('--x', (ev.clientX - left) / width );
+                con.style.setProperty('--y', (ev.clientY - top) / height );
             })
-
+            /*
             this.addEventListener('mousedown', (ev) => {
                 this.style.setProperty('--_x', getComputedStyle(con).getPropertyValue('--x'));
                 this.style.setProperty('--_y', getComputedStyle(con).getPropertyValue('--y'));
             })
+            */
         }
 
         if (this.draggable) {
@@ -322,12 +323,15 @@ class XyView extends HTMLElement {
             let height = 0;
             let offsetX = 0;
             let offsetY = 0;
+            let transforms = [0,0];
             this.addEventListener('click',()=>{
                 resizeCon.focus();
             })
             resizeCon.addEventListener('mousedown',(ev)=>{
                 ev.stopPropagation();
                 const path = ev.path || (ev.composedPath && ev.composedPath());
+                const transform = getComputedStyle(this).transform;
+                transforms = transform === 'none'?[0,0]:transform.match(/[\d]+/g).slice(4);
                 if(path[0].tagName === 'I'){
                     this.resizing = true;
                     startX = ev.pageX;
@@ -384,6 +388,9 @@ class XyView extends HTMLElement {
                         default:
                             break;
                     }
+                    offsetX = mode.includes('l')?offsetX:0;
+                    offsetY = mode.includes('t')?offsetY:0;
+                    this.style.transform = `translate3d(${Number(transforms[0])+offsetX}px,${Number(transforms[1])+offsetY}px,0)`
                     this.dispatchEvent(new CustomEvent('resize',{
                         detail:{
                             offsetX:offsetX,
