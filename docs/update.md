@@ -1,4 +1,6 @@
 # update
+* ## 1.9.2
+    * `xy-view`新增`coord`坐标
 * ## 1.9.1
     * [`xy-view`](xy-view.md)新增`draggable`、`allowdrop`、`resizable`等特性
     * 新增[`xy-button-group`](xy-button-group.md?id=按钮组xy-button-group)组件

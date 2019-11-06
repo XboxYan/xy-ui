@@ -138,7 +138,7 @@ allowdrop.addEventListener('drop',()=>{})
     height:200px;
     outline:10px solid #f1f1f1;
     outline-offset:-10px;
-    transform:translate(100px,50px)
+    transform:translate(100px,50px);
 }
 </style>
 
@@ -176,7 +176,7 @@ resizebox.addEventListener('resizend',()=>{})
 
 ## 坐标`coord`
 
-`CSS`获取不到鼠标位置信息，可以设置`coord`属性，将坐标信息在内部通过自定义属性`--x`、`--y`传递下来，取值范围为`0~1`。
+`CSS`获取不到鼠标位置信息，可以设置`coord`属性，将坐标信息在内部通过自定义属性`--x`、`--y`传递下来，取值范围为`0~1`（坐标相对于宽高的比值）。
 
 很多鼠标跟随的效果就可以借助`CSS`实现了。
 

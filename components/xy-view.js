@@ -282,7 +282,7 @@ class XyView extends HTMLElement {
         }
 
         if(this.allowdrop) {
-            let elemetnNode = null;
+            let elementNode = null;
             this.addEventListener('dragover', (ev) => {
                 ev.preventDefault();
             })
@@ -293,13 +293,13 @@ class XyView extends HTMLElement {
             })
             this.addEventListener('dragleave', (ev) => {
                 ev.stopPropagation();
-                if(elemetnNode===ev.target){
+                if(elementNode===ev.target){
                     this.removeAttribute('over');
                 }
             })
             this.addEventListener('dragenter', (ev) => {
                 ev.stopPropagation();
-                elemetnNode = ev.target;
+                elementNode = ev.target;
                 this.setAttribute('over','');
             })
         }
