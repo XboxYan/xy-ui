@@ -582,6 +582,7 @@ class XyDatePane extends HTMLElement {
         this.value = this.defaultvalue;
         this.prev.addEventListener('click',()=>{
             let [year,month,day] = toDate(this.$value);
+            this.nativeclick = true;
             switch (this.mode) {
                 case 'date':
                     this.value = new Date(...this.toDay(year,month-2,day));
@@ -598,6 +599,7 @@ class XyDatePane extends HTMLElement {
         })
         this.next.addEventListener('click',()=>{
             let [year,month,day] = toDate(this.$value);
+            this.nativeclick = true;
             switch (this.mode) {
                 case 'date':
                     this.value = new Date(...this.toDay(year,month,day));
@@ -627,6 +629,7 @@ class XyDatePane extends HTMLElement {
         })
         this.dateBody.addEventListener('click',(ev)=>{
             const item = ev.target.closest('button');
+            this.nativeclick = true;
             if(item){
                 this.select(item.dataset.date);
                 this.value = item.dataset.date;
@@ -635,6 +638,7 @@ class XyDatePane extends HTMLElement {
         this.dateMonth.addEventListener('click',(ev)=>{
             const item = ev.target.closest('button');
             let [year,month,day] = toDate(this.$value);
+            this.nativeclick = true;
             if(item){
                 if(this.type == 'date'){
                     const len = new Date(year,item.dataset.month,0).getDate();
@@ -649,6 +653,7 @@ class XyDatePane extends HTMLElement {
         this.dateYear.addEventListener('click',(ev)=>{
             const item = ev.target.closest('button');
             let [year,month,day] = toDate(this.$value);
+            this.nativeclick = true;
             if(item){
                 switch (this.type) {
                     case 'date':
@@ -727,12 +732,15 @@ class XyDatePane extends HTMLElement {
                 const left = this.previousElementSibling;
                 left.render();
             }
-            this.dispatchEvent(new CustomEvent('change', {
-                detail: {
-                    value: value,
-                    date: this.date,
-                }
-            }));
+            if(this.nativeclick){
+                this.nativeclick = false;
+                this.dispatchEvent(new CustomEvent('change', {
+                    detail: {
+                        value: value,
+                        date: this.date,
+                    }
+                }));
+            }
         }
     }
 
@@ -1013,6 +1021,7 @@ export default class XyDatePicker extends HTMLElement {
             }
         })
         this.btnSubmit.addEventListener('click',()=>{
+            this.nativeclick = true;
             this.value = this.datePane.value;
         })
         this.popcon.addEventListener('close',()=>{
@@ -1020,7 +1029,6 @@ export default class XyDatePicker extends HTMLElement {
             this.datePane.mode = this.type;
         })
         this.value = this.defaultvalue;
-        this.init = true;
     }
 
     get min() {
@@ -1112,13 +1120,21 @@ export default class XyDatePicker extends HTMLElement {
     set value(value) {
         this.$value = value;
         this.datetxt.textContent = this.range?this.value.join('~'):this.value;
-        if(this.init){
+        
+        if(this.nativeclick){
+            this.nativeclick = false;
             this.dispatchEvent(new CustomEvent('change', {
                 detail: {
                     value: this.value,
                     date: this.date
                 }
             }));
+        }else{
+            if(this.datePane){
+                this.datePane.value = this.value;
+            }else{
+                this.defaultvalue = this.range?this.value.join('~'):this.value;
+            }
         }
     }
 

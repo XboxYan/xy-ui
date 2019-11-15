@@ -153,6 +153,11 @@ export default class XyRadio extends HTMLElement {
         this.checked = this.checked;
         this.radio.addEventListener('change',(ev)=>{
             this.tocheck();
+            this.dispatchEvent(new CustomEvent('change', {
+                detail: {
+                    checked: this.checked
+                }
+            }));
         })
         this.radio.addEventListener('keydown', (ev) => {
             switch (ev.keyCode) {
@@ -179,13 +184,6 @@ export default class XyRadio extends HTMLElement {
                 this.radio.checked = true;
             }else{
                 this.radio.checked = false;
-            }
-            if (oldValue !== newValue) {
-                this.dispatchEvent(new CustomEvent('change', {
-                    detail: {
-                        checked: this.checked
-                    }
-                }));
             }
         }
     }
@@ -273,14 +271,6 @@ class XyRadioGroup extends HTMLElement {
                 el.checked = false;
             }
         })
-        if(this.init){
-            this.checkValidity();
-            this.dispatchEvent(new CustomEvent('change',{
-                detail:{
-                    value:value
-                }
-            }));
-        }
     }
 
     set required(value) {

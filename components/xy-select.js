@@ -276,6 +276,7 @@ export default class XySelect extends HTMLElement {
         if(this.focusIndex===this.nodes.length){
             this.focusIndex = 0;
         }
+        this.nativeclick = true;
         this.value = this.nodes[this.focusIndex].value;     
     }
 
@@ -366,6 +367,7 @@ export default class XySelect extends HTMLElement {
             this.focus();
             const item = ev.target.closest('xy-option');
             if(item){
+                this.nativeclick = true;
                 this.value = item.value;
             }
         })
@@ -431,6 +433,7 @@ export default class XySelect extends HTMLElement {
                     this.options.open = true;
                 }else{
                     const item = this.nodes[this.focusIndex];
+                    this.nativeclick = true;
                     if(item){
                         this.value = item.value;
                     }else{
@@ -444,6 +447,7 @@ export default class XySelect extends HTMLElement {
                 if(!this.options.open){
                     const item = this.nodes[this.focusIndex];
                     if(item){
+                        this.nativeclick = true;
                         this.value = item.value;
                     }
                 }
@@ -613,7 +617,8 @@ export default class XySelect extends HTMLElement {
             }else{
                 this.txt.textContent = this.$text;
             }
-            if(this.init){
+            if(this.nativeclick){
+                this.nativeclick = false;
                 this.checkValidity();
                 this.dispatchEvent(new CustomEvent('change', {
                     detail: {

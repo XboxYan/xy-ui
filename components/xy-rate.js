@@ -46,31 +46,31 @@ export default class XyRate extends HTMLElement {
             pointer-events: none; 
         }
         </style>
-        <input type="radio" name="item" id="item05" value="5" />
+        <input tabindex="5" type="radio" name="item" id="item05" value="5" />
         <xy-tips class="star-item" tips=${this.tips[4]}>
             <label for="item05">
                 <xy-icon name=${this.icon}></xy-icon>
             </label>
         </xy-tips>
-        <input type="radio" name="item" id="item04" value="4" />
+        <input tabindex="4" type="radio" name="item" id="item04" value="4" />
         <xy-tips class="star-item" tips=${this.tips[3]}>
             <label for="item04">
                 <xy-icon name=${this.icon}></xy-icon>
             </label>
         </xy-tips>
-        <input type="radio" name="item" id="item03" value="3" />
+        <input tabindex="3" type="radio" name="item" id="item03" value="3" />
         <xy-tips class="star-item" tips=${this.tips[2]}>
             <label for="item03">
                 <xy-icon name=${this.icon}></xy-icon>
             </label>
         </xy-tips>
-        <input type="radio" name="item" id="item02" value="2" />
+        <input tabindex="2" type="radio" name="item" id="item02" value="2" />
         <xy-tips class="star-item" tips=${this.tips[1]}>
             <label for="item02">
                 <xy-icon name=${this.icon}></xy-icon>
             </label>
         </xy-tips>
-        <input type="radio" name="item" id="item01" value="1" />
+        <input tabindex="1" type="radio" name="item" id="item01" value="1" />
         <xy-tips class="star-item" tips=${this.tips[0]}>
             <label for="item01">
                 <xy-icon name=${this.icon}></xy-icon>
@@ -133,13 +133,12 @@ export default class XyRate extends HTMLElement {
     }
 
     set value(value) {
+        if(value === 0){
+            this.radio[this.value-1].checked = false;
+        }else{
+            this.radio[Number(value)-1].checked = true;
+        }
         this.shadowRoot.value = value;
-        this.radio[Number(value)-1].checked = true;
-        this.dispatchEvent(new CustomEvent('change',{
-            detail:{
-                value:this.shadowRoot.value
-            }
-        }));
     }
 
     focus(){
@@ -155,6 +154,11 @@ export default class XyRate extends HTMLElement {
         this.radio.forEach((el)=>{
             el.addEventListener('change',(ev)=>{
                 this.value = el.value;
+                this.dispatchEvent(new CustomEvent('change',{
+                    detail:{
+                        value:this.value
+                    }
+                }));
             })
         })
     }

@@ -363,11 +363,13 @@ class XyColorPane extends HTMLElement {
         this.rangeOpacity.addEventListener('input',()=>{
             const value = [...this.$value];
             value[3] = Number(this.rangeOpacity.value);
+            this.nativeclick = true;
             this.value = `hsva(${value[0]}, ${value[1]}%, ${value[2]}%, ${value[3]})`;
         })
         this.colors.addEventListener('click',(ev)=>{
             const item = ev.target.closest('button');
             if(item){
+                this.nativeclick = true;
                 this.value = item.dataset.color;
             }
         })
@@ -375,6 +377,7 @@ class XyColorPane extends HTMLElement {
             this.typeindex ++;
             this.typeindex %= 3;
             this.switch.textContent = this.type[this.typeindex];
+            this.nativeclick = true;
             this.value = this.value;
             this.switch.parentNode.dataset.type = this.type[this.typeindex];
         })
@@ -387,6 +390,7 @@ class XyColorPane extends HTMLElement {
         })
         this.colorHexa.forEach(el=>{
             el.addEventListener('change',()=>{
+                this.nativeclick = true;
                 this.value = el.value;
             })
         })
@@ -394,6 +398,7 @@ class XyColorPane extends HTMLElement {
             el.addEventListener('change',()=>{
                 const value = HSVaColor(...this.$value).toRGBA();
                 value[i] = Number(el.value);
+                this.nativeclick = true;
                 this.value = `rgba(${value[0]}, ${value[1]}, ${value[2]}, ${value[3]})`;
             })
         })
@@ -401,10 +406,10 @@ class XyColorPane extends HTMLElement {
             el.addEventListener('change',()=>{
                 const value = HSVaColor(...this.$value).toHSLA();
                 value[i] = Number(el.value);
+                this.nativeclick = true;
                 this.value = `hsla(${value[0]}, ${value[1]}%, ${value[2]}%, ${value[3]})`;
             })
         })
-        this.init = true;
     }
 
     get value() {
@@ -447,7 +452,8 @@ class XyColorPane extends HTMLElement {
         this.colorHlsa[1].value = HSLA[1].toFixed(0);
         this.colorHlsa[2].value = HSLA[2].toFixed(0);
         this.colorHlsa[3].value = HSLA[3].toFixed(2);
-        if(this.init && !this.start){
+        if(this.nativeclick){
+            this.nativeclick = false;
             this.dispatchEvent(new CustomEvent('change', {
                 detail: {
                     value: this.value,
@@ -498,6 +504,9 @@ export default class XyColorPicker extends HTMLElement {
             padding:5px;
             background-clip: content-box;
             background-color:var(--themeColor,#42b983);
+        }
+        .color-btn:hover{
+            z-index: auto;
         }
         xy-popover{
             display:block;
@@ -556,13 +565,13 @@ export default class XyColorPicker extends HTMLElement {
             }
         })
         this.btnSubmit.addEventListener('click',()=>{
+            this.nativeclick = true;
             this.value = this.colorPane.value;
         })
         this.popcon.addEventListener('close',()=>{
             this.colorPane.value = this.value;
         })
         this.value = this.defaultvalue;
-        this.init = true;
     }
 
     
@@ -610,20 +619,24 @@ export default class XyColorPicker extends HTMLElement {
     set value(value) {
         this.colorBtn.style.setProperty('--themeColor',value);
         this.$value = value;
-        if(this.init){
+        if(this.nativeclick){
+            this.nativeclick = false;
             this.dispatchEvent(new CustomEvent('change', {
                 detail: {
                     value: this.value,
                     color: this.color
                 }
             }));
+        }else{
+            if(this.colorPane){
+                this.colorPane.value = this.value;
+            }else{
+                this.defaultvalue = this.value;
+            }
         }
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-        if(!this.init){
-            return
-        }
         if (name == 'disabled' && this.colorBtn) {
             if (newValue != null) {
                 this.colorBtn.setAttribute('disabled', 'disabled');

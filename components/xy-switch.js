@@ -109,6 +109,11 @@ export default class XySwitch extends HTMLElement {
         this.checked = this.checked;
         this.switch.addEventListener('change',(ev)=>{
             this.checked = this.switch.checked;
+            this.dispatchEvent(new CustomEvent('change', {
+                detail: {
+                    checked: this.checked
+                }
+            }));
         })
         this.switch.addEventListener('keydown', (ev) => {
             switch (ev.keyCode) {
@@ -157,13 +162,6 @@ export default class XySwitch extends HTMLElement {
                 this.switch.checked = true;
             }else{
                 this.switch.checked = false;
-            }
-            if (oldValue !== newValue) {
-                this.dispatchEvent(new CustomEvent('change', {
-                    detail: {
-                        checked: this.checked
-                    }
-                }));
             }
         }
     }

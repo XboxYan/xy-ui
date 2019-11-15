@@ -248,6 +248,12 @@ export default class XyCheckbox extends HTMLElement {
         this.checked = this.checked;
         this.checkbox.addEventListener('change',(ev)=>{
             this.checked = this.checkbox.checked;
+            this.checkValidity();
+            this.dispatchEvent(new CustomEvent('change', {
+                detail: {
+                    checked: this.checked
+                }
+            }));
         })
         this.checkbox.addEventListener('keydown', (ev) => {
             switch (ev.keyCode) {
@@ -298,14 +304,6 @@ export default class XyCheckbox extends HTMLElement {
                 this.checkbox.checked = true;
             }else{
                 this.checkbox.checked = false;
-            }
-            if (oldValue !== newValue) {
-                this.checkValidity();
-                this.dispatchEvent(new CustomEvent('change', {
-                    detail: {
-                        checked: this.checked
-                    }
-                }));
             }
         }
         if(name == 'required' && this.checkbox){
@@ -424,6 +422,7 @@ class XyCheckboxGroup extends HTMLElement {
                 el.checked = false;
             }
         })
+        /*
         if(this.init){
             this.checkValidity();
             this.dispatchEvent(new CustomEvent('change',{
@@ -432,6 +431,7 @@ class XyCheckboxGroup extends HTMLElement {
                 }
             }));
         }
+        */
     }
 
     set required(value) {

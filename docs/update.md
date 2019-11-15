@@ -1,6 +1,7 @@
 # update
 * ## 1.9.2
     * `xy-view`新增`coord`坐标
+    * 所有表单元素只有在实际触发（比如点击、键盘`Enter`）时才会触发`change`回调，通过直接修改`value`不会触发（与原生保持一致）
 * ## 1.9.1
     * [`xy-view`](xy-view.md)新增`draggable`、`allowdrop`、`resizable`等特性
     * 新增[`xy-button-group`](xy-button-group.md?id=按钮组xy-button-group)组件

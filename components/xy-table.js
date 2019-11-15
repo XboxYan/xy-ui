@@ -210,24 +210,6 @@ export default class XyTable extends HTMLElement {
         }
     }
 
-    changecell(cell){
-        if(!this.selectAll){
-            this.selectOne = true;
-            let isAll = true;
-            let isEmpty = true;
-            cell.forEach(el=>{
-                if(!el.checked){
-                    isAll = false;
-                }else{
-                    isEmpty = false;
-                }
-            })
-            this.checkbox.indeterminate = !isEmpty && !isAll;
-            this.checkbox.checked = isAll;
-            this.selectOne = false;
-        }
-    }
-
     connectedCallback() {
         if(this.select){
             this.checkbox = this.shadowRoot.querySelector('xy-checkbox');
@@ -237,19 +219,24 @@ export default class XyTable extends HTMLElement {
                 this.cell.forEach((el,i)=>{
                     !el.id && (el.index = i);
                     el.onchange = () => {
-                        this.changecell(this.cell);
+                        let isAll = true;
+                        let isEmpty = true;
+                        this.cell.forEach(el=>{
+                            if(!el.checked){
+                                isAll = false;
+                            }else{
+                                isEmpty = false;
+                            }
+                        })
+                        this.checkbox.indeterminate = !isEmpty && !isAll;
+                        this.checkbox.checked = isAll;
                     }
                 })
-                this.changecell(this.cell);
             })
             this.checkbox.addEventListener('change',()=>{
-                if(!this.selectOne){
-                    this.selectAll = true;
-                    this.cell.forEach(el=>{
-                        el.checked = this.checkbox.checked;
-                    })
-                    this.selectAll = false;
-                }
+                this.cell.forEach(el=>{
+                    el.checked = this.checkbox.checked;
+                })
             })
         }
     }
