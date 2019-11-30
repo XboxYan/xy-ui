@@ -428,6 +428,9 @@ class XyPopover extends HTMLElement {
             opacity:1;
             visibility:visible;
         }
+        slot{
+            border-radius: inherit;
+        }
         </style>
         <slot></slot>
         `

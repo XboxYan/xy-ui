@@ -21,6 +21,7 @@ class XyDialog extends HTMLElement {
             background:rgba(0,0,0,.3);
             visibility:hidden;
             opacity:0;
+            backdrop-filter: blur(3px);
             transition:.3s;
         }
         :host([open]){

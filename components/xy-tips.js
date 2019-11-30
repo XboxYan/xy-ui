@@ -316,6 +316,9 @@ export default class XyTips extends HTMLElement {
         :host([type="warning"]){
             --color:var(--waringColor,#faad14);
         }
+        slot{
+            border-radius: inherit;
+        }
         </style>
         <slot></slot>
         `

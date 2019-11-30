@@ -165,6 +165,64 @@ input.setAttribute('value','name');
 <xy-input icon="creditcard" type="number" min="-10" max="10" step="0.5" ></xy-input>
 ```
 
+## 组合`xy-input-group`
+
+`<xy-input-group>`可以将表单元素组合起来，包括`xy-button`、`xy-input`、`xy-select`。
+
+<xy-input-group>
+    <xy-select defaultvalue="https://">
+        <xy-option value="http://">http://</xy-option>
+        <xy-option value="https://">https://</xy-option>
+    </xy-select>
+    <xy-input></xy-input>
+    <xy-button type="primary">go</xy-button>
+</xy-input-group>
+
+```html
+<xy-input-group>
+    <xy-select defaultvalue="https://">
+        <xy-option value="http://">http://</xy-option>
+        <xy-option value="https://">https://</xy-option>
+    </xy-select>
+    <xy-input></xy-input>
+    <xy-button type="primary">go</xy-button>
+</xy-input-group>
+```
+
+<xy-input-group>
+    <xy-select defaultvalue="wuhan">
+        <xy-option value="wuhan">武汉</xy-option>
+        <xy-option value="shanghai">上海</xy-option>
+    </xy-select>
+    <xy-select defaultvalue="hongsan">
+        <xy-option value="hongsan">洪山区</xy-option>
+        <xy-option value="jiangxia">江夏区</xy-option>
+    </xy-select>
+    <xy-select defaultvalue="AAA">
+        <xy-option value="AAA">AAA</xy-option>
+        <xy-option value="BBB">BBB</xy-option>
+    </xy-select>
+</xy-input-group>
+
+```html
+<xy-input-group>
+    <xy-select defaultvalue="wuhan">
+        <xy-option value="wuhan">武汉</xy-option>
+        <xy-option value="shanghai">上海</xy-option>
+    </xy-select>
+    <xy-select defaultvalue="hongsan">
+        <xy-option value="hongsan">洪山区</xy-option>
+        <xy-option value="jiangxia">江夏区</xy-option>
+    </xy-select>
+    <xy-select defaultvalue="AAA">
+        <xy-option value="AAA">AAA</xy-option>
+        <xy-option value="BBB">BBB</xy-option>
+    </xy-select>
+</xy-input-group>
+```
+
+纯`CSS`布局实现。
+
 ## 验证`checkValidity`
 
 支持正则校验，如果不满足要求，则会出现错误提示。
@@ -229,20 +287,24 @@ input.setAttribute('value','name');
 
 上面的校验均针对输入格式，如果需要对值进行校验，可使用`customValidity`，比如校验重复密码
 
-<xy-form-item labelwidth="100" legend="password">
-    <xy-input name="password" id="pwd" required type="password" placeholder="password" minlength="6"></xy-input>
-</xy-form-item>
-<xy-form-item labelwidth="100" legend="password again">
-    <xy-input name="password_confirm" id="pwdAgain" required type="password" placeholder="password confirm"></xy-input>
-</xy-form-item>
+<xy-form>
+    <xy-form-item legend="password">
+        <xy-input name="password" id="pwd" required type="password" placeholder="password" minlength="6"></xy-input>
+    </xy-form-item>
+    <xy-form-item legend="password again">
+        <xy-input name="password_confirm" id="pwdAgain" required type="password" placeholder="password confirm"></xy-input>
+    </xy-form-item>
+<xy-form>
 
 ```html
-<xy-form-item labelwidth="100" legend="password">
-    <xy-input name="password" id="pwd" required type="password" placeholder="password" minlength="6"></xy-input>
-</xy-form-item>
-<xy-form-item labelwidth="100" legend="password again">
-    <xy-input name="password_confirm" id="pwdAgain" required type="password" placeholder="password confirm"></xy-input>
-</xy-form-item>
+<xy-form>
+    <xy-form-item legend="password">
+        <xy-input name="password" id="pwd" required type="password" placeholder="password" minlength="6"></xy-input>
+    </xy-form-item>
+    <xy-form-item legend="password again">
+        <xy-input name="password_confirm" id="pwdAgain" required type="password" placeholder="password confirm"></xy-input>
+    </xy-form-item>
+<xy-form>
 ```
 
 自定义格式如下

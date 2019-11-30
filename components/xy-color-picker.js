@@ -15,7 +15,7 @@ class XyColorPane extends HTMLElement {
         <style>
             :host{
                 display: block;
-                width:300px;
+                min-width: 300px;
             }
             .color-pane{
                 padding:.8em;

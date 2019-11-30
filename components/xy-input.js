@@ -141,7 +141,8 @@ export default class XyInput extends HTMLElement {
         .btn-number{
             display:flex;
             flex-direction:column;
-            width:1em;
+            width:1.5em;
+            margin: -.25em -.5em -.25em .25em;
             visibility:hidden;
             transition:0s;
         }
@@ -518,12 +519,14 @@ export default class XyInput extends HTMLElement {
 
     set value(value) {
         this.input.value = value;
+        /*
         this.checkValidity();
         this.dispatchEvent(new CustomEvent('change',{
             detail:{
                 value:this.value
             }
         }));
+        */
     }
 
     attributeChangedCallback (name, oldValue, newValue) {
@@ -577,4 +580,40 @@ if(!customElements.get('xy-input')){
 }
 if(!customElements.get('xy-textarea')){
     customElements.define('xy-textarea', XyTextarea);
+}
+
+class XyInputGroup extends HTMLElement {
+    constructor() {
+        super();
+        const shadowRoot = this.attachShadow({ mode: 'open' });
+        shadowRoot.innerHTML = `
+        <style>
+        :host {
+            display:flex;
+        }
+        ::slotted(:not(:first-child):not(:last-child)){
+            border-radius:0;
+        }
+        ::slotted(*){
+            margin:0!important;
+        }
+        ::slotted(:not(:first-child)){
+            margin-left:-1px!important;
+        }
+        ::slotted(:first-child){
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0px;
+        }
+        ::slotted(:last-child){
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        </style>
+        <slot></slot>
+        `
+    }
+}
+
+if(!customElements.get('xy-input-group')){
+    customElements.define('xy-input-group', XyInputGroup);
 }

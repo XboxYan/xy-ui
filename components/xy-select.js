@@ -135,6 +135,7 @@ export default class XySelect extends HTMLElement {
         :host{
             display:inline-block;
             font-size: 14px;
+            border-radius: var(--borderRadius,.25em);
         }
         :host([block]){
             display:block;
@@ -162,6 +163,7 @@ export default class XySelect extends HTMLElement {
             display:block;
             width: 100%;
             height: 100%;
+            border-radius: inherit;
         }
         
         #select:not([type="primary"]){
@@ -170,6 +172,7 @@ export default class XySelect extends HTMLElement {
             height:100%;
             font-size: inherit;
             color: currentColor;
+            border-radius: inherit;
         }
         :host([search]) #select{
             color:currentColor;
@@ -221,6 +224,7 @@ export default class XySelect extends HTMLElement {
         xy-popover{
             display:block;
             height:inherit;
+            border-radius: inherit;
         }
         xy-popcon{
             min-width:100%;
