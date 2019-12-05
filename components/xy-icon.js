@@ -23,6 +23,14 @@ export default class XyIcon extends HTMLElement {
             overflow: hidden;
             /*transition:inherit;*/
         }
+        :host([spin]){
+            animation: rotate 1.4s linear infinite;
+        }
+        @keyframes rotate{
+            to{
+                transform: rotate(360deg); 
+            }
+        }
         </style>
         <svg class="icon" id="icon" aria-hidden="true" viewBox="0 0 ${this.view} ${this.view}">
             ${this.path?'<path id="path"></path>':'<use id="use"></use>'}

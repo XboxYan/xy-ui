@@ -140,3 +140,21 @@ icon.color = 'orangered';
 icon.getAttribute('color');
 icon.setAttribute('color','orangered');
 ```
+
+## 旋转`spin`
+
+添加`spin`属性可以让图标旋转起来，实现`loading`的效果
+
+<xy-icon size="40" name="reload" spin color="orangered"></xy-icon>
+<xy-icon size="40" name="sync" spin color="#1E90FF"></xy-icon>
+<xy-icon size="40" name="heart" spin color="#F44336"></xy-icon>
+<xy-icon size="40" name="poweroff" spin color="#3F51B5"></xy-icon>
+
+```html
+<xy-icon size="40" name="reload" spin color="orangered"></xy-icon>
+<xy-icon size="40" name="sync" spin color="#1E90FF"></xy-icon>
+<xy-icon size="40" name="heart" spin color="#F44336"></xy-icon>
+<xy-icon size="40" name="poweroff" spin color="#3F51B5"></xy-icon>
+```
+
+> 其实就是一个`css`动画
