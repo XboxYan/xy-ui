@@ -118,6 +118,21 @@ export default class XyButton extends HTMLElement {
         ::-moz-focus-inner{
             border:0;
         }
+        .btn::before{
+            content: "";
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left:0;
+            top:0;
+            transition:.2s;
+            background:#fff;
+            opacity:0;
+        }
+        :host(:not([disabled]):active) .btn::before{ 
+            opacity:.2;
+        }
         .btn::after {
             content: "";
             display: block;

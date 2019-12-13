@@ -106,4 +106,4 @@ xy-loading{
 <xy-loading>loading...</xy-loading>
 ```
 
-如需其他图形的`loading`可参考[xy-icon](xy-icon?id=旋转spin)
+如需其他图标的`loading`可参考[xy-icon](xy-icon?id=旋转spin)

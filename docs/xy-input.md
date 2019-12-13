@@ -468,6 +468,8 @@ input.addEventListener('submit',function(ev){
 input.focus();
 ```
 
+> 其他事件均与原生相同，比如`ondrop`、`onpaste`
+
 ### checkValidity
 
 用于主动校验，弹出提示信息。
