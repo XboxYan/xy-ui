@@ -338,6 +338,7 @@ class XyColorPane extends HTMLElement {
         this.rangeHue.addEventListener('input',()=>{
             const value = [...this.$value];
             value[0] = Number(this.rangeHue.value);
+            this.nativeclick = true;
             this.value = `hsva(${value[0]}, ${value[1]}%, ${value[2]}%, ${value[3]})`;
         })
         this.palette.addEventListener('mousedown',(ev)=>{
