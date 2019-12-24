@@ -15,6 +15,7 @@
     * 新增[`xy-input-group`](./docs/xy-input.md?id=组合xy-input-group)组件
     * `xy-icon`新增`spin`属性
     * 修复`input[type=number]`的`onchange`回调
+    * 修复`xy-color-picker`色相选择回调
 * ## 1.9.2
     * `xy-view`新增`coord`坐标
     * 所有表单元素只有在实际触发（比如点击、键盘`Enter`）时才会触发`change`回调，通过直接修改`value`不会触发（与原生保持一致）
