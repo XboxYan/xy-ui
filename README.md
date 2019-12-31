@@ -106,7 +106,7 @@ npm i xy-ui
 <script type="module" src="https://unpkg.com/xy-ui"></script>
 ```
 
-* 直接在`github`上获取最新文件。
+* 直接在`github`上获取最新文件（推荐）。
 
 目录如下：
 
@@ -151,7 +151,29 @@ ReactDOM.render(<xy-button>button</xy-button>, document.body);
 
 ### vue项目引用
 
-与原生类似，暂无研究。
+```js
+import 'xy-ui';//推荐
+//如需单独使用
+import 'xy-ui/components/xy-button.js';
+```
+
+使用同原生组件类似
+
+你可能已经注意到 `Vue` 组件非常类似于自定义元素，它是 [Web 组件规范](https://www.w3.org/wiki/WebComponents/)的一部分，这是因为 `Vue` 的组件语法部分参考了该规范。
+
+为了避免歧义，需要将自定义元素忽略掉，可参考[官方文档](https://cn.vuejs.org/v2/api/#ignoredElements)
+
+```js
+Vue.config.ignoredElements = [
+  'my-custom-web-component',
+  'another-web-component',
+  // 用一个 `RegExp` 忽略所有“ion-”开头的元素
+  // 仅在 2.5+ 支持
+  /^ion-/
+]
+```
+
+其他事件绑定可自行搜索~
 
 ## 其他
 
