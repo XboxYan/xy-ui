@@ -91,6 +91,7 @@ export default class XyInput extends HTMLElement {
             background: none;
             overflow-x: hidden;
             transition: color .3s;
+            animation: removeBg 0s forwards;
         }
         :host(xy-textarea) .input{
             margin:0;
@@ -172,7 +173,11 @@ export default class XyInput extends HTMLElement {
         :host(:focus-within:not([disabled])) .btn-number,:host(:not([disabled]):hover) .btn-number{
             visibility:visible;
         }
-
+        @keyframes removeBg{
+            to{
+                background:transparent;
+            }
+        }
         </style>
         <xy-tips id="input-con" dir="${this.errordir}" type="error">
             ${
