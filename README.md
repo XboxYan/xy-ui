@@ -15,6 +15,7 @@
     * 新增[`xy-input-group`](./docs/xy-input.md?id=组合xy-input-group)组件
     * `xy-icon`新增`spin`属性
     * 修复`input[type=number]`的`onchange`回调
+    * 修复`xy-color-picker`色相选择回调
 * ## 1.9.2
     * `xy-view`新增`coord`坐标
     * 所有表单元素只有在实际触发（比如点击、键盘`Enter`）时才会触发`change`回调，通过直接修改`value`不会触发（与原生保持一致）
@@ -105,7 +106,7 @@ npm i xy-ui
 <script type="module" src="https://unpkg.com/xy-ui"></script>
 ```
 
-* 直接在`github`上获取最新文件。
+* 直接在`github`上获取最新文件（推荐）。
 
 目录如下：
 
@@ -150,7 +151,29 @@ ReactDOM.render(<xy-button>button</xy-button>, document.body);
 
 ### vue项目引用
 
-与原生类似，暂无研究。
+```js
+import 'xy-ui';//推荐
+//如需单独使用
+import 'xy-ui/components/xy-button.js';
+```
+
+使用同原生组件类似
+
+你可能已经注意到 `Vue` 组件非常类似于自定义元素，它是 [Web 组件规范](https://www.w3.org/wiki/WebComponents/)的一部分，这是因为 `Vue` 的组件语法部分参考了该规范。
+
+为了避免歧义，需要将自定义元素忽略掉，可参考[官方文档](https://cn.vuejs.org/v2/api/#ignoredElements)
+
+```js
+Vue.config.ignoredElements = [
+  'my-custom-web-component',
+  'another-web-component',
+  // 用一个 `RegExp` 忽略所有“ion-”开头的元素
+  // 仅在 2.5+ 支持
+  /^ion-/
+]
+```
+
+其他事件绑定可自行搜索~
 
 ## 其他
 
