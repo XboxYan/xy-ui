@@ -10,6 +10,8 @@
 
 [github项目地址](https://github.com/XboxYan/xy-ui)
 
+![xy-ui](./screenshot/xy-ui.png)
+
 ## 更新
 * ## 1.9.3
     * 新增[`xy-input-group`](./docs/xy-input.md?id=组合xy-input-group)组件
