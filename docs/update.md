@@ -1,4 +1,6 @@
 # update
+* ## 1.9.4
+    * 移除`Edge`密码输入框的默认切换按钮
 * ## 1.9.3
     * 新增[`xy-input-group`](xy-input.md?id=组合xy-input-group)组件
     * `xy-icon`新增`spin`属性

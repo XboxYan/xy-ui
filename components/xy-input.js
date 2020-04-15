@@ -123,6 +123,9 @@ export default class XyInput extends HTMLElement {
         .input:-moz-ui-invalid{
             box-shadow:none;
         }
+        .input::-ms-reveal{
+            display:none;
+        }
         .icon-pre{
             display:flex;
             margin-right:0.25em;
