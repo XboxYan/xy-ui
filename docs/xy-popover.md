@@ -295,33 +295,10 @@ popover.removeAttribute('disabled');
 通过`dir`可以设置悬浮层方向，默认为`bottomleft`，可以取值`top`、`right`、`bottom`、`left`、`topleft`、`topright`、`righttop`、`rightbottom`、`bottomleft`、`bottomright`、`lefttop`、`leftbottom`。同[`xy-tips`](xy-tips.md)。
 
 <xy-popover dir="top" type="confirm" onsubmit="XyMessage.success('next')" title="确定删除吗?" content="删除后无法撤销"><xy-button>top</xy-button></xy-popover>
-<xy-popover dir="right" type="confirm" onsubmit="XyMessage.success('next')" title="确定删除吗?" content="删除后无法撤销"><xy-button>right</xy-button></xy-popover>
-<xy-popover dir="bottom" type="confirm" onsubmit="XyMessage.success('next')" title="确定删除吗?" content="删除后无法撤销"><xy-button>bottom</xy-button></xy-popover>
-<xy-popover dir="left" type="confirm" onsubmit="XyMessage.success('next')" title="确定删除吗?" content="删除后无法撤销"><xy-button>left</xy-button></xy-popover>
-<xy-popover dir="lefttop" type="confirm" onsubmit="XyMessage.success('next')" title="确定删除吗?" content="删除后无法撤销"><xy-button>lefttop</xy-button></xy-popover>
-<xy-popover dir="leftbottom" type="confirm" onsubmit="XyMessage.success('next')" title="确定删除吗?" content="删除后无法撤销"><xy-button>leftbottom</xy-button></xy-popover>
-<xy-popover dir="topleft" type="confirm" onsubmit="XyMessage.success('next')" title="确定删除吗?" content="删除后无法撤销"><xy-button>topleft</xy-button></xy-popover>
-<xy-popover dir="topright" type="confirm" onsubmit="XyMessage.success('next')" title="确定删除吗?" content="删除后无法撤销"><xy-button>topright</xy-button></xy-popover>
-
-
-<xy-popover dir="righttop" type="confirm" onsubmit="XyMessage.success('next')" title="确定删除吗?" content="删除后无法撤销"><xy-button>righttop</xy-button></xy-popover>
-<xy-popover dir="rightbottom" type="confirm" onsubmit="XyMessage.success('next')" title="确定删除吗?" content="删除后无法撤销"><xy-button>rightbottom</xy-button></xy-popover>
-<xy-popover dir="bottomleft" type="confirm" onsubmit="XyMessage.success('next')" title="确定删除吗?" content="删除后无法撤销"><xy-button>bottomleft</xy-button></xy-popover>
-<xy-popover dir="bottomright" type="confirm" onsubmit="XyMessage.success('next')" title="确定删除吗?" content="删除后无法撤销"><xy-button>bottomright</xy-button></xy-popover>
 
 ```html
 <xy-popover dir="top" type="confirm" onsubmit="XyMessage.success('next')" title="确定删除吗?" content="删除后无法撤销"><xy-button>top</xy-button></xy-popover>
-<xy-popover dir="right" type="confirm" onsubmit="XyMessage.success('next')" title="确定删除吗?" content="删除后无法撤销"><xy-button>right</xy-button></xy-popover>
-<xy-popover dir="bottom" type="confirm" onsubmit="XyMessage.success('next')" title="确定删除吗?" content="删除后无法撤销"><xy-button>bottom</xy-button></xy-popover>
-<xy-popover dir="left" type="confirm" onsubmit="XyMessage.success('next')" title="确定删除吗?" content="删除后无法撤销"><xy-button>left</xy-button></xy-popover>
-<xy-popover dir="lefttop" type="confirm" onsubmit="XyMessage.success('next')" title="确定删除吗?" content="删除后无法撤销"><xy-button>lefttop</xy-button></xy-popover>
-<xy-popover dir="leftbottom" type="confirm" onsubmit="XyMessage.success('next')" title="确定删除吗?" content="删除后无法撤销"><xy-button>leftbottom</xy-button></xy-popover>
-<xy-popover dir="topleft" type="confirm" onsubmit="XyMessage.success('next')" title="确定删除吗?" content="删除后无法撤销"><xy-button>topleft</xy-button></xy-popover>
-<xy-popover dir="topright" type="confirm" onsubmit="XyMessage.success('next')" title="确定删除吗?" content="删除后无法撤销"><xy-button>topright</xy-button></xy-popover>
-<xy-popover dir="righttop" type="confirm" onsubmit="XyMessage.success('next')" title="确定删除吗?" content="删除后无法撤销"><xy-button>righttop</xy-button></xy-popover>
-<xy-popover dir="rightbottom" type="confirm" onsubmit="XyMessage.success('next')" title="确定删除吗?" content="删除后无法撤销"><xy-button>rightbottom</xy-button></xy-popover>
-<xy-popover dir="bottomleft" type="confirm" onsubmit="XyMessage.success('next')" title="确定删除吗?" content="删除后无法撤销"><xy-button>bottomleft</xy-button></xy-popover>
-<xy-popover dir="bottomright" type="confirm" onsubmit="XyMessage.success('next')" title="确定删除吗?" content="删除后无法撤销"><xy-button>bottomright</xy-button></xy-popover>
+
 ```
 
 JavaScript操作`get`、`set`

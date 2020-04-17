@@ -13,6 +13,10 @@
 ![xy-ui](./screenshot/xy-ui.png)
 
 ## 更新
+* ## 1.9.5
+    * 修复`xy-popover`关于`title`属性失效的问题
+    * 重新整理`xy-tips`关于`dir`方向的展示，更直观
+    * 优化`确定`、`取消`按钮的大小，并增加了空格，更和谐
 * ## 1.9.4
     * 移除`Edge`密码输入框的默认切换按钮
 * ## 1.9.3
@@ -32,43 +36,6 @@
     * 表单元素的`reset`方法现定义为"重置"，即还原成默认值
     * `xy-select`新增分组`xy-optgroup`
     * 新增`xy-view`组件（实验性），扩展常见功能，如`drag`等（进行中）
-* ## 1.8.8
-    *  所有表单元素在表单校验失败时会添加`invalid`属性
-    * `xy-tab`在切换时会自适应高度
-* ## 1.8.7
-    * `xy-slider`新增鼠标滚轮操作
-    * `xy-select`新增`placeholder`,`required`属性，支持表单验证
-    * `xy-select`搜索条件改为根据`key`查找
-    * `xy-popover`现支持点击内部属性带有`autoclose`的元素自动关闭
-    * `xy-input`在表单校验失败时会添加`invalid`属性
-    * 其他功能优化
-* ## 1.8.6
-    * [`xy-select`](./docs/xy-select.md?id=搜索search)新增`search`属性
-    * `xy-input`新增`readonly`属性
-    * `xy-tab`新增`line`风格
-* ## 1.8.5
-    * `xy-tab`新增`card`风格
-    * `xy-dialog`新增`prompt`方法
-    * `xy-select`现在在不打开的情况下也可以用键盘上下键快速选中
-    * `xy-slider`更改`vertical`属性下的`tips`方向
-    * `xy-text`在出现省略时会添加`truncated`属性标识
-    * 修复`xy-select`、`xy-color-picker`、`xy-date-picker`在`disabled`状态下打开的问题
-* ## 1.8.4
-    * `xy-slider`在`vertical`属性下支持动态样式修改
-* ## 1.8.3
-    * `xy-slider`新增`vertical`、`prefix`属性
-* ## 1.8.2
-    * [`xy-layout`](./docs/xy-layout.md?id=栅格row、col)新增`grid`栅格布局
-    * `xy-button`新增`danger`类型
-    * 修复`xy-slider`在火狐上的`input`触发问题
-    * 其他`bug`修复
-* ## 1.8.1
-    * 新增[`xy-text`](./docs/xy-text.md)组件
-* ## 1.8.0
-    * 新增[`xy-table`](./docs/xy-table.md)组件
-    * `xy-checkbox`新增`indeterminate`状态
-    * 修复`xy-date-picker`在`1`月份选取去年`12`月份的`bug`
-    * 修复`xy-color-pane`在空白处触发`change`的`bug`
 
 [update](./docs/update.md)
 

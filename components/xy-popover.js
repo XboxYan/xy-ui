@@ -119,11 +119,11 @@ class XyPopcon extends HTMLElement {
     }
 
     get oktext() {
-        return this.getAttribute('oktext')||'ok';
+        return this.getAttribute('oktext')||'确 定';
     }
 
     get canceltext() {
-        return this.getAttribute('canceltext')||'cancel';
+        return this.getAttribute('canceltext')||'取 消';
     }
 
     get loading() {
@@ -518,8 +518,8 @@ class XyPopover extends HTMLElement {
             if(!this.popcon){
                 this.popcon = new XyPopcon(this.type);
                 this.popcon.type = this.type;
-                this.popcon.title = this.title||'popover';
                 this.appendChild(this.popcon);
+                this.popcon.title = this.title||'popover';
                 this.popcon.innerHTML = this.content||'';
                 if(this.type == 'confirm'){
                     this.popcon.oktext = this.oktext||'确 定';

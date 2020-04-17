@@ -521,7 +521,7 @@ export default class XyColorPicker extends HTMLElement {
             padding:0 .8em .8em;
         }
         .pop-footer xy-button{
-            font-size: inherit;
+            font-size: .8em;
             margin-left: .8em;
         }
         .color-btn::before{
@@ -541,8 +541,8 @@ export default class XyColorPicker extends HTMLElement {
             <xy-button class="color-btn" id="color-btn" ${this.disabled? "disabled" : ""}></xy-button>
             <xy-popcon id="popcon">
                 <div class="pop-footer">
-                    <xy-button autoclose>取消</xy-button>
-                    <xy-button type="primary" id="btn-submit" autoclose>确认</xy-button>
+                    <xy-button autoclose>取 消</xy-button>
+                    <xy-button type="primary" id="btn-submit" autoclose>确 认</xy-button>
                 </div>
             </xy-popcon>
         </xy-popover>
