@@ -90,6 +90,30 @@ pagination.setAttribute('current',2);
 <xy-pagination simple pagesize="3" total="50"></xy-pagination>
 ```
 
+## 链接`href`
+
+支持`href`链接模式，可以实现分页通过`a`链接跳转
+
+跳转规则为
+
+```
+当前地址 + href + 当前页码
+```
+
+比如设置`href=?page`，则实际跳转为
+
+```
+list.html?page=1
+```
+
+<xy-pagination href="?page" pagesize="3" total="50"></xy-pagination>
+
+```html
+<xy-pagination href="?page" pagesize="3" total="50"></xy-pagination>
+```
+
+> 一般传统项目可能会用到，如果不满足，也可以通过`onchange`实现跳转，更加灵活
+
 ## 自定义尺寸
 
 内部采用`em`相对尺寸，可通过`font-size`来控制大小。
