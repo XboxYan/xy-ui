@@ -110,7 +110,7 @@ XyDialog.prompt({
 
 当`XyDialog`内容比较复杂时，可以直接写在页面`body`上，通过`open`属性来控制显示。
 
-<xy-dialog id="dialog01" title="标题" oktext="确 定" canceltext="取消" >
+<xy-dialog id="dialog01" title="自定义弹窗内容" oktext="确 定">
     <xy-tab>
         <xy-tab-content label="tab1">tab1</xy-tab-content>
         <xy-tab-content label="tab2">tab2</xy-tab-content>
@@ -122,7 +122,7 @@ XyDialog.prompt({
 ```html
 <body>
     <xy-button type="primary" onclick="document.getElementById('dialog01').open = true;">open dialog</xy-button>
-    <xy-dialog id="dialog01" title="标题" oktext="确 定" canceltext="取消" >
+    <xy-dialog id="dialog01" title="自定义弹窗内容" oktext="确 定">
         <xy-tab>
             <xy-tab-content label="tab1">tab1</xy-tab-content>
             <xy-tab-content label="tab2">tab2</xy-tab-content>
@@ -140,6 +140,8 @@ dialog.open = true;
 //原生属性操作
 dialog.setAttribute('open',true);
 ```
+
+设置`type="confirm"`可出现两个按钮，用法同上。
 
 ## 加载`loading`
 

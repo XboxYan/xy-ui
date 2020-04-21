@@ -13,6 +13,10 @@
 ![xy-ui](./screenshot/xy-ui.png)
 
 ## 更新
+* ## 1.9.6
+    * `xy-tab`现支持方向键切换
+    * `xy-pagination`支持链接访问
+    * 修复`xy-input`、`xy-dialog`视觉性问题
 * ## 1.9.5
     * 修复`xy-popover`关于`title`属性失效的问题
     * 重新整理`xy-tips`关于`dir`方向的展示，更直观
