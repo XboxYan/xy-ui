@@ -64,14 +64,14 @@ npm i xy-ui
     ├── components //功能组件
     |   ├── xy-icon.js
     |   └── ...
-    └── iconfont //图标库
-        └── icon.svg
+    ├── iconfont //图标库
+    |   └── icon.svg
+    └── index.js
 ```
      
+将整个文件夹放入项目当中（可选择以上几个目录文件即可，其他文件夹均为文档测试）。
 
-将整个文件夹放入项目当中。
-
-### html引用
+### html引用（推荐）
 
 ```html
 <script type="module">
@@ -79,6 +79,8 @@ npm i xy-ui
     //如需单独使用，文档中都是单独使用的情况，推荐全部引用，即第一种方式。
     import './node_modules/xy-ui/components/xy-button.js';
 </script>
+<!-- or -->
+<script type="module" src="./node_modules/xy-ui/index.js"></script>
 <xy-button>button</xy-button>
 ```
 
