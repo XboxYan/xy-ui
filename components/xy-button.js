@@ -234,6 +234,10 @@ export default class XyButton extends HTMLElement {
         this.setAttribute('htmltype', value);
     }
 
+    set href(value) {
+        this.setAttribute('href', value);
+    }
+
     set disabled(value) {
         if(value===null||value===false){
             this.removeAttribute('disabled');

@@ -160,7 +160,7 @@ let messageContent = document.getElementById('message-content');
 if(!messageContent){
     messageContent = document.createElement('div');
     messageContent.id = 'message-content';
-    messageContent.style='position:fixed; pointer-events:none; left:0; right:0; top:10px; z-index:11;';
+    messageContent.style='position:fixed; pointer-events:none; left:0; right:0; top:10px; z-index:51;';
     document.body.appendChild(messageContent);
 }
 

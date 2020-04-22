@@ -59,7 +59,7 @@ xy-col xy-button,xy-col xy-tips{
     width:100%;
 }
 </style>
-<xy-row gutter="10">
+<xy-row gutter="10" style="max-width:600px; margin:0 auto">
     <xy-col span="4"></xy-col>
     <xy-col span="4"><xy-tips tips="topleft topleft topleft topleft some tips" dir="topleft"><xy-button>topleft</xy-button></xy-tips></xy-col>
     <xy-col span="4"><xy-tips tips="some tips" dir="top"><xy-button>top</xy-button></xy-tips></xy-col>

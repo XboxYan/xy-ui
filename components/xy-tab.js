@@ -275,6 +275,30 @@ export default class XyTab extends HTMLElement {
                 this.activekey = item.dataset.key;
             }
         })
+        this.nav.addEventListener('keydown',(ev)=>{
+            switch (ev.keyCode) {
+                case 37://ArrowLeft
+                    ev.preventDefault();
+                    this.movein(-1);
+                    break;
+                case 39://ArrowRight
+                    ev.preventDefault();
+                    this.movein(1);
+                    break;
+                default:
+                    break;
+            }
+        })
+    }
+
+    movein (index){
+        const cur = this.nav.querySelector(`.nav-item.active`);
+        if(index>0 && cur.nextElementSibling){
+            this.activekey = cur.nextElementSibling.dataset.key;
+        }
+        if(index<0 && cur.previousElementSibling){
+            this.activekey = cur.previousElementSibling.dataset.key;
+        }
     }
 
     attributeChangedCallback (name, oldValue, newValue) {
@@ -298,7 +322,9 @@ export default class XyTab extends HTMLElement {
                 if(pre){
                     pre.classList.remove('active');
                 }
-                this.nav.querySelector(`.nav-item[data-key='${newValue}']`).classList.add('active');
+                const cur = this.nav.querySelector(`.nav-item[data-key='${newValue}']`);
+                cur.classList.add('active');
+                cur.focus();
                 if(this.init && oldValue!==null){
                     this.dispatchEvent(new CustomEvent('change',{
                         detail:{

@@ -137,7 +137,7 @@ export default class XyInput extends HTMLElement {
         .btn-right{
             width:2em;
             height:2em;
-            margin-right:-0.325em;
+            margin:-.25em -.5em -.25em .25em;
             padding:0;
             color:#999;
             font-size:inherit;
@@ -146,7 +146,6 @@ export default class XyInput extends HTMLElement {
             display:flex;
             flex-direction:column;
             width:1.5em;
-            margin: -.25em -.5em -.25em .25em;
             visibility:hidden;
             transition:0s;
         }

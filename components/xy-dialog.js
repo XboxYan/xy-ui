@@ -26,7 +26,7 @@ class XyDialog extends HTMLElement {
         }
         :host([open]){
             opacity:1;
-            z-index:10;
+            z-index:50;
             visibility:visible;
         }
         .dialog {
@@ -86,11 +86,14 @@ class XyDialog extends HTMLElement {
             margin-left:10px;
         }
         .dialog-type{
-            display:flex;
+            display:none;
             margin: 15px -10px 0 20px;
             width:30px;
             height:30px;
             font-size:24px;
+        }
+        .dialog-type[name]{
+            display:flex;
         }
         #btn-cancel{
             visibility:hidden;
@@ -98,6 +101,10 @@ class XyDialog extends HTMLElement {
         :host(:not([type])) .dialog-type,
         :host([type="prompt"]) .dialog-type{
             display:none;
+        }
+        :host([type="confirm"]) #btn-cancel,
+        :host([type="prompt"]) #btn-cancel{
+            visibility:visible;
         }
         xy-input{
             width:100%;
@@ -420,8 +427,8 @@ export default {
         //const dialog = document.createElement('xy-dialog');
         const dialog = new XyDialog();
         document.body.appendChild(dialog);
-        dialog.btnCancel.style.visibility = 'visible';
         dialog.remove = true;
+        dialog.btnCancel.style.visibility = 'visible';
         if( typeof arguments[0] === 'object' ){
             const { type, title, content, oktext, canceltext, ok, cancel} = arguments[0];
             dialog.type = type||'confirm';
@@ -447,7 +454,7 @@ export default {
     prompt: function() {
         const dialog = new XyDialog({type:'prompt'});
         document.body.appendChild(dialog);
-        dialog.btnCancel.style.visibility = 'visible';
+        dialog.type = 'prompt';
         dialog.remove = true;
         dialog.autoclose = false;
         if( typeof arguments[0] === 'object' ){
