@@ -745,7 +745,7 @@ class XyDatePane extends HTMLElement {
     }
 
     attributeChangedCallback (name, oldValue, newValue) {
-        if(this.init){
+        if(!this.init){
             return
         }
         if( name == 'min' && this.datePane){
