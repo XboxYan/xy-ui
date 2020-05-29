@@ -104,14 +104,15 @@ export default class XyCheckbox extends HTMLElement {
         #checkbox:focus-visible+label .cheked::after{
             transform:scale(2.5);
         }
-        #checkbox:checked+label .cheked .icon{
+        #checkbox:checked:not(:indeterminate)+label .cheked .icon{
             transform: scale(1.5);
         }
-        #checkbox:checked+label .cheked,#checkbox:indeterminate:not(:checked)+label .cheked{
+        #checkbox:checked+label .cheked,
+        #checkbox:indeterminate+label .cheked{
             border-color:transparent;
             background-color:var(--themeColor,#42b983);
         }
-        #checkbox:indeterminate:not(:checked)+label .cheked::before{
+        #checkbox:indeterminate+label .cheked::before{
             transform:scale(1);
         }
         </style>
