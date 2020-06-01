@@ -319,26 +319,22 @@ export default class XyInput extends HTMLElement {
             }
             if(this.btnAdd){
                 this.btnAdd.addEventListener('click',()=>{
-                    if(this.value-this.max<0){
-                        this.value = Number(this.value)+Number(this.step);
-                        this.dispatchEvent(new CustomEvent('change',{
-                            detail:{
-                                value:this.value
-                            }
-                        }));
-                    }
+                    this.input.stepUp();
+                    this.dispatchEvent(new CustomEvent('change',{
+                        detail:{
+                            value:this.value
+                        }
+                    }));
                 })
             }
             if(this.btnSub){
                 this.btnSub.addEventListener('click',()=>{
-                    if(this.value-this.min>0){
-                        this.value = Number(this.value)-Number(this.step);
-                        this.dispatchEvent(new CustomEvent('change',{
-                            detail:{
-                                value:this.value
-                            }
-                        }));
-                    }
+                    this.input.stepDown();
+                    this.dispatchEvent(new CustomEvent('change',{
+                        detail:{
+                            value:this.value
+                        }
+                    }));
                 })
             }
             this.pattern = this.pattern;
