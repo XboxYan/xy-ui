@@ -444,6 +444,19 @@
     <xy-textarea placeholder="rows" rows="5" ></xy-textarea>
     <xy-textarea label="info" placeholder="info" ></xy-textarea>
     <xy-textarea icon="location" placeholder="location" ></xy-textarea>
+    <p>datalist</p>
+    <xy-input list="city"></xy-input>
+    <xy-datalist id="city">
+        <xy-option value="wuhan">武汉</xy-option>
+        <xy-option value="beijin">北京</xy-option>
+        <xy-option value="shanghai">上海</xy-option>
+    </xy-datalist>
+    <xy-input list="email"></xy-input>
+    <xy-datalist id="email">
+        <xy-option value="${value}@live.com">@live.com</xy-option>
+        <xy-option value="${value}@qq.com">@qq.com</xy-option>
+        <xy-option value="${value}@yuewen.com">@yuewen.com</xy-option>
+    </xy-datalist>
     <h2>img</h2>
     <p>src</p>
     <xy-img src="https://images.pexels.com/photos/1274640/pexels-photo-1274640.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"></xy-img>

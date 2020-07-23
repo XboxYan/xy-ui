@@ -20,6 +20,7 @@ import './components/xy-date-picker.js';
 import './components/xy-table.js';
 import './components/xy-text.js';
 import './components/xy-view.js';
+import './components/xy-datalist.js';
 import XyDialog from './components/xy-dialog.js';
 import XyMessage from './components/xy-message.js';
 window.XyDialog = XyDialog;

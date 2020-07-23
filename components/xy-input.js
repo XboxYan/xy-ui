@@ -258,6 +258,10 @@ export default class XyInput extends HTMLElement {
                             value:this.value
                         }
                     }));
+                    if(this.list) {
+                        this.list.filter(this.value);
+                        this.list.show = true;
+                    }
                 },this.debounce)
             }else{
                 this.dispatchEvent(new CustomEvent('input',{
@@ -265,6 +269,10 @@ export default class XyInput extends HTMLElement {
                         value:this.value
                     }
                 }));
+                if(this.list) {
+                    this.list.filter(this.value);
+                    this.list.show = true;
+                }
             }
         })
         this.input.addEventListener('change',()=>{
@@ -276,15 +284,38 @@ export default class XyInput extends HTMLElement {
         })
         this.input.addEventListener('focus',(ev)=>{
             this.checkValidity();
+            if(this.list) {
+                const { left, top, height, width } = this.getBoundingClientRect();
+                this.list.style = `left:${left+ window.scrollX}px;top:${top + height + window.scrollY}px;min-width:${width}px`;
+                this.list.show = true;
+            }
         })
         this.input.addEventListener('keydown',(ev)=>{
-            switch (ev.keyCode) {
-                case 13://Enter
-                    this.dispatchEvent(new CustomEvent('submit',{
-                        detail:{
-                            value:this.value
-                        }
-                    }));
+            switch (ev.key) {
+                case 'ArrowUp':
+                case 'ArrowDown':
+                    if(this.list){
+                        ev.preventDefault();
+                        this.list.show = true;
+                    }
+                    break;
+                case 'Escape':
+                case 'Tab':
+                    if(this.list){
+                        this.list.show = false;
+                    }
+                    break;
+                case 'Enter':
+                    if(this.list){
+                        ev.preventDefault();
+                        this.list.show = true;
+                    }else{
+                        this.dispatchEvent(new CustomEvent('submit',{
+                            detail:{
+                                value:this.value
+                            }
+                        }));
+                    }
                     break;
                 default:
                     break;
@@ -338,6 +369,24 @@ export default class XyInput extends HTMLElement {
                 })
             }
             this.pattern = this.pattern;
+        }
+        document.addEventListener('mousedown', (ev) => {
+            if(this.list) {
+                if (this.contains(ev.target) || this.list.contains(ev.target)) {
+                    this.list.show = true;
+                } else {
+                    this.list.show = false;
+                }
+            }
+        })
+        if(this.list) {
+            this.list.addEventListener('submit', (ev) => {
+                this.focus();
+                if(ev.target.value){
+                    this.value = ev.target.value;
+                    this.list.show = false;
+                }
+            })
         }
         this.disabled = this.disabled;
         this.required = this.required;
@@ -464,6 +513,21 @@ export default class XyInput extends HTMLElement {
 
     get errortips() {
         return this.getAttribute('errortips');
+    }
+
+    get list() {
+        const list = this.getAttribute('list');
+        if(list) {
+            return this.getRootNode().getElementById(list);
+        }
+        return null;
+    }
+
+    get options() {
+        if(this.list) {
+            return this.list.options;
+        }
+        return [];
     }
 
     set disabled(value) {
