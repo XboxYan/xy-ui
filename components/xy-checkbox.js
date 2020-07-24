@@ -256,16 +256,6 @@ export default class XyCheckbox extends HTMLElement {
                 }
             }));
         })
-        this.checkbox.addEventListener('keydown', (ev) => {
-            switch (ev.keyCode) {
-                case 13://Enter
-                    ev.stopPropagation();
-                    this.checked = !this.checked;
-                    break;
-                default:
-                    break;
-            }
-        })
         this.checkbox.addEventListener('focus',(ev)=>{
             ev.stopPropagation();
             if(!this.isfocus){

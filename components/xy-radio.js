@@ -159,16 +159,6 @@ export default class XyRadio extends HTMLElement {
                 }
             }));
         })
-        this.radio.addEventListener('keydown', (ev) => {
-            switch (ev.keyCode) {
-                case 13://Enter
-                    ev.stopPropagation();
-                    this.tocheck();
-                    break;
-                default:
-                    break;
-            }
-        })
     }
 
     attributeChangedCallback (name, oldValue, newValue) {

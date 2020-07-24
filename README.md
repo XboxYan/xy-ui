@@ -16,6 +16,7 @@
 * ## 1.10.0
     * 新增[`xy-datalist`](./docs/xy-datalist.md)数据列表组件
     * 重新独立`xy-option`
+    * `xy-checkbox`、`xy-raido`键盘触发事件优化
 
 [update](./docs/update.md)
 
