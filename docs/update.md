@@ -1,4 +1,7 @@
 # update
+* ## 1.10.0
+    * 新增[`xy-datalist`](xy-datalist.md)数据列表组件
+    * 重新独立`xy-option`
 * ## 1.9.6
     * `xy-tab`现支持方向键切换
     * `xy-pagination`支持链接访问

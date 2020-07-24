@@ -13,33 +13,9 @@
 ![xy-ui](./screenshot/xy-ui.png)
 
 ## 更新
-* ## 1.9.6
-    * `xy-tab`现支持方向键切换
-    * `xy-pagination`支持链接访问
-    * 修复`xy-input`、`xy-dialog`视觉性问题
-* ## 1.9.5
-    * 修复`xy-popover`关于`title`属性失效的问题
-    * 重新整理`xy-tips`关于`dir`方向的展示，更直观
-    * 优化`确定`、`取消`按钮的大小，并增加了空格，更和谐
-* ## 1.9.4
-    * 移除`Edge`密码输入框的默认切换按钮
-* ## 1.9.3
-    * 新增[`xy-input-group`](./docs/xy-input.md?id=组合xy-input-group)组件
-    * `xy-icon`新增`spin`属性
-    * 修复`input[type=number]`的`onchange`回调
-    * 修复`xy-color-picker`色相选择回调
-* ## 1.9.2
-    * `xy-view`新增`coord`坐标
-    * 所有表单元素只有在实际触发（比如点击、键盘`Enter`）时才会触发`change`回调，通过直接修改`value`不会触发（与原生保持一致）
-* ## 1.9.1
-    * [`xy-view`](./docs/xy-view.md)新增`draggable`、`allowdrop`、`resizable`等特性
-    * 新增[`xy-button-group`](./docs/xy-button-group.md?id=按钮组xy-button-group)组件
-* ## 1.9.0
-    * `xy-form-item`布局采用`grid`实现，去除`legendwidth`属性
-    * `xy-text`新增`draggable`属性
-    * 表单元素的`reset`方法现定义为"重置"，即还原成默认值
-    * `xy-select`新增分组`xy-optgroup`
-    * 新增`xy-view`组件（实验性），扩展常见功能，如`drag`等（进行中）
+* ## 1.10.0
+    * 新增[`xy-datalist`](./docs/xy-datalist.md)数据列表组件
+    * 重新独立`xy-option`
 
 [update](./docs/update.md)
 

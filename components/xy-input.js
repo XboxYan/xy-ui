@@ -380,6 +380,7 @@ export default class XyInput extends HTMLElement {
             }
         })
         if(this.list) {
+            document.body.appendChild(this.list);
             this.list.addEventListener('submit', (ev) => {
                 this.focus();
                 if(ev.target.value){

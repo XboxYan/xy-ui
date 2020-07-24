@@ -27,3 +27,4 @@
     * [table](xy-table.md)
     * [text](xy-text.md)
     * [view](xy-view.md)
+    * [datalist](xy-datalist.md)
