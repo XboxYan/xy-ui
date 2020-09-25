@@ -402,15 +402,17 @@ class XyView extends HTMLElement {
                 }
             })
             document.addEventListener('mouseup',(ev)=>{
-                this.resizing = false;
-                this.dispatchEvent(new CustomEvent('resizend',{
-                    detail:{
-                        offsetX:offsetX,
-                        offsetY:offsetY,
-                        width:this.offsetWidth,
-                        height:this.offsetHeight,
-                    }
-                }));
+                if (this.resizing) {
+                    this.resizing = false;
+                    this.dispatchEvent(new CustomEvent('resizend',{
+                        detail:{
+                            offsetX:offsetX,
+                            offsetY:offsetY,
+                            width:this.offsetWidth,
+                            height:this.offsetHeight,
+                        }
+                    }));
+                }
             })
         }
     }

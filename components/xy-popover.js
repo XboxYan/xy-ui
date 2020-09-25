@@ -565,12 +565,18 @@ class XyPopover extends HTMLElement {
                 }
             });
         }
-        document.addEventListener('mousedown',(ev)=>{
-            const path = ev.path || (ev.composedPath && ev.composedPath());
-            if( this.popcon && !path.includes(this.popcon) && !this.popcon.loading && !path.includes(this.children[0]) || (this.trigger==='contextmenu') && !path.includes(this.popcon) && ev.which == '1'){
-                this.popcon.open = false;
-            }
-        })
+        document.addEventListener('mousedown',this.setpop);
+    }
+
+    setpop = (ev) => {
+        const path = ev.path || (ev.composedPath && ev.composedPath());
+        if( this.popcon && !path.includes(this.popcon) && !this.popcon.loading && !path.includes(this.children[0]) || (this.trigger==='contextmenu') && !path.includes(this.popcon) && ev.which == '1'){
+            this.popcon.open = false;
+        }
+    }
+
+    disconnectedCallback() {
+        document.removeEventListener('mousedown', this.popcon);
     }
 
     attributeChangedCallback (name, oldValue, newValue) {

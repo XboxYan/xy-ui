@@ -13,6 +13,8 @@
 ![xy-ui](./screenshot/xy-ui.png)
 
 ## 更新
+* ## 1.10.1
+    * disconnectedCallback移除document事件监听
 * ## 1.10.0
     * 新增[`xy-datalist`](./docs/xy-datalist.md)数据列表组件
     * 重新独立`xy-option`

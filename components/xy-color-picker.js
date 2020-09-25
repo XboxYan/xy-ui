@@ -345,22 +345,9 @@ class XyColorPane extends HTMLElement {
             this.start = true;
             this.choose(ev);
         })
-        document.addEventListener('mousemove',(ev)=>{
-            if(this.start){
-                this.choose(ev);
-            }
-        })
-        document.addEventListener('mouseup',(ev)=>{
-            if(getComputedStyle(this.palette).opacity!==1 &&　this.start){
-                this.dispatchEvent(new CustomEvent('change', {
-                    detail: {
-                        value: this.value,
-                        color: this.color
-                    }
-                }));
-            }
-            this.start = false;
-        })
+        document.addEventListener('mousemove',this.mousemove);
+
+        document.addEventListener('mouseup',this.mouseup);
         this.rangeOpacity.addEventListener('input',()=>{
             const value = [...this.$value];
             value[3] = Number(this.rangeOpacity.value);
@@ -411,6 +398,29 @@ class XyColorPane extends HTMLElement {
                 this.value = `hsla(${value[0]}, ${value[1]}%, ${value[2]}%, ${value[3]})`;
             })
         })
+    }
+
+    mousemove = (ev) => {
+        if(this.start){
+            this.choose(ev);
+        }
+    }
+
+    mouseup = () => {
+        if(getComputedStyle(this.palette).opacity!==1 &&　this.start){
+            this.dispatchEvent(new CustomEvent('change', {
+                detail: {
+                    value: this.value,
+                    color: this.color
+                }
+            }));
+        }
+        this.start = false;
+    }
+
+    disconnectedCallback() {
+        document.removeEventListener('mousemove', this.mousemove);
+        document.removeEventListener('mouseup', this.mouseup);
     }
 
     get value() {

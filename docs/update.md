@@ -1,4 +1,6 @@
 # update
+* ## 1.10.1
+    * disconnectedCallback移除document事件监听
 * ## 1.10.0
     * 新增[`xy-datalist`](xy-datalist.md)数据列表组件
     * 重新独立`xy-option`

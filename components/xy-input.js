@@ -370,15 +370,8 @@ export default class XyInput extends HTMLElement {
             }
             this.pattern = this.pattern;
         }
-        document.addEventListener('mousedown', (ev) => {
-            if(this.list) {
-                if (this.contains(ev.target) || this.list.contains(ev.target)) {
-                    this.list.show = true;
-                } else {
-                    this.list.show = false;
-                }
-            }
-        })
+        document.addEventListener('mousedown', this.setlist);
+
         if(this.list) {
             document.body.appendChild(this.list);
             this.list.addEventListener('submit', (ev) => {
@@ -392,6 +385,20 @@ export default class XyInput extends HTMLElement {
         this.disabled = this.disabled;
         this.required = this.required;
         this.readonly = this.readonly;
+    }
+
+    setlist = (ev) => {
+        if(this.list) {
+            if (this.contains(ev.target) || this.list.contains(ev.target)) {
+                this.list.show = true;
+            } else {
+                this.list.show = false;
+            }
+        }
+    }
+
+    disconnectedCallback() {
+        document.removeEventListener('mousedown', this.setlist);
     }
 
     typeMap(type) {

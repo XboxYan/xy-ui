@@ -96,23 +96,8 @@ class XyDataList extends HTMLElement {
     }
 
     connectedCallback() {
-        document.addEventListener('keydown', (ev) => {
-            if (this.visible) {
-                switch (ev.key) {
-                    case 'ArrowUp':
-                        this.selectedIndex -= 1;
-                        break;
-                    case 'ArrowDown':
-                        this.selectedIndex += 1;
-                        break;
-                    case 'Enter':
-                        this.dispatchEvent(new InputEvent('submit'));
-                        break;
-                    default:
-                        break;
-                }
-            }
-        })
+        document.addEventListener('keydown', this.setlist);
+        
         this.addEventListener('transitionend', (ev) => {
             if (ev.target === this && ev.propertyName === 'transform') {
                 this.visible = this.show;
@@ -126,6 +111,28 @@ class XyDataList extends HTMLElement {
             }
 
         })
+    }
+
+    setlist = (ev) => {
+        if (this.visible) {
+            switch (ev.key) {
+                case 'ArrowUp':
+                    this.selectedIndex -= 1;
+                    break;
+                case 'ArrowDown':
+                    this.selectedIndex += 1;
+                    break;
+                case 'Enter':
+                    this.dispatchEvent(new InputEvent('submit'));
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    disconnectedCallback() {
+        document.removeEventListener('keydown', this.setlist);
     }
 
 }
