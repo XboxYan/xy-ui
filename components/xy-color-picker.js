@@ -476,7 +476,9 @@ class XyColorPane extends HTMLElement {
 
 }
 
-customElements.define('xy-color-pane', XyColorPane);
+if(!customElements.get('xy-color-pane')){
+    customElements.define('xy-color-pane', XyColorPane);
+}
 
 export default class XyColorPicker extends HTMLElement {
 
