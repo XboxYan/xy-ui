@@ -216,6 +216,7 @@ export default class XyInput extends HTMLElement {
             }
         </xy-tips>
         `
+        this.input = shadowRoot.getElementById('input');
     }
 
     checkValidity(){
