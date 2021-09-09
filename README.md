@@ -13,6 +13,8 @@
 ![xy-ui](./screenshot/xy-ui.png)
 
 ## 更新
+* ## 1.10.3
+    * xy-slider样式修复
 * ## 1.10.1
     * disconnectedCallback移除document事件监听
 * ## 1.10.0

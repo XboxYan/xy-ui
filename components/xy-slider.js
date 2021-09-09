@@ -76,6 +76,7 @@ export default class XySlider extends HTMLElement {
             position: relative;
             width:10px;
             height:10px;
+            margin-top: -4px;
             border-radius: 50%;
             background:var(--themeColor,#42b983);
             transition:.2s cubic-bezier(.12, .4, .29, 1.46);

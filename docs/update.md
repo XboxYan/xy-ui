@@ -1,4 +1,6 @@
 # update
+* ## 1.10.2
+    * xy-slider样式修复
 * ## 1.10.1
     * disconnectedCallback移除document事件监听
 * ## 1.10.0
