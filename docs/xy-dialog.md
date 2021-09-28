@@ -170,6 +170,30 @@ dialog.loading = true;
 dialog.setAttribute('loading',true);
 ```
 
+## 传送门`portal`
+
+默认情况下，`xy-dialog`会渲染在 html 指定位置，一般情况下不会有什么问题，因为是 fixed 定位。但有时候，`fixed` 定位会受到父级的影响，比如父级有`transform` 属性，fixed 会以该元素为基准，而不再是 body，为此，需要可以指定渲染在指定节点上。
+
+> 只针对于 `<xy-dialog>` 元素，`XyDialog` 命令创建的默认就在根节点
+
+<div>
+    <xy-button type="primary" onclick="document.getElementById('dialog03').open = true;">open dialog</xy-button>
+    <xy-dialog id="dialog03" title="自定义弹窗内容" oktext="确 定" portal="body">
+        我被传送到了 body 节点下
+    </xy-dialog>
+</div>
+
+```html
+<body>
+    <div>
+        <xy-dialog portal="body">
+            我被传送到了 body 节点下
+        </xy-dialog>
+    </div>
+</body>
+```
+
+
 ## 事件`event`
 
 ### onsubmit

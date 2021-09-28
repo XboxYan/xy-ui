@@ -1,10 +1,12 @@
 # update
-* ## 1.10.2
+* ## 1.10.4
+    * xy-dialog新增[`portal`](xy-dialog?id=传送门portal)属性，可以指定渲染到指定节点
+* ## 1.10.3
     * xy-slider样式修复
 * ## 1.10.1
     * disconnectedCallback移除document事件监听
 * ## 1.10.0
-    * 新增[`xy-datalist`](xy-datalist.md)数据列表组件
+    * 新增[`xy-datalist`](./docs/xy-datalist.md)数据列表组件
     * 重新独立`xy-option`
     * `xy-checkbox`、`xy-raido`键盘触发事件优化
 * ## 1.9.6

@@ -13,6 +13,8 @@
 ![xy-ui](./screenshot/xy-ui.png)
 
 ## 更新
+* ## 1.10.4
+    * xy-dialog新增[`portal`](xy-dialog?id=传送门portal)属性，可以指定渲染到指定节点
 * ## 1.10.3
     * xy-slider样式修复
 * ## 1.10.1

@@ -150,6 +150,14 @@ class XyDialog extends HTMLElement {
         return this.getAttribute('oktext')||'ok';
     }
 
+    get portal() {
+        const portal = this.getAttribute('portal');
+        if (portal) {
+            return document.querySelector(portal)
+        }
+        return null;
+    }
+
     get canceltext() {
         return this.getAttribute('canceltext')||'cancel';
     }
@@ -272,6 +280,9 @@ class XyDialog extends HTMLElement {
                 this.open = false;
             }
         })
+        if (this.portal && this.portal!==this.parentNode) {
+            this.portal.appendChild(this);
+        }
     }
 
     attributeChangedCallback (name, oldValue, newValue) {
