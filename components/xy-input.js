@@ -380,6 +380,11 @@ export default class XyInput extends HTMLElement {
                 if(ev.target.value){
                     this.value = ev.target.value;
                     this.list.show = false;
+                    this.dispatchEvent(new CustomEvent('change',{
+                        detail:{
+                            value:this.value
+                        }
+                    }));
                 }
             })
         }
