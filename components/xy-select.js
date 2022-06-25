@@ -502,6 +502,7 @@ export default class XySelect extends HTMLElement {
                 this.select.placeholder = this.$text;
                 this.select.value = this.$text;
             }else{
+                this.select.title = this.$text;
                 this.txt.textContent = this.$text;
             }
             if(this.nativeclick){
