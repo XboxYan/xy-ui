@@ -13,6 +13,8 @@
 ![xy-ui](./screenshot/xy-ui.png)
 
 ## 更新
+* ## 1.10.6
+    * 给 select 指定宽度时，文字会自动省略
 * ## 1.10.5
     * 修复 xy-datalist 改变时不触发 onchange 事件的问题
 * ## 1.10.4

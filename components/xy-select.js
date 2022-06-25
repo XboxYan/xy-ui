@@ -68,6 +68,10 @@ export default class XySelect extends HTMLElement {
         #select span{
             flex:1;
             text-align:left;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            flex-grow: 1;
+            overflow: hidden;
         }
         
         xy-input::after{
