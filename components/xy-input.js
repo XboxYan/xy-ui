@@ -3,7 +3,7 @@ import './xy-button.js';
 
 export default class XyInput extends HTMLElement {
 
-    static get observedAttributes() { return ['label','disabled','pattern','required','readonly','placeholder'] }
+    static get observedAttributes() { return ['label','disabled','pattern','required','readonly','placeholder','rows'] }
 
     constructor({multi}={}) {
         super();
@@ -595,6 +595,10 @@ export default class XyInput extends HTMLElement {
     set placeholder(value) {
         this.setAttribute('placeholder', value);
     }
+
+    set rows(value) {
+        this.setAttribute('rows', value);
+    }
     
     set customValidity(object) {
         this.$customValidity = object;
@@ -647,6 +651,13 @@ export default class XyInput extends HTMLElement {
                 this.input.setAttribute('required', 'required');
             }else{
                 this.input.removeAttribute('required');
+            }
+        }
+        if(name == 'rows' && this.multi){
+            if(newValue!==null){
+                this.input.setAttribute('rows', newValue);
+            }else{
+                this.input.removeAttribute('rows');
             }
         }
         if(name == 'readonly' && this.input){

@@ -13,6 +13,8 @@
 ![xy-ui](./screenshot/xy-ui.png)
 
 ## 更新
+* ## 1.10.7
+    * 修复 xy-textarea 行数`rows`响应式变化
 * ## 1.10.6
     * 给 select 指定宽度时，文字会自动省略
 * ## 1.10.5
