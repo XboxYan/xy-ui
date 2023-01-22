@@ -269,7 +269,7 @@ if (!customElements.get('xy-gallery')) {
 
 export default class XyImg extends HTMLElement {
 
-    static get observedAttributes() { return ['lazy', 'src', 'defaultsrc', 'ratio'] }
+    static get observedAttributes() { return ['lazy', 'src', 'defaultsrc', 'ratio', 'srcset'] }
 
     constructor() {
         super();
@@ -517,6 +517,10 @@ export default class XyImg extends HTMLElement {
         return this.getAttribute('src');
     }
 
+    get srcset() {
+        return this.getAttribute('srcset')
+    }
+
     get defaultsrc() {
         return this.getAttribute('defaultsrc');
     }
@@ -559,6 +563,10 @@ export default class XyImg extends HTMLElement {
         this.setAttribute('src', value);
     }
 
+    set srcset(value) {
+        this.setAttribute('srcset', value)
+    }
+
     set fit(value) {
         this.setAttribute('fit', value);
     }
@@ -593,6 +601,9 @@ export default class XyImg extends HTMLElement {
         img.onload = () => {
             this.img.alt = this.alt;
             this.img.src = src;
+            if (this.srcset) {
+                this.img.srcset = this.srcset;
+            }
             if(!this.default){
                 this.initgallery();
             }
