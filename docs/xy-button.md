@@ -15,20 +15,61 @@
 
 ## 风格`type`
 
-按钮有5种风格，分别为`primary`，`dashed`，`flat`，`danger`和默认。
+按钮有5种风格，分别为`primary`，`dashed`，`flat`，`link`和默认。
 
 <xy-button type="primary" id="btn">primary</xy-button>
 <xy-button type="dashed">dashed</xy-button>
 <xy-button type="flat">flat</xy-button>
-<xy-button type="danger">danger</xy-button>
+<xy-button type="link">link</xy-button>
 <xy-button>default</xy-button>
 
 ```html
 <xy-button type="primary">primary</xy-button>
 <xy-button type="dashed">dashed</xy-button>
 <xy-button type="flat">flat</xy-button>
-<xy-button type="danger">danger</xy-button>
+<xy-button type="link">link</xy-button>
 <xy-button>default</xy-button>
+```
+
+## 危险按钮`danger`
+
+添加`danger`属性可以变成红色
+
+<xy-button type="primary" danger>primary</xy-button>
+<xy-button type="dashed" danger>dashed</xy-button>
+<xy-button type="flat" danger>flat</xy-button>
+<xy-button type="link" danger>link</xy-button>
+<xy-button danger>default</xy-button>
+
+```html
+<xy-button type="primary" danger>primary</xy-button>
+<xy-button type="dashed" danger>dashed</xy-button>
+<xy-button type="flat" danger>flat</xy-button>
+<xy-button type="link" danger>link</xy-button>
+<xy-button danger>default</xy-button>
+```
+
+## 尺寸`size`
+
+按钮有大、中、小三种尺寸，分别为`large`、`default`（默认）、`small`。
+
+<xy-radio-group name="size" onchange="[...this.nextElementSibling.querySelectorAll('xy-button')].forEach(el => el.size=this.value)" id="sizeRadio" defaultvalue="default">
+    <xy-radio>large</xy-radio>
+    <xy-radio>default</xy-radio>
+    <xy-radio>small</xy-radio>
+</xy-radio-group>
+
+<div id="btn-size">
+    <xy-button type="primary">primary</xy-button>
+    <xy-button type="dashed">dashed</xy-button>
+    <xy-button type="flat">flat</xy-button>
+    <xy-button>default</xy-button>
+</div>
+
+```html
+<xy-button type="primary" size="large">primary</xy-button>
+<xy-button type="primary" size="small">primary</xy-button>
+<xy-button type="primary">primary</xy-button>
 ```
 
 ## 链接`href`
@@ -38,6 +79,7 @@
 <xy-button type="primary" href="https://github.com/XboxYan/xy-ui">visit xy-ui</xy-button>
 <xy-button type="dashed" href="https://github.com/XboxYan/xy-ui">visit xy-ui</xy-button>
 <xy-button type="flat" href="https://github.com/XboxYan/xy-ui">visit xy-ui</xy-button>
+<xy-button type="link" href="https://github.com/XboxYan/xy-ui">visit xy-ui</xy-button>
 <xy-button href="https://github.com/XboxYan/xy-ui">visit xy-ui</xy-button>
 
 
@@ -66,6 +108,9 @@
 <xy-switch checked onchange="this.previousElementSibling.disabled = this.checked;"></xy-switch>
 
 <xy-button disabled type="flat">flat</xy-button>
+<xy-switch checked onchange="this.previousElementSibling.disabled = this.checked;"></xy-switch>
+
+<xy-button disabled type="link">link</xy-button>
 <xy-switch checked onchange="this.previousElementSibling.disabled = this.checked;"></xy-switch>
 
 <xy-button disabled >default</xy-button>
@@ -382,26 +427,6 @@ btn.focus();
 </style>
 <xy-button type="primary" class="custom-button">primary</xy-button>
 ```
-
-也可以通过修改`font-size`来控制按钮尺寸
-
-<style>
-.custom-button2{
-    font-size:30px;
-}
-</style>
-<xy-button type="primary" class="custom-button2">primary</xy-button>
-
-```html
-<style>
-.custom-button2{
-    font-size:30px;
-}
-</style>
-<xy-button type="primary" class="custom-button2">primary</xy-button>
-```
-
-> 大部分组件均可通过`font-size`来控制组件尺寸
 
 此外，所有组件均有主题颜色`themeColor`，通过`CSS`自定义属性实现
 
