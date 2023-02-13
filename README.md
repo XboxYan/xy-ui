@@ -12,6 +12,10 @@
 
 ![xy-ui](./screenshot/xy-ui.png)
 
+## 公告
+
+正在进行改造升级中...
+
 ## 更新
 * ## 1.10.7
     * 修复 xy-textarea 行数`rows`响应式变化
