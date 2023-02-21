@@ -1,4 +1,4 @@
-import './components/xy-button.js';
+import './components/button/index.js';
 import './components/xy-slider.js';
 import './components/xy-select.js';
 import './components/xy-loading.js';

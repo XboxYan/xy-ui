@@ -58,7 +58,7 @@ npm i xy-ui
 
 目录如下：
 
-```text
+```txt
 .
 └── xy-ui
     ├── components //功能组件

@@ -8,7 +8,10 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:serve": "vitepress serve docs"
   },
   "repository": {
     "type": "git",
@@ -56,14 +59,17 @@
   "bugs": {
     "url": "https://github.com/XboxYan/xy-ui/issues"
   },
-  "publishConfig": { 
-    "registry1": "https://npm.pkg.github.com/@XboxYan" 
+  "publishConfig": {
+    "registry1": "https://npm.pkg.github.com/@XboxYan"
   },
   "homepage": "https://github.com/XboxYan/xy-ui#readme",
   "files": [
-	  "index.js",
-		"components",
-		"iconfont",
-		"utils"
-	]
+    "index.js",
+    "components",
+    "iconfont",
+    "utils"
+  ],
+  "devDependencies": {
+    "vitepress": "^1.0.0-alpha.46"
+  }
 }

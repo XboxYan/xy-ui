@@ -1,0 +1,12 @@
+.container{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin: 15px 0;
+  align-items: center;
+}
+[dark]{
+  padding: 15px;
+  border-radius: 8px;
+  background-color: var(--vp-code-block-bg);
+}
