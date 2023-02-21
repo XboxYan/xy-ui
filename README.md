@@ -16,6 +16,8 @@
 
 正在进行改造升级中...
 
+[dev 2.0](https://github.com/XboxYan/xy-ui/tree/dev2.0)
+
 ## 更新
 * ## 1.10.7
     * 修复 xy-textarea 行数`rows`响应式变化
