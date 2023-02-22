@@ -19,7 +19,6 @@
   height: var(--height-base, 32px);
   align-items: center;
   justify-content: center;
-  margin-left: inherit;
   background-color: var(--primary-bg, #fff);
   border: 1px solid var(--border-color, #d9d9d9);
   font-size: var(--font-size, 14px);

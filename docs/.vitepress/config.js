@@ -31,6 +31,7 @@ export default defineConfig({
           text: '通用',
           items: [
             { text: "button", link: "/components/button" },
+            { text: "tips", link: "/components/tips" },
           ]
         },
         {

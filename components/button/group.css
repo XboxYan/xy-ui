@@ -2,22 +2,26 @@
   display: flex;
 }
 
+::slotted(xy-button) {
+  display: inline;
+}
+
 ::slotted(xy-button:not(:first-of-type,:last-of-type)) {
   --border-radius-base: 0;
   --border-radius-lg: 0;
   --border-radius-sm: 0;
 }
 
-::slotted(xy-button::part(button)) {
+::slotted(xy-button) {
   margin: 0 !important;
-}
-
-::slotted(xy-button:not(:first-of-type)){
-  margin-left: -1px !important;
 }
 
 ::slotted(xy-button[type]:not([type="dashed"],:first-of-type)) {
   margin-left: 1px !important;
+}
+
+::slotted(xy-button:not(:first-of-type)){
+  margin-left: -1px !important;
 }
 
 ::slotted(xy-button:first-of-type){

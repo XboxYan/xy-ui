@@ -10,3 +10,31 @@
   border-radius: 8px;
   background-color: var(--vp-code-block-bg);
 }
+.dir-container{
+  width: 400px;
+  margin: 0 auto;
+  display: grid;
+  gap: 10px;
+  grid-template-areas: 
+  "a tl top tr b"
+  "lt x x x rt"
+  "left x x x right"
+  "lb x x x rb"
+  "c bl bottom br d"
+  ;
+}
+.dir-container .a{
+  grid-area: a
+}
+.dir-container .b{
+  grid-area: b
+}
+.dir-container .c{
+  grid-area: c
+}
+.dir-container .d{
+  grid-area: d
+}
+.dir-container .x{
+  grid-area: x
+}

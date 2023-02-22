@@ -1,312 +1,263 @@
 :host {
-  display:inline-block;
-  position: relative;
-  overflow: visible;
-}
-
-:host::before,
-:host::after {
-  content: '';
-  display: block;
   position: absolute;
-  z-index: 1;
-  transform: translate(-50%, -20px);
-  opacity: 0;
-  transition:all .15s .15s,left 0s, top 0s;
-  color: var(--color,rgba(0,0,0,0.75));
-  visibility: hidden;
-  pointer-events: none;
-}
-:host::before {
-  content:attr(prefix) attr(tips) attr(suffix);
-  border-radius: 3px;
-  padding: 6px 10px;
-  line-height: 18px;
-  text-align: left;
-  background-color: var(--color,rgba(0,0,0,0.75));
-  color: #fff;
-  font-size: 12px;
-  font-style: normal;
+  border-radius: var(--border-radius-base, 4px);
+  padding: 6px 8px;
+  line-height: 22px;
+  text-align: start;
+  background-color: var(--tips-bg, rgba(0, 0, 0, .88));
+  color: var(--tips-color, #fff);
+  font-size: 14px;
   width: max-content;
   max-width: 200px;
-}
-:host::after {
-  width: 0;
-  height: 0;
-  overflow: hidden;
-  border: 6px solid transparent;
+  visibility: hidden;
+  opacity: .5;
+  transition: opacity .05s, visibility .05s, transform 0s .1s;
+  --s: .5;
+  transform: translate(var(--x), var(--y)) scale(var(--s))
 }
 
-:host([tips]:not([tips='']):hover:not([show=false]))::before,
-:host([tips]:not([tips=''])[show=true])::before,
-:host([tips]:not([tips='']):focus-within:not([show=false]))::before,
-:host([tips]:not([tips='']):hover:not([show=false]))::after,
-:host([tips]:not([tips=''])[show=true])::after,
-:host([tips]:not([tips='']):focus-within:not([show=false]))::after {
-  visibility: visible;
+:host(:is([show],[open],:hover)) {
+  transition: var(--transition, .2s);
+  --s: 1;
   opacity: 1;
+  visibility: visible;
 }
 
-/* top & '' */
-:host([dir="top"])::before,
-:host(:not([dir]))::before,
-:host(:not([dir]))::after,
-:host([dir="top"])::after {
-  left: calc( var(--percent,.5) * 100% );
-  bottom: 100%;
-  transform: translate(-50%, -20px);
-}
-:host([dir="top"]):after,
-:host(:not([dir])):after {
-  margin-bottom: -12px;
-  border-top-color: currentColor;
-}
-:host(:not([dir]):hover:not([show=false]))::before,
-:host(:not([dir])[show=true])::before,
-:host(:not([dir]):focus-within:not([show=false]))::before,
-:host(:not([dir]):hover:not([show=false]))::after,
-:host(:not([dir])[show=true])::after,
-:host(:not([dir]):focus-within:not([show=false]))::after,
-:host([dir="top"]:hover:not([show=false]))::before,
-:host([dir="top"][show=true])::before,
-:host([dir="top"]:focus-within:not([show=false]))::before,
-:host([dir="top"]:hover:not([show=false]))::after,
-:host([dir="top"][show=true])::after,
-:host([dir="top"]:focus-within:not([show=false]))::after {
-  transform: translate(-50%, -10px);
-}
-/* right */
-:host([dir="right"])::before,
-:host([dir="right"])::after{
-  left: 100%;
-  top: 50%;
-  transform: translate(20px, -50%);
-}
-:host([dir="right"]):after {
-  margin-left: -12px;
-  border-right-color: currentColor;
-}
-:host([dir="right"]:hover:not([show=false]))::before,
-:host([dir="right"][show=true])::before,
-:host([dir="right"]:focus-within:not([show=false]))::before,
-:host([dir="right"]:hover:not([show=false]))::after,
-:host([dir="right"][show=true])::after,
-:host([dir="right"]:focus-within:not([show=false]))::after {
-  transform: translate(10px, -50%);
+:host::before {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background-color: inherit;
+  clip-path: path('M 0 8 A 4 4 0 0 0 2.82842712474619 6.82842712474619 L 6.585786437626905 3.0710678118654755 A 2 2 0 0 1 9.414213562373096 3.0710678118654755 L 13.17157287525381 6.82842712474619 A 4 4 0 0 0 16 8 Z')
 }
 
-/* bottom */
-:host([dir="bottom"])::before,
-:host([dir="bottom"])::after{
-  left: calc( var(--percent,.5) * 100% );
-  top: 100%;
-  transform: translate(-50%, 20px);
-}
-:host([dir="bottom"])::after {
-  margin-top: -12px;
-  border-bottom-color: currentColor;
-}
-:host([dir="bottom"]:hover:not([show=false]))::before,
-:host([dir="bottom"][show=true])::before,
-:host([dir="bottom"]:focus-within:not([show=false]))::before,
-:host([dir="bottom"]:hover:not([show=false]))::after,
-:host([dir="bottom"][show=true])::after,
-:host([dir="bottom"]:focus-within:not([show=false]))::after {
-  transform: translate(-50%, 10px);
-}
-
-/* left */
-:host([dir="left"])::before,
-:host([dir="left"])::after{
-  right: 100%;
-  top: 50%;
-  transform: translate(-20px, -50%);
-}
-:host([dir="left"])::after{
-  margin-right: -12px;
-  border-left-color: currentColor;
-}
-:host([dir="left"]:hover:not([show=false]))::before,
-:host([dir="left"][show=true])::before,
-:host([dir="left"]:focus-within:not([show=false]))::before,
-:host([dir="left"]:hover:not([show=false]))::after,
-:host([dir="left"][show=true])::after,
-:host([dir="left"]:focus-within:not([show=false]))::after {
-  transform: translate(-10px, -50%);
-}
-
-/* topleft */
-:host([dir="topleft"])::before,
-:host([dir="topleft"])::after {
-  left: 0;
-  bottom: 100%;
-  transform: translate(0, -20px);
-}
-:host([dir="topleft"]):after{
-  left:10px;
-  margin-bottom: -12px;
-  border-top-color: currentColor;
-}
-:host([dir="topleft"]:hover:not([show=false]))::before,
-:host([dir="topleft"][show=true])::before,
-:host([dir="topleft"]:focus-within:not([show=false]))::before,
-:host([dir="topleft"]:hover:not([show=false]))::after,
-:host([dir="topleft"][show=true])::after,
-:host([dir="topleft"]:focus-within:not([show=false]))::after {
-  transform: translate(0, -10px);
-}
-/* topright */
-:host([dir="topright"])::before,
-:host([dir="topright"])::after {
-  right: 0;
-  bottom: 100%;
-  transform: translate(0, -20px);
-}
-:host([dir="topright"]):after{
-  right:10px;
-  margin-bottom: -12px;
-  border-top-color: currentColor;
-}
-:host([dir="topright"]:hover:not([show=false]))::before,
-:host([dir="topright"][show=true])::before,
-:host([dir="topright"]:focus-within:not([show=false]))::before,
-:host([dir="topright"]:hover:not([show=false]))::after,
-:host([dir="topright"][show=true])::after,
-:host([dir="topright"]:focus-within:not([show=false]))::after {
-  transform: translate(0, -10px);
-}
-/* righttop */
-:host([dir="righttop"])::before,
-:host([dir="righttop"])::after{
-  left: 100%;
-  top: 0;
-  transform: translate(20px, 0);
-}
-:host([dir="righttop"]):after {
-  top: 10px;
-  margin-left: -12px;
-  border-right-color: currentColor;
-}
-:host([dir="righttop"]:hover:not([show=false]))::before,
-:host([dir="righttop"][show=true])::before,
-:host([dir="righttop"]:focus-within:not([show=false]))::before,
-:host([dir="righttop"]:hover:not([show=false]))::after,
-:host([dir="righttop"][show=true])::after,
-:host([dir="righttop"]:focus-within:not([show=false]))::after {
-  transform: translate(10px, 0);
-}
-/* rightbottom */
-:host([dir="rightbottom"])::before,
-:host([dir="rightbottom"])::after{
-  left: 100%;
-  bottom: 0;
-  transform: translate(20px, 0);
-}
-:host([dir="rightbottom"]):after {
-  bottom: 10px;
-  margin-left: -12px;
-  border-right-color: currentColor;
-}
-:host([dir="rightbottom"]:hover:not([show=false]))::before,
-:host([dir="rightbottom"][show=true])::before,
-:host([dir="rightbottom"]:focus-within:not([show=false]))::before,
-:host([dir="rightbottom"]:hover:not([show=false]))::after,
-:host([dir="rightbottom"][show=true])::after,
-:host([dir="rightbottom"]:focus-within:not([show=false]))::after {
-  transform: translate(10px, 0);
-}
-/* bottomleft */
-:host([dir="bottomleft"])::before,
-:host([dir="bottomleft"])::after{
-  left: 0;
-  top: 100%;
-  transform: translate(0, 20px);
-}
-:host([dir="bottomleft"])::after {
-  left: 10px;
-  margin-top: -12px;
-  border-bottom-color: currentColor;
-}
-:host([dir="bottomleft"]:hover:not([show=false]))::before,
-:host([dir="bottomleft"][show=true])::before,
-:host([dir="bottomleft"]:focus-within:not([show=false]))::before,
-:host([dir="bottomleft"]:hover:not([show=false]))::after,
-:host([dir="bottomleft"][show=true])::after,
-:host([dir="bottomleft"]:focus-within:not([show=false]))::after {
-  transform: translate(0, 10px);
-}
-/* bottomright */
-:host([dir="bottomright"])::before,
-:host([dir="bottomright"])::after{
-  right: 0;
-  top: 100%;
-  transform: translate(0, 20px);
-}
-:host([dir="bottomright"])::after {
-  right: 10px;
-  margin-top: -12px;
-  border-bottom-color: currentColor;
-}
-:host([dir="bottomright"]:hover:not([show=false]))::before,
-:host([dir="bottomright"][show=true])::before,
-:host([dir="bottomright"]:focus-within:not([show=false]))::before,
-:host([dir="bottomright"]:hover:not([show=false]))::after,
-:host([dir="bottomright"][show=true])::after,
-:host([dir="bottomright"]:focus-within:not([show=false]))::after {
-  transform: translate(0, 10px);
-}
-/* lefttop */
-:host([dir="lefttop"])::before,
-:host([dir="lefttop"])::after{
-  right: 100%;
-  top: 0;
-  transform: translate(-20px, 0);
-}
-:host([dir="lefttop"]):after {
-  top: 10px;
-  margin-right: -12px;
-  border-left-color: currentColor;
-}
-:host([dir="lefttop"]:hover:not([show=false]))::before,
-:host([dir="lefttop"][show=true])::before,
-:host([dir="lefttop"]:focus-within:not([show=false]))::before,
-:host([dir="lefttop"]:hover:not([show=false]))::after,
-:host([dir="lefttop"][show=true])::after,
-:host([dir="lefttop"]:focus-within:not([show=false]))::after {
-  transform: translate(-10px, 0);
-}
-/* leftbottom */
-:host([dir="leftbottom"])::before,
-:host([dir="leftbottom"])::after{
-  right: 100%;
-  bottom: 0;
-  transform: translate(-20px, 0);
-}
-:host([dir="leftbottom"]):after {
-  bottom: 10px;
-  margin-right: -12px;
-  border-left-color: currentColor;
-}
-:host([dir="leftbottom"]:hover:not([show=false]))::before,
-:host([dir="leftbottom"][show=true])::before,
-:host([dir="leftbottom"]:focus-within:not([show=false]))::before,
-:host([dir="leftbottom"]:hover:not([show=false]))::after,
-:host([dir="leftbottom"][show=true])::after,
-:host([dir="leftbottom"]:focus-within:not([show=false]))::after {
-  transform: translate(-10px, 0);
-}
 /* success */
-:host([type="success"]){
-  --color:var(--successColor,#52c41a);
+:host([type=success]){
+  --tips-bg: var(--success-color,#52c41a);
 }
 /* error */
-:host([type="error"]){
-  --color:var(--errorColor,#f4615c);
+:host([type=error]){
+  --tips-bg: var(--error-color,#f4615c);
 }
 /* warning */
-:host([type="warning"]){
-  --color:var(--waringColor,#faad14);
+:host([type=warning]){
+  --tips-bg: var(--waring-color,#faad14);
 }
-slot{
-  border-radius: inherit;
+
+/* dir */
+:host([dir=top]) {
+  transform-origin: bottom;
+  left: calc((var(--left) + var(--right) ) * .5px);
+  top: calc(var(--top) * 1px);
+  --x: -50%;
+  --y: -100%;
+}
+
+:host([dir=top])::before{
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 50%) scaleY(-1);
+}
+
+:host([dir=top]:is([show],[open],:hover)) {
+  --y: calc(-100% - 12px);
+}
+
+:host([dir=TL]) {
+  transform-origin: left bottom;
+  left: calc( var(--left) * 1px);
+  top: calc(var(--top) * 1px);
+  --x: 0%;
+  --y: -100%;
+}
+
+:host([dir=TL])::before{
+  left: 8px;
+  bottom: 0;
+  transform: translate(0%, 50%) scaleY(-1);
+}
+
+:host([dir=TL]:is([show],[open],:hover)) {
+  --y: calc(-100% - 12px);
+}
+
+:host([dir=TR]) {
+  transform-origin: right bottom;
+  left: calc( var(--right) * 1px);
+  top: calc(var(--top) * 1px);
+  --x: -100%;
+  --y: -100%;
+}
+
+:host([dir=TR])::before{
+  right: 8px;
+  bottom: 0;
+  transform: translate(0%, 50%) scaleY(-1);
+}
+
+:host([dir=TR]:is([show],[open],:hover)) {
+  --y: calc(-100% - 12px);
+}
+
+:host([dir=LT]) {
+  transform-origin: right top;
+  left: calc( var(--left) * 1px);
+  top: calc(var(--top) * 1px);
+  --x: -100%;
+  --y: 0%;
+}
+
+:host([dir=LT])::before{
+  right: 0;
+  top: 8px;
+  transform: translate(50%, 0%) rotate(90deg);
+}
+
+:host([dir=LT]:is([show],[open],:hover)) {
+  --x: calc(-100% - 12px);
+}
+
+:host([dir=left]) {
+  transform-origin: right;
+  left: calc( var(--left) * 1px);
+  top:  calc((var(--top) + var(--bottom) ) * .5px);
+  --x: -100%;
+  --y: -50%;
+}
+
+:host([dir=left])::before{
+  right: 0;
+  top: 50%;
+  transform: translate(50%, -50%) rotate(90deg);
+}
+
+:host([dir=left]:is([show],[open],:hover)) {
+  --x: calc(-100% - 12px);
+}
+
+:host([dir=LB]) {
+  transform-origin: right top;
+  left: calc( var(--left) * 1px);
+  top: calc(var(--bottom) * 1px);
+  --x: -100%;
+  --y: -100%;
+}
+
+:host([dir=LB])::before{
+  right: 0;
+  bottom: 8px;
+  transform: translate(50%, 0%) rotate(90deg);
+}
+
+:host([dir=LB]:is([show],[open],:hover)) {
+  --x: calc(-100% - 12px);
+}
+
+:host([dir=RT]) {
+  transform-origin: left top;
+  left: calc( var(--left) * 1px);
+  top: calc(var(--top) * 1px);
+  --x: 100%;
+  --y: 0%;
+}
+
+:host([dir=RT])::before{
+  left: 0;
+  top: 8px;
+  transform: translate(-50%, 0%) rotate(-90deg);
+}
+
+:host([dir=RT]:is([show],[open],:hover)) {
+  --x: calc(100% + 12px);
+}
+
+:host([dir=right]) {
+  transform-origin: left;
+  left: calc( var(--left) * 1px);
+  top: calc((var(--top) + var(--bottom) ) * .5px);
+  --x: 100%;
+  --y: -50%;
+}
+
+:host([dir=right])::before{
+  left: 0;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(-90deg);
+}
+
+:host([dir=right]:is([show],[open],:hover)) {
+  --x: calc(100% + 12px);
+}
+
+:host([dir=RB]) {
+  transform-origin: left bottom;
+  left: calc( var(--left) * 1px);
+  top: calc(var(--bottom) * 1px);
+  --x: 100%;
+  --y: -100%;
+}
+
+:host([dir=RB])::before{
+  left: 0;
+  bottom: 8px;
+  transform: translate(-50%, 0%) rotate(-90deg);
+}
+
+:host([dir=RB]:is([show],[open],:hover)) {
+  --x: calc(100% + 12px);
+}
+
+:host([dir=bottom]) {
+  transform-origin: top;
+  left: calc((var(--left) + var(--right) ) * .5px);
+  top: calc(var(--bottom) * 1px);
+  --x: -50%;
+  --y: 0%;
+}
+
+:host([dir=bottom])::before{
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, -50%);
+}
+
+:host([dir=bottom]:is([show],[open],:hover)) {
+  --y: 12px;
+}
+
+:host([dir=BL]) {
+  transform-origin: left top;
+  left: calc(var(--left) * 1px);
+  top: calc(var(--bottom) * 1px);
+  --x: 0%;
+  --y: 0%;
+}
+
+:host([dir=BL])::before{
+  left: 8px;
+  top: 0;
+  transform: translate(0%, -50%);
+}
+
+:host([dir=BL]:is([show],[open],:hover)) {
+  --y: 12px;
+}
+
+:host([dir=BR]) {
+  transform-origin: right top;
+  left: calc(var(--right) * 1px);
+  top: calc(var(--bottom) * 1px);
+  --x: -100%;
+  --y: 0%;
+}
+
+:host([dir=BR])::before{
+  right: 8px;
+  top: 0;
+  transform: translate(0%, -50%);
+}
+
+:host([dir=BR]:is([show],[open],:hover)) {
+  --y: 12px;
 }

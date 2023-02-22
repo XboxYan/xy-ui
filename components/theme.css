@@ -42,4 +42,7 @@
   --disabled-bg: rgba(0, 0, 0, .04);
   /* transition */
   --transition: all .2s, outline 0s;
+  /* tips */
+  --tips-bg: rgba(0, 0, 0, .88);
+  --tips-color: #fff;
 }
