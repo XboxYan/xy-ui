@@ -26,6 +26,7 @@ export default class XyLoading extends HTMLElement {
             animation:  progress 1.4s ease-in-out infinite;
             stroke-dasharray: 80px, 200px;
             stroke-dashoffset: 0px;
+            stroke-linecap: round;
             transition:.3s;
         }
         :host(:not(:empty)) .loading{

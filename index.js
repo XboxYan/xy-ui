@@ -1,12 +1,12 @@
 import './components/button/index.js';
-import './components/xy-slider.js';
+import './components/slider/index.js';
+import './components/switch/index.js';
+import './components/tips/index.js';
+import './components/checkbox/index.js';
 import './components/xy-select.js';
 import './components/xy-loading.js';
 import './components/xy-tab.js';
-import './components/xy-switch.js';
-import './components/xy-checkbox.js';
 import './components/xy-radio.js';
-import './components/xy-tips.js';
 import './components/xy-icon.js';
 import './components/xy-layout.js';
 import './components/xy-input.js';

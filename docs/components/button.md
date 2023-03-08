@@ -1,11 +1,12 @@
 <script setup>
   import './index.css'
   import '../../components/button/'
+  import '../../components/button-group/';
   import '../../components/switch/'
   import '../../components/xy-radio.js'
   import '../../components/xy-icon.js'
 </script>
-# xy-button
+# button
 
 按钮。用于替代原生`button`。
 
@@ -15,6 +16,7 @@
 <!-- 引入 -->
 <script type="module">
     import '../components/button/index.js';
+    import '../components/button-group/index.js';
 </script>
 <!-- 使用 -->
 <xy-button>button</xy-button>
@@ -24,7 +26,7 @@
 
 按钮有5种风格，分别为`primary`，`dashed`，`flat`，`link`和默认。
 
-<div class="container">
+<div class="wrap">
   <xy-button type="primary" id="btn">primary</xy-button>
   <xy-button type="dashed">dashed</xy-button>
   <xy-button type="flat">flat</xy-button>
@@ -44,7 +46,7 @@
 
 添加`danger`属性可以变成红色
 
-<div class="container">
+<div class="wrap">
   <xy-button type="primary" danger>primary</xy-button>
   <xy-button type="dashed" danger>dashed</xy-button>
   <xy-button type="flat" danger>flat</xy-button>
@@ -64,7 +66,7 @@
 
 幽灵按钮将按钮的内容反色，常用在深色背景上。
 
-<div class="container" dark>
+<div class="wrap" dark>
   <xy-button type="primary" ghost>primary</xy-button>
   <xy-button type="dashed" ghost>dashed</xy-button>
   <xy-button type="flat" ghost>flat</xy-button>
@@ -90,7 +92,7 @@
     <xy-radio>small</xy-radio>
 </xy-radio-group>
 
-<div class="container">
+<div class="wrap">
     <xy-button type="primary">primary</xy-button>
     <xy-button type="dashed">dashed</xy-button>
     <xy-button type="flat">flat</xy-button>
@@ -107,7 +109,7 @@
 
 当设置`href`属性时，`xy-button`内部会渲染成`a`标签。
 
-<div class="container">
+<div class="wrap">
 <xy-button type="primary" href="https://github.com/XboxYan/xy-ui">visit xy-ui</xy-button>
 <xy-button type="dashed" href="https://github.com/XboxYan/xy-ui">visit xy-ui</xy-button>
 <xy-button type="flat" href="https://github.com/XboxYan/xy-ui">visit xy-ui</xy-button>
@@ -134,14 +136,13 @@
 通过`disabled`可以禁用按钮，禁用后该按钮上的事件失效，`a`链接也会失效。
 
 <xy-switch checked onchange="[...this.nextElementSibling.querySelectorAll('xy-button')].forEach(el => el.disabled = this.checked)"></xy-switch>
-<div class="container">
+<div class="wrap">
 <xy-button disabled type="primary">primary</xy-button>
 <xy-button disabled type="dashed">dashed</xy-button>
 <xy-button disabled type="flat">flat</xy-button>
 <xy-button disabled type="link">link</xy-button>
-<xy-button disabled >default</xy-button>
 <xy-button disabled href="https://github.com/XboxYan/xy-ui">visit xy-ui</xy-button>
-<xy-button disabled danger type="primary">primary</xy-button>
+<xy-button disabled >default</xy-button>
 </div>
 
 ```html
@@ -178,48 +179,58 @@ com.removeAttribute('props');
 
 `<xy-button-group>`可以将一组同类型的按钮组合起来。
 
+需要引入`button-group`
+
+```js
+<script type="module">
+    import '../components/button-group/index.js';
+</script>
+```
+
+<div class="wrap">
 <xy-button-group>
     <xy-button>button1</xy-button>
     <xy-button>button2</xy-button>
     <xy-button>button3</xy-button>
     <xy-button>button4</xy-button>
 </xy-button-group>
+</div>
 
-<p></p>
-
+<div class="wrap">
 <xy-button-group>
     <xy-button type="primary">button1</xy-button>
     <xy-button type="primary">button2</xy-button>
     <xy-button type="primary">button3</xy-button>
     <xy-button type="primary">button4</xy-button>
 </xy-button-group>
+</div>
 
-<p></p>
-
+<div class="wrap">
 <xy-button-group>
     <xy-button type="dashed">button1</xy-button>
     <xy-button type="dashed">button2</xy-button>
     <xy-button type="dashed">button3</xy-button>
     <xy-button type="dashed">button4</xy-button>
 </xy-button-group>
+</div>
 
-<p></p>
-
+<div class="wrap">
 <xy-button-group>
     <xy-button type="flat">button1</xy-button>
     <xy-button type="flat">button2</xy-button>
     <xy-button type="flat">button3</xy-button>
     <xy-button type="flat">button4</xy-button>
 </xy-button-group>
+</div>
 
-<p></p>
-
+<div class="wrap">
 <xy-button-group>
     <xy-button type="primary">button1</xy-button>
     <xy-button type="primary">button2</xy-button>
     <xy-button>button3</xy-button>
     <xy-button>button4</xy-button>
 </xy-button-group>
+</div>
 
 ```html
 <xy-button-group>
@@ -234,7 +245,7 @@ com.removeAttribute('props');
 
 添加`loading`属性即可让按钮处于加载状态，处于加载状态所有事件会被禁用，类似于`disabled`
 
-<div class="container">
+<div class="wrap">
   <xy-button type="primary" loading>loading</xy-button>
   <xy-switch checked onchange="this.previousElementSibling.loading = this.checked;"></xy-switch>
 </div>
@@ -262,7 +273,7 @@ btn.toggleAttribute('loading', [force]);
 
 关于`xy-icon`的取值可以查看[`xy-icon`](xy-icon.md)
 
-<div class="container">
+<div class="wrap">
 <xy-button type="primary" icon="heart">like</xy-button>
 <xy-button type="dashed" icon="search">search</xy-button>
 <xy-button type="flat" icon="left">back</xy-button>
@@ -286,7 +297,7 @@ btn.setAttribute('icon','name');
 
 当然，上述图标均位于文字左侧，如果想位于文字右侧，你可以直接嵌套`xy-icon`组件。
 
-<div class="container">
+<div class="wrap">
   <xy-button>heart<xy-icon name="heart"></xy-icon></xy-button>
   <xy-button>right<xy-icon name="right"></xy-icon></xy-button>
 </div>
@@ -300,7 +311,7 @@ btn.setAttribute('icon','name');
 
 当只有`icon`时，可配合`shape=circle`属性，实现圆形图标按钮。
 
-<div class="container">
+<div class="wrap">
 <xy-button type="primary" icon="heart" shape="circle"></xy-button>
 <xy-button type="dashed" icon="heart" shape="circle"></xy-button>
 <xy-button type="flat" icon="heart" shape="circle"></xy-button>
@@ -318,7 +329,7 @@ btn.setAttribute('icon','name');
 
 `block`属性将使按钮适合其父宽度。
 
-<div class="container">
+<div class="wrap">
 <xy-button type="primary" block>primary</xy-button>
 <xy-button type="dashed" block>dashed</xy-button>
 <xy-button type="flat" block>flat</xy-button>
@@ -333,9 +344,17 @@ btn.setAttribute('icon','name');
 ```
 
 ## 自定义样式`::part(button)`
-还可以通过内置伪类::part(button)自定义样式， 任意修改大小
+ 需要注意的是，`xy-button`本身不包含任意样式，如果需要自定义按钮本身样式，需要深入到`shadow dom`中，这里暴露了内置伪元素`::part(button)`用来自定义样式
 
 > `::part`可以允许自定义 `shadow dom` 中指定元素的样式，https://developer.mozilla.org/en-US/docs/Web/CSS/::part
+
+内部结构如下（可查看控制台）：
+
+```html
+<xy-button>
+  # shadow-root
+    <button part="button">
+```
 
 <style>
 .custom-button::part(button){

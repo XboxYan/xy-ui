@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>xy-ui</title>
+    <link href="./components/theme.css" rel="stylesheet">
     <style>
         xy-button,xy-checkbox,xy-radio,xy-input,xy-textarea,xy-color-picker,xy-select{ margin: 0 10px 15px 0; vertical-align: middle; }
         xy-input:not([block]),xy-textarea:not([block]){ width:300px; }
@@ -115,17 +116,16 @@
     <script type="module" src="./components/xy-dialog.js" async></script>
     -->
     <!-- <script type="module" src="./components/xy.js" async></script> -->
-    
-    <script type="module" src="./index.js"></script>
+    <script type="module" src="./index.js" async></script>
 </head>
 
 <body>
     <h2>theme</h2>
-    <xy-button type="primary" class="theme-button" style="--themeColor:#1E90FF">#1E90FF</xy-button>
-    <xy-button type="primary" class="theme-button" style="--themeColor:#F44336">#F44336</xy-button>
-    <xy-button type="primary" class="theme-button" style="--themeColor:#9c27b0">#9c27b0</xy-button>
-    <xy-button type="primary" class="theme-button" style="--themeColor:#009688">#009688</xy-button>
-    <xy-button type="primary" class="theme-button" style="--themeColor:#3F51B5">#3F51B5</xy-button>
+    <xy-button type="primary" class="theme-button" style="--primary-color:#1E90FF">#1E90FF</xy-button>
+    <xy-button type="primary" class="theme-button" style="--primary-color:#F44336">#F44336</xy-button>
+    <xy-button type="primary" class="theme-button" style="--primary-color:#9c27b0">#9c27b0</xy-button>
+    <xy-button type="primary" class="theme-button" style="--primary-color:#009688">#009688</xy-button>
+    <xy-button type="primary" class="theme-button" style="--primary-color:#3F51B5">#3F51B5</xy-button>
     <h2>button</h2>
     <p>normal</p>
     <xy-button type="primary" id="btn">primary</xy-button>
@@ -628,8 +628,8 @@
         }
         document.querySelectorAll('.theme-button').forEach((el)=>{
             el.addEventListener('click',function(){
-                const themeColor = window.getComputedStyle(el).getPropertyValue('--themeColor');
-                document.body.style.setProperty('--themeColor',themeColor);
+                const themeColor = window.getComputedStyle(el).getPropertyValue('--primary-color');
+                document.body.style.setProperty('--primary-color',themeColor);
             })
         })
 

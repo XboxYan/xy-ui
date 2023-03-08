@@ -1,8 +1,7 @@
-import Base from "../xy-base";
+import Base from "../xy-base.js";
 import "../xy-loading.js";
 import "../xy-icon.js";
 import style from "./index.css?inline" assert { type: "css" };
-import groupStyle from "./group.css?inline" assert { type: "css" };
 
 export default class XyButton extends Base {
 	static get observedAttributes() {
@@ -13,7 +12,7 @@ export default class XyButton extends Base {
 		super();
 		const shadowRoot = this.attachShadow({ mode: "open" });
 		this.adoptedStyle(style);
-		if (this.href) {
+		if (this.href !== null) {
 			shadowRoot.innerHTML = `<a
             class="button" part="button" id="button"
           >
@@ -29,7 +28,7 @@ export default class XyButton extends Base {
           </button>
           `;
 		}
-		this.btnEl = this.shadowRoot.getElementById("button");
+		this.btnEl = shadowRoot.getElementById("button");
 	}
 
 	focus() {
@@ -164,19 +163,4 @@ export default class XyButton extends Base {
 
 if (!customElements.get("xy-button")) {
 	customElements.define("xy-button", XyButton);
-}
-
-class XyButtonGroup extends Base {
-	constructor() {
-		super();
-		const shadowRoot = this.attachShadow({ mode: "open" });
-		this.adoptedStyle(groupStyle);
-		shadowRoot.innerHTML = `
-        <slot></slot>
-        `;
-	}
-}
-
-if (!customElements.get("xy-button-group")) {
-	customElements.define("xy-button-group", XyButtonGroup);
 }

@@ -2,9 +2,13 @@
   import './index.css'
   import '../../components/button/'
   import '../../components/switch/'
+  import { reactive } from 'vue'
+  const state = reactive({
+    value: true
+  })
 </script>
 
-# xy-switch
+# switch
 
 开关选择器。
 
@@ -23,7 +27,7 @@
 
 通过`disabled`可以禁用开关。
 
-<div class="container">
+<div class="wrap">
   <xy-switch disabled></xy-switch>
   <xy-button type="primary" onclick="this.previousElementSibling.disabled=!this.previousElementSibling.disabled">禁用切换</xy-button>
 </div>
@@ -47,7 +51,7 @@ switch.removeAttribute('disabled');
 
 `checked`属性表示选中。
 
-<div class="container">
+<div class="wrap">
   <xy-switch checked></xy-switch>
   <xy-button type="primary" onclick="this.previousElementSibling.checked=!this.previousElementSibling.checked">选中切换</xy-button>
 </div>
@@ -72,8 +76,10 @@ switch.toggleAttribute('checked', [force]);
 
 小号开关。
 
+<div class="wrap">
 <xy-switch checked></xy-switch>
 <xy-switch checked size="small"></xy-switch>
+</div>
 
 ```html
 <xy-switch checked></xy-switch>
@@ -82,7 +88,15 @@ switch.toggleAttribute('checked', [force]);
 
 ## 自定义样式`::part(switch)`
 
-还可以通过内置伪类`::part(switch)`自定义样式， 任意修改大小
+`xy-switch`元素本身不包含任意样式，如果需要自定义样式，可以通过内置伪元素`::part(switch)`
+
+内部结构如下（可查看控制台）：
+
+```html
+<xy-switch>
+  # shadow-root
+    <input part="switch" type="checkbox">
+```
 
 <style>
 .custom-switch::part(switch){
@@ -90,8 +104,13 @@ switch.toggleAttribute('checked', [force]);
   height: 30px;
   padding: 4px;
 }
+.custom-switch::part(switch)::after{
+  background: yellow
+}
 </style>
+<div class="wrap">
 <xy-switch class="custom-switch" checked></xy-switch>
+</div>
 
 ```html
 <style>
@@ -99,6 +118,9 @@ switch.toggleAttribute('checked', [force]);
   width: 60px;
   height: 30px;
   padding: 4px;
+}
+.custom-switch::part(switch)::after{
+  background: yellow
 }
 </style>
 <xy-switch class="custom-switch" checked></xy-switch>
@@ -110,11 +132,10 @@ switch.toggleAttribute('checked', [force]);
 
 在切换完成时触发。
 
-<div class="container">
-<xy-switch onchange="this.nextElementSibling.textContent = this.checked"></xy-switch>
-<span>false</span>
+<div class="wrap">
+<xy-switch v-model="state.value"></xy-switch>
+{{state.value}}
 </div>
-
 
 ```html
 <xy-switch onchange="console.log(this.checked)"></xy-switch>

@@ -1,15 +1,27 @@
 <script setup>
   import './index.css'
-  import '../../components/tips/'
+  import { Tips } from '../../components/tips/'
   import '../../components/button/'
   import '../../components/switch/'
+  let _tips = null
+  const click = (ev) => {
+    if (!_tips) {
+      _tips = new Tips(newTips, {
+        tips : '这是通过new Tip生成的提示',
+        dir : 'auto',
+        type: 'error',
+        open: true
+      })
+    } else {
+      _tips.open = !_tips.open
+    }
+    ev.target.textContent = !_tips.open?'点击我出现 tips~':'再次点击我隐藏 tips~'
+  }
 </script>
 
-# xy-tips
+# tips
 
 文字提示气泡框。类似于元素属性`title`。
-
-通过`hover`和`focus`触发。
 
 ## 使用方式
 
@@ -24,20 +36,22 @@
 </xy-tips>
 ```
 
+> 注意：`xy-tips`标签不包含任何样式，也不会影响页面布局，你可以当做这层标签不存在
+
 ## 提示`tips`
 
 提示文字。如果不设置则不显示提示。
 
-<div class="container">
+<div class="wrap">
 <xy-tips tips="this is a tip">
-    <xy-button>button</xy-button>
+    <span>鼠标放上来试试~</span>
 </xy-tips>
 <xy-button type="primary" onclick="this.previousElementSibling.tips='this is a new tip!'">改变tips</xy-button>
 </div>
 
 ```html
 <xy-tips tips="this is a tip">
-    <xy-button>button</xy-button>
+    <p>鼠标放上来试试~</p>
 </xy-tips>
 ```
 
@@ -55,7 +69,7 @@ tips.setAttribute('tips','some tips');
 
 通过`dir`可以设置气泡框方向，默认为`top`，可以取值`top`、`right`、`bottom`、`left`、`TL`、`TR`、`RT`、`RB`、`BL`、`BR`、`LT`、`LB`。
 
-<div class="dir-container">
+<div class="dir-wrap">
 <div class="a"></div>
 <div class="b"></div>
 <div class="c"></div>
@@ -92,7 +106,11 @@ tips.getAttribute('dir');
 tips.setAttribute('dir','right');
 ```
 
-除了上述四个方位外，还可以设置`auto`，可以自动根据位置来选择一个合适的方向（还不完善）。
+除了上述四个方位外，还可以设置`auto`，可以自动根据位置来选择一个合适的方向。
+
+<xy-tips tips="some tips" dir="auto">
+  <xy-button>auto</xy-button>
+</xy-tips>
 
 ```html
 <xy-tips tips="some tips" dir="auto">
@@ -104,9 +122,11 @@ tips.setAttribute('dir','right');
 
 可以通过`type`设置提示框的颜色，有三种类型`success`、`error`、`warning`
 
+<div class="wrap">
 <xy-tips tips="success tips" type="success"><xy-button>success</xy-button></xy-tips>
 <xy-tips tips="warning tips" type="warning"><xy-button>warning</xy-button></xy-tips>
 <xy-tips tips="error tips" type="error"><xy-button>error</xy-button></xy-tips>
+</div>
 
 ```html
 <xy-tips tips="success tips" type="success">
@@ -152,19 +172,43 @@ tips.getAttribute('color');
 tips.setAttribute('color','red');
 ```
 
+## 触发方式`trigger`
+
+还可以通过`trigger`属性定义触发方式，默认为`hover,focus`，还可以设置为`click`，也可任意组合
+
+> 仅用于初始化，后续修改无效。
+
+<div class="wrap">
+<xy-tips tips="some tips" trigger="hover"><xy-button>hover</xy-button></xy-tips>
+<xy-tips tips="some tips" trigger="focus"><xy-button>focus</xy-button></xy-tips>
+<xy-tips tips="some tips" trigger="click"><xy-button>click</xy-button></xy-tips>
+</div>
+
+```html
+<xy-tips tips="some tips" trigger="hover">
+  <xy-button>hover</xy-button>
+</xy-tips>
+<xy-tips tips="some tips" trigger="focus">
+  <xy-button>focus</xy-button>
+</xy-tips>
+<xy-tips tips="some tips" trigger="click">
+  <xy-button>click</xy-button>
+</xy-tips>
+```
+
 ## 显示`open`
 
-添加`open`属性可以主动控制提示框的出现时机，不再与`hover`和`focus`关联。
+可以设置触发方式`trigger`为`none`，或者`open`默认存在，可以通过`open`属性可以主动控制提示框的出现时机，不再跟随`hover,focus`
 
 适用于表单错误信息描述。
 
-<div class="container">
-<xy-tips tips="some tips" open><xy-button>tips is show</xy-button></xy-tips>
+<div class="wrap">
+<xy-tips tips="some tips" trigger="none" open><xy-button>tips is show</xy-button></xy-tips>
 <xy-switch checked onchange="this.previousElementSibling.open = this.checked;"></xy-switch>
 </div>
 
 ```html
-<xy-tips tips="some tips" open>
+<xy-tips tips="some tips" trigger="none" open>
   <xy-button>tips is open</xy-button>
 </xy-tips>
 ```
@@ -172,8 +216,48 @@ tips.setAttribute('color','red');
 JavaScript操作`set`
 
 ```js
-tips.show = true;
-tips.show = false;
+tips.open = true;
+tips.open = false;
 //原生属性操作
-tips.setAttribute('show',true);
+tips.setAttribute('open',true);
 ```
+
+## 命令式方式`new Tips`
+
+除了使用`<xy-tips></xy-tips>`标签外，还可以通过命令式方式进行初始化，参数和前面保持一致
+
+```js
+import { Tips } from '../../components/tips/index.js'
+
+const tips = new Tips(el, {
+  tips : '提示', // 提示文字
+  dir : 'auto', // 方向
+  trigger : ['hover'], // 触发方式
+  ...
+})
+```
+
+适用于更加灵活的业务场景（原生环境）。例如，点击一个按钮，让其他元素出现`tips`
+
+<div class="wrap">
+  <span id="newTips">这是一段文本</span>
+  <xy-button type="primary" @click="click">点击我出现 tips~</xy-button>
+</div>
+
+使用`new Tips`创建，然后通过`open`属性控制显示
+
+```js
+const tips = new Tips(el, {
+  tips : '这是通过new Tip生成的提示',
+  dir : 'auto',
+  trigger: 'none',
+  open: false,
+  type: 'error'
+})
+button.onclick = () => {
+  tips.open = !tips.open
+}
+```
+
+
+

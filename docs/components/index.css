@@ -1,16 +1,20 @@
-.container{
+.wrap{
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
   margin: 15px 0;
   align-items: center;
+  outline: 1px dashed var(--vp-c-divider);
+  border-radius: 6px;
+  padding: 10px;
 }
 [dark]{
   padding: 15px;
   border-radius: 8px;
   background-color: var(--vp-code-block-bg);
 }
-.dir-container{
+.dir-wrap{
   width: 400px;
   margin: 0 auto;
   display: grid;
@@ -23,18 +27,21 @@
   "c bl bottom br d"
   ;
 }
-.dir-container .a{
+.dir-wrap .a{
   grid-area: a
 }
-.dir-container .b{
+.dir-wrap .b{
   grid-area: b
 }
-.dir-container .c{
+.dir-wrap .c{
   grid-area: c
 }
-.dir-container .d{
+.dir-wrap .d{
   grid-area: d
 }
-.dir-container .x{
+.dir-wrap .x{
   grid-area: x
+}
+.input{
+  border: 1px solid var(--border-color);
 }

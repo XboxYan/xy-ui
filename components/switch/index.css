@@ -1,14 +1,12 @@
 :host{ 
-  display: contents;
-  --primary-color-opacity-600: color-mix(in srgb, var(--primary-color) 60%, transparent);
-  --focus-bg: var(--primary-color-opacity-600);
+  display: inline-flex;
 }
-:host([disabled]) .switch{ 
+.switch:disabled{ 
   opacity:.6;
-}
-:host([disabled]) .switch{ 
-  pointer-events: all;  
   cursor: default; 
+}
+.switch:not(:disabled):is(:hover, :active){
+  filter: brightness(1.2);
 }
 .switch{
   appearance: none;
@@ -20,7 +18,7 @@
   height: 22px;
   padding: 2px;
   border-radius: 44px;
-  outline-color: var(--focus-bg);
+  outline-color: var(--primary-color-opacity-600);
   outline-width: 2px;
   outline-offset: 1px;
   color: var(--primary-color, #42b983);
@@ -37,7 +35,7 @@
 .switch::before{
   content:'';
   flex:0;
-  transition: var(--transition, .2s) cubic-bezier(.12, .4, .29, 1.46) flex;
+  transition: var(--transition, .2s) cubic-bezier(.12, .4, .29, 1.46);
 }
 .switch::after{
   content:'';

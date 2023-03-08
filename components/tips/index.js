@@ -1,29 +1,22 @@
-import Base from "../xy-base";
+import Base from "../xy-base.js";
 import style from "./index.css?inline" assert { type: "css" };
+import Pop from "../pop/index.js"
 
-export class Tips extends Base {
-	constructor(trigger, option) {
+export class Tips extends Pop {
+	constructor(triggerEl, option) {
 		super();
-		const shadowRoot = this.attachShadow({ mode: "open" });
 		this.adoptedStyle(style);
-		shadowRoot.innerHTML = `<slot></slot>`;
-		this.init(trigger, option);
+    this.shadowRoot.innerHTML = `<slot></slot>`;
+		this.init(triggerEl, option);
 	}
 
 	set tips(value) {
-		this.textContent = value;
-	}
-
-	set dir(value) {
-		this.setAttribute("dir", value);
-	}
-
-	set show(value) {
-		this.toggleAttribute("show", value);
-	}
-
-  set open(value) {
-		this.toggleAttribute("open", value);
+    this.disabled = !value
+    if (this.firstChild) {
+      this.firstChild.data = value
+    } else {
+      this.textContent = value;
+    }
 	}
 
   set type(value) {
@@ -33,87 +26,6 @@ export class Tips extends Base {
   set color(value) {
 		this.style.setProperty('--tips-bg', value);
 	}
-
-	getNode(trigger) {
-		let node = trigger;
-		while (node.shadowRoot) {
-			node = node.shadowRoot.firstElementChild;
-		}
-		return node;
-	}
-
-	render(node) {
-		if (!this.isConnected) {
-			document.body.append(this);
-      this.clientWidth;
-		}
-    node && this.setPosition(node)
-	}
-
-  // 设置tips位置
-  setPosition(node) {
-    const { left, top, right, bottom } = node.getBoundingClientRect();
-    this.style.setProperty("--left", parseInt(left + window.pageXOffset));
-    this.style.setProperty("--top", parseInt(top + window.pageYOffset));
-    this.style.setProperty("--right", parseInt(right + window.pageXOffset));
-    this.style.setProperty("--bottom", parseInt(bottom + window.pageYOffset));
-  }
-
-  // 监听trigger元素出现
-  observer(node) {
-    const observer = new IntersectionObserver(ioes => {
-      ioes.forEach(ioe => {
-          const el = ioe.target;
-          const intersectionRatio = ioe.intersectionRatio;
-          if (intersectionRatio > 0 && intersectionRatio <= 1) {
-              this.setPosition(node)
-              observer.unobserve(el);
-          }
-      })
-  })
-    observer.observe(node);
-  }
-
-  // 初始化
-	init(trigger, option) {
-    const node = this.getNode(trigger)
-    Object.keys(option).forEach(el => {
-      if (option[el]) {
-        this[el] = option[el];
-      }
-    })
-    if (option.open) {
-      this.observer(node)
-      this.render();
-    }
-		trigger.addEventListener("mouseenter", () => {
-      this._inTrigger = true
-      this._timer && clearTimeout(this._timer)
-      this._timer = setTimeout(() => {
-        if (this._inTrigger) {
-          this.render(node);
-          this.show = true;
-        }
-      }, 200)
-		});
-		trigger.addEventListener("focus", () => {
-			this.render(node);
-			this._focus = true;
-			this.show = true;
-		});
-		trigger.addEventListener("mouseleave", (ev) => {
-      this._inTrigger = false
-			if (!this._focus) {
-				this.show = false;
-			}
-		});
-		trigger.addEventListener("blur", (ev) => {
-			this._focus = false;
-			this.show = false;
-		});
-	}
-
-	connectedCallback() {}
 }
 
 /*
@@ -129,7 +41,7 @@ if (!customElements.get("xy-tip")) {
 
 export default class XyTips extends Base {
 	static get observedAttributes() {
-		return ["color", "tips", "type", "open", "dir"];
+		return ["color", "tips", "type", "open", "dir", "offset"];
 	}
 
 	constructor() {
@@ -138,7 +50,7 @@ export default class XyTips extends Base {
 		shadowRoot.innerHTML = `
       <style>
       :host{
-        display: contents;
+        display: contents!important;
       }
       </style>
       <slot></slot>
@@ -165,6 +77,18 @@ export default class XyTips extends Base {
 		return this.getAttribute("open") !== null;
 	}
 
+	get offset() {
+		return this.getAttribute("offset") || '0,0';
+	}
+
+	get trigger() {
+		return this.getAttribute("trigger") || 'hover,focus';
+	}
+
+	set trigger(value) {
+		this.setAttribute("trigger", value);
+	}
+
 	set tips(value) {
 		this.setAttribute("tips", value);
 	}
@@ -185,13 +109,19 @@ export default class XyTips extends Base {
 		this.setAttribute("type", value);
 	}
 
+	set offset(value) {
+		this.setAttribute("offset", value);
+	}
+
 	connectedCallback() {
 		this.tipEl = new Tips(this.firstElementChild, {
 			tips: this.tips,
 			dir: this.dir,
       color: this.color,
       type: this.type,
-      open: this.open
+      open: this.open,
+      offset: this.offset,
+      trigger: this.trigger.split(',')
 		});
 	}
 

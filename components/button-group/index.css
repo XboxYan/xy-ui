@@ -2,10 +2,6 @@
   display: flex;
 }
 
-::slotted(xy-button) {
-  display: inline;
-}
-
 ::slotted(xy-button:not(:first-of-type,:last-of-type)) {
   --border-radius-base: 0;
   --border-radius-lg: 0;

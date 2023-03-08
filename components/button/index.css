@@ -1,18 +1,14 @@
 :host {
-  --primary-color-opacity-100: color-mix(in srgb, var(--primary-color) 10%, transparent);
-  --primary-color-opacity-200: color-mix(in srgb, var(--primary-color) 20%, transparent);
-  --primary-color-opacity-600: color-mix(in srgb, var(--primary-color) 60%, transparent);
-  --hover-bg: var(--primary-color-opacity-100);
-  --active-bg: var(--primary-color-opacity-200);
-  --focus-bg: var(--primary-color-opacity-600);
-  display: contents;
+  display: inline-flex;
 }
 :link{
   text-decoration: none;
 }
 .button{
   position: relative;
-  display: inline-flex;
+  display: flex;
+  width: -webkit-fill-available;
+  width: -moz-available;
   gap: 4px;
   padding: 4px 15px;
   box-sizing: border-box;
@@ -24,7 +20,7 @@
   font-size: var(--font-size, 14px);
   color: var(--text-color, rgba(0, 0, 0, .88));
   border-radius: var(--border-radius-base, 4px);
-  outline-color: var(--focus-bg);
+  outline-color: var(--primary-color-opacity-600);
   outline-width: 2px;
   outline-offset: 1px;
   transition: var(--transition, .2s);
@@ -34,8 +30,18 @@
   border-radius: 50%;
 }
 
-:host([block]) .button{
+:host([block]){
   width: -webkit-fill-available;
+  width: -moz-available;
+}
+
+:host([ghost]) {
+  color-scheme: dark;
+}
+
+:host([ghost]:not([type=primary])) .button{
+  background-color: transparent;
+  color: #fff;
 }
 
 :host(:not([type=primary],[loading],[disabled])) .button:hover{
@@ -45,6 +51,17 @@
 
 :host([danger]) {
   --primary-color: var(--danger-color, #ff7875);
+  --primary-color-opacity-100: color-mix(in srgb, var(--primary-color) 10%, transparent);
+  --primary-color-opacity-200: color-mix(in srgb, var(--primary-color) 20%, transparent);
+  --primary-color-opacity-600: color-mix(in srgb, var(--primary-color) 60%, transparent);
+}
+
+@supports not (color: color-mix(in srgb, red, pink)) {
+  :host([danger]) {
+    --primary-color-opacity-100: rgba(255, 119, 117, 0.1);
+    --primary-color-opacity-200: rgba(255, 119, 117, 0.2);
+    --primary-color-opacity-600: rgba(255, 119, 117, 0.6);
+  }
 }
 
 :host([danger]:not([type=primary])) .button{
@@ -85,25 +102,16 @@
 }
 
 :host([type=flat]:not([loading],[disabled])) .button:hover{
-  background: var(--hover-bg);
+  background: var(--primary-color-opacity-100);
 }
 
 :host(:not([loading],[disabled],[type=link],[type=primary])) .button:active,
 :host([type=flat]:not([loading],[disabled])) .button:active{
-  background-color: var(--active-bg);
+  background-color: var(--primary-color-opacity-200);
 }
 
 :host(:is([type=primary],[type=link]):not([disabled],[loading])) .button:active {
   filter: brightness(.9)
-}
-
-:host([ghost]) {
-  color-scheme: dark;
-}
-
-:host([ghost]:not([type=primary])) .button{
-  background-color: transparent;
-  color: #fff;
 }
 
 :host([size=small]) .button{

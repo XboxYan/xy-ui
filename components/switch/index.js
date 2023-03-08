@@ -1,4 +1,4 @@
-import Base from "../xy-base";
+import Base from "../xy-base.js";
 import style from "./index.css?inline" assert { type: "css" };
 
 export default class XySwitch extends Base {
@@ -13,7 +13,7 @@ export default class XySwitch extends Base {
 		shadowRoot.innerHTML = `
       <input class="switch" type="checkbox" part="switch" id="switch">
       `;
-    this.switch = this.shadowRoot.getElementById("switch");
+    this.switch = shadowRoot.getElementById("switch");
 	}
 
   focus() {
@@ -40,13 +40,21 @@ export default class XySwitch extends Base {
 		this.toggleAttribute("checked", value);
 	}
 
+  get value() {
+		return this.switch.checked;
+	}
+
+	set value(value) {
+		this.checked = value;
+	}
+
 	focus() {
 		this.switch.focus();
 	}
 
 	connectedCallback() {
 		this.switch.addEventListener("change", (ev) => {
-			this.checked = this.switch.checked;
+			this.checked = ev.target.checked;
 			this.dispatchEvent(
 				new InputEvent("change")
 			);
@@ -54,12 +62,7 @@ export default class XySwitch extends Base {
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
-		if (name == "disabled") {
-      this.switch.disabled = newValue !== null
-		}
-		if (name == "checked") {
-      this.switch.checked = newValue !== null
-		}
+    this.switch[name] = newValue !== null
 	}
 }
 
