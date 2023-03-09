@@ -129,6 +129,10 @@ export default class XyTips extends Base {
 		if (!this.tipEl) return;
     this.tipEl[name] = this[name]
 	}
+
+  disconnectedCallback() {
+    this.tipEl?.remove()
+  }
 }
 
 if (!customElements.get("xy-tips")) {

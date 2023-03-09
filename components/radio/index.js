@@ -19,10 +19,6 @@ export default class XyRadio extends Base {
     this.radio = shadowRoot.getElementById("radio");
 	}
 
-  focus() {
-		this.radio.focus();
-	}
-
 	get disabled() {
 		return this.getAttribute("disabled") !== null;
 	}
@@ -45,6 +41,13 @@ export default class XyRadio extends Base {
 
 	set checked(value) {
 		this.toggleAttribute("checked", value);
+		// 将其他radio选中态取消
+		if (this.radioGroup?.length && value) {
+			const prev = [...this.radioGroup].find(el => el.checked && el!==this)
+			if (prev) {
+				prev.checked = false
+			}
+		}
 	}
 
 	set required(value) {
@@ -132,15 +135,6 @@ export default class XyRadio extends Base {
 
 	attributeChangedCallback(name, oldValue, newValue) {
     this.radio[name] = newValue !== null
-		if (name === 'checked') {
-			// 将其他radio选中态取消
-			if (this.radioGroup?.length && newValue !== null) {
-				const prev = [...this.radioGroup].find(el => el.checked && el!==this)
-				if (prev) {
-					prev.checked = false
-				}
-			}
-		}
 	}
 }
 

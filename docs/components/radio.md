@@ -2,7 +2,9 @@
   import './index.css'
   import '../../components/button/'
   import '../../components/switch/'
+  import '../../components/checkbox/'
   import '../../components/radio/'
+  import '../../components/radio-group/'
 </script>
 
 # radio
@@ -26,7 +28,7 @@
 
 <div class="wrap">
 <xy-radio disabled>radio</xy-radio>
-<xy-switch checked onchange="this.previousElementSibling.disabled = this.checked;"></xy-switch>
+<xy-checkbox checked onchange="this.previousElementSibling.disabled = this.checked;">禁用</xy-checkbox>
 </div>
 
 ```html
@@ -64,7 +66,7 @@ radio.removeAttribute('disabled');
 <xy-radio name="lib">Vue</xy-radio>
 <xy-radio name="lib">Angular</xy-radio>
 <xy-radio name="lib">Other</xy-radio>
-<xy-button type="primary" onclick="XyMessage.info(document.querySelector('xy-radio[name=lib][checked]').value)">获取选中状态</xy-button>
+<xy-button type="primary" onclick="console.log(document.querySelector('xy-radio[name=lib][checked]').value)">获取选中状态</xy-button>
 </div>
 
 ```html
@@ -83,29 +85,35 @@ radio.checked = true;
 //原生属性操作
 radio.setAttribute('checked','');
 radio.removeAttribute('checked');
+document.querySelector('xy-radio[name=lib][checked]').value
 ```
 
-现新增`xy-radio-group`组件，表示同一组，
+## 单选框组 `xy-radio-group`
 
-* `defaultvalue`设置初始选中项
+表示同一组，支持以下特性
+
 * 设置和获取`disabled`
-* 设置和获取`vaule`
+* 设置和获取`value`
 * 支持`change`事件
 
-<xy-radio-group name="lan" disabled defaultvalue="Css">
-    <xy-radio>Html</xy-radio>
-    <xy-radio>Css</xy-radio>
+<div class="wrap" noborder>
+<xy-checkbox checked onchange="document.getElementById('radio-group').disabled = this.checked;">禁用</xy-checkbox>
+<xy-button type="primary" onclick="document.getElementById('radio-group').value='Php'">选中Php</xy-button>
+</div>
+<div class="wrap">
+<xy-radio-group id="radio-group" name="lan" disabled value="CSS" onchange="console.log(this.value)">
+    <xy-radio>HTML</xy-radio>
+    <xy-radio>CSS</xy-radio>
     <xy-radio>Javascript</xy-radio>
     <xy-radio>Php</xy-radio>
     <xy-radio>Dart</xy-radio>
 </xy-radio-group>
-<xy-switch checked onchange="this.previousElementSibling.disabled = this.checked;"></xy-switch>
-<xy-button type="primary" onclick="this.previousElementSibling.previousElementSibling.value='Php'">选中Php</xy-button>
+</div>
 
 ```html
-<xy-radio-group name="lan" disabled defaultvalue="Css">
-    <xy-radio>Html</xy-radio>
-    <xy-radio>Css</xy-radio>
+<xy-radio-group name="lan" disabled value="CSS">
+    <xy-radio>HTML</xy-radio>
+    <xy-radio>CSS</xy-radio>
     <xy-radio>Javascript</xy-radio>
     <xy-radio>Php</xy-radio>
     <xy-radio>Dart</xy-radio>
@@ -116,17 +124,11 @@ JavaScript操作`get`、`set`
 
 ```js
 radiogroup.value;//获取
-radiogroup.value = 'Css';
+radiogroup.value = 'CSS';
 //原生属性操作
 radiogroup.getAttribute('value');
-radiogroup.setAttribute('value','Css');
+radiogroup.setAttribute('value','CSS');
 ```
-
-## 必填项`required`
-
-表单验证属性，表示必填，作用于`xy-radio-group`
-
-配合[`checkValidity()`](xy-radio.md?id=checkValidity)方法可以主动校验
 
 ## 事件`event`
 
@@ -135,41 +137,32 @@ radiogroup.setAttribute('value','Css');
 在切换完成时触发。
 
 <div class="wrap">
-<xy-radio onchange="XyMessage.info('当前状态checked:'+this.checked)">radio</xy-radio>
+<xy-radio onchange="console.log('当前状态checked:'+this.checked)">radio</xy-radio>
 </div>
 
 ```html
-<xy-radio onchange="XyMessage.info('当前状态checked:'+this.checked)">radio</xy-radio>
+<xy-radio onchange="console.log('当前状态checked:'+this.checked)">radio</xy-radio>
 ```
 
 ```js
 radio.onchange = function(ev){
     //获取checked的几种方式
-    /*
-    event:{
-        detail:{
-            checked,
-        }
-    }
-    */
     console.log(this.checked);
     console.log(ev.target.checked);
-    console.log(ev.detail.checked);
 }
 
 radio.addEventListener('change',function(ev){
     console.log(this.checked);
     console.log(ev.target.checked);
-    console.log(ev.detail.checked);
 })
 ```
 
 `xy-radio-group`支持`change`事件
 
 <div class="wrap">
-<xy-radio-group name="lan" defaultvalue="Javascript" onchange="XyMessage.info(this.value)">
-    <xy-radio>Html</xy-radio>
-    <xy-radio>Css</xy-radio>
+<xy-radio-group name="lan" value="Javascript" onchange="console.log(this.value)">
+    <xy-radio>HTML</xy-radio>
+    <xy-radio>CSS</xy-radio>
     <xy-radio>Javascript</xy-radio>
     <xy-radio>Php</xy-radio>
     <xy-radio>Dart</xy-radio>
@@ -179,21 +172,12 @@ radio.addEventListener('change',function(ev){
 ```js
 radiogroup.onchange = function(ev){
     //获取value的几种方式
-    /*
-    event:{
-        detail:{
-            value,
-        }
-    }
-    */
     console.log(this.value);
     console.log(ev.target.value);
-    console.log(ev.detail.value);
 }
 
 radiogroup.addEventListener('change',function(ev){
     console.log(this.value);
     console.log(ev.target.value);
-    console.log(ev.detail.value);
 })
 ```

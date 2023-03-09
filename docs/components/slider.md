@@ -2,6 +2,7 @@
   import './index.css'
   import '../../components/switch/'
   import '../../components/button/'
+  import '../../components/checkbox/'
   import '../../components/slider/'
   import { reactive } from 'vue'
   const state = reactive({
@@ -53,7 +54,7 @@
 
 <div class="wrap">
 <xy-slider disabled></xy-slider>
-<xy-switch checked onchange="this.previousElementSibling.disabled = this.checked;"></xy-switch>
+<xy-checkbox checked onchange="this.previousElementSibling.disabled = this.checked;">禁用</xy-checkbox>
 </div>
 
 ```html
@@ -116,7 +117,7 @@ slider.removeAttribute('tips');
 <xy-slider min="0" max="100" step="10" id="xy-slider-step" tips></xy-slider>
 </div>
 
-<div class="wrap">
+<div class="wrap" noborder>
   min:
   <input class="input" style="width:100px" label="min" type="number" value="0" min="-100" max="100" oninput="document.getElementById('xy-slider-step').min=this.value;">
   max:

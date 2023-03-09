@@ -1,4 +1,5 @@
 import Base from "../xy-base.js";
+import "../button/index.js";
 import style from "./index.css?inline" assert { type: "css" };
 
 class XyButtonGroup extends Base {

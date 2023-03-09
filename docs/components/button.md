@@ -2,8 +2,9 @@
   import './index.css'
   import '../../components/button/'
   import '../../components/button-group/';
+  import '../../components/checkbox/'
   import '../../components/switch/'
-  import '../../components/xy-radio.js'
+  import '../../components/radio-group/'
   import '../../components/xy-icon.js'
 </script>
 # button
@@ -86,13 +87,13 @@
 
 按钮有大、中、小三种尺寸，分别为`large`、`default`（默认）、`small`。
 
-<xy-radio-group name="size" onchange="[...this.nextElementSibling.querySelectorAll('xy-button')].forEach(el => el.size=this.value)" id="sizeRadio" defaultvalue="default">
+<xy-radio-group name="size" onchange="[...document.querySelectorAll('#sizebtns xy-button')].forEach(el => el.size=this.value)" value="default">
     <xy-radio>large</xy-radio>
     <xy-radio>default</xy-radio>
     <xy-radio>small</xy-radio>
 </xy-radio-group>
 
-<div class="wrap">
+<div class="wrap"  id="sizebtns">
     <xy-button type="primary">primary</xy-button>
     <xy-button type="dashed">dashed</xy-button>
     <xy-button type="flat">flat</xy-button>
@@ -135,7 +136,7 @@
 
 通过`disabled`可以禁用按钮，禁用后该按钮上的事件失效，`a`链接也会失效。
 
-<xy-switch checked onchange="[...this.nextElementSibling.querySelectorAll('xy-button')].forEach(el => el.disabled = this.checked)"></xy-switch>
+<xy-checkbox checked onchange="[...this.nextElementSibling.querySelectorAll('xy-button')].forEach(el => el.disabled = this.checked)">禁用</xy-checkbox>
 <div class="wrap">
 <xy-button disabled type="primary">primary</xy-button>
 <xy-button disabled type="dashed">dashed</xy-button>

@@ -1,8 +1,8 @@
 import Base from "../xy-base.js";
-import "../radio/index.js";
+import "../checkbox/index.js";
 import style from "./index.css?inline" assert { type: "css" };
 
-export default class XyRadioGroup extends Base {
+export default class XyCheckBoxGroup extends Base {
 	static get observedAttributes() {
 		return ["disabled", "value"];
 	}
@@ -17,10 +17,6 @@ export default class XyRadioGroup extends Base {
 		this.slots = shadowRoot.querySelector('slot')
 	}
 
-  focus() {
-		this.radio.focus();
-	}
-
 	get disabled() {
 		return this.getAttribute("disabled") !== null;
 	}
@@ -30,33 +26,31 @@ export default class XyRadioGroup extends Base {
 	}
 
 	get value() {
-		const radio =  this.querySelector('xy-radio[checked]')
-		return radio?.value || '';
+		const checkbox =  this.querySelectorAll('xy-checkbox[checked]')
+		return [...checkbox].map(el => el.value) || [];
 	}
 
 	set disabled(value) {
 		this.toggleAttribute("disabled", value);
-		const radioGroup =  [...this.querySelectorAll(`xy-radio`)]
-		radioGroup.forEach(el => {
+		const checkboxGroup =  [...this.querySelectorAll(`xy-checkbox`)]
+		checkboxGroup.forEach(el => {
 			el.disabled = value
 		})
 	}
 
 	set value(value) {
-		const radioGroup =  [...this.querySelectorAll(`xy-radio`)]
-		const radio = radioGroup.find(el => el.value === value);
-		if (radio) {
-			radio.checked = true
-		}
+		const checkboxGroup =  [...this.querySelectorAll(`xy-checkbox`)]
+		checkboxGroup.forEach(el => {
+			el.checked = value.includes(el.value)
+		})
 	}
 
 	connectedCallback() {
 		this.slots.addEventListener("slotchange", () => {
-			const radioGroup = [...this.querySelectorAll(`xy-radio`)]
-			radioGroup.forEach(el => {
-				el.radioGroup = radioGroup
+			const checkboxGroup = [...this.querySelectorAll(`xy-checkbox`)]
+			checkboxGroup.forEach(el => {
 				el.addEventListener('change', () => {
-					this.value = el.value
+					this.value = checkboxGroup.filter(el => el.checked).map(el => el.value)
 					this.dispatchEvent(
 						new InputEvent("change")
 					);
@@ -68,12 +62,13 @@ export default class XyRadioGroup extends Base {
 	attributeChangedCallback(name, oldValue, newValue) {
 		if (name === 'disabled') {
 			this[name] = newValue!==null
-		} else {
-			this[name] = newValue
+		}
+		if (name === 'value') {
+			this[name] = newValue.split(',')
 		}
 	}
 }
 
-if (!customElements.get("xy-radio-group")) {
-	customElements.define("xy-radio-group", XyRadioGroup);
+if (!customElements.get("xy-checkbox-group")) {
+	customElements.define("xy-checkbox-group", XyCheckBoxGroup);
 }

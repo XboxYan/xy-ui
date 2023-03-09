@@ -1,6 +1,7 @@
 <script setup>
   import './index.css'
   import '../../components/button/'
+  import '../../components/checkbox/'
   import '../../components/switch/'
   import { reactive } from 'vue'
   const state = reactive({
@@ -29,7 +30,7 @@
 
 <div class="wrap">
   <xy-switch disabled></xy-switch>
-  <xy-button type="primary" onclick="this.previousElementSibling.disabled=!this.previousElementSibling.disabled">禁用切换</xy-button>
+  <xy-checkbox checked onchange="this.previousElementSibling.disabled = this.checked;">禁用</xy-checkbox>
 </div>
 
 ```html
