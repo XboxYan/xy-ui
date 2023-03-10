@@ -5,8 +5,11 @@ title: Home
 
 hero:
   name: xy-ui
-  text: 
-  tagline: 面向未来的原生 Web Components UI组件库
+  text: 面向未来的原生组件库
+  tagline: Web Components
+  image:
+    src: logo.svg
+    alt: xy-ui
   actions:
     - theme: brand
       text: 更多详情

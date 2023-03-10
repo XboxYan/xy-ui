@@ -48,10 +48,6 @@ export default class XySwitch extends Base {
 		this.checked = value;
 	}
 
-	focus() {
-		this.switch.focus();
-	}
-
 	connectedCallback() {
 		this.switch.addEventListener("change", (ev) => {
 			this.checked = ev.target.checked;

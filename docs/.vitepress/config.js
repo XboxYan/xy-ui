@@ -7,7 +7,7 @@ export default defineConfig({
   title: "xy-ui",
   cleanUrls: true,
   description: "hello world",
-  head: [["link", { rel: "icon", type: "image/svg+xml", href: "logo.svg" }]],
+  head: [["link", { rel: "icon", type: "image/svg+xml", href: "/logo.svg" }]],
   lastUpdated: true,
   themeConfig: {
     logo: "/logo.svg",
@@ -28,6 +28,7 @@ export default defineConfig({
           items: [
             { text: "button 按钮", link: "/components/button" },
             { text: "tips 提示", link: "/components/tips" },
+            { text: "loading 加载", link: "/components/loading" },
           ]
         },
         {

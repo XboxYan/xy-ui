@@ -1,5 +1,5 @@
 import Base from "../xy-base.js";
-import "../xy-loading.js";
+import "../loading/index.js";
 import "../xy-icon.js";
 import style from "./index.css?inline" assert { type: "css" };
 
