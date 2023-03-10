@@ -169,6 +169,38 @@ slider{
 <xy-slider class="vertical" vertical tips></xy-slider>
 </div>
 
+## 自定义样式`::part(slider)`
+ 需要注意的是，`xy-slider`本身不包含任意样式，如果需要自定义滑动输入条本身样式，需要深入到`shadow dom`中，这里暴露了内置伪元素`::part(slider)`用来自定义样式
+
+ 内部结构如下（可查看控制台）：
+
+```html
+<xy-slider>
+  # shadow-root
+    <input type="range" part="slider">
+      ::after
+```
+
+比如改为实心的滑块（仅支持Chrome）
+
+<style scoped>
+.custom::part(slider)::after{
+  background: var(--primary-color)
+}
+</style>
+
+<div class="wrap">
+<xy-slider class="custom" tips></xy-slider>
+</div>
+
+```css
+xy-slider::part(slider)::after{
+  background: var(--primary-color)
+}
+```
+
+
+
 ## 事件`event`
 
 该组件暴露了常见的回调事件

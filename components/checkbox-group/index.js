@@ -2,9 +2,11 @@ import Base from "../xy-base.js";
 import "../checkbox/index.js";
 import style from "./index.css?inline" assert { type: "css" };
 
+// 监听属性
+const observedAttributes = ["disabled", "value"]
 export default class XyCheckBoxGroup extends Base {
 	static get observedAttributes() {
-		return ["disabled", "value"];
+		return observedAttributes;
 	}
 
 	constructor() {
@@ -14,7 +16,6 @@ export default class XyCheckBoxGroup extends Base {
 		shadowRoot.innerHTML = `
 			<slot></slot>
       `;
-		this.slots = shadowRoot.querySelector('slot')
 	}
 
 	get disabled() {
@@ -27,7 +28,8 @@ export default class XyCheckBoxGroup extends Base {
 
 	get value() {
 		const checkbox =  this.querySelectorAll('xy-checkbox[checked]')
-		return [...checkbox].map(el => el.value) || [];
+		const value = [...checkbox].map(el => el.value)
+		return value.length ? value : this.getAttribute('value')?.split(',') || [];
 	}
 
 	set disabled(value) {
@@ -46,6 +48,7 @@ export default class XyCheckBoxGroup extends Base {
 	}
 
 	connectedCallback() {
+		this.slots = this.shadowRoot.querySelector('slot')
 		this.slots.addEventListener("slotchange", () => {
 			const checkboxGroup = [...this.querySelectorAll(`xy-checkbox`)]
 			checkboxGroup.forEach(el => {
@@ -56,10 +59,12 @@ export default class XyCheckBoxGroup extends Base {
 					);
 				})
 			});
+			observedAttributes.forEach(el => this[el] = this[el])
 		})
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
+		if (!this.slots) return
 		if (name === 'disabled') {
 			this[name] = newValue!==null
 		}

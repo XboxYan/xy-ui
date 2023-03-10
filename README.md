@@ -10,11 +10,13 @@
 
 [github项目地址](https://github.com/XboxYan/xy-ui)
 
-![xy-ui](./screenshot/xy-ui.png)
+<img width="500" alt="logo" src="./img/logo.svg">
 
 ## 公告
 
 正在进行改造升级中...
+
+> 以下命令仅用于文档编写，不参与组件构建
 
 ```
 yarn

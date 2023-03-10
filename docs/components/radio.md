@@ -62,11 +62,11 @@ radio.removeAttribute('disabled');
 通常多个出现，有一个相同的`name`，表示同一组，可以通过`name`来获取当前组的选中（通过`dom`获取即可）。
 
 <div class="wrap">
-<xy-radio name="lib">React</xy-radio>
+<xy-radio name="lib" checked>React</xy-radio>
 <xy-radio name="lib">Vue</xy-radio>
 <xy-radio name="lib">Angular</xy-radio>
 <xy-radio name="lib">Other</xy-radio>
-<xy-button type="primary" onclick="console.log(document.querySelector('xy-radio[name=lib][checked]').value)">获取选中状态</xy-button>
+<xy-button type="primary" onclick="console.log(document.querySelector('xy-radio[name=lib][checked]')?.value)">获取选中状态</xy-button>
 </div>
 
 ```html
@@ -128,6 +128,57 @@ radiogroup.value = 'CSS';
 //原生属性操作
 radiogroup.getAttribute('value');
 radiogroup.setAttribute('value','CSS');
+```
+
+
+## 自定义样式`::part(radio)`
+ 需要注意的是，`xy-radio`本身不包含任意样式，如果需要自定义单选框本身样式，需要深入到`shadow dom`中，这里暴露了内置伪元素`::part(radio)`用来自定义样式
+
+ 内部结构如下（可查看控制台）：
+
+```html
+<xy-radio>
+  # shadow-root
+    <input type="radio" part="radio">
+    <label>
+      <slot></slot>
+    </label>
+```
+
+和 [checkbox](/components/checkbox) 是一致的，下面介绍另一种自定义方式
+
+比如，将 `radio` 完全隐藏，然后切换的时候改变文本样式
+
+> 注意：不要直接用`display:none`，这样会失去键盘访问
+
+<style scoped>
+xy-radio-group.custom xy-radio::part(radio){
+  position: absolute;
+  clip-path: inset(100% 100% 0 0);
+}
+xy-radio-group.custom xy-radio[checked]{
+  color: var(--primary-color);
+}
+</style>
+
+<div class="wrap">
+<xy-radio-group class="custom" value="HTML" name="lan">
+    <xy-radio>HTML</xy-radio>
+    <xy-radio>CSS</xy-radio>
+    <xy-radio>Javascript</xy-radio>
+    <xy-radio>Php</xy-radio>
+    <xy-radio>Dart</xy-radio>
+</xy-radio-group>
+</div>
+
+```css
+xy-radio::part(radio){
+  position: absolute;
+  clip-path: inset(100%);
+}
+xy-radio[checked]{
+  color: var(--primary-color);
+}
 ```
 
 ## 事件`event`

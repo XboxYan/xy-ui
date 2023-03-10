@@ -176,72 +176,6 @@ com.setAttribute('props',newProps);
 com.removeAttribute('props');
 ```
 
-## 按钮组`xy-button-group`
-
-`<xy-button-group>`可以将一组同类型的按钮组合起来。
-
-需要引入`button-group`
-
-```js
-<script type="module">
-    import '../components/button-group/index.js';
-</script>
-```
-
-<div class="wrap">
-<xy-button-group>
-    <xy-button>button1</xy-button>
-    <xy-button>button2</xy-button>
-    <xy-button>button3</xy-button>
-    <xy-button>button4</xy-button>
-</xy-button-group>
-</div>
-
-<div class="wrap">
-<xy-button-group>
-    <xy-button type="primary">button1</xy-button>
-    <xy-button type="primary">button2</xy-button>
-    <xy-button type="primary">button3</xy-button>
-    <xy-button type="primary">button4</xy-button>
-</xy-button-group>
-</div>
-
-<div class="wrap">
-<xy-button-group>
-    <xy-button type="dashed">button1</xy-button>
-    <xy-button type="dashed">button2</xy-button>
-    <xy-button type="dashed">button3</xy-button>
-    <xy-button type="dashed">button4</xy-button>
-</xy-button-group>
-</div>
-
-<div class="wrap">
-<xy-button-group>
-    <xy-button type="flat">button1</xy-button>
-    <xy-button type="flat">button2</xy-button>
-    <xy-button type="flat">button3</xy-button>
-    <xy-button type="flat">button4</xy-button>
-</xy-button-group>
-</div>
-
-<div class="wrap">
-<xy-button-group>
-    <xy-button type="primary">button1</xy-button>
-    <xy-button type="primary">button2</xy-button>
-    <xy-button>button3</xy-button>
-    <xy-button>button4</xy-button>
-</xy-button-group>
-</div>
-
-```html
-<xy-button-group>
-    <xy-button>button1</xy-button>
-    <xy-button>button2</xy-button>
-    <xy-button>button3</xy-button>
-    <xy-button>button4</xy-button>
-</xy-button-group>
-```
-
 ## 加载`loading`
 
 添加`loading`属性即可让按钮处于加载状态，处于加载状态所有事件会被禁用，类似于`disabled`
@@ -415,6 +349,93 @@ btn.addEventListener('click',function(ev){
         //do something
     }
 })
+```
+
+## 按钮组`xy-button-group`
+
+`<xy-button-group>`可以将一组同类型的按钮组合起来。
+
+需要引入`button-group`
+
+```js
+<script type="module">
+    import '../components/button-group/index.js';
+</script>
+```
+
+<div class="wrap">
+<xy-button-group>
+    <xy-button>button1</xy-button>
+    <xy-button>button2</xy-button>
+    <xy-button>button3</xy-button>
+    <xy-button>button4</xy-button>
+</xy-button-group>
+</div>
+
+<div class="wrap">
+<xy-button-group>
+    <xy-button type="primary">button1</xy-button>
+    <xy-button type="primary">button2</xy-button>
+    <xy-button type="primary">button3</xy-button>
+    <xy-button type="primary">button4</xy-button>
+</xy-button-group>
+</div>
+
+<div class="wrap">
+<xy-button-group>
+    <xy-button type="dashed">button1</xy-button>
+    <xy-button type="dashed">button2</xy-button>
+    <xy-button type="dashed">button3</xy-button>
+    <xy-button type="dashed">button4</xy-button>
+</xy-button-group>
+</div>
+
+<div class="wrap">
+<xy-button-group>
+    <xy-button type="flat">button1</xy-button>
+    <xy-button type="flat">button2</xy-button>
+    <xy-button type="flat">button3</xy-button>
+    <xy-button type="flat">button4</xy-button>
+</xy-button-group>
+</div>
+
+<div class="wrap">
+<xy-button-group>
+    <xy-button type="primary">button1</xy-button>
+    <xy-button type="primary">button2</xy-button>
+    <xy-button>button3</xy-button>
+    <xy-button>button4</xy-button>
+</xy-button-group>
+</div>
+
+```html
+<xy-button-group>
+    <xy-button>button1</xy-button>
+    <xy-button>button2</xy-button>
+    <xy-button>button3</xy-button>
+    <xy-button>button4</xy-button>
+</xy-button-group>
+```
+
+也支持整体禁用
+
+<xy-checkbox checked onchange="document.querySelector('#btn-group').disabled=this.checked">禁用</xy-checkbox>
+<div class="wrap">
+<xy-button-group id="btn-group" disabled>
+    <xy-button type="primary">button1</xy-button>
+    <xy-button type="primary">button2</xy-button>
+    <xy-button>button3</xy-button>
+    <xy-button>button4</xy-button>
+</xy-button-group>
+</div>
+
+```html
+<xy-button-group disabled>
+    <xy-button>button1</xy-button>
+    <xy-button>button2</xy-button>
+    <xy-button>button3</xy-button>
+    <xy-button>button4</xy-button>
+</xy-button-group>
 ```
 
 ## 事件`event`

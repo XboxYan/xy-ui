@@ -96,6 +96,70 @@ checkbox.setAttribute('checked','');
 checkbox.removeAttribute('checked');
 ```
 
+## 不确定状态`indeterminate`
+
+可以通过`JavaScript`设置`xy-checkbox`的不确定状态
+
+<div class="wrap">
+<xy-checkbox>indeterminate</xy-checkbox>
+<xy-button type="primary" onclick="this.previousElementSibling.indeterminate='true'">设置indeterminate</xy-button>
+</div>
+
+JavaScript操作`get`、`set`
+
+```js
+checkbox.indeterminate;//获取
+checkbox.indeterminate = false;
+checkbox.indeterminate = true;
+```
+
+## 自定义样式`::part(checkbox)`
+ 需要注意的是，`xy-checkcbox`本身不包含任意样式，如果需要自定义多选框本身样式，需要深入到`shadow dom`中，这里暴露了内置伪元素`::part(checkcbox)`用来自定义样式
+
+ 内部结构如下（可查看控制台）：
+
+```html
+<xy-checkbox>
+  # shadow-root
+    <input type="checkbox" part="checkbox">
+    <label>
+      <slot></slot>
+    </label>
+```
+
+比如，可以将多选框变成一个圆形
+
+<style scoped>
+xy-checkbox.custom1::part(checkbox){
+  border-radius: 50%
+}
+xy-checkbox.custom2::part(checkbox){
+  order: 2
+}
+</style>
+
+<div class="wrap">
+<xy-checkbox class="custom1" checked>checkbox</xy-checkbox>
+</div>
+
+```css
+xy-checkbox::part(checkbox){
+  border-radius: 50%
+}
+```
+
+或者将多选框放在文本的后面(通过flex排序即可实现)
+
+<div class="wrap">
+<xy-checkbox class="custom2" checked>checkbox</xy-checkbox>
+</div>
+
+```css
+xy-checkbox::part(checkbox){
+  order: 2
+}
+```
+
 ## 多选框组 `xy-checkbox-group`
 
 表示同一组，支持以下特性
@@ -139,16 +203,10 @@ checkboxgroup.getAttribute('value');
 checkboxgroup.setAttribute('value',`'React','Vue'`);
 ```
 
-默认是横向排列，如果需要纵向排列，可以设置
-
-```css
-xy-checkbox-group{
-  flex-direction: column
-}
-```
+默认是横向排列，如果需要纵向排列，可以设置`flex-direction`
 
 <div class="wrap">
-<xy-checkbox-group style="flex-direction: column" id="checkbox-group" name="books" value="React,Angular" onchange>
+<xy-checkbox-group style="flex-direction: column" id="checkbox-group" name="books" value="React,Angular">
     <xy-checkbox>React</xy-checkbox>
     <xy-checkbox>Vue</xy-checkbox>
     <xy-checkbox>Angular</xy-checkbox>
@@ -157,21 +215,10 @@ xy-checkbox-group{
 </xy-checkbox-group>
 </div>
 
-## 不确定状态`indeterminate`
-
-可以通过`JavaScript`设置`xy-checkbox`的不确定状态
-
-<div class="wrap">
-<xy-checkbox>indeterminate</xy-checkbox>
-<xy-button type="primary" onclick="this.previousElementSibling.indeterminate='true'">设置indeterminate</xy-button>
-</div>
-
-JavaScript操作`get`、`set`
-
-```js
-checkbox.indeterminate;//获取
-checkbox.indeterminate = false;
-checkbox.indeterminate = true;
+```css
+xy-checkbox-group{
+  flex-direction: column
+}
 ```
 
 ## 事件`event`

@@ -6,6 +6,10 @@ export default class XyRadio extends Base {
 		return ["disabled", "checked", "required"];
 	}
 
+	focus() {
+		this.radio.focus();
+	}
+
 	constructor() {
 		super();
 		const shadowRoot = this.attachShadow({ mode: "open" });
@@ -95,6 +99,7 @@ export default class XyRadio extends Base {
 	}
 
 	connectedCallback() {
+		this.connected = true
 		this.radioGroup = document.querySelectorAll(`xy-radio[name='${this.name}']`)
 		this.radio.addEventListener("change", (ev) => {
 			this.checked = ev.target.checked;

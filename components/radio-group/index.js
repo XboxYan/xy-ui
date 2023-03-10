@@ -2,9 +2,12 @@ import Base from "../xy-base.js";
 import "../radio/index.js";
 import style from "./index.css?inline" assert { type: "css" };
 
+// 监听属性
+const observedAttributes = ["disabled", "value"]
 export default class XyRadioGroup extends Base {
+
 	static get observedAttributes() {
-		return ["disabled", "value"];
+		return observedAttributes;
 	}
 
 	constructor() {
@@ -14,11 +17,6 @@ export default class XyRadioGroup extends Base {
 		shadowRoot.innerHTML = `
 			<slot></slot>
       `;
-		this.slots = shadowRoot.querySelector('slot')
-	}
-
-  focus() {
-		this.radio.focus();
 	}
 
 	get disabled() {
@@ -30,8 +28,8 @@ export default class XyRadioGroup extends Base {
 	}
 
 	get value() {
-		const radio =  this.querySelector('xy-radio[checked]')
-		return radio?.value || '';
+		const radio = this.querySelector('xy-radio[checked]')
+		return radio?.value || this.getAttribute('value') || '';
 	}
 
 	set disabled(value) {
@@ -51,8 +49,9 @@ export default class XyRadioGroup extends Base {
 	}
 
 	connectedCallback() {
-		this.slots.addEventListener("slotchange", () => {
-			const radioGroup = [...this.querySelectorAll(`xy-radio`)]
+		this.slots = this.shadowRoot.querySelector('slot')
+		this.slots.addEventListener("slotchange", (ev) => {
+			const radioGroup = ev.target.assignedNodes()
 			radioGroup.forEach(el => {
 				el.radioGroup = radioGroup
 				el.addEventListener('change', () => {
@@ -62,10 +61,12 @@ export default class XyRadioGroup extends Base {
 					);
 				})
 			});
+			observedAttributes.forEach(el => this[el] = this[el])
 		})
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
+		if (!this.slots) return
 		if (name === 'disabled') {
 			this[name] = newValue!==null
 		} else {
