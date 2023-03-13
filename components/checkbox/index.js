@@ -16,10 +16,10 @@ export default class XyCheckbox extends Base {
           <slot></slot>
       </label>
       `;
-    this.checkbox = shadowRoot.getElementById("checkbox");
+		this.checkbox = shadowRoot.getElementById("checkbox");
 	}
 
-  focus() {
+	focus() {
 		this.checkbox.focus();
 	}
 
@@ -52,7 +52,7 @@ export default class XyCheckbox extends Base {
 	}
 
 	set indeterminate(value) {
-    this.checkbox.indeterminate = value;
+		this.checkbox.indeterminate = value;
 	}
 
 	set required(value) {
@@ -63,14 +63,12 @@ export default class XyCheckbox extends Base {
 		this.checkbox.addEventListener("change", (ev) => {
 			this.checked = ev.target.checked;
 			// this.checkValidity();
-			this.dispatchEvent(
-				new InputEvent("change")
-			);
+			this.dispatchEvent(new InputEvent("change"));
 		});
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
-    this.checkbox[name] = newValue !== null
+		this.checkbox[name] = newValue !== null;
 	}
 }
 

@@ -13,10 +13,10 @@ export default class XySwitch extends Base {
 		shadowRoot.innerHTML = `
       <input class="switch" type="checkbox" part="switch" id="switch">
       `;
-    this.switch = shadowRoot.getElementById("switch");
+		this.switch = shadowRoot.getElementById("switch");
 	}
 
-  focus() {
+	focus() {
 		this.switch.focus();
 	}
 
@@ -40,7 +40,7 @@ export default class XySwitch extends Base {
 		this.toggleAttribute("checked", value);
 	}
 
-  get value() {
+	get value() {
 		return this.switch.checked;
 	}
 
@@ -51,14 +51,12 @@ export default class XySwitch extends Base {
 	connectedCallback() {
 		this.switch.addEventListener("change", (ev) => {
 			this.checked = ev.target.checked;
-			this.dispatchEvent(
-				new InputEvent("change")
-			);
+			this.dispatchEvent(new InputEvent("change"));
 		});
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
-    this.switch[name] = newValue !== null
+		this.switch[name] = newValue !== null;
 	}
 }
 

@@ -115,17 +115,17 @@ export default class Pop extends Base {
 
 	// 监听删除
 	disconnect(node) {
-    // xy包裹的元素不用监听
-    if (node.parentNode.tagName.startsWith('XY-')) return
+		// xy包裹的元素不用监听
+		if (node.parentNode.tagName.startsWith("XY-")) return;
 		const observerOptions = {
 			childList: true,
 			subtree: true,
-      characterData: false
+			characterData: false,
 		};
 		const observer = new MutationObserver((ioes) => {
-      ioes.forEach((ioe) => {
+			ioes.forEach((ioe) => {
 				if (ioe?.removedNodes) {
-					if ([...ioe.removedNodes].some(el => el.contains(node))) {
+					if ([...ioe.removedNodes].some((el) => el.contains(node))) {
 						// console.log('移除了')
 						this.remove();
 					}
@@ -150,7 +150,11 @@ export default class Pop extends Base {
 			this.auto = true;
 			this.dir = "top";
 		}
-		if (option.open || option.trigger === 'none' || option.trigger?.includes("none")) {
+		if (
+			option.open ||
+			option.trigger === "none" ||
+			option.trigger?.includes("none")
+		) {
 			// 如果有 open 属性控制，或者 trigger 为 none，那么不再通过 triggerEl 触发
 			this.observer(node);
 			this.render();

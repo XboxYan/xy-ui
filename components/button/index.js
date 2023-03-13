@@ -5,7 +5,16 @@ import style from "./index.css?inline" assert { type: "css" };
 
 export default class XyButton extends Base {
 	static get observedAttributes() {
-		return ["disabled", "icon", "loading", "href", "htmltype", "download", "rel", "target"];
+		return [
+			"disabled",
+			"icon",
+			"loading",
+			"href",
+			"htmltype",
+			"download",
+			"rel",
+			"target",
+		];
 	}
 
 	constructor() {
@@ -45,7 +54,7 @@ export default class XyButton extends Base {
 
 	get htmltype() {
 		return this.getAttribute("htmltype");
-    }
+	}
 
 	get checked() {
 		return this.getAttribute("checked") !== null;
@@ -89,7 +98,7 @@ export default class XyButton extends Base {
 
 	set disabled(value) {
 		this.toggleAttribute("disabled", value);
-        this.btnEl.toggleAttribute("inert", value);
+		this.btnEl.toggleAttribute("inert", value);
 		this.btnEl.toggleAttribute("disabled", value);
 	}
 
@@ -99,17 +108,17 @@ export default class XyButton extends Base {
 
 	set loading(value) {
 		this.toggleAttribute("loading", value);
-        if (!this.loadEl) {
-            this.loadEl = document.createElement("xy-loading");
-            this.loadEl.style.color = "inherit";
-        }
-        if (value) {
-            this.btnEl.prepend(this.loadEl);
-            this.btnEl.toggleAttribute("inert", true);
-        } else {
-            this.btnEl.removeChild(this.loadEl);
-            this.btnEl.toggleAttribute("inert", false);
-        }
+		if (!this.loadEl) {
+			this.loadEl = document.createElement("xy-loading");
+			this.loadEl.style.color = "inherit";
+		}
+		if (value) {
+			this.btnEl.prepend(this.loadEl);
+			this.btnEl.toggleAttribute("inert", true);
+		} else {
+			this.btnEl.removeChild(this.loadEl);
+			this.btnEl.toggleAttribute("inert", false);
+		}
 	}
 
 	set toggle(value) {
@@ -125,10 +134,10 @@ export default class XyButton extends Base {
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
-        if (name === "disabled" || name == "loading") {
-            this[name] = newValue!== null
-        }
-        this.btnEl[name] = newValue
+		if (name === "disabled" || name == "loading") {
+			this[name] = newValue !== null;
+		}
+		this.btnEl[name] = newValue;
 	}
 }
 

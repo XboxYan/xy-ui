@@ -25,9 +25,9 @@ export default class XyCheckBoxGroup extends Base {
 	}
 
 	get value() {
-		const checkbox =  this.querySelectorAll('xy-checkbox[checked]')
-		const value = [...checkbox].map(el => el.value)
-		return value.length ? value : this.getAttribute('value')?.split(',') || [];
+		const checkbox = this.querySelectorAll("xy-checkbox[checked]");
+		const value = [...checkbox].map((el) => el.value);
+		return value.length ? value : this.getAttribute("value")?.split(",") || [];
 	}
 
 	set disabled(value) {
@@ -35,37 +35,37 @@ export default class XyCheckBoxGroup extends Base {
 	}
 
 	set value(value) {
-		const checkboxGroup =  [...this.querySelectorAll(`xy-checkbox`)]
-		checkboxGroup.forEach(el => {
-			el.checked = value.includes(el.value)
-		})
+		const checkboxGroup = [...this.querySelectorAll(`xy-checkbox`)];
+		checkboxGroup.forEach((el) => {
+			el.checked = value.includes(el.value);
+		});
 	}
 
 	connectedCallback() {
-		this.slots = this.shadowRoot.querySelector('slot')
+		this.slots = this.shadowRoot.querySelector("slot");
 		this.slots.addEventListener("slotchange", () => {
-			const checkboxGroup = [...this.querySelectorAll(`xy-checkbox`)]
-			checkboxGroup.forEach(el => {
-				el.addEventListener('change', () => {
-					this.value = checkboxGroup.filter(el => el.checked).map(el => el.value)
-					this.dispatchEvent(
-						new InputEvent("change")
-					);
-				})
+			const checkboxGroup = [...this.querySelectorAll(`xy-checkbox`)];
+			checkboxGroup.forEach((el) => {
+				el.addEventListener("change", () => {
+					this.value = checkboxGroup
+						.filter((el) => el.checked)
+						.map((el) => el.value);
+					this.dispatchEvent(new InputEvent("change"));
+				});
 			});
-		})
+		});
 	}
 
 	async attributeChangedCallback(name, oldValue, newValue) {
-		await this.renderSlot()
-		if (name === 'disabled') {
-			const checkboxGroup =  [...this.querySelectorAll(`xy-checkbox`)]
-			checkboxGroup.forEach(el => {
-				el.disabled = newValue !== null
-			})
+		await this.renderSlot();
+		if (name === "disabled") {
+			const checkboxGroup = [...this.querySelectorAll(`xy-checkbox`)];
+			checkboxGroup.forEach((el) => {
+				el.disabled = newValue !== null;
+			});
 		}
-		if (name === 'value') {
-			this[name] = newValue.split(',')
+		if (name === "value") {
+			this[name] = newValue.split(",");
 		}
 	}
 }

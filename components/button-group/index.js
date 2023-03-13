@@ -3,7 +3,7 @@ import "../button/index.js";
 import style from "./index.css?inline" assert { type: "css" };
 
 class XyButtonGroup extends Base {
-  static get observedAttributes() {
+	static get observedAttributes() {
 		return ["disabled"];
 	}
 
@@ -16,29 +16,26 @@ class XyButtonGroup extends Base {
         `;
 	}
 
-  get disabled() {
+	get disabled() {
 		return this.getAttribute("disabled") !== null;
 	}
 
-  set disabled(value) {
-    console.log(value)
+	set disabled(value) {
+		console.log(value);
 		this.toggleAttribute("disabled", value);
 	}
 
-  connectedCallback() {
+	connectedCallback() {}
 
-	}
-
-  async attributeChangedCallback(name, oldValue, newValue) {
-		await this.renderSlot()
-		if (name === 'disabled') {
-      const btnGroup =  [...this.querySelectorAll(`xy-button`)]
-      btnGroup.forEach(el => {
-        el.disabled = newValue!==null
-      })
+	async attributeChangedCallback(name, oldValue, newValue) {
+		await this.renderSlot();
+		if (name === "disabled") {
+			const btnGroup = [...this.querySelectorAll(`xy-button`)];
+			btnGroup.forEach((el) => {
+				el.disabled = newValue !== null;
+			});
 		}
 	}
-
 }
 
 if (!customElements.get("xy-button-group")) {

@@ -3,9 +3,8 @@ import "../radio/index.js";
 import style from "./index.css?inline" assert { type: "css" };
 
 // 监听属性
-const observedAttributes = ["disabled", "value"]
+const observedAttributes = ["disabled", "value"];
 export default class XyRadioGroup extends Base {
-
 	static get observedAttributes() {
 		return observedAttributes;
 	}
@@ -28,8 +27,8 @@ export default class XyRadioGroup extends Base {
 	}
 
 	get value() {
-		const radio = this.querySelector('xy-radio[checked]')
-		return radio?.value || this.getAttribute('value') || '';
+		const radio = this.querySelector("xy-radio[checked]");
+		return radio?.value || this.getAttribute("value") || "";
 	}
 
 	set disabled(value) {
@@ -37,39 +36,37 @@ export default class XyRadioGroup extends Base {
 	}
 
 	set value(value) {
-		const radioGroup =  [...this.querySelectorAll(`xy-radio`)]
-		const radio = radioGroup.find(el => el.value === value);
+		const radioGroup = [...this.querySelectorAll(`xy-radio`)];
+		const radio = radioGroup.find((el) => el.value === value);
 		if (radio) {
-			radio.checked = true
+			radio.checked = true;
 		}
 	}
 
 	connectedCallback() {
-		this.slots = this.shadowRoot.querySelector('slot')
+		this.slots = this.shadowRoot.querySelector("slot");
 		this.slots.addEventListener("slotchange", (ev) => {
-			const radioGroup = ev.target.assignedNodes()
-			radioGroup.forEach(el => {
-				el.radioGroup = radioGroup
-				el.addEventListener('change', () => {
-					this.value = el.value
-					this.dispatchEvent(
-						new InputEvent("change")
-					);
-				})
+			const radioGroup = ev.target.assignedNodes();
+			radioGroup.forEach((el) => {
+				el.radioGroup = radioGroup;
+				el.addEventListener("change", () => {
+					this.value = el.value;
+					this.dispatchEvent(new InputEvent("change"));
+				});
 			});
-			observedAttributes.forEach(el => this[el] = this[el])
-		})
+			observedAttributes.forEach((el) => (this[el] = this[el]));
+		});
 	}
 
 	async attributeChangedCallback(name, oldValue, newValue) {
-		await this.renderSlot()
-		if (name === 'disabled') {
-			const radioGroup =  [...this.querySelectorAll(`xy-radio`)]
-			radioGroup.forEach(el => {
-				el.disabled = newValue!==null
-			})
+		await this.renderSlot();
+		if (name === "disabled") {
+			const radioGroup = [...this.querySelectorAll(`xy-radio`)];
+			radioGroup.forEach((el) => {
+				el.disabled = newValue !== null;
+			});
 		} else {
-			this[name] = newValue
+			this[name] = newValue;
 		}
 	}
 }
