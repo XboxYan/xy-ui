@@ -10,12 +10,19 @@
   --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #0066FF, #CC66FF);
   --vp-home-hero-image-background-image: linear-gradient( -90deg, #0066FF 50%, #CC66FF 50% );
   --vp-home-hero-image-filter: blur(72px);
+  --vp-custom-block-tip-border: var(--vp-c-brand);
+  --vp-custom-block-tip-text: var(--vp-c-brand-darker);
+  --vp-custom-block-tip-bg: var(--vp-c-brand-dimm);
 }
 :root .name{
   padding-bottom: .5em;
 }
 :root .title{
+  display: flex;
+  align-items: center;
+  font-weight: normal;
   font-size: 24px;
+  font-family: initial;
 }
 .image{
   transform: scale(.8);

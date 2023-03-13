@@ -1,4 +1,5 @@
 export default class extends HTMLElement {
+
   adoptedStyle (style) {
     let styleSheet = style
     if (!style.type) {
@@ -19,5 +20,23 @@ export default class extends HTMLElement {
     return [...this.attributes]
     .filter((el) => !el.name.startsWith("on") && !attrs.includes(el.name))
     .map((e) => e.name + "='" + (e.value || 'true')+"'").join(' ')
+  }
+
+  // slot元素渲染完成
+  renderSlot() {
+    if (!this.slots) {
+      this.slots = this.shadowRoot.querySelector('slot')
+    }
+    if (!this.slots) return
+    return new Promise((resolve) => {
+      if (this.mounted) {
+        resolve()
+      } else {
+        this.slots.addEventListener("slotchange", () => {
+          this.mounted = true
+          resolve()
+        })
+      }
+    })
   }
 }

@@ -2,11 +2,9 @@ import Base from "../xy-base.js";
 import "../checkbox/index.js";
 import style from "./index.css?inline" assert { type: "css" };
 
-// 监听属性
-const observedAttributes = ["disabled", "value"]
 export default class XyCheckBoxGroup extends Base {
 	static get observedAttributes() {
-		return observedAttributes;
+		return ["disabled", "value"];
 	}
 
 	constructor() {
@@ -34,10 +32,6 @@ export default class XyCheckBoxGroup extends Base {
 
 	set disabled(value) {
 		this.toggleAttribute("disabled", value);
-		const checkboxGroup =  [...this.querySelectorAll(`xy-checkbox`)]
-		checkboxGroup.forEach(el => {
-			el.disabled = value
-		})
 	}
 
 	set value(value) {
@@ -59,14 +53,16 @@ export default class XyCheckBoxGroup extends Base {
 					);
 				})
 			});
-			observedAttributes.forEach(el => this[el] = this[el])
 		})
 	}
 
-	attributeChangedCallback(name, oldValue, newValue) {
-		if (!this.slots) return
+	async attributeChangedCallback(name, oldValue, newValue) {
+		await this.renderSlot()
 		if (name === 'disabled') {
-			this[name] = newValue!==null
+			const checkboxGroup =  [...this.querySelectorAll(`xy-checkbox`)]
+			checkboxGroup.forEach(el => {
+				el.disabled = newValue !== null
+			})
 		}
 		if (name === 'value') {
 			this[name] = newValue.split(',')

@@ -2,13 +2,11 @@ import Base from "../xy-base.js";
 import "../button/index.js";
 import style from "./index.css?inline" assert { type: "css" };
 
-// 监听属性
-const observedAttributes = ["disabled"]
 class XyButtonGroup extends Base {
   static get observedAttributes() {
-		return observedAttributes;
+		return ["disabled"];
 	}
-  
+
 	constructor() {
 		super();
 		const shadowRoot = this.attachShadow({ mode: "open" });
@@ -23,24 +21,21 @@ class XyButtonGroup extends Base {
 	}
 
   set disabled(value) {
+    console.log(value)
 		this.toggleAttribute("disabled", value);
-		const btnGroup =  [...this.querySelectorAll(`xy-button`)]
-		btnGroup.forEach(el => {
-			el.disabled = value
-		})
 	}
 
   connectedCallback() {
-		this.slots = this.shadowRoot.querySelector('slot')
-		this.slots.addEventListener("slotchange", () => {
-			observedAttributes.forEach(el => this[el] = this[el])
-		})
+
 	}
 
-  attributeChangedCallback(name, oldValue, newValue) {
-		if (!this.slots) return
+  async attributeChangedCallback(name, oldValue, newValue) {
+		await this.renderSlot()
 		if (name === 'disabled') {
-			this[name] = newValue!==null
+      const btnGroup =  [...this.querySelectorAll(`xy-button`)]
+      btnGroup.forEach(el => {
+        el.disabled = newValue!==null
+      })
 		}
 	}
 

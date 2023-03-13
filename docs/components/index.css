@@ -12,6 +12,10 @@
 [noborder]{
   outline: 0;
 }
+[vertical]{
+  flex-direction: column;
+  align-items: flex-start;
+}
 [dark]{
   padding: 15px;
   border-radius: 8px;

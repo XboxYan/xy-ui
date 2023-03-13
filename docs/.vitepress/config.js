@@ -10,6 +10,7 @@ export default defineConfig({
   head: [["link", { rel: "icon", type: "image/svg+xml", href: "/logo.svg" }]],
   lastUpdated: true,
   themeConfig: {
+    outlineTitle: '目录',
     logo: "/logo.svg",
     nav: [
       { text: "首页", link: "/" },
@@ -38,6 +39,7 @@ export default defineConfig({
             { text: "slider 滑动输入", link: "/components/slider" },
             { text: "checkbox 多选框", link: "/components/checkbox" },
             { text: "radio 单选框", link: "/components/radio" },
+            { text: "rate 评分", link: "/components/rate" },
           ]
         }
       ],

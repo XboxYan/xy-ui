@@ -28,14 +28,6 @@ export default class Pop extends Base {
 		this.toggleAttribute("auto", value);
 	}
 
-	get show() {
-		return this.getAttribute("show") !== null;
-	}
-
-	set show(value) {
-		this.toggleAttribute("show", value);
-	}
-
 	get open() {
 		return this.getAttribute("open") !== null;
 	}
@@ -131,7 +123,7 @@ export default class Pop extends Base {
       characterData: false
 		};
 		const observer = new MutationObserver((ioes) => {
-			ioes.forEach((ioe) => {
+      ioes.forEach((ioe) => {
 				if (ioe?.removedNodes) {
 					if ([...ioe.removedNodes].some(el => el.contains(node))) {
 						// console.log('移除了')
@@ -158,7 +150,7 @@ export default class Pop extends Base {
 			this.auto = true;
 			this.dir = "top";
 		}
-		if (option.open || option.trigger === 'none' || option.trigger.includes("none")) {
+		if (option.open || option.trigger === 'none' || option.trigger?.includes("none")) {
 			// 如果有 open 属性控制，或者 trigger 为 none，那么不再通过 triggerEl 触发
 			this.observer(node);
 			this.render();
@@ -167,19 +159,19 @@ export default class Pop extends Base {
 		// hover
 		if (option.trigger.includes("hover")) {
 			triggerEl.addEventListener("mouseenter", () => {
-				if (this.disabled || this.show) return;
+				if (this.disabled || this.open) return;
 				this._hover = true;
 				this._timer && clearTimeout(this._timer);
 				this._timer = setTimeout(() => {
 					this.render(node);
-					this.show = true;
+					this.open = true;
 				}, 200);
 			});
 			triggerEl.addEventListener("mouseleave", (ev) => {
 				// 是否处于hover
 				if (this._hover) {
 					this._hover = false;
-					this.show = false;
+					this.open = false;
 				}
 				this._timer && clearTimeout(this._timer);
 			});
@@ -188,22 +180,22 @@ export default class Pop extends Base {
 			triggerEl.addEventListener("focus", () => {
 				if (this.disabled) return;
 				this.render(node);
-				this.show = true;
+				this.open = true;
 			});
 			triggerEl.addEventListener("blur", (ev) => {
-				this.show = false;
+				this.open = false;
 			});
 		}
 		if (option.trigger.includes("click")) {
 			document.addEventListener("click", (ev) => {
 				if (this.disabled) return;
 				if (triggerEl.contains(ev.target) || this.contains(ev.target)) {
-					if (!this.show) {
+					if (!this.open) {
 						this.render(node);
-						this.show = true;
+						this.open = true;
 					}
 				} else {
-					this.show = false;
+					this.open = false;
 				}
 			});
 		}

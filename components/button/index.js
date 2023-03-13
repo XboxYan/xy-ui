@@ -75,10 +75,6 @@ export default class XyButton extends Base {
 		return this.getAttribute("loading") !== null;
 	}
 
-    set size(value) {
-		this.setAttribute("size", value);
-	}
-
 	set icon(value) {
 		this.setAttribute("icon", value);
 	}

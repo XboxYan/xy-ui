@@ -227,7 +227,9 @@ xy-checkbox-group{
 
 在切换完成时触发。
 
+<div class="wrap">
 <xy-checkbox onchange="console.log('当前状态checked:'+this.checked)">checkbox</xy-checkbox>
+</div>
 
 ```html
 <xy-checkbox onchange="console.log('当前状态checked:'+this.checked)">checkbox</xy-checkbox>
@@ -248,6 +250,7 @@ checkbox.addEventListener('change',function(ev){
 
 `xy-checkbox-group`支持`change`事件
 
+<div class="wrap">
 <xy-checkbox-group name="books" value="React,Angular" onchange="console.log(this.value)">
     <xy-checkbox>React</xy-checkbox>
     <xy-checkbox>Vue</xy-checkbox>
@@ -255,7 +258,7 @@ checkbox.addEventListener('change',function(ev){
     <xy-checkbox>Flutter</xy-checkbox>
     <xy-checkbox>Swift</xy-checkbox>
 </xy-checkbox-group>
-
+</div>
 
 ```js
 checkboxgroup.onchange = function(ev){

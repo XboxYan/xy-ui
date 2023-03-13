@@ -29,18 +29,23 @@ export default class XyLoading extends Base {
 
 	set size(value) {
 		this.setAttribute("size", value);
-    this.loading.style.fontSize = value + 'px';
 	}
 
 	set color(value) {
 		this.setAttribute("color", value);
-    this.loading.style.color = value;
+  
 	}
 
 	connectedCallback() {}
 
 	attributeChangedCallback(name, oldValue, newValue) {
-		this[name] = newValue;
+    if (oldValue === newValue) return
+		if (name === 'size') {
+      this.loading.style.fontSize = newValue + 'px';
+    }
+    if (name === 'color') {
+      this.loading.style.color = newValue;
+    }
 	}
 }
 

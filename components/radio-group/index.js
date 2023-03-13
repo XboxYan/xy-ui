@@ -34,10 +34,6 @@ export default class XyRadioGroup extends Base {
 
 	set disabled(value) {
 		this.toggleAttribute("disabled", value);
-		const radioGroup =  [...this.querySelectorAll(`xy-radio`)]
-		radioGroup.forEach(el => {
-			el.disabled = value
-		})
 	}
 
 	set value(value) {
@@ -65,10 +61,13 @@ export default class XyRadioGroup extends Base {
 		})
 	}
 
-	attributeChangedCallback(name, oldValue, newValue) {
-		if (!this.slots) return
+	async attributeChangedCallback(name, oldValue, newValue) {
+		await this.renderSlot()
 		if (name === 'disabled') {
-			this[name] = newValue!==null
+			const radioGroup =  [...this.querySelectorAll(`xy-radio`)]
+			radioGroup.forEach(el => {
+				el.disabled = newValue!==null
+			})
 		} else {
 			this[name] = newValue
 		}

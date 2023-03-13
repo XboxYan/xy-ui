@@ -45,13 +45,6 @@ export default class XyRadio extends Base {
 
 	set checked(value) {
 		this.toggleAttribute("checked", value);
-		// 将其他radio选中态取消
-		if (this.radioGroup?.length && value) {
-			const prev = [...this.radioGroup].find(el => el.checked && el!==this)
-			if (prev) {
-				prev.checked = false
-			}
-		}
 	}
 
 	set required(value) {
@@ -99,7 +92,6 @@ export default class XyRadio extends Base {
 	}
 
 	connectedCallback() {
-		this.connected = true
 		this.radioGroup = document.querySelectorAll(`xy-radio[name='${this.name}']`)
 		this.radio.addEventListener("change", (ev) => {
 			this.checked = ev.target.checked;
@@ -139,7 +131,16 @@ export default class XyRadio extends Base {
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
-    this.radio[name] = newValue !== null
+		this.radio[name] = newValue !== null
+		if (name === 'checked' && newValue !== null) {
+			// 将其他radio选中态取消
+			if (this.radioGroup?.length) {
+				const prev = [...this.radioGroup].find(el => el.checked && el!==this)
+				if (prev) {
+					prev.checked = false
+				}
+			}
+		}
 	}
 }
 

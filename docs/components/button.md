@@ -281,7 +281,9 @@ btn.setAttribute('icon','name');
 ## 自定义样式`::part(button)`
  需要注意的是，`xy-button`本身不包含任意样式，如果需要自定义按钮本身样式，需要深入到`shadow dom`中，这里暴露了内置伪元素`::part(button)`用来自定义样式
 
-> `::part`可以允许自定义 `shadow dom` 中指定元素的样式，https://developer.mozilla.org/en-US/docs/Web/CSS/::part
+::: tip TIPS
+`::part`可以允许自定义 `shadow dom` 中指定元素的样式，https://developer.mozilla.org/en-US/docs/Web/CSS/::part
+:::
 
 内部结构如下（可查看控制台）：
 
@@ -363,43 +365,31 @@ btn.addEventListener('click',function(ev){
 </script>
 ```
 
-<div class="wrap">
+<div class="wrap" vertical>
 <xy-button-group>
     <xy-button>button1</xy-button>
     <xy-button>button2</xy-button>
     <xy-button>button3</xy-button>
     <xy-button>button4</xy-button>
 </xy-button-group>
-</div>
-
-<div class="wrap">
 <xy-button-group>
     <xy-button type="primary">button1</xy-button>
     <xy-button type="primary">button2</xy-button>
     <xy-button type="primary">button3</xy-button>
     <xy-button type="primary">button4</xy-button>
 </xy-button-group>
-</div>
-
-<div class="wrap">
 <xy-button-group>
     <xy-button type="dashed">button1</xy-button>
     <xy-button type="dashed">button2</xy-button>
     <xy-button type="dashed">button3</xy-button>
     <xy-button type="dashed">button4</xy-button>
 </xy-button-group>
-</div>
-
-<div class="wrap">
 <xy-button-group>
     <xy-button type="flat">button1</xy-button>
     <xy-button type="flat">button2</xy-button>
     <xy-button type="flat">button3</xy-button>
     <xy-button type="flat">button4</xy-button>
 </xy-button-group>
-</div>
-
-<div class="wrap">
 <xy-button-group>
     <xy-button type="primary">button1</xy-button>
     <xy-button type="primary">button2</xy-button>

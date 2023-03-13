@@ -31,13 +31,9 @@
 
 设置或返回滑块条的默认值（默认为50）。
 
-<div class="wrap">
-<xy-slider v-model="state.value"></xy-slider> {{state.value}}
-</div>
-<div class="wrap">
+<div class="wrap" vertical>
+<xy-slider></xy-slider> 
 <xy-slider value="30"></xy-slider>
-</div>
-<div class="wrap">
 <xy-slider value="100"></xy-slider>
 <xy-button type="primary" onclick="this.previousElementSibling.value = 50;">设置值为50</xy-button>
 </div>

@@ -40,7 +40,7 @@ export default class XySlider extends Base {
 			// this.dispatchEvent(new InputEvent("input"));
 		});
 		this.slider.addEventListener("change", (ev) => {
-			this.renderTip(ev.target.value);
+			// this.renderTip(ev.target.value);
 			this.dispatchEvent(new InputEvent("change"));
 		});
 		this.renderTip(this.value);

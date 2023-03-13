@@ -35,8 +35,9 @@
     <xy-button>button</xy-button>
 </xy-tips>
 ```
-
-> 注意：`xy-tips`标签不包含任何样式，也不会影响页面布局，你可以当做这层标签不存在
+::: tip
+`xy-tips`标签不包含任何样式，也不会影响页面布局，你可以当做这层标签不存在
+:::
 
 ## 提示`tips`
 
@@ -176,7 +177,9 @@ tips.setAttribute('color','red');
 
 还可以通过`trigger`属性定义触发方式，默认为`hover,focus`，还可以设置为`click`，也可任意组合
 
-> 仅用于初始化，后续修改无效。
+::: tip
+仅用于初始化，后续修改无效。
+:::
 
 <div class="wrap">
 <xy-tips tips="some tips" trigger="hover"><xy-button>hover</xy-button></xy-tips>

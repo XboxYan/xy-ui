@@ -149,7 +149,9 @@ radiogroup.setAttribute('value','CSS');
 
 比如，将 `radio` 完全隐藏，然后切换的时候改变文本样式
 
-> 注意：不要直接用`display:none`，这样会失去键盘访问
+::: tip
+不要直接用`display:none`，这样会失去键盘访问
+:::
 
 <style scoped>
 xy-radio-group.custom xy-radio::part(radio){
