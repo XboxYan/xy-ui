@@ -17,7 +17,7 @@
 :root .name{
   padding-bottom: .5em;
 }
-:root .title{
+:root .VPNav .title{
   display: flex;
   align-items: center;
   font-weight: normal;

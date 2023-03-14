@@ -28,6 +28,7 @@ export default defineConfig({
           text: '通用',
           items: [
             { text: "button 按钮", link: "/components/button" },
+            { text: "icon 图标", link: "/components/icon" },
             { text: "tips 提示", link: "/components/tips" },
             { text: "loading 加载", link: "/components/loading" },
           ]

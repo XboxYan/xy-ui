@@ -1,6 +1,6 @@
 import Base from "../xy-base.js";
 import "../loading/index.js";
-import "../xy-icon.js";
+import "../icon/index.js";
 import style from "./index.css?inline" assert { type: "css" };
 
 export default class XyButton extends Base {

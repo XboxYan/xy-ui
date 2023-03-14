@@ -54,7 +54,9 @@ loading.getAttribute('size');
 loading.setAttribute('size',30);
 ```
 
-> CSS操作更灵活，可以写在样式中，属性值和JavaScript操作优先级更高，下同
+::: tip
+CSS操作更灵活，可以写在样式中，属性值和JavaScript操作优先级更高，下同
+:::
 
 ## 颜色`color`
 
@@ -119,4 +121,4 @@ xy-loading{
 <xy-loading>loading...</xy-loading>
 ```
 
-如需其他图标的`loading`可参考[xy-icon](xy-icon?id=旋转spin)
+如需其他图标的`loading`可参考[icon](icon?#旋转spin)
