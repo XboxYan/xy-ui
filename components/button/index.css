@@ -1,6 +1,18 @@
 :host {
   display: inline-flex;
+  --primary-color-opacity-100: color-mix(in srgb, var(--primary-color) 10%, transparent);
+  --primary-color-opacity-200: color-mix(in srgb, var(--primary-color) 20%, transparent);
+  --primary-color-opacity-600: color-mix(in srgb, var(--primary-color) 60%, transparent);
 }
+
+@supports not (color: color-mix(in srgb, red, pink)) {
+  :host {
+    --primary-color-opacity-100: rgba(255, 119, 117, 0.1);
+    --primary-color-opacity-200: rgba(255, 119, 117, 0.2);
+    --primary-color-opacity-600: rgba(255, 119, 117, 0.6);
+  }
+}
+
 :link{
   text-decoration: none;
 }
@@ -26,10 +38,6 @@
   transition: var(--transition, .2s);
 }
 
-:host([shape=circle]) .button{
-  border-radius: 50%;
-}
-
 :host([block]){
   width: -webkit-fill-available;
   width: -moz-available;
@@ -51,17 +59,6 @@
 
 :host([danger]) {
   --primary-color: var(--danger-color, #ff7875);
-  --primary-color-opacity-100: color-mix(in srgb, var(--primary-color) 10%, transparent);
-  --primary-color-opacity-200: color-mix(in srgb, var(--primary-color) 20%, transparent);
-  --primary-color-opacity-600: color-mix(in srgb, var(--primary-color) 60%, transparent);
-}
-
-@supports not (color: color-mix(in srgb, red, pink)) {
-  :host([danger]) {
-    --primary-color-opacity-100: rgba(255, 119, 117, 0.1);
-    --primary-color-opacity-200: rgba(255, 119, 117, 0.2);
-    --primary-color-opacity-600: rgba(255, 119, 117, 0.6);
-  }
 }
 
 :host([danger]:not([type=primary])) .button{
@@ -166,6 +163,10 @@ xy-icon {
   width: var(--height-lg, 40px);
 }
 
-::slotted(xy-icon) {
-  transition: none;
+:host([shape=circle]) .button{
+  border-radius: 50%;
+}
+
+:host([shape=round]) .button{
+  border-radius: 999px;
 }

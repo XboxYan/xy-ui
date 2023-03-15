@@ -59,11 +59,14 @@ export default class XyIcon extends Base {
 	attributeChangedCallback(name, oldValue, newValue) {
 		if (name === "name" || name === "type") {
 			const icon = new URL(
-				`./svgs/${this.type}/${this.name}.svg`,
+				this.name.includes('/')?
+        `./svgs/${this.name}.svg`
+        :
+        `./svgs/${this.type}/${this.name}.svg`,
 				import.meta.url
 			).href;
       this.icon.setAttribute("aria-label", this.name)
-			this.icon.style.webkitMaskImage = `url(${icon})`;
+      this.icon.style.setProperty('--icon', `url(${icon})`);
 		}
 		if (name === "color") {
 			this.icon.style.color = newValue;

@@ -1,5 +1,6 @@
 :host {
   display: inline-flex;
+  --primary-color-opacity-600: color-mix(in srgb, var(--primary-color) 60%, transparent);
 }
 
 :host([disabled]) .slider {

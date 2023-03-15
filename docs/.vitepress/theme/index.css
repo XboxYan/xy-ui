@@ -14,6 +14,9 @@
   --vp-custom-block-tip-text: var(--vp-c-brand-darker);
   --vp-custom-block-tip-bg: var(--vp-c-brand-dimm);
 }
+:root .vp-doc blockquote{
+  border-color: var(--vp-c-brand);
+}
 :root .name{
   padding-bottom: .5em;
 }

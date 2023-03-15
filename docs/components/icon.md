@@ -15,7 +15,7 @@
 ```html
 <!-- 引入 -->
 <script type="module">
-    import '../components/xy-icon.js';
+    import '../components/icon/index.js';
 </script>
 <!-- 使用 -->
 <xy-icon name="user" size="30" color="orangered"></xy-icon>
@@ -32,7 +32,6 @@
 <xy-icon size="40" name="star"></xy-icon>
 <xy-icon size="40" name="face-smile"></xy-icon>
 <xy-icon size="40" name="bell"></xy-icon>
-<xy-icon size="40" name="audio"></xy-icon>
 </div>
 
 ```html
@@ -42,7 +41,6 @@
 <xy-icon name="star"></xy-icon>
 <xy-icon name="face-smile"></xy-icon>
 <xy-icon name="bell"></xy-icon>
-<xy-icon name="audio"></xy-icon>
 ```
 
 JavaScript操作`set`
@@ -87,6 +85,25 @@ icon.type = 'solid';
 icon.setAttribute('type','solid');
 ```
 
+两个属性太麻烦了，现提供一种简洁写法，可以将`name`和`type`用一个属性`name`表示，格式形如`type/name`
+
+<div class="wrap">
+<xy-icon name="flag" size="40"></xy-icon>
+<xy-icon name="flag" type="solid" size="40"></xy-icon>
+<xy-icon name="clock" size="40"></xy-icon>
+<xy-icon name="clock" type="solid" size="40"></xy-icon>
+<xy-icon name="star" size="40"></xy-icon>
+<xy-icon name="star" type="solid" size="40"></xy-icon>
+</div>
+
+```html
+<xy-icon name="flag"></xy-icon>
+<xy-icon name="solid/flag"></xy-icon>
+<xy-icon name="clock"></xy-icon>
+<xy-icon name="solid/clock"></xy-icon>
+<xy-icon name="star"></xy-icon>
+<xy-icon name="solid/star"></xy-icon>
+```
 
 ## 尺寸`size`
 
@@ -163,6 +180,37 @@ icon.color = 'orangered';
 icon.getAttribute('color');
 icon.setAttribute('color','orangered');
 ```
+
+## 自定义样式`::part(icon)`
+如果自带的图标仍不满足需求，可以自定义样式，需要深入到`shadow dom`中，这里暴露了内置伪元素`::part(icon)`用来自定义样式
+
+ 内部结构如下（可查看控制台）：
+
+```html
+<xy-icon>
+  # shadow-root
+    <i part="icon">
+```
+
+内部是通过遮罩实现，需要修改`-webkit-mask-image`，比如
+
+<style scoped>
+.custom::part(icon){
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E %3Cpath d='M473.7 73.8l-2.4-2.5c-46-47-118-51.7-169.6-14.8L336 159.9l-96 64 48 128-144-144 96-64-28.6-86.5C159.7 19.6 87 24 40.7 71.4l-2.4 2.4C-10.4 123.6-12.5 202.9 31 256l212.1 218.6c7.1 7.3 18.6 7.3 25.7 0L481 255.9c43.5-53 41.4-132.3-7.3-182.1z'%3E%3C/path%3E %3C/svg%3E")
+}
+</style>
+
+<div class="wrap">
+<xy-icon size="40" class="custom"></xy-icon>
+</div>
+
+```css
+xy-icon::part(rate){
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E %3Cpath d='M473.7 73.8l-2.4-2.5c-46-47-118-51.7-169.6-14.8L336 159.9l-96 64 48 128-144-144 96-64-28.6-86.5C159.7 19.6 87 24 40.7 71.4l-2.4 2.4C-10.4 123.6-12.5 202.9 31 256l212.1 218.6c7.1 7.3 18.6 7.3 25.7 0L481 255.9c43.5-53 41.4-132.3-7.3-182.1z'%3E%3C/path%3E %3C/svg%3E")
+}
+```
+
+> 图标来源于 https://www.zhangxinxu.com/sp/icon/
 
 ## 旋转`spin`
 

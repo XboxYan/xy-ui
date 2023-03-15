@@ -2,6 +2,7 @@
   display: inline-flex;
   gap: 8px;
   align-items: center;
+  --primary-color-opacity-600: color-mix(in srgb, var(--primary-color) 60%, transparent);
 }
 .radio{
   position: relative;

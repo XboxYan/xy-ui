@@ -4,7 +4,7 @@ import style from "./index.css?inline" assert { type: "css" };
 
 export default class XyRate extends Base {
 	static get observedAttributes() {
-		return ["color", "size", "value", "disabled", "tips"];
+		return ["color", "size", "value", "disabled", "tips", "icon"];
 	}
 
 	constructor() {
@@ -12,7 +12,7 @@ export default class XyRate extends Base {
 		const shadowRoot = this.attachShadow({ mode: "open" });
 		this.adoptedStyle(style);
 		shadowRoot.innerHTML = `
-    <fieldset id="star">
+    <fieldset id="star" aria-label="rate">
       <input part="rate" name="star" value="1" type="radio" />
       <input part="rate" name="star" value="2" type="radio" />
       <input part="rate" name="star" value="3" type="radio" />
@@ -33,6 +33,10 @@ export default class XyRate extends Base {
 		return this.getAttribute("size") || "";
 	}
 
+	get icon() {
+		return this.getAttribute("icon") || "";
+	}
+
 	get tips() {
 		return this.getAttribute("tips")?.split(",") || [];
 	}
@@ -47,6 +51,10 @@ export default class XyRate extends Base {
 
 	set tips(value) {
 		this.setAttribute("tips", value);
+	}
+
+	set icon(value) {
+		this.setAttribute("icon", value);
 	}
 
 	get color() {
@@ -98,6 +106,15 @@ export default class XyRate extends Base {
 		}
 		if (name === "disabled") {
 			this.star.disabled = newValue !== null;
+		}
+		if (name === "icon") {
+			const icon = new URL(
+        this.icon.includes('/')?
+        `../icon/svgs/${this.icon}.svg`
+        :
+        `../icon/svgs/regular/${this.icon}.svg`
+        ,import.meta.url).href;
+			this.star.style.setProperty('--icon', `url(${icon})`);
 		}
 		if (name === "tips" && this.rates.length) {
 			this.rates.forEach((el, index) => {

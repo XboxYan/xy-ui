@@ -7,7 +7,7 @@
   import '../../components/radio-group/'
   import '../../components/xy-icon.js'
 </script>
-# button
+# button 
 
 按钮。用于替代原生`button`。
 
@@ -209,17 +209,17 @@ btn.toggleAttribute('loading', [force]);
 关于`xy-icon`的取值可以查看[`xy-icon`](xy-icon.md)
 
 <div class="wrap">
-<xy-button type="primary" icon="heart">like</xy-button>
-<xy-button type="dashed" icon="search">search</xy-button>
-<xy-button type="flat" icon="left">back</xy-button>
-<xy-button icon="link">link</xy-button>
+<xy-button type="primary" icon="heart">heart</xy-button>
+<xy-button type="dashed" icon="thumbs-up">thumbs-up</xy-button>
+<xy-button type="flat" icon="solid/magnifying-glass">magnifying-glass</xy-button>
+<xy-button icon="solid/link">link</xy-button>
 </div>
 
 ```html
-<xy-button type="primary" icon="heart">like</xy-button>
-<xy-button type="dashed" icon="search">search</xy-button>
-<xy-button type="flat" icon="left">back</xy-button>
-<xy-button icon="link">link</xy-button>
+<xy-button type="primary" icon="heart">heart</xy-button>
+<xy-button type="dashed" icon="thumbs-up">thumbs-up</xy-button>
+<xy-button type="flat" icon="solid/magnifying-glass">magnifying-glass</xy-button>
+<xy-button icon="solid/link">link</xy-button>
 ```
 
 JavaScript操作`set`
@@ -234,30 +234,30 @@ btn.setAttribute('icon','name');
 
 <div class="wrap">
   <xy-button>heart<xy-icon name="heart"></xy-icon></xy-button>
-  <xy-button>right<xy-icon name="right"></xy-icon></xy-button>
+  <xy-button>right<xy-icon name="solid/angle-right"></xy-icon></xy-button>
 </div>
 
 ```html
-<xy-button>heart  <xy-icon name="heart"></xy-icon></xy-button>
-<xy-button>right  <xy-icon name="right"></xy-icon></xy-button>
+<xy-button>heart<xy-icon name="heart"></xy-icon></xy-button>
+<xy-button>right<xy-icon name="solid/angle-right"></xy-icon></xy-button>
 ```
 
 ## 形状`shape`
 
-当只有`icon`时，可配合`shape=circle`属性，实现圆形图标按钮。
+有 3 种形状，分别是`normal`、`round`、`circle`
+其中，当只有`icon`时，可配合`shape=circle`属性，实现圆形图标按钮。
 
 <div class="wrap">
-<xy-button type="primary" icon="heart" shape="circle"></xy-button>
-<xy-button type="dashed" icon="heart" shape="circle"></xy-button>
-<xy-button type="flat" icon="heart" shape="circle"></xy-button>
-<xy-button icon="heart" shape="circle"></xy-button>
+  <xy-button type="primary" icon="heart" shape="circle"></xy-button>
+  <xy-button type="primary" icon="heart" shape="round">heart</xy-button>
+  <xy-button type="primary" icon="heart">heart</xy-button>
 </div>
 
+
 ```html
-<xy-button type="primary" icon="heart" shape="circle"></xy-button>
-<xy-button type="dashed" icon="heart" shape="circle"></xy-button>
-<xy-button type="flat" icon="heart" shape="circle"></xy-button>
 <xy-button icon="heart" shape="circle"></xy-button>
+<xy-button icon="heart" shape="round">heart</xy-button>
+<xy-button icon="heart">heart</xy-button>
 ```
 
 ## 块状`block`
@@ -341,7 +341,7 @@ btn.setAttribute('icon','name');
 
 也可以通过`js`获取到`checked`属性。
 
-<xy-button toggle class="button-toggle" icon="like" onclick="XyMessage.show({icon:'like',text:this.checked?'I dislike it':'I like it'})">like</xy-button>
+<xy-button toggle class="button-toggle" icon="thumbs-up" onclick="XyMessage.show({icon:'like',text:this.checked?'I dislike it':'I like it'})">like</xy-button>
 
 ```js
 btn.addEventListener('click',function(ev){

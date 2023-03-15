@@ -167,8 +167,42 @@ rate.getAttribute('tips');
 rate.setAttribute('tips','terrible,bad,normal,good,wonderful');
 ```
 
+## 图标`icon`
+
+默认图标为一个星形（⭐️），可选择其他图标。
+
+关于`icon`的取值可以查看[`icon`](./icon)
+
+<div class="wrap" vertical>
+<xy-rate value="2" icon="star"></xy-rate>
+<xy-rate value="2" icon="thumbs-up"></xy-rate>
+<xy-rate value="2" icon="heart"></xy-rate>
+<xy-rate value="2" icon="solid/star"></xy-rate>
+<xy-rate value="2" icon="solid/thumbs-up"></xy-rate>
+<xy-rate value="2" icon="solid/heart"></xy-rate>
+</div>
+
+```html
+<xy-rate value="2" icon="star"></xy-rate>
+<xy-rate value="2" icon="thumbs-up"></xy-rate>
+<xy-rate value="2" icon="heart"></xy-rate>
+<xy-rate value="2" icon="solid/star"></xy-rate>
+<xy-rate value="2" icon="solid/thumbs-up"></xy-rate>
+<xy-rate value="2" icon="solid/heart"></xy-rate>
+```
+
+JavaScript操作`get`、`set`
+
+```js
+rate.icon;
+rate.icon = 'star';
+//原生属性操作
+rate.getAttribute('icon');
+rate.setAttribute('icon','star');
+```
+
 ## 自定义样式`::part(rate)`
-默认评分图标是一个星形（⭐️），如果需要自定义，需要深入到`shadow dom`中，这里暴露了内置伪元素`::part(rate)`用来自定义样式
+如果自带的图标仍不满足需求，可以自定义样式，需要深入到`shadow dom`中，这里暴露了内置伪元素`::part(rate)`用来自定义样式
 
  内部结构如下（可查看控制台）：
 
@@ -183,11 +217,11 @@ rate.setAttribute('tips','terrible,bad,normal,good,wonderful');
       <input type="radio" value="5" part="rate">
 ```
 
-内部是通过遮罩实现，需要修改`-webkit-mask-image`，比如下面是一个心形（❤）
+内部是通过遮罩实现，需要修改`-webkit-mask-image`，比如
 
 <style scoped>
 .custom::part(rate){
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E %3Cpath d='M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z'%3E%3C/path%3E %3C/svg%3E")
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E %3Cpath d='M473.7 73.8l-2.4-2.5c-46-47-118-51.7-169.6-14.8L336 159.9l-96 64 48 128-144-144 96-64-28.6-86.5C159.7 19.6 87 24 40.7 71.4l-2.4 2.4C-10.4 123.6-12.5 202.9 31 256l212.1 218.6c7.1 7.3 18.6 7.3 25.7 0L481 255.9c43.5-53 41.4-132.3-7.3-182.1z'%3E%3C/path%3E %3C/svg%3E")
 }
 </style>
 
@@ -197,7 +231,7 @@ rate.setAttribute('tips','terrible,bad,normal,good,wonderful');
 
 ```css
 xy-rate::part(rate){
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E %3Cpath d='M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z'%3E%3C/path%3E %3C/svg%3E")
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E %3Cpath d='M473.7 73.8l-2.4-2.5c-46-47-118-51.7-169.6-14.8L336 159.9l-96 64 48 128-144-144 96-64-28.6-86.5C159.7 19.6 87 24 40.7 71.4l-2.4 2.4C-10.4 123.6-12.5 202.9 31 256l212.1 218.6c7.1 7.3 18.6 7.3 25.7 0L481 255.9c43.5-53 41.4-132.3-7.3-182.1z'%3E%3C/path%3E %3C/svg%3E")
 }
 ```
 

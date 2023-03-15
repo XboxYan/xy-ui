@@ -1,7 +1,4 @@
 import { defineConfig } from "vitepress";
-import vue from '@vitejs/plugin-vue'
-// import { importAssertionsPlugin } from 'rollup-plugin-import-assert'
-// import { importAssertions } from 'acorn-import-assertions';
 
 export default defineConfig({
   title: "xy-ui",
@@ -18,8 +15,8 @@ export default defineConfig({
     ],
     socialLinks: [{ icon: "github", link: "https://github.com/xboxyan" }],
     footer: {
-      message: "Released under the MIT License.",
-      copyright: "Copyright © 2022-07-27～present aehyok",
+      message: "MIT License.",
+      copyright: "Copyright © 2023～present xboxyan",
     },
 
     sidebar: {
@@ -104,24 +101,6 @@ export default defineConfig({
       disabled: false,
       exclude: '../components'
     },
-    
-    // publicDir:'components',
-    // plugins: [
-    //   vue({
-    //     template: {
-    //       compilerOptions: {
-    //         // 将所有带短横线的标签名都视为自定义元素
-    //         isCustomElement: (tag) => tag.includes('xy-')
-    //       }
-    //     }
-    //   })
-    // ],
-    // acornInjectPlugins: [ importAssertions ],
-    // plugins: [ importAssertionsPlugin() ],
-    // output: {
-    //   format: 'esm',
-    //   dir: 'lib' // only necessary to enable dynamic imports
-    // },
     server: {
       host: true,
       // port: 3000,

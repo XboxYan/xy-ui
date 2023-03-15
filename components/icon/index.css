@@ -6,9 +6,7 @@
   height: 1em;
   margin: auto;
   background: currentColor;
-  -webkit-mask-position: center;
-  -webkit-mask-repeat: no-repeat;
-  transition: var(--transition, .2s);
+  -webkit-mask: var(--icon, linear-gradient(transparent, transparent)) center no-repeat;
   animation: rotate 1.4s linear infinite paused;
 }
 :host([spin]) .icon{
