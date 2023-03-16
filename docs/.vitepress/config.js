@@ -102,7 +102,6 @@ export default defineConfig({
     // optimizeDeps: {
     //   entries: '!../../components'
     // },
-    base: '/docs/',
     build: {
       // outDir: 'aaa',
       assetsDir: 'public',
