@@ -16,7 +16,10 @@
 
 正在进行改造升级中...
 
+
 > 以下命令仅用于文档编写，不参与组件构建
+
+[dev 2.0](https://github.com/XboxYan/xy-ui/tree/dev2.0)
 
 ```
 yarn
