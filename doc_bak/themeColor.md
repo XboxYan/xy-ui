@@ -34,7 +34,7 @@ document.body.style.setProperty('--themeColor','#F44336');
 }
 ```
 
-<xy-color-pane defaultvalue="#42b983" onchange="changeColor(this.value)"><xy-color-pane>
+<xy-color-pane defaultvalue="#42b983" onchange="changeColor(this.value)"></xy-color-pane>
 
 实时预览
 

@@ -1,0 +1,33 @@
+:host{
+  display: flex;
+}
+
+::slotted(xy-button:not(:first-of-type,:last-of-type)) {
+  --border-radius-base: 0;
+  --border-radius-lg: 0;
+  --border-radius-sm: 0;
+}
+
+::slotted(xy-button) {
+  margin: 0 !important;
+}
+
+::slotted(xy-button[type]:not([type="dashed"],:first-of-type)) {
+  margin-left: 1px !important;
+}
+
+::slotted(xy-button:not(:first-of-type)){
+  margin-left: -1px !important;
+}
+
+::slotted(xy-button:first-of-type){
+  --border-radius-base: 4px 0 0 4px;
+  --border-radius-lg: 6px 0 0 6px;
+  --border-radius-sm: 2px 0 0 2px;
+}
+
+::slotted(xy-button:last-of-type) {
+  --border-radius-base: 0 4px 4px 0;
+  --border-radius-lg: 0 6px 6px 0;
+  --border-radius-sm: 0 2px 2px 0;
+}

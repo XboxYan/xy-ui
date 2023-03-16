@@ -1,0 +1,59 @@
+:root {
+  /* https://github.com/vueComponent/ant-design-vue/blob/main/components/style/themes/default.less */
+  /*color*/
+  --primary-color: royalblue;
+  --primary-color-opacity-100: color-mix(in srgb, var(--primary-color) 10%, transparent);
+  --primary-color-opacity-200: color-mix(in srgb, var(--primary-color) 20%, transparent);
+  --primary-color-opacity-600: color-mix(in srgb, var(--primary-color) 60%, transparent);
+  --primary-bg: #fff;
+  --primary-bg-secondary: #f0f0f0;
+  --primary-bg-dark: rgba(0, 0, 0, .25);
+  --primary-color-light: color-mix(in srgb, var(--primary-color) 90%, #fff);
+  --primary-color-lighter: color-mix(in srgb, var(--primary-color) 80%, #fff);
+  --primary-color-dark: color-mix(in srgb, var(--primary-color) 90%, #000);
+  --primary-color-darker: color-mix(in srgb, var(--primary-color) 80%, #000);
+  --border-color: #d9d9d9;
+  /*边框颜色，按钮、输入框*/
+  --success-color: #52c41a;
+  /*成功色*/
+  --waring-color: #faad14;
+  /*警告色*/
+  --error-color: #f4615c;
+  /*错误色*/
+  --info-color: #1890ff;
+  /*提示色*/
+  --danger-color: #ff7875;
+  /*危险色*/
+  /*font*/
+  --font-size: 14px;
+  --font-size-lg: 16px;
+  --font-size-sm: 12px;
+  /* text */
+  --text-color: rgba(0, 0, 0, .88);
+  /*文字颜色*/
+  --text-color-secondary: rgba(0, 0, 0, .45);
+  /*radius*/
+  --border-radius-base: 4px;
+  --border-radius-lg: 6px;
+  --border-radius-sm: 2px;
+  /*height*/
+  --height-base: 32px;
+  --height-lg: 40px;
+  --height-sm: 24px;
+  /*disabled*/
+  --disabled-color: rgba(0, 0, 0, .25);
+  --disabled-bg: rgba(0, 0, 0, .04);
+  /* transition */
+  --transition: all .2s, outline 0s;
+  /* tips */
+  --tips-bg: rgba(0, 0, 0, .88);
+  --tips-color: #fff;
+}
+
+@supports not (color: color-mix(in srgb, red, pink)) {
+  :root {
+    --primary-color-opacity-100: rgba(65, 105, 225, 0.1);
+    --primary-color-opacity-200: rgba(65, 105, 225, 0.2);
+    --primary-color-opacity-600: rgba(65, 105, 225, 0.6);
+  }
+}

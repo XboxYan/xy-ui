@@ -1,0 +1,57 @@
+:host{ 
+  display: inline-flex;
+  --primary-color-opacity-600: color-mix(in srgb, var(--primary-color) 60%, transparent);
+}
+.switch:disabled{ 
+  opacity:.6;
+  cursor: default; 
+}
+.switch:not(:disabled):is(:hover, :active){
+  filter: brightness(1.2);
+}
+.switch{
+  appearance: none;
+  margin: 0;
+  cursor:pointer;
+  display: inline-flex;
+  box-sizing: border-box;
+  width: 44px;
+  height: 22px;
+  padding: 2px;
+  border-radius: 44px;
+  outline-color: var(--primary-color-opacity-600);
+  outline-width: 2px;
+  outline-offset: 1px;
+  color: var(--primary-color, #42b983);
+  background: var(--primary-bg-dark, rgba(0,0,0,.25));
+  transition: var(--transition, .2s);
+}
+:host([size=small]) .switch{
+  width: 28px;
+  height: 16px;
+}
+.switch:focus-visible {
+  outline-style: solid;
+}
+.switch::before{
+  content:'';
+  flex:0;
+  transition: var(--transition, .2s) cubic-bezier(.12, .4, .29, 1.46);
+}
+.switch::after{
+  content:'';
+  height: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 44px;
+  background: var(--primary-bg, #fff);
+  transition: var(--transition, .2s);
+}
+.switch:active::after{
+  padding:0 5px;
+}
+.switch:checked {
+  background: currentColor;
+}
+.switch:checked::before{
+  flex:1;
+}

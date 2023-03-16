@@ -1,0 +1,33 @@
+:host {
+  border-radius: var(--border-radius-base, 4px);
+  padding: 6px 8px;
+  line-height: 22px;
+  text-align: start;
+  background-color: var(--tips-bg, rgba(0, 0, 0, .88));
+  color: var(--tips-color, #fff);
+  font-size: 14px;
+  width: max-content;
+  max-width: 200px;
+}
+
+:host::before {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background-color: inherit;
+  clip-path: path('M 0 8 A 4 4 0 0 0 2.82842712474619 6.82842712474619 L 6.585786437626905 3.0710678118654755 A 2 2 0 0 1 9.414213562373096 3.0710678118654755 L 13.17157287525381 6.82842712474619 A 4 4 0 0 0 16 8 Z')
+}
+
+/* success */
+:host([type=success]){
+  --tips-bg: var(--success-color,#52c41a);
+}
+/* error */
+:host([type=error]){
+  --tips-bg: var(--error-color,#f4615c);
+}
+/* warning */
+:host([type=warning]){
+  --tips-bg: var(--waring-color,#faad14);
+}

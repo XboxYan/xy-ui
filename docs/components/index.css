@@ -1,0 +1,54 @@
+.wrap{
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin: 15px 0;
+  align-items: center;
+  outline: 1px dashed var(--vp-c-divider);
+  border-radius: 6px;
+  padding: 10px;
+}
+[noborder]{
+  outline: 0;
+}
+[vertical]{
+  flex-direction: column;
+  align-items: flex-start;
+}
+[dark]{
+  padding: 15px;
+  border-radius: 8px;
+  background-color: var(--vp-code-block-bg);
+}
+.dir-wrap{
+  width: 400px;
+  margin: 0 auto;
+  display: grid;
+  gap: 10px;
+  grid-template-areas: 
+  "a tl top tr b"
+  "lt x x x rt"
+  "left x x x right"
+  "lb x x x rb"
+  "c bl bottom br d"
+  ;
+}
+.dir-wrap .a{
+  grid-area: a
+}
+.dir-wrap .b{
+  grid-area: b
+}
+.dir-wrap .c{
+  grid-area: c
+}
+.dir-wrap .d{
+  grid-area: d
+}
+.dir-wrap .x{
+  grid-area: x
+}
+.input{
+  border: 1px solid var(--border-color);
+}

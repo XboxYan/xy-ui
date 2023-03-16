@@ -1,0 +1,19 @@
+:host{
+  display: inline-flex;
+}
+.icon {
+  width: 1em;
+  height: 1em;
+  margin: auto;
+  background: currentColor;
+  -webkit-mask: var(--icon, linear-gradient(transparent, transparent)) center no-repeat;
+  animation: rotate 1.4s linear infinite paused;
+}
+:host([spin]) .icon{
+  animation-play-state: running;
+}
+@keyframes rotate{
+  to{
+      transform: rotate(1turn); 
+  }
+}
