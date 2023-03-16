@@ -108,12 +108,7 @@ export default class XyRate extends Base {
 			this.star.disabled = newValue !== null;
 		}
 		if (name === "icon") {
-			const icon = new URL(
-        this.icon.includes('/')?
-        `../icon/svgs/${this.icon}.svg`
-        :
-        `../icon/svgs/regular/${this.icon}.svg`
-        ,import.meta.url).href;
+      const icon = `${this.icon_cdn}/${this.name.includes('/')?this.icon:('regular/'+this.icon)}.svg`
 			this.star.style.setProperty('--icon', `url(${icon})`);
 		}
 		if (name === "tips" && this.rates.length) {

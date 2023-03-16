@@ -1,7 +1,13 @@
 <script setup>
-  import './index.css'
-  import '../../components/icon/'
-  import '../../components/checkbox/'
+import { onMounted } from 'vue'
+window.XYConfig = {
+    icon: 'https://cdn.jsdelivr.net/gh/xboxyan/xy-ui-icons'
+} 
+import './index.css'
+  onMounted(() => {
+    import('../../components/icon/')
+    import('../../components/checkbox/')
+  })
 </script>
 
 # icon
@@ -195,8 +201,8 @@ icon.setAttribute('color','orangered');
 内部是通过遮罩实现，需要修改`-webkit-mask-image`，比如
 
 <style scoped>
-.custom::part(icon){
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E %3Cpath d='M473.7 73.8l-2.4-2.5c-46-47-118-51.7-169.6-14.8L336 159.9l-96 64 48 128-144-144 96-64-28.6-86.5C159.7 19.6 87 24 40.7 71.4l-2.4 2.4C-10.4 123.6-12.5 202.9 31 256l212.1 218.6c7.1 7.3 18.6 7.3 25.7 0L481 255.9c43.5-53 41.4-132.3-7.3-182.1z'%3E%3C/path%3E %3C/svg%3E")
+.custom{
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E %3Cpath d='M473.7 73.8l-2.4-2.5c-46-47-118-51.7-169.6-14.8L336 159.9l-96 64 48 128-144-144 96-64-28.6-86.5C159.7 19.6 87 24 40.7 71.4l-2.4 2.4C-10.4 123.6-12.5 202.9 31 256l212.1 218.6c7.1 7.3 18.6 7.3 25.7 0L481 255.9c43.5-53 41.4-132.3-7.3-182.1z'%3E%3C/path%3E %3C/svg%3E")
 }
 </style>
 
@@ -210,7 +216,35 @@ xy-icon::part(rate){
 }
 ```
 
+或者，直接通过 CSS 变量 `--icon` 传递，可以无需`::part(icon)`，比如
+
+```css
+xy-icon{
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E %3Cpath d='M473.7 73.8l-2.4-2.5c-46-47-118-51.7-169.6-14.8L336 159.9l-96 64 48 128-144-144 96-64-28.6-86.5C159.7 19.6 87 24 40.7 71.4l-2.4 2.4C-10.4 123.6-12.5 202.9 31 256l212.1 218.6c7.1 7.3 18.6 7.3 25.7 0L481 255.9c43.5-53 41.4-132.3-7.3-182.1z'%3E%3C/path%3E %3C/svg%3E")
+}
+```
+
 > 图标来源于 https://www.zhangxinxu.com/sp/icon/
+
+还可以设置渐变色，需要通过`::part(icon)`覆盖
+
+<style scoped>
+.custom2::part(icon){
+  background: linear-gradient( #FF5722, #FF9800)
+}
+</style>
+
+<div class="wrap">
+<xy-icon size="40" name="solid/flag" class="custom2"></xy-icon>
+<xy-icon size="40" name="solid/heart" class="custom2"></xy-icon>
+<xy-icon size="40" name="solid/star" class="custom2"></xy-icon>
+</div>
+
+```css
+xy-icon::part(icon){
+  background: linear-gradient( #FF5722, #FF9800)
+}
+```
 
 ## 旋转`spin`
 

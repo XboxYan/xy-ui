@@ -1,6 +1,10 @@
 <script setup>
-  import './index.css'
-  import '../../components/loading/'
+import { onMounted } from 'vue'
+import './index.css'
+  onMounted(() => {
+    import('../../components/icon/')
+    import('../../components/loading/')
+  })
 </script>
 
 # loading

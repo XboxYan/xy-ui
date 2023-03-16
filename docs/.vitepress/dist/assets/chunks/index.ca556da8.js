@@ -1,0 +1,7 @@
+import{B as s}from"./xy-base.1f56dfdc.js";const r=`:host{display:inline-flex;align-items:center;justify-content:center;color:var(--primary-color,#42b983)}.loading{width:1em;height:1em;margin:auto;animation:rotate 1.4s linear infinite}.circle{stroke:currentColor;animation:progress 1.4s ease-in-out infinite;stroke-dasharray:80px,200px;stroke-dashoffset:0px;stroke-linecap:round;transition:.3s}:host(:not(:empty)) .loading{margin:.5em}@keyframes rotate{to{transform:rotate(360deg)}}@keyframes progress{0%{stroke-dasharray:1px,200px;stroke-dashoffset:0px}50%{stroke-dasharray:100px,200px;stroke-dashoffset:-15px}to{stroke-dasharray:100px,200px;stroke-dashoffset:-125px}}
+`;class i extends s{static get observedAttributes(){return["color","size"]}constructor(){super();const t=this.attachShadow({mode:"open"});this.adoptedStyle(r),t.innerHTML=`
+    <svg class="loading" part="loading" id="loading" viewBox="22 22 44 44">
+      <circle class="circle" cx="44" cy="44" r="20.2" fill="none" stroke-width="3.6"></circle>
+    </svg>
+    <slot></slot>
+      `,this.loading=t.getElementById("loading")}get size(){return this.getAttribute("size")||""}get color(){return this.getAttribute("color")||""}set size(t){this.setAttribute("size",t)}set color(t){this.setAttribute("color",t)}connectedCallback(){}attributeChangedCallback(t,o,e){o!==e&&(t==="size"&&(this.loading.style.fontSize=e+"px"),t==="color"&&(this.loading.style.color=e))}}customElements.get("xy-loading")||customElements.define("xy-loading",i);export{i as default};

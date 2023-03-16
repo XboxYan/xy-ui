@@ -1,10 +1,12 @@
 <script setup>
-  import './index.css'
-  import '../../components/switch/'
-  import '../../components/button/'
-  import '../../components/checkbox/'
-  import '../../components/slider/'
-  import { reactive } from 'vue'
+import { reactive, onMounted } from 'vue'
+import './index.css'
+  onMounted(() => {
+    import('../../components/switch/')
+    import('../../components/button/')
+    import('../../components/checkbox/')
+    import('../../components/slider/')
+  })
   const state = reactive({
     value: 0
   })

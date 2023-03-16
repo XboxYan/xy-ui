@@ -1,8 +1,14 @@
 <script setup>
-  import './index.css'
-  import { Tips } from '../../components/tips/'
-  import '../../components/button/'
-  import '../../components/switch/'
+import { reactive, onMounted } from 'vue'
+import './index.css'
+  onMounted(() => {
+    import('../../components/switch/')
+    import('../../components/button/')
+    import('../../components/tips/')
+  })
+  const state = reactive({
+    value: true
+  })
   let _tips = null
   const click = (ev) => {
     if (!_tips) {

@@ -1,14 +1,13 @@
 <script setup>
-  import './index.css'
-  import '../../components/button/'
-  import '../../components/switch/'
-  import '../../components/checkbox/'
-  import '../../components/checkbox-group'
-  const checkgroup = () => {
-    document.getElementById('checkbox-group').value=['Vue','Flutter']
-  }
+import { onMounted } from 'vue'
+import './index.css'
+  onMounted(() => {
+    import('../../components/button/')
+    import('../../components/switch/')
+    import('../../components/checkbox/')
+    import('../../components/checkbox-group/')
+  })
 </script>
-
 # checkbox
 
 多项选择器。用于替代原生`input[type=checkbox]`。

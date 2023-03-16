@@ -58,13 +58,7 @@ export default class XyIcon extends Base {
 
 	attributeChangedCallback(name, oldValue, newValue) {
 		if (name === "name" || name === "type") {
-			const icon = new URL(
-				this.name.includes('/')?
-        `./svgs/${this.name}.svg`
-        :
-        `./svgs/${this.type}/${this.name}.svg`,
-				import.meta.url
-			).href;
+      const icon = `${this.icon_cdn}/${this.name.includes('/')?this.name:(this.type+'/'+this.name)}.svg`
       this.icon.setAttribute("aria-label", this.name)
       this.icon.style.setProperty('--icon', `url(${icon})`);
 		}

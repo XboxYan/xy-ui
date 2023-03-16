@@ -61,6 +61,10 @@
   --primary-color: var(--danger-color, #ff7875);
 }
 
+:host([disabled]) {
+  pointer-events: none;
+}
+
 :host([danger]:not([type=primary])) .button{
   color: var(--primary-color, #42b983);
   border-color: var(--primary-color, #42b983);

@@ -1,10 +1,12 @@
 <script setup>
-  import './index.css'
-  import '../../components/button/'
-  import '../../components/switch/'
-  import '../../components/checkbox/'
-  import '../../components/radio/'
-  import '../../components/radio-group/'
+import { onMounted } from 'vue'
+import './index.css'
+  onMounted(() => {
+    import('../../components/button/')
+    import('../../components/checkbox/')
+    import('../../components/switch/')
+    import('../../components/radio-group/')
+  })
 </script>
 
 # radio

@@ -1,9 +1,11 @@
 <script setup>
-  import './index.css'
-  import '../../components/button/'
-  import '../../components/checkbox/'
-  import '../../components/switch/'
-  import { reactive } from 'vue'
+import { reactive, onMounted } from 'vue'
+import './index.css'
+  onMounted(() => {
+    import('../../components/switch/')
+    import('../../components/button/')
+    import('../../components/checkbox/')
+  })
   const state = reactive({
     value: true
   })
@@ -134,8 +136,7 @@ switch.toggleAttribute('checked', [force]);
 在切换完成时触发。
 
 <div class="wrap">
-<xy-switch v-model="state.value"></xy-switch>
-{{state.value}}
+<xy-switch onchange="console.log(this.checked)"></xy-switch>
 </div>
 
 ```html

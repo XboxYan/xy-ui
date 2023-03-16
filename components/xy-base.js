@@ -1,4 +1,4 @@
-export default class extends HTMLElement {
+export default class Base extends HTMLElement {
 
   adoptedStyle (style) {
     let styleSheet = style
@@ -8,6 +8,9 @@ export default class extends HTMLElement {
 			styleSheet.replace(style);
 		}
     this.shadowRoot.adoptedStyleSheets = [...this.shadowRoot.adoptedStyleSheets, styleSheet];
+  }
+  get icon_cdn () {
+    return globalThis.XYConfig?.icon || 'https://cdn.jsdelivr.net/gh/xboxyan/xy-ui-icons'
   }
   get name () {
     return this.getAttribute('name')

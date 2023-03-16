@@ -8,7 +8,7 @@ hero:
   text: 面向未来的原生组件库
   tagline: Web Components
   image:
-    src: logo.svg
+    src: /logo.svg
     alt: xy-ui
   actions:
     - theme: brand

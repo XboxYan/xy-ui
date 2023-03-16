@@ -1,11 +1,14 @@
 <script setup>
+import { onMounted } from 'vue'
   import './index.css'
-  import '../../components/button/'
-  import '../../components/button-group/';
-  import '../../components/checkbox/'
-  import '../../components/switch/'
-  import '../../components/radio-group/'
-  import '../../components/xy-icon.js'
+  onMounted(() => {
+    import('../../components/button/')
+    import('../../components/button-group/')
+    import('../../components/checkbox/')
+    import('../../components/switch/')
+    import('../../components/radio-group/')
+    import('../../components/icon/')
+  })
 </script>
 # button 
 
@@ -206,7 +209,7 @@ btn.toggleAttribute('loading', [force]);
 
 当需要在`xy-button`内嵌入`xy-icon`时，可以设置`icon`属性。
 
-关于`xy-icon`的取值可以查看[`xy-icon`](xy-icon.md)
+关于`xy-icon`的取值可以查看[`icon`](./icon)
 
 <div class="wrap">
 <xy-button type="primary" icon="heart">heart</xy-button>

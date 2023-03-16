@@ -96,10 +96,15 @@ export default defineConfig({
       ],
     },
   },
+  // srcExclude: '../../components',
   vite: {
-    optimizeDeps: {
-      disabled: false,
-      exclude: '../components'
+    publicDir: '../public',
+    // optimizeDeps: {
+    //   entries: '!../../components'
+    // },
+    build: {
+      // outDir: 'aaa',
+      assetsDir: 'public',
     },
     server: {
       host: true,

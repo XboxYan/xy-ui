@@ -1,8 +1,11 @@
 <script setup>
-  import './index.css'
-  import '../../components/button/'
-  import '../../components/checkbox/'
-  import '../../components/rate/'
+import { onMounted } from 'vue'
+import './index.css'
+  onMounted(() => {
+    import('../../components/button/')
+    import('../../components/checkbox/')
+    import('../../components/rate/')
+  })
 </script>
 
 # rate
