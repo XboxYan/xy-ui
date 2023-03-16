@@ -1,10 +1,10 @@
 <script setup>
 import { onMounted } from 'vue'
-window.XYConfig = {
-    icon: 'https://cdn.jsdelivr.net/gh/xboxyan/xy-ui-icons'
-} 
 import './index.css'
   onMounted(() => {
+    window.XYConfig = {
+        icon: 'https://cdn.jsdelivr.net/gh/xboxyan/xy-ui-icons'
+    } 
     import('../../components/icon/')
     import('../../components/checkbox/')
   })
