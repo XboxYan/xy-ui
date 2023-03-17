@@ -18,6 +18,8 @@
 
 > 以下命令仅用于文档编写，不参与组件构建
 
+旧版本可查看分支：https://github.com/XboxYan/xy-ui/tree/release-2022
+
 ```
 yarn
 yarn docs:dev

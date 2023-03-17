@@ -105,7 +105,7 @@
 :host([dir=left]) {
   transform-origin: right;
   left: calc( var(--left) * 1px);
-  top:  calc((var(--top) + var(--bottom) ) * .5px);
+  top: calc((var(--top) + var(--bottom) ) * .5px + var(--offset-y, 0) * 1px);
   --x: -100%;
   --y: -50%;
 }

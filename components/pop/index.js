@@ -21,11 +21,12 @@ export default class Pop extends Base {
 	}
 
 	get auto() {
-		return this.getAttribute("auto") !== null;
+    const auto = this.getAttribute("auto");
+		return auto?auto.split(','):[];
 	}
 
 	set auto(value) {
-		this.toggleAttribute("auto", value);
+		this.setAttribute("auto", value);
 	}
 
 	get open() {
@@ -71,7 +72,7 @@ export default class Pop extends Base {
 		this.style.setProperty("--top", parseInt(top + window.pageYOffset));
 		this.style.setProperty("--right", parseInt(right + window.pageXOffset));
 		this.style.setProperty("--bottom", parseInt(bottom + window.pageYOffset));
-		if (this.auto) {
+		if (this.auto.length) {
 			// 自动识别位置
 			const w = window.innerWidth;
 			const h = window.innerHeight;
@@ -79,20 +80,21 @@ export default class Pop extends Base {
 				w: this.offsetWidth + 10,
 				h: this.offsetHeight + 10,
 			};
-			if (top < BOUND.h && (left < BOUND.w || w - right < BOUND.w)) {
-				this.dir = "bottom";
+      const otherdir = this.auto[1];
+			if (top < BOUND.h && ['bottom','BL','BR'].includes(otherdir)) {
+        this.dir = otherdir;
 				return;
 			}
-			if (h - bottom < BOUND.h && (left < BOUND.w || w - right < BOUND.w)) {
-				this.dir = "top";
+			if (h - bottom < BOUND.h  && ['top','TL','TR'].includes(otherdir)) {
+				this.dir = otherdir;
 				return;
 			}
-			if (left < BOUND.w && (top < BOUND.h || h - bottom < BOUND.h)) {
-				this.dir = "right";
+			if (left < BOUND.w && ['right','RT','RB'].includes(otherdir)) {
+				this.dir = otherdir;
 				return;
 			}
-			if (w - right < BOUND.w && (top < BOUND.h || h - bottom < BOUND.h)) {
-				this.dir = "left";
+			if (w - right < BOUND.w  && ['left','LT','LB'].includes(otherdir)) {
+				this.dir = otherdir;
 				return;
 			}
 		}
@@ -146,9 +148,9 @@ export default class Pop extends Base {
 				this[el] = option[el];
 			}
 		});
-		if (option.dir === "auto") {
-			this.auto = true;
-			this.dir = "top";
+		if (option.dir.includes(',')) {
+			this.auto = option.dir;
+			this.dir = option.dir.split(',')[0];
 		}
 		if (
 			option.open ||

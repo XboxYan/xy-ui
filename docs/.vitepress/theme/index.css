@@ -17,6 +17,19 @@
 :root .vp-doc blockquote{
   border-color: var(--vp-c-brand);
 }
+:root .VPNav{
+  backdrop-filter: saturate(50%) blur(8px);
+  background: rgba(255,255,255,.7);
+}
+:root .VPNavBar.has-sidebar .content-body{
+  background-color: transparent;
+}
+:root.dark .VPNav{
+  background-color: rgba(36,36,36,.7);
+}
+:root .curtain{
+  display: none;
+}
 :root .name{
   padding-bottom: .5em;
 }

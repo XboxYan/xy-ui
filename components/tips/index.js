@@ -8,7 +8,7 @@ export class Tips extends Pop {
 		this.adoptedStyle(style);
 		this.shadowRoot.innerHTML = `<slot></slot>`;
 		this.init(triggerEl, {
-			dir: "auto",
+			dir: "top,bottom",
 			trigger: ["hover", "focus"],
 			...option,
 		});

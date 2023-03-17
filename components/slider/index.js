@@ -12,7 +12,7 @@ export default class XySlider extends Base {
 		const shadowRoot = this.attachShadow({ mode: "open" });
 		this.adoptedStyle(style);
 		shadowRoot.innerHTML = `
-    <xy-tips dir="auto" id="tips">
+    <xy-tips dir="top,bottom" id="tips">
         <input part="slider" class="slider" id="slider" type="range">
     </xy-tips>`;
 		this.tipsEl = shadowRoot.getElementById("tips");
@@ -33,6 +33,7 @@ export default class XySlider extends Base {
 			});
 			this.resizeObserver.observe(this);
 			this.tipsEl.dir = "right";
+			this.tipsEl.tipEl.auto = "right,left";
 			this.tipsEl.tipEl.style.transition = "none";
 		}
 		this.slider.addEventListener("input", (ev) => {

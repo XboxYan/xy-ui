@@ -14,7 +14,6 @@ import './index.css'
     if (!_tips) {
       _tips = new Tips(newTips, {
         tips : '这是通过new Tip生成的提示',
-        dir : 'auto',
         type: 'error',
         open: true
       })
@@ -113,15 +112,15 @@ tips.getAttribute('dir');
 tips.setAttribute('dir','right');
 ```
 
-除了上述四个方位外，还可以设置`auto`，可以自动根据位置来选择一个合适的方向。
+除了上述四个方位外，还可以设置多个值，比如`top,bottom`，可以自动根据位置来选择一个合适的方向。
 
-<xy-tips tips="some tips" dir="auto">
-  <xy-button>auto</xy-button>
+<xy-tips tips="some tips" dir="top,bottom">
+  <xy-button>top,bottom</xy-button>
 </xy-tips>
 
 ```html
-<xy-tips tips="some tips" dir="auto">
-  <xy-button>auto</xy-button>
+<xy-tips tips="some tips" dir="top,bottom">
+  <xy-button>top,bottom</xy-button>
 </xy-tips>
 ```
 
