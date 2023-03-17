@@ -236,8 +236,8 @@ btn.setAttribute('icon','name');
 当然，上述图标均位于文字左侧，如果想位于文字右侧，你可以直接嵌套`xy-icon`组件。
 
 <div class="wrap">
-  <xy-button>heart<xy-icon name="heart"></xy-icon></xy-button>
-  <xy-button>right<xy-icon name="solid/angle-right"></xy-icon></xy-button>
+  <xy-button type="primary">heart<xy-icon name="heart"></xy-icon></xy-button>
+  <xy-button type="primary">right<xy-icon name="solid/angle-right"></xy-icon></xy-button>
 </div>
 
 ```html
@@ -344,7 +344,7 @@ btn.setAttribute('icon','name');
 
 也可以通过`js`获取到`checked`属性。
 
-<xy-button toggle class="button-toggle" icon="thumbs-up" onclick="XyMessage.show({icon:'like',text:this.checked?'I dislike it':'I like it'})">like</xy-button>
+<xy-button toggle class="button-toggle" icon="heart" onclick="XyMessage.show({icon:'like',text:this.checked?'I dislike it':'I like it'})">like</xy-button>
 
 ```js
 btn.addEventListener('click',function(ev){
