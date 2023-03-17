@@ -6,17 +6,12 @@
 [![GitHub stars](https://img.shields.io/github/stars/XboxYan/xy-ui.svg?color=#42b983)](https://github.com/XboxYan/xy-ui/stargazers)
 [![GitHub stars](https://img.shields.io/github/forks/XboxYan/xy-ui.svg)](https://github.com/XboxYan/xy-ui/network/members)
 
-`xy-ui`是一套使用原生`Web Components`规范开发的跨框架UI组件库。[查看文档](https://xy-ui.codelabo.cn/docs)
+`xy-ui`是一套使用原生`Web Components`规范开发的跨框架UI组件库。[查看文档](https://xboxyan.gitee.io/xy-ui/docs)
 
 [github项目地址](https://github.com/XboxYan/xy-ui)
 
 ![xy-ui](./screenshot/xy-ui.png)
 
-## 公告
-
-正在进行改造升级中...
-
-[dev 2.0](https://github.com/XboxYan/xy-ui/tree/dev2.0)
 
 ## 更新
 * ## 1.10.7
