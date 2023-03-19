@@ -28,6 +28,7 @@ export default defineConfig({
             { text: "icon 图标", link: "/components/icon" },
             { text: "tips 提示", link: "/components/tips" },
             { text: "loading 加载", link: "/components/loading" },
+            { text: "popover 悬浮", link: "/components/popover" },
           ]
         },
         {

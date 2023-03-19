@@ -1,10 +1,13 @@
 <script setup>
 import { reactive, onMounted } from 'vue'
 import './index.css'
+  let Tip = null
   onMounted(() => {
     import('../../components/switch/')
     import('../../components/button/')
-    import('../../components/tips/')
+    import('../../components/tips/').then(({Tips}) => {
+      Tip = Tips
+    })
   })
   const state = reactive({
     value: true
@@ -12,7 +15,7 @@ import './index.css'
   let _tips = null
   const click = (ev) => {
     if (!_tips) {
-      _tips = new Tips(newTips, {
+      _tips = new Tip(newTips, {
         tips : '这是通过new Tip生成的提示',
         type: 'error',
         open: true

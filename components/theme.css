@@ -6,6 +6,7 @@
   --primary-color-opacity-200: color-mix(in srgb, var(--primary-color) 20%, transparent);
   --primary-color-opacity-600: color-mix(in srgb, var(--primary-color) 60%, transparent);
   --primary-bg: #fff;
+  --shadow: 2px 2px 15px rgba(0,0,0,0.15);
   --primary-bg-secondary: #f0f0f0;
   --primary-bg-dark: rgba(0, 0, 0, .25);
   --primary-color-light: color-mix(in srgb, var(--primary-color) 90%, #fff);

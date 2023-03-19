@@ -58,7 +58,7 @@ export default class Pop extends Base {
 	}
 
 	render(node) {
-		if (!this.isConnected) {
+		if (!this.isConnected || this.parentNode !== document.body) {
 			document.body.append(this);
 			this.clientWidth;
 		}
