@@ -1,5 +1,7 @@
 :host {
   position: absolute;
+  display: flex;
+  flex-direction: column;
   visibility: hidden;
   opacity: .5;
   transition: opacity .05s, visibility .05s, transform 0s .1s;
@@ -9,8 +11,19 @@
   z-index: 10;
 }
 
-:host([auto]) {
-  transition: transform 0s!important;
+:host([auto]:is(:not([trigger]),[trigger*='hover'])) {
+  transition: all 0s ease 0.2s !important;
+}
+
+:host([auto][open]) {
+  transition: 0s !important;
+}
+
+:host::after{
+  content: '';
+  position: absolute;
+  inset: calc(var(--pad) * -1);
+  z-index: -1;
 }
 
 :host(:is([show],[open],:hover)) {

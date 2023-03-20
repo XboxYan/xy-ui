@@ -115,7 +115,7 @@ tips.getAttribute('dir');
 tips.setAttribute('dir','right');
 ```
 
-除了上述四个方位外，还可以设置多个值，比如`top,bottom`，可以自动根据位置来选择一个合适的方向。
+除了上述 12 个方位外，还可以设置两个值，以逗号分隔，比如`top,bottom`，可以自动根据位置来选择一个合适的方向。
 
 <xy-tips tips="some tips" dir="top,bottom">
   <xy-button>top,bottom</xy-button>
@@ -242,7 +242,7 @@ import { Tips } from '../../components/tips/index.js'
 
 const tips = new Tips(el, {
   tips : '提示', // 提示文字
-  dir : 'auto', // 方向
+  dir : 'top,bottom', // 方向
   trigger : ['hover'], // 触发方式
   ...
 })
@@ -260,7 +260,6 @@ const tips = new Tips(el, {
 ```js
 const tips = new Tips(el, {
   tips : '这是通过new Tip生成的提示',
-  dir : 'auto',
   trigger: 'none',
   open: false,
   type: 'error'

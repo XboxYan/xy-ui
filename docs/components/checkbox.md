@@ -7,6 +7,9 @@ import './index.css'
     import('../../components/checkbox/')
     import('../../components/checkbox-group/')
   })
+  const checkgroup = () => {
+    document.getElementById('checkbox-group').value = ['Vue', 'Flutter']
+  }
 </script>
 # checkbox
 

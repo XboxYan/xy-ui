@@ -2,14 +2,15 @@
   border-radius: var(--border-radius-base, 4px);
   background-color: var(--primary-bg, #fff);
   filter: drop-shadow(var(--shadow));
+  opacity: 0;
+  padding: 4px;
 }
 
-:host([type=pane]){
+:host([type=custom]){
   --pad: 10px;
-  padding: 6px 8px;
 }
 
-:host(:not([type=pane], [type=custom]))::before {
+:host(:not([type=custom]))::before {
   content: '';
   position: absolute;
   width: 16px;

@@ -1,69 +1,30 @@
-import Base from "../xy-base.js";
-import popupStyle from "./popup.css?inline" assert { type: "css" };
+import style from "./index.css?inline" assert { type: "css" };
 import Pop from "../pop/index.js";
 
-export class PopUp extends Pop {
+export default class XyPopOver extends Pop {
 	constructor() {
 		super();
-		this.adoptedStyle(popupStyle);
+		this.adoptedStyle(style);
 		this.shadowRoot.innerHTML = `
-		<slot id="content"></slot>
+		<slot></slot>
 		`;
 	}
 
-	connectedCallback() {
-		this.content = this.shadowRoot.getElementById("content");
-		this.content.addEventListener("slotchange", (ev) => {
-			console.log(ev.target.assignedElements())
-		})
-		// this.init(triggerEl, {
-		// 	dir: "top,bottom",
-		// 	trigger: ["hover", "focus"],
-		// 	...option,
-		// });
-	}
-
-	adoptedCallback() {
-		console.log(2434)
-	}
-}
-
-/*
-new Tips('el, {
-  tips : 'xxx',
-  dir : 'top',
-})
-*/
-
-if (!customElements.get("xy-popup")) {
-	customElements.define("xy-popup", PopUp);
-}
-
-export default class XyPopOver extends Base {
-	static get observedAttributes() {
-		return ["color", "tips", "type", "open", "dir", "offset"];
-	}
-
-	constructor() {
-		super();
-		const shadowRoot = this.attachShadow({ mode: "open" });
-		shadowRoot.innerHTML = `
-      <style>
-      :host{
-        display: contents!important;
-      }
-      </style>
-      <slot id="slots"></slot>
-
-      `;
-		// this.slots = shadowRoot.getElementById("slots");	
+	get triggerEl() {
+		const target = this.getAttribute('target')
+		if (target) {
+			return this.getRootNode().querySelector(target)
+		} else {
+			return this.previousElementSibling || this.parentNode
+		}
 	}
 
 	get dir() {
-		return this.getAttribute("dir") || "top";
+		return this.getAttribute("dir") || "BL,TL";
 	}
-	get open() {
-		return this.getAttribute("open") !== null;
+
+	set dir(value) {
+		this.setAttribute("dir", value);
 	}
 
 	get trigger() {
@@ -74,36 +35,23 @@ export default class XyPopOver extends Base {
 		this.setAttribute("trigger", value);
 	}
 
-	set dir(value) {
-		this.setAttribute("dir", value);
-	}
-
-	set open(value) {
-		this.toggleAttribute("open", value);
-	}
-
 	connectedCallback() {
-		this.slots = this.shadowRoot.getElementById("slots");
-		this.slots.addEventListener("slotchange", (ev) => {
-			const [ trriger, popup ] = ev.target.assignedElements()
-			// console.log(22)
-			if (trriger && popup) {
-				popup.init(trriger, {
-					dir: "BL,TL",
-					trigger: ["hover", "focus"],
-				})
-			}
-		});
-	}
-
-	attributeChangedCallback(name, oldValue, newValue) {
-		
-	}
-
-	disconnectedCallback() {
-		// this.tipEl?.remove();
+		if (!this.target) {
+			this.target = this.triggerEl
+		}
+		this.init(this.target, {
+			dir: this.dir,
+			trigger: this.trigger,
+		})
 	}
 }
+
+/*
+new PopOver(el, {
+  dir : 'top',
+  dir : 'top',
+})
+*/
 
 if (!customElements.get("xy-popover")) {
 	customElements.define("xy-popover", XyPopOver);

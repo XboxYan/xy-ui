@@ -46,8 +46,8 @@ export default class Pop extends Base {
 		this.style.setProperty("--offset-y", y);
 	}
 
-	getNode(triggerEl) {
-		let node = triggerEl;
+	getNode(target) {
+		let node = target;
 		if (!node) {
 			return null;
 		}
@@ -100,7 +100,7 @@ export default class Pop extends Base {
 		}
 	}
 
-	// 监听triggerEl元素出现
+	// 监听target元素出现
 	observer(node) {
 		const observer = new IntersectionObserver((ioes) => {
 			ioes.forEach((ioe) => {
@@ -138,10 +138,10 @@ export default class Pop extends Base {
 	}
 
 	// 初始化
-	init(triggerEl, option) {
-		if (!triggerEl) return;
-		this.disconnect(triggerEl);
-		const node = this.getNode(triggerEl);
+	init(target, option) {
+		if (!target) return;
+		this.disconnect(target);
+		const node = this.getNode(target);
 		this.node = node;
 		Object.keys(option).forEach((el) => {
 			if (option[el]) {
@@ -157,23 +157,23 @@ export default class Pop extends Base {
 			option.trigger === "none" ||
 			option.trigger?.includes("none")
 		) {
-			// 如果有 open 属性控制，或者 trigger 为 none，那么不再通过 triggerEl 触发
+			// 如果有 open 属性控制，或者 trigger 为 none，那么不再通过 target 触发
 			this.observer(node);
 			this.render();
 			return;
 		}
 		// hover
 		if (option.trigger.includes("hover")) {
-			triggerEl.addEventListener("mouseenter", () => {
+			target.addEventListener("mouseenter", () => {
 				if (this.disabled || this.open) return;
 				this._hover = true;
 				this._timer && clearTimeout(this._timer);
 				this._timer = setTimeout(() => {
-					this.render(node);
+					this.render();
 					this.open = true;
 				}, 200);
 			});
-			triggerEl.addEventListener("mouseleave", (ev) => {
+			target.addEventListener("mouseleave", (ev) => {
 				// 是否处于hover
 				if (this._hover) {
 					this._hover = false;
@@ -183,21 +183,21 @@ export default class Pop extends Base {
 			});
 		}
 		if (option.trigger.includes("focus")) {
-			triggerEl.addEventListener("focus", () => {
+			target.addEventListener("focus", () => {
 				if (this.disabled) return;
-				this.render(node);
+				this.render();
 				this.open = true;
 			});
-			triggerEl.addEventListener("blur", (ev) => {
+			target.addEventListener("blur", (ev) => {
 				this.open = false;
 			});
 		}
 		if (option.trigger.includes("click")) {
 			document.addEventListener("click", (ev) => {
 				if (this.disabled) return;
-				if (triggerEl.contains(ev.target) || this.contains(ev.target)) {
+				if (target.contains(ev.target) || this.contains(ev.target)) {
 					if (!this.open) {
-						this.render(node);
+						this.render();
 						this.open = true;
 					}
 				} else {
