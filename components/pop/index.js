@@ -92,21 +92,24 @@ export default class Pop extends Base {
 				w: this.offsetWidth + 10,
 				h: this.offsetHeight + 10,
 			};
-      const otherdir = this.auto[1];
-			if (top < BOUND.h && ['bottom','BL','BR'].includes(otherdir)) {
-        this.dir = otherdir;
+			if (top < BOUND.h) {
+        const dir = ['bottom','BL','BR'].find(el => this.auto.includes(el));
+        dir && (this.dir = dir);
 				return;
 			}
-			if (h - bottom < BOUND.h  && ['top','TL','TR'].includes(otherdir)) {
-				this.dir = otherdir;
+			if (h - bottom < BOUND.h) {
+				const dir = ['top','TL','TR'].find(el => this.auto.includes(el));
+        dir && (this.dir = dir);
 				return;
 			}
-			if (left < BOUND.w && ['right','RT','RB'].includes(otherdir)) {
-				this.dir = otherdir;
+			if (left < BOUND.w) {
+				const dir = ['right','RT','RB'].find(el => this.auto.includes(el));
+        dir && (this.dir = dir);
 				return;
 			}
-			if (w - right < BOUND.w  && ['left','LT','LB'].includes(otherdir)) {
-				this.dir = otherdir;
+			if (w - right < BOUND.w) {
+				const dir = ['left','LT','LB'].find(el => this.auto.includes(el));
+        dir && (this.dir = dir);
 				return;
 			}
 		}
@@ -155,7 +158,6 @@ export default class Pop extends Base {
 		this.disconnect(target);
 		const node = this.getNode(target);
 		this.node = node;
-    this.trigger = option.trigger;
 		Object.keys(option).forEach((el) => {
 			if (option[el]) {
         this[el] = option[el];
