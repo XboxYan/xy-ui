@@ -10,6 +10,10 @@
   --pad: 10px;
 }
 
+:host([trigger*=contextmenu]){
+  --pad: 0;
+}
+
 :host(:not([type=custom]))::before {
   content: '';
   position: absolute;

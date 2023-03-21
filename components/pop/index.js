@@ -8,6 +8,10 @@ export default class Pop extends Base {
 		this.adoptedStyle(style);
 	}
 
+  get dir() {
+		return this.getAttribute("dir") || "BL,TL";
+	}
+
 	set dir(value) {
 		this.setAttribute("dir", value);
 	}
@@ -32,6 +36,14 @@ export default class Pop extends Base {
 	get open() {
 		return this.getAttribute("open") !== null;
 	}
+
+  get trigger() {
+		return this.getAttribute("trigger") || "hover,focus";
+	}
+
+  set trigger(value) {
+    this.setAttribute("trigger", value)
+  }
 
 	set open(value) {
 		if (value) {
@@ -143,9 +155,10 @@ export default class Pop extends Base {
 		this.disconnect(target);
 		const node = this.getNode(target);
 		this.node = node;
+    this.trigger = option.trigger;
 		Object.keys(option).forEach((el) => {
 			if (option[el]) {
-				this[el] = option[el];
+        this[el] = option[el];
 			}
 		});
 		if (option.dir.includes(',')) {
@@ -154,7 +167,6 @@ export default class Pop extends Base {
 		}
 		if (
 			option.open ||
-			option.trigger === "none" ||
 			option.trigger?.includes("none")
 		) {
 			// 如果有 open 属性控制，或者 trigger 为 none，那么不再通过 target 触发

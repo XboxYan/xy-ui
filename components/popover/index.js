@@ -19,22 +19,6 @@ export default class XyPopOver extends Pop {
 		}
 	}
 
-	get dir() {
-		return this.getAttribute("dir") || "BL,TL";
-	}
-
-	set dir(value) {
-		this.setAttribute("dir", value);
-	}
-
-	get trigger() {
-		return this.getAttribute("trigger") || "hover,focus";
-	}
-
-	set trigger(value) {
-		this.setAttribute("trigger", value);
-	}
-
 	connectedCallback() {
 		if (!this.target) {
 			this.target = this.triggerEl
@@ -43,6 +27,24 @@ export default class XyPopOver extends Pop {
 			dir: this.dir,
 			trigger: this.trigger,
 		})
+		if (this.trigger.includes('contextmenu')) {
+			this.target.addEventListener('contextmenu', ev => {
+				ev.preventDefault();
+				if (this.disabled) return;
+				if (!this.isConnected || this.parentNode !== document.body) {
+					document.body.append(this);
+					this.clientWidth;
+				}
+				this.style.left = ev.pageX + 'px'
+				this.style.top = ev.pageY + 'px'
+				this.toggleAttribute('open', true)
+			})
+			document.addEventListener('click', ev => {
+				if (!this.contains(ev.target)) {
+					this.toggleAttribute('open', false)
+				}
+			})
+		}
 	}
 }
 

@@ -208,8 +208,6 @@ popover.setAttribute('dir','right');
 
 ## 触发方式`trigger`
 
-## 触发方式`trigger`
-
 还可以通过`trigger`属性定义触发方式，默认为`hover,focus`，还可以设置为`click`，也可任意组合
 
 ::: tip
@@ -228,5 +226,42 @@ popover.setAttribute('dir','right');
 <xy-button>click</xy-button>
 <xy-popover trigger="click">
     <p>我是通过 click 触发的</p>
+</xy-popover>
+</div>
+
+```html
+<xy-button>hover</xy-button>
+<xy-popover trigger="hover">
+  ...
+</xy-popover>
+<xy-button>focus</xy-button>
+<xy-popover trigger="focus">
+  ...
+</xy-popover>
+<xy-button>click</xy-button>
+<xy-popover trigger="click">
+  ...
+</xy-popover>
+```
+
+还支持关键词`contextmenu`，可以实现自定义右键菜单
+
+<style scoped>
+.contextmenu{
+  display: flex;
+  width: 100%;
+  font-size: 14px;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-bg-secondary);
+  height: 200px;
+}
+</style>
+<div class="wrap">
+<div class="contextmenu">在这里单击右键</div>
+<xy-popover type="custom" trigger="contextmenu">
+    <xy-button type="flat">菜单一</xy-button>
+    <xy-button type="flat">菜单二</xy-button>
+    <xy-button type="flat">菜单三</xy-button>
 </xy-popover>
 </div>

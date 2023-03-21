@@ -125,7 +125,7 @@ export default class XyTips extends Base {
 			type: this.type,
 			open: this.open,
 			offset: this.offset,
-			trigger: this.trigger.split(","),
+			trigger: this.trigger,
 		});
 	}
 
