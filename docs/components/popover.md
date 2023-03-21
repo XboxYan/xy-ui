@@ -35,14 +35,14 @@ import './index.css'
 
 <div class="wrap">
 <xy-button type="primary">default</xy-button>
-<xy-popover>
+<xy-popover trigger="hover">
     <xy-button type="flat">菜单一</xy-button>
     <xy-button type="flat">菜单二</xy-button>
     <xy-button type="flat">菜单三</xy-button>
 </xy-popover>
 
 <xy-button type="primary">custom</xy-button>
-<xy-popover type="custom">
+<xy-popover type="custom" trigger="hover">
     <xy-button type="flat">菜单一</xy-button>
     <xy-button type="flat">菜单二</xy-button>
     <xy-button type="flat">菜单三</xy-button>
