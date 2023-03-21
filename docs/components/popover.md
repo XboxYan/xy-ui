@@ -35,14 +35,14 @@ import './index.css'
 
 <div class="wrap">
 <xy-button type="primary">default</xy-button>
-<xy-popover trigger="hover">
+<xy-popover trigger="hover,focus">
     <xy-button type="flat">菜单一</xy-button>
     <xy-button type="flat">菜单二</xy-button>
     <xy-button type="flat">菜单三</xy-button>
 </xy-popover>
 
 <xy-button type="primary">custom</xy-button>
-<xy-popover type="custom" trigger="hover">
+<xy-popover type="custom" trigger="hover,focus">
     <xy-button type="flat">菜单一</xy-button>
     <xy-button type="flat">菜单二</xy-button>
     <xy-button type="flat">菜单三</xy-button>
@@ -73,10 +73,10 @@ import './index.css'
   <xy-button type="primary" id="t1">target1</xy-button>
   <xy-button type="primary" id="t2">target2</xy-button>
 </div>
-<xy-popover target="#t1" trigger="hover">
+<xy-popover target="#t1" trigger="hover,focus">
     我是 target1 触发的
 </xy-popover>
-<xy-popover target="#t2" trigger="hover">
+<xy-popover target="#t2" trigger="hover,focus">
     我是 target2 触发的
 </xy-popover>
 
@@ -109,62 +109,62 @@ import './index.css'
 <div class="d"></div>
 <div class="x"></div>
 <xy-button>TL</xy-button>
-<xy-popover dir="TL" trigger="hover">
+<xy-popover dir="TL" trigger="hover,focus">
   <p>弹出内容</p>
   <p>弹出内容</p>
 </xy-popover>
 <xy-button>top</xy-button>
-<xy-popover dir="top" trigger="hover">
+<xy-popover dir="top" trigger="hover,focus">
   <p>弹出内容</p>
   <p>弹出内容</p>
 </xy-popover>
 <xy-button>TR</xy-button>
-<xy-popover dir="TR" trigger="hover">
+<xy-popover dir="TR" trigger="hover,focus">
   <p>弹出内容</p>
   <p>弹出内容</p>
 </xy-popover>
 <xy-button>LT</xy-button>
-<xy-popover dir="LT" trigger="hover">
+<xy-popover dir="LT" trigger="hover,focus">
   <p>弹出内容</p>
   <p>弹出内容</p>
 </xy-popover>
 <xy-button>RT</xy-button>
-<xy-popover dir="RT" trigger="hover">
+<xy-popover dir="RT" trigger="hover,focus">
   <p>弹出内容</p>
   <p>弹出内容</p>
 </xy-popover>
 <xy-button>left</xy-button>
-<xy-popover dir="left" trigger="hover">
+<xy-popover dir="left" trigger="hover,focus">
   <p>弹出内容</p>
   <p>弹出内容</p>
 </xy-popover>
 <xy-button>right</xy-button>
-<xy-popover dir="right" trigger="hover">
+<xy-popover dir="right" trigger="hover,focus">
   <p>弹出内容</p>
   <p>弹出内容</p>
 </xy-popover>
 <xy-button>LB</xy-button>
-<xy-popover dir="LB" trigger="hover">
+<xy-popover dir="LB" trigger="hover,focus">
   <p>弹出内容</p>
   <p>弹出内容</p>
 </xy-popover>
 <xy-button>RB</xy-button>
-<xy-popover dir="RB" trigger="hover">
+<xy-popover dir="RB" trigger="hover,focus">
   <p>弹出内容</p>
   <p>弹出内容</p>
 </xy-popover>
 <xy-button>BL</xy-button>
-<xy-popover dir="BL" trigger="hover">
+<xy-popover dir="BL" trigger="hover,focus">
   <p>弹出内容</p>
   <p>弹出内容</p>
 </xy-popover>
 <xy-button>bottom</xy-button>
-<xy-popover dir="bottom" trigger="hover">
+<xy-popover dir="bottom" trigger="hover,focus">
   <p>弹出内容</p>
   <p>弹出内容</p>
 </xy-popover>
 <xy-button>BR</xy-button>
-<xy-popover dir="BR" trigger="hover">
+<xy-popover dir="BR" trigger="hover,focus">
   <p>弹出内容</p>
   <p>弹出内容</p>
 </xy-popover>
@@ -191,7 +191,7 @@ popover.setAttribute('dir','right');
 除了上述 12 个方位外，还可以设置两个值，以逗号分隔，比如`top,bottom`，可以自动根据位置来选择一个合适的方向。默认值为`TL,BL`。
 
 <xy-button>top,bottom</xy-button>
-<xy-popover dir="top,bottom" trigger="hover">
+<xy-popover dir="top,bottom" trigger="hover,focus">
     <p>我会自动调整位置</p>
     <p>在空间充足的情况下朝上</p>
     <p>在上方空间不足的情况下自动朝下</p>
@@ -216,7 +216,7 @@ popover.setAttribute('dir','right');
 
 <div class="wrap">
 <xy-button>hover</xy-button>
-<xy-popover trigger="hover">
+<xy-popover trigger="hover,focus">
     <p>我是通过 hover 触发的</p>
 </xy-popover>
 <xy-button>focus</xy-button>
