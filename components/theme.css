@@ -13,18 +13,18 @@
   --primary-color-lighter: color-mix(in srgb, var(--primary-color) 80%, #fff);
   --primary-color-dark: color-mix(in srgb, var(--primary-color) 90%, #000);
   --primary-color-darker: color-mix(in srgb, var(--primary-color) 80%, #000);
-  --border-color: #d9d9d9;
   /*边框颜色，按钮、输入框*/
-  --success-color: #52c41a;
+  --border-color: #d9d9d9;
   /*成功色*/
-  --waring-color: #faad14;
+  --success-color: #52c41a;
   /*警告色*/
-  --error-color: #f4615c;
+  --waring-color: #faad14;
   /*错误色*/
-  --info-color: #1890ff;
+  --error-color: #f4615c;
   /*提示色*/
-  --danger-color: #ff7875;
+  --info-color: #1890ff;
   /*危险色*/
+  --danger-color: #ff7875;
   /*font*/
   --font-size: 14px;
   --font-size-lg: 16px;
@@ -49,6 +49,11 @@
   /* tips */
   --tips-bg: rgba(0, 0, 0, .88);
   --tips-color: #fff;
+}
+
+xy-popover:not(:defined){
+  position: absolute;
+  visibility: hidden;
 }
 
 @supports not (color: color-mix(in srgb, red, pink)) {

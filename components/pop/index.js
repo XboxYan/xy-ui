@@ -47,15 +47,19 @@ export default class Pop extends Base {
 
 	set open(value) {
 		if (value) {
-			this.setPosition(this.node);
+			this.setPosition();
 		}
-		this.toggleAttribute("open", value);
+    this.toggleAttribute("open", value);
 	}
 
 	set offset(value) {
 		const [x, y] = value.split(",");
 		this.style.setProperty("--offset-x", x);
 		this.style.setProperty("--offset-y", y);
+	}
+
+  get node() {
+    return this.getNode(this.target)
 	}
 
 	getNode(target) {
@@ -69,17 +73,17 @@ export default class Pop extends Base {
 		return node;
 	}
 
-	render(node) {
+	render() {
 		if (!this.isConnected || this.parentNode !== document.body) {
 			document.body.append(this);
 			this.clientWidth;
 		}
-		node && this.setPosition(node);
 	}
 
 	// 设置tips位置
-	setPosition(node) {
-		const { left, top, right, bottom } = node.getBoundingClientRect();
+	setPosition() {
+    if (this.trigger?.includes('contextmenu')) return
+		const { left, top, right, bottom } = this.node.getBoundingClientRect();
 		this.style.setProperty("--left", parseInt(left + window.pageXOffset));
 		this.style.setProperty("--top", parseInt(top + window.pageYOffset));
 		this.style.setProperty("--right", parseInt(right + window.pageXOffset));
@@ -116,24 +120,24 @@ export default class Pop extends Base {
 	}
 
 	// 监听target元素出现
-	observer(node) {
+	observer() {
 		const observer = new IntersectionObserver((ioes) => {
 			ioes.forEach((ioe) => {
 				const el = ioe.target;
 				const intersectionRatio = ioe.intersectionRatio;
 				if (intersectionRatio > 0 && intersectionRatio <= 1) {
-					this.setPosition(node);
+					this.setPosition();
 					observer.unobserve(el);
 				}
 			});
 		});
-		observer.observe(node);
+		observer.observe(this.node);
 	}
 
 	// 监听删除
-	disconnect(node) {
+	disconnect(target) {
 		// xy包裹的元素不用监听
-		if (node.parentNode.tagName.startsWith("XY-")) return;
+		if (target.parentNode.tagName.startsWith("XY-")) return;
 		const observerOptions = {
 			childList: true,
 			subtree: true,
@@ -142,9 +146,9 @@ export default class Pop extends Base {
 		const observer = new MutationObserver((ioes) => {
 			ioes.forEach((ioe) => {
 				if (ioe?.removedNodes) {
-					if ([...ioe.removedNodes].some((el) => el.contains(node))) {
+					if ([...ioe.removedNodes].some((el) => el.contains(target))) {
 						// console.log('移除了')
-						this.remove();
+						this?.remove();
 					}
 				}
 			});
@@ -155,9 +159,8 @@ export default class Pop extends Base {
 	// 初始化
 	init(target, option) {
 		if (!target) return;
+    this.target = target;
 		this.disconnect(target);
-		const node = this.getNode(target);
-		this.node = node;
 		Object.keys(option).forEach((el) => {
 			if (option[el]) {
         this[el] = option[el];
@@ -172,18 +175,19 @@ export default class Pop extends Base {
 			option.trigger?.includes("none")
 		) {
 			// 如果有 open 属性控制，或者 trigger 为 none，那么不再通过 target 触发
-			this.observer(node);
+			this.observer();
 			this.render();
 			return;
 		}
 		// hover
 		if (option.trigger.includes("hover")) {
 			target.addEventListener("mouseenter", () => {
-				if (this.disabled || this.open) return;
+        if (this.disabled || this.open) return;
 				this._hover = true;
 				this._timer && clearTimeout(this._timer);
 				this._timer = setTimeout(() => {
-					this.render();
+          this.render();
+          this.target = target;
 					this.open = true;
 				}, 200);
 			});
@@ -200,6 +204,7 @@ export default class Pop extends Base {
 			target.addEventListener("focus", () => {
 				if (this.disabled) return;
 				this.render();
+        this.target = target;
 				this.open = true;
 			});
 			target.addEventListener("blur", (ev) => {
@@ -211,7 +216,8 @@ export default class Pop extends Base {
 				if (this.disabled) return;
 				if (target.contains(ev.target) || this.contains(ev.target)) {
 					if (!this.open) {
-						this.render();
+            this.render();
+            this.target = target;
 						this.open = true;
 					}
 				} else {

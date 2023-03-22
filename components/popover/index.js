@@ -2,6 +2,10 @@ import style from "./index.css?inline" assert { type: "css" };
 import Pop from "../pop/index.js";
 
 export default class XyPopOver extends Pop {
+	static get observedAttributes() {
+		return ["open"];
+	}
+
 	constructor() {
 		super();
 		this.adoptedStyle(style);
@@ -10,42 +14,57 @@ export default class XyPopOver extends Pop {
 		`;
 	}
 
-	get triggerEl() {
+	get targetAll() {
 		const target = this.getAttribute('target')
 		if (target) {
-			return this.getRootNode().querySelector(target)
+			return [...this.getRootNode().querySelectorAll(target)]
 		} else {
-			return this.previousElementSibling || this.parentNode
+			return [this.previousElementSibling || this.parentNode]
 		}
 	}
 
 	connectedCallback() {
-		if (!this.target) {
-			this.target = this.triggerEl
+		if (!this.targetList) {
+			this.targetList = this.targetAll
 		}
-		this.init(this.target, {
-			dir: this.dir,
-			trigger: this.trigger,
-		})
-		if (this.trigger.includes('contextmenu')) {
-			this.target.addEventListener('contextmenu', ev => {
-				ev.preventDefault();
-				if (this.disabled) return;
-				if (!this.isConnected || this.parentNode !== document.body) {
-					document.body.append(this);
-					this.clientWidth;
-				}
-				this.style.left = ev.pageX + 'px'
-				this.style.top = ev.pageY + 'px'
-				this.toggleAttribute('open', true)
+		this.targetList.forEach(target => {
+			this.init(target, {
+				dir: this.dir,
+				trigger: this.trigger,
 			})
-			document.addEventListener('click', ev => {
-				if (!this.contains(ev.target)) {
-					this.toggleAttribute('open', false)
-				}
-			})
+			target.pop = this // popover 是原生属性
+			if (this.trigger.includes('contextmenu')) {
+				target.addEventListener('contextmenu', ev => {
+					ev.preventDefault();
+					if (this.disabled) return;
+					if (!this.isConnected || this.parentNode !== document.body) {
+						document.body.append(this);
+						this.clientWidth;
+					}
+					this.style.left = ev.pageX + 'px'
+					this.style.top = ev.pageY + 'px'
+					this.open = true
+				})
+				document.addEventListener('click', ev => {
+					if (!this.contains(ev.target)) {
+						this.open = false
+					}
+				})
+			}
+		});
+	}
+
+	attributeChangedCallback(name, oldValue, newValue) {
+		if (name === 'open') {
+			this.dispatchEvent(new Event('change'))
+			if (this.open) {
+				this.dispatchEvent(new Event('show'))
+			} else {
+				this.dispatchEvent(new Event('hide'))
+			}
 		}
 	}
+
 }
 
 /*

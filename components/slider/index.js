@@ -34,7 +34,6 @@ export default class XySlider extends Base {
 			this.resizeObserver.observe(this);
 			this.tipsEl.dir = "right";
 			this.tipsEl.tipEl.auto = "right,left";
-			this.tipsEl.tipEl.style.transition = "none";
 		}
 		this.slider.addEventListener("input", (ev) => {
 			this.renderTip(ev.target.value);

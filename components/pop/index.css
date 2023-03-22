@@ -11,12 +11,15 @@
   z-index: 10;
 }
 
-:host([auto]:is(:not([trigger]),[trigger*='hover'])) {
-  transition: all 0s ease 0.2s !important;
+:host(:is([show],[open],:hover)) {
+  transition: var(--transition, .2s);
+  --s: 1;
+  opacity: 1;
+  visibility: visible;
 }
 
-:host([auto][open]) {
-  transition: 0s !important;
+:host(:is(:not([trigger]),[trigger*='hover'])) {
+  transition: left 0s, top 0s, opacity .05s, visibility .05s, transform .2s;
 }
 
 :host::after{
@@ -24,13 +27,6 @@
   position: absolute;
   inset: calc(var(--pad) * -1);
   z-index: -1;
-}
-
-:host(:is([show],[open],:hover)) {
-  transition: var(--transition, .2s);
-  --s: 1;
-  opacity: 1;
-  visibility: visible;
 }
 
 /* dir */

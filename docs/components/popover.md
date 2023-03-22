@@ -5,6 +5,12 @@ import './index.css'
     import('../../components/switch/')
     import('../../components/button/')
     import('../../components/popover/')
+    popover_event.addEventListener('show',function(ev){
+        console.log('悬浮层出现了');
+    })
+    popover_event.addEventListener('hide',function(ev){
+        console.log('悬浮层消失了');
+    })
   })
 </script>
 
@@ -65,7 +71,7 @@ import './index.css'
 </xy-popover>
 ```
 
-## 目标元素`target`
+## 触发目标元素`target`
 
 默认情况下，`xy-popover`是由**相邻的前一个节点**（`previousElementSibling`）控制的。如果需要自定义，可以通过`target`来选择，值为合法的选择器，比如`#id`、`.class`等
 
@@ -90,6 +96,37 @@ import './index.css'
     我是 target2 触发的
 </xy-popover>
 ```
+
+也可以指定多个`.class`，这样可以通过多个`target`来控制同一个悬浮层
+
+<div class="wrap">
+  <xy-button type="primary" class="target">target1</xy-button>
+  <xy-button type="primary"  class="target">target2</xy-button>
+  <xy-button type="primary"  class="target">target3</xy-button>
+</div>
+<xy-popover target=".target" trigger="hover,focus">
+    我是 .target 触发的
+</xy-popover>
+
+```html
+<xy-button class="target">target1</xy-button>
+<xy-button class="target">target2</xy-button>
+<xy-button class="target">target3</xy-button>
+<xy-popover target=".target">
+    我是 .target 触发的
+</xy-popover>
+```
+
+每个目标元素和悬浮层直接都有一个对应关系，可以通过`.target`和`.pop` 分别获取
+
+```js
+悬浮层.target = 触发目标
+触发目标.pop = 悬浮层
+```
+
+示意图如下
+
+![popover](../img/popover-1.jpg)
 
 ## 方向`dir`
 
@@ -191,7 +228,7 @@ popover.setAttribute('dir','right');
 除了上述 12 个方位外，还可以设置两个值，以逗号分隔，比如`top,bottom`，可以自动根据位置来选择一个合适的方向。默认值为`TL,BL`。
 
 <xy-button>top,bottom</xy-button>
-<xy-popover dir="top,bottom" trigger="hover,focus">
+<xy-popover dir="top,bottom">
     <p>我会自动调整位置</p>
     <p>在空间充足的情况下朝上</p>
     <p>在上方空间不足的情况下自动朝下</p>
@@ -215,15 +252,15 @@ popover.setAttribute('dir','right');
 :::
 
 <div class="wrap">
-<xy-button>hover</xy-button>
+<xy-button type="primary">hover</xy-button>
 <xy-popover trigger="hover,focus">
     <p>我是通过 hover 触发的</p>
 </xy-popover>
-<xy-button>focus</xy-button>
+<xy-button type="primary">focus</xy-button>
 <xy-popover trigger="focus">
     <p>我是通过 focus 触发的</p>
 </xy-popover>
-<xy-button>click</xy-button>
+<xy-button type="primary">click</xy-button>
 <xy-popover trigger="click">
     <p>我是通过 click 触发的</p>
 </xy-popover>
@@ -265,3 +302,129 @@ popover.setAttribute('dir','right');
     <xy-button type="flat">菜单三</xy-button>
 </xy-popover>
 </div>
+
+```html
+<div class="contextmenu">在这里单击右键</div>
+<xy-popover type="custom" trigger="contextmenu">
+    <xy-button type="flat">菜单一</xy-button>
+    <xy-button type="flat">菜单二</xy-button>
+    <xy-button type="flat">菜单三</xy-button>
+</xy-popover>
+```
+
+## 显示`open`
+
+还可以通过`open`主动去控制悬浮层的出现与隐藏，建议设置`trigger="none"`
+
+<div class="wrap">
+<xy-button>我不能触发，但是可以通过后面的开关触发</xy-button>
+<xy-popover id="popover_open" dir="BL" type="custom" trigger="none">
+    <xy-button type="flat">菜单一</xy-button>
+    <xy-button type="flat">菜单二</xy-button>
+    <xy-button type="flat">菜单三</xy-button>
+</xy-popover>
+<xy-switch onchange="document.getElementById('popover_open').open = this.checked"></xy-switch>
+</div>
+
+```html
+<xy-popover trigger="none" open>
+    ...
+</xy-popover>
+```
+
+JavaScript操作set
+
+```js
+popover.open = true;
+popover.open = false;
+//原生属性操作
+popover.setAttribute('open',true);
+popover.setAttribute('open',false);
+popover.toggleAttribute('open',[force]);
+```
+
+## 自定义样式
+
+可以当成普通标签一样，直接对`xy-popover`进行自定义就行了，比如改变背景色
+
+<style scoped>
+.custom{
+  background: #333;
+  color: #fff
+}
+</style>
+
+<xy-button type="primary">自定义样式</xy-button>
+<xy-popover class="custom" trigger="hover,focus">
+    <p>自定义样式</p>
+    <p>自定义样式</p>
+    <p>自定义样式</p>
+</xy-popover>
+
+```css
+xy-popover{
+  background: #333;
+  color: #fff
+}
+```
+
+## 事件`event`
+
+### show、hide
+
+悬浮层出现/消失时触发。
+
+<div class="wrap">
+<xy-button type="primary">show/hide 事件监听</xy-button>
+<xy-popover id="popover_event" trigger="hover,focus">
+    <xy-button type="flat">菜单一</xy-button>
+    <xy-button type="flat">菜单二</xy-button>
+    <xy-button type="flat">菜单三</xy-button>
+</xy-popover>
+</div>
+
+由于原生并没有`show、hide`这两个事件，因此**只能通过`addEventListener`监听**
+
+```js
+popover.addEventListener('show',function(ev){
+    console.log('出现了');
+})
+popover.addEventListener('hide',function(ev){
+    console.log('消失了');
+})
+```
+
+### change
+
+悬浮层显示状态改变时触发。
+
+虽然语义不太好，但还是比较方便，可以直接通过`onchange`监听
+
+
+<div class="wrap">
+<xy-button type="primary">change 事件监听</xy-button>
+<xy-popover trigger="hover,focus" onchange="console.log('悬浮层状态：'+this.open)">
+    <xy-button type="flat">菜单一</xy-button>
+    <xy-button type="flat">菜单二</xy-button>
+    <xy-button type="flat">菜单三</xy-button>
+</xy-popover>
+</div>
+
+```html
+<xy-popover onchange="console.log(this.open)">
+  ...
+</xy-popover>
+```
+
+```js
+popover.onchange = function(ev){
+    //获取open的方式
+    console.log(this.open);
+    console.log(ev.target.open);
+}
+
+popover.addEventListener('change',function(ev){
+    console.log(this.open);
+    console.log(ev.target.open);
+})
+```

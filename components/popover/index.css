@@ -12,6 +12,8 @@
 
 :host([trigger*=contextmenu]){
   --pad: 0;
+  transition: 0s;
+  width: max-content;
 }
 
 :host(:not([type=custom]))::before {
