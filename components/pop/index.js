@@ -137,7 +137,7 @@ export default class Pop extends Base {
 	// 监听删除
 	disconnect(target) {
 		// xy包裹的元素不用监听
-		if (target.parentNode.tagName.startsWith("XY-")) return;
+		if (target.parentNode?.tagName?.startsWith("XY-")) return;
 		const observerOptions = {
 			childList: true,
 			subtree: true,
@@ -153,12 +153,13 @@ export default class Pop extends Base {
 				}
 			});
 		});
-		observer.observe(document.body, observerOptions);
+		observer.observe(target.getRootNode(), observerOptions);
 	}
 
 	// 初始化
 	init(target, option) {
 		if (!target) return;
+		if (!target.clientWidth) return;
     this.target = target;
 		this.disconnect(target);
 		Object.keys(option).forEach((el) => {
@@ -212,15 +213,16 @@ export default class Pop extends Base {
 			});
 		}
 		if (option.trigger.includes("click")) {
+      target.addEventListener("click", (ev) => {
+        if (this.disabled) return;
+        if (!this.open) {
+          this.render();
+          this.target = target;
+          this.open = true;
+        }
+      })
 			document.addEventListener("click", (ev) => {
-				if (this.disabled) return;
-				if (target.contains(ev.target) || this.contains(ev.target)) {
-					if (!this.open) {
-            this.render();
-            this.target = target;
-						this.open = true;
-					}
-				} else {
+				if (!this.contains(ev.target) && !target.contains(ev.target)) {
 					this.open = false;
 				}
 			});

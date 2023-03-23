@@ -23,34 +23,38 @@ export default class XyPopOver extends Pop {
 		}
 	}
 
+	bind(target) {
+		this.init(target, {
+			dir: this.dir,
+			trigger: this.trigger,
+		})
+		target.pop = this // popover 是原生属性
+		if (this.trigger.includes('contextmenu')) {
+			target.addEventListener('contextmenu', ev => {
+				ev.preventDefault();
+				if (this.disabled) return;
+				if (!this.isConnected || this.parentNode !== document.body) {
+					document.body.append(this);
+					this.clientWidth;
+				}
+				this.style.left = ev.pageX + 'px'
+				this.style.top = ev.pageY + 'px'
+				this.open = true
+			})
+			document.addEventListener('click', ev => {
+				if (!this.contains(ev.target)) {
+					this.open = false
+				}
+			})
+		}
+	}
+
 	connectedCallback() {
 		if (!this.targetList) {
 			this.targetList = this.targetAll
 		}
 		this.targetList.forEach(target => {
-			this.init(target, {
-				dir: this.dir,
-				trigger: this.trigger,
-			})
-			target.pop = this // popover 是原生属性
-			if (this.trigger.includes('contextmenu')) {
-				target.addEventListener('contextmenu', ev => {
-					ev.preventDefault();
-					if (this.disabled) return;
-					if (!this.isConnected || this.parentNode !== document.body) {
-						document.body.append(this);
-						this.clientWidth;
-					}
-					this.style.left = ev.pageX + 'px'
-					this.style.top = ev.pageY + 'px'
-					this.open = true
-				})
-				document.addEventListener('click', ev => {
-					if (!this.contains(ev.target)) {
-						this.open = false
-					}
-				})
-			}
+			this.bind(target)
 		});
 	}
 
