@@ -3,6 +3,7 @@ import "../checkbox/index.js";
 import style from "./index.css?inline" assert { type: "css" };
 
 export default class XyCheckBoxGroup extends Base {
+	#slots;
 	static get observedAttributes() {
 		return ["disabled", "value"];
 	}
@@ -42,8 +43,8 @@ export default class XyCheckBoxGroup extends Base {
 	}
 
 	connectedCallback() {
-		this.slots = this.shadowRoot.querySelector("slot");
-		this.slots.addEventListener("slotchange", () => {
+		this.#slots = this.shadowRoot.querySelector("slot");
+		this.#slots.addEventListener("slotchange", () => {
 			const checkboxGroup = [...this.querySelectorAll(`xy-checkbox`)];
 			checkboxGroup.forEach((el) => {
 				el.addEventListener("change", () => {

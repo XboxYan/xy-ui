@@ -1,28 +1,41 @@
 import Base from "../xy-base.js";
 import style from "./index.css?inline" assert { type: "css" };
-import "../popover/index.js";
+import PopOver from "../popover/index.js";
+import "../button/index.js";
+import "../icon/index.js";
 
-export default class XyPopConfirm extends Base {
-  constructor() {
+export default class XyPopConfirm extends PopOver {
+	#btnCancel; // 取消按钮
+	#btnSubmit; // 确认按钮
+	constructor() {
 		super();
-		const shadowRoot = this.attachShadow({ mode: "open" });
 		this.adoptedStyle(style);
-    shadowRoot.innerHTML = `
-      <slot></slot>
-      <xy-popover dir="top,bottom" id="pop" trigger="click">
-      ddd
-      </xy-popover>
+		this.shadowRoot.innerHTML = `
+      <slot name="icon"><xy-icon name="solid/circle-question"></xy-icon></slot>
+      <div class="pane">
+        <h4 class="title" id="title">你确定吗</h4>
+        <slot class="content"></slot>
+        <div class="footer">
+          <xy-button type="flat" size="small" id="cancel">取消</xy-button>
+          <xy-button type="primary" size="small" id="submit">确认</xy-button>
+        </div>
+      </div>
       `;
-      this.pop = shadowRoot.querySelector('#pop')
+		this.#btnCancel = this.shadowRoot.querySelector("#cancel");
+		this.#btnSubmit = this.shadowRoot.querySelector("#submit");
 	}
 
-  connectedCallback() {
-    this.slots = this.shadowRoot.querySelector("slot");
-    this.slots.addEventListener("slotchange", (ev) => {
-      const [target] = ev.target.assignedNodes();
-      this.pop.bind(target);
-    })
-  }
+	connectedCallback() {
+		this.trigger = "click";
+		this.dir = "top";
+		this.auto = "top,bottom";
+		this.render();
+		this.#btnCancel.addEventListener("click", () => {
+			this.open = false;
+		});
+	}
+
+	disconnectedCallback() {}
 }
 
 if (!customElements.get("xy-popconfirm")) {

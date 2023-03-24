@@ -3,6 +3,8 @@ import { Tips } from "../tips/index.js";
 import style from "./index.css?inline" assert { type: "css" };
 
 export default class XyRate extends Base {
+  #star;
+  #rates;
 	static get observedAttributes() {
 		return ["color", "size", "value", "disabled", "tips", "icon"];
 	}
@@ -20,8 +22,8 @@ export default class XyRate extends Base {
       <input part="rate" name="star" value="5" type="radio" />
     </fieldset>
       `;
-		this.star = shadowRoot.getElementById("star");
-		this.rates = [...shadowRoot.querySelectorAll("input")];
+		this.#star = shadowRoot.getElementById("star");
+		this.#rates = [...shadowRoot.querySelectorAll("input")];
 	}
 
 	get value() {
@@ -77,7 +79,7 @@ export default class XyRate extends Base {
 	}
 
 	connectedCallback() {
-		this.rates.forEach((el, index) => {
+		this.#rates.forEach((el, index) => {
 			el.tipsEl = new Tips(el, {
 				tips: this.tips[index] || "",
 				disabled: !this.tips[index],
@@ -89,30 +91,30 @@ export default class XyRate extends Base {
 	}
 
 	disconnectedCallback() {
-		this.rates.forEach((el) => {
+		this.#rates.forEach((el) => {
 			el.tipsEl?.remove();
 		});
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
 		if (name === "size") {
-			this.star.style.fontSize = newValue + "px";
+			this.#star.style.fontSize = newValue + "px";
 		}
 		if (name === "color") {
-			this.star.style.color = newValue;
+			this.#star.style.color = newValue;
 		}
 		if (name === "value") {
 			this.value = newValue;
 		}
 		if (name === "disabled") {
-			this.star.disabled = newValue !== null;
+			this.#star.disabled = newValue !== null;
 		}
 		if (name === "icon") {
       const icon = `${this.icon_cdn}/${this.icon.includes('/')?this.icon:('regular/'+this.icon)}.svg`
-			this.star.style.setProperty('--icon', `url(${icon})`);
+			this.#star.style.setProperty('--icon', `url(${icon})`);
 		}
-		if (name === "tips" && this.rates.length) {
-			this.rates.forEach((el, index) => {
+		if (name === "tips" && this.#rates.length) {
+			this.#rates.forEach((el, index) => {
 				if (el.tipsEl) {
 					el.tipsEl.tips = this.tips[index];
 					el.tipsEl.disabled = !this.tips[index];

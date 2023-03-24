@@ -104,7 +104,7 @@ import './index.css'
   <xy-button type="primary"  class="target">target2</xy-button>
   <xy-button type="primary"  class="target">target3</xy-button>
 </div>
-<xy-popover target=".target" trigger="hover,focus">
+<xy-popover target=".target" trigger="click">
     我是 .target 触发的
 </xy-popover>
 

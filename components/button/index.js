@@ -4,6 +4,10 @@ import "../icon/index.js";
 import style from "./index.css?inline" assert { type: "css" };
 
 export default class XyButton extends Base {
+    #btnEl;
+    #iconEl;
+    #loadEl;
+
 	static get observedAttributes() {
 		return [
 			"disabled",
@@ -37,11 +41,11 @@ export default class XyButton extends Base {
           </button>
           `;
 		}
-		this.btnEl = shadowRoot.getElementById("button");
+		this.#btnEl = shadowRoot.getElementById("button");
 	}
 
 	focus() {
-		this.btnEl.focus();
+		this.#btnEl.focus();
 	}
 
 	get disabled() {
@@ -130,37 +134,37 @@ export default class XyButton extends Base {
 
 	attributeChangedCallback(name, oldValue, newValue) {
         if (name === "disabled") {
-            this.btnEl.toggleAttribute("inert", newValue!==null);
-		    this.btnEl.toggleAttribute("disabled", newValue!==null);
+            this.#btnEl.toggleAttribute("inert", newValue!==null);
+		    this.#btnEl.toggleAttribute("disabled", newValue!==null);
             return
 		}
 		if (name == "loading") {
-			if (!this.loadEl) {
-                this.loadEl = document.createElement("xy-loading");
-                this.loadEl.style.color = "inherit";
+			if (!this.#loadEl) {
+                this.#loadEl = document.createElement("xy-loading");
+                this.#loadEl.style.color = "inherit";
             }
             if (newValue!==null) {
-                this.btnEl.prepend(this.loadEl);
-                this.btnEl.toggleAttribute("inert", true);
+                this.#btnEl.prepend(this.#loadEl);
+                this.#btnEl.toggleAttribute("inert", true);
             } else {
-                this.btnEl.removeChild(this.loadEl);
-                this.btnEl.toggleAttribute("inert", false);
+                this.#btnEl.removeChild(this.#loadEl);
+                this.#btnEl.toggleAttribute("inert", false);
             }
             return
 		}
         if (name == "icon") {
-            if (!this.iconEl) {
-                this.iconEl = document.createElement("xy-icon");
+            if (!this.#iconEl) {
+                this.#iconEl = document.createElement("xy-icon");
             }
             if (newValue!==null) {
-                this.iconEl.name = newValue
-                this.btnEl.prepend(this.iconEl);
+                this.#iconEl.name = newValue
+                this.#btnEl.prepend(this.#iconEl);
             } else {
-                this.btnEl.removeChild(this.iconEl);
+                this.#btnEl.removeChild(this.#iconEl);
             }
             return
         }
-		this.btnEl[name] = newValue;
+		this.#btnEl[name] = newValue;
 	}
 }
 

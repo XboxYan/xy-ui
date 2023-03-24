@@ -26,8 +26,8 @@ import './index.css'
     import '../components/popconfirm/index.js';
 </script>
 <!-- 使用 -->
+<xy-button>confirm</xy-button>
 <xy-popconfirm>
-  <xy-button>confirm</xy-button>
 </xy-popconfirm>
 ```
 
@@ -38,7 +38,8 @@ import './index.css'
 提供两种默认样式，默认是带指向箭头的，同 [tips](./tips)，如果需要自定义，可以使用`custom`
 
 <div class="wrap">
-<xy-popconfirm title="确认要删除吗？" desc="删除之后无法恢复">
   <xy-button type="primary" danger>删除</xy-button>
-</xy-popconfirm>
+  <xy-popconfirm title="确认要删除吗？">
+    删除之后无法恢复
+  </xy-popconfirm>
 </div>

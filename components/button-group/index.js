@@ -21,7 +21,6 @@ class XyButtonGroup extends Base {
 	}
 
 	set disabled(value) {
-		console.log(value);
 		this.toggleAttribute("disabled", value);
 	}
 

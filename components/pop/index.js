@@ -1,14 +1,14 @@
 import Base from "../xy-base.js";
 import style from "./index.css?inline" assert { type: "css" };
-
 export default class Pop extends Base {
+  #documentClickEvent = [];
 	constructor() {
 		super();
 		this.attachShadow({ mode: "open" });
 		this.adoptedStyle(style);
 	}
 
-  get dir() {
+	get dir() {
 		return this.getAttribute("dir") || "BL,TL";
 	}
 
@@ -25,8 +25,8 @@ export default class Pop extends Base {
 	}
 
 	get auto() {
-    const auto = this.getAttribute("auto");
-		return auto?auto.split(','):[];
+		const auto = this.getAttribute("auto");
+		return auto ? auto.split(",") : [];
 	}
 
 	set auto(value) {
@@ -37,19 +37,19 @@ export default class Pop extends Base {
 		return this.getAttribute("open") !== null;
 	}
 
-  get trigger() {
+	get trigger() {
 		return this.getAttribute("trigger") || "hover,focus";
 	}
 
-  set trigger(value) {
-    this.setAttribute("trigger", value)
-  }
+	set trigger(value) {
+		this.setAttribute("trigger", value);
+	}
 
 	set open(value) {
 		if (value) {
-			this.setPosition();
+			this.#setPosition();
 		}
-    this.toggleAttribute("open", value);
+		this.toggleAttribute("open", value);
 	}
 
 	set offset(value) {
@@ -58,11 +58,11 @@ export default class Pop extends Base {
 		this.style.setProperty("--offset-y", y);
 	}
 
-  get node() {
-    return this.getNode(this.target)
+	get node() {
+		return this.#getNode(this.target);
 	}
 
-	getNode(target) {
+	#getNode(target) {
 		let node = target;
 		if (!node) {
 			return null;
@@ -73,7 +73,7 @@ export default class Pop extends Base {
 		return node;
 	}
 
-	render() {
+	#render() {
 		if (!this.isConnected || this.parentNode !== document.body) {
 			document.body.append(this);
 			this.clientWidth;
@@ -81,8 +81,8 @@ export default class Pop extends Base {
 	}
 
 	// 设置tips位置
-	setPosition() {
-    if (this.trigger?.includes('contextmenu')) return
+	#setPosition() {
+		if (this.trigger?.includes("contextmenu")) return;
 		const { left, top, right, bottom } = this.node.getBoundingClientRect();
 		this.style.setProperty("--left", parseInt(left + window.pageXOffset));
 		this.style.setProperty("--top", parseInt(top + window.pageYOffset));
@@ -97,36 +97,36 @@ export default class Pop extends Base {
 				h: this.offsetHeight + 10,
 			};
 			if (top < BOUND.h) {
-        const dir = ['bottom','BL','BR'].find(el => this.auto.includes(el));
-        dir && (this.dir = dir);
+				const dir = ["bottom", "BL", "BR"].find((el) => this.auto.includes(el));
+				dir && (this.dir = dir);
 				return;
 			}
 			if (h - bottom < BOUND.h) {
-				const dir = ['top','TL','TR'].find(el => this.auto.includes(el));
-        dir && (this.dir = dir);
+				const dir = ["top", "TL", "TR"].find((el) => this.auto.includes(el));
+				dir && (this.dir = dir);
 				return;
 			}
 			if (left < BOUND.w) {
-				const dir = ['right','RT','RB'].find(el => this.auto.includes(el));
-        dir && (this.dir = dir);
+				const dir = ["right", "RT", "RB"].find((el) => this.auto.includes(el));
+				dir && (this.dir = dir);
 				return;
 			}
 			if (w - right < BOUND.w) {
-				const dir = ['left','LT','LB'].find(el => this.auto.includes(el));
-        dir && (this.dir = dir);
+				const dir = ["left", "LT", "LB"].find((el) => this.auto.includes(el));
+				dir && (this.dir = dir);
 				return;
 			}
 		}
 	}
 
 	// 监听target元素出现
-	observer() {
+	#observer() {
 		const observer = new IntersectionObserver((ioes) => {
 			ioes.forEach((ioe) => {
 				const el = ioe.target;
 				const intersectionRatio = ioe.intersectionRatio;
 				if (intersectionRatio > 0 && intersectionRatio <= 1) {
-					this.setPosition();
+					this.#setPosition();
 					observer.unobserve(el);
 				}
 			});
@@ -135,7 +135,7 @@ export default class Pop extends Base {
 	}
 
 	// 监听删除
-	disconnect(target) {
+	#disconnect(target) {
 		// xy包裹的元素不用监听
 		if (target.parentNode?.tagName?.startsWith("XY-")) return;
 		const observerOptions = {
@@ -160,35 +160,32 @@ export default class Pop extends Base {
 	init(target, option) {
 		if (!target) return;
 		if (!target.clientWidth) return;
-    this.target = target;
-		this.disconnect(target);
+		this.target = target;
+		this.#disconnect(target);
 		Object.keys(option).forEach((el) => {
 			if (option[el]) {
-        this[el] = option[el];
+				this[el] = option[el];
 			}
 		});
-		if (option.dir.includes(',')) {
+		if (option.dir.includes(",")) {
 			this.auto = option.dir;
-			this.dir = option.dir.split(',')[0];
+			this.dir = option.dir.split(",")[0];
 		}
-		if (
-			option.open ||
-			option.trigger?.includes("none")
-		) {
+		if (option.open || option.trigger?.includes("none")) {
 			// 如果有 open 属性控制，或者 trigger 为 none，那么不再通过 target 触发
-			this.observer();
-			this.render();
+			this.#observer();
+			this.#render();
 			return;
 		}
 		// hover
 		if (option.trigger.includes("hover")) {
 			target.addEventListener("mouseenter", () => {
-        if (this.disabled || this.open) return;
+				if (this.disabled || this.open) return;
 				this._hover = true;
 				this._timer && clearTimeout(this._timer);
 				this._timer = setTimeout(() => {
-          this.render();
-          this.target = target;
+					this.#render();
+					this.target = target;
 					this.open = true;
 				}, 200);
 			});
@@ -204,8 +201,8 @@ export default class Pop extends Base {
 		if (option.trigger.includes("focus")) {
 			target.addEventListener("focus", () => {
 				if (this.disabled) return;
-				this.render();
-        this.target = target;
+				this.#render();
+				this.target = target;
 				this.open = true;
 			});
 			target.addEventListener("blur", (ev) => {
@@ -213,19 +210,20 @@ export default class Pop extends Base {
 			});
 		}
 		if (option.trigger.includes("click")) {
-      target.addEventListener("click", (ev) => {
-        if (this.disabled) return;
-        if (!this.open) {
-          this.render();
-          this.target = target;
-          this.open = true;
-        }
-      })
-			document.addEventListener("click", (ev) => {
+			target.addEventListener("click", (ev) => {
+        ev.stopPropagation()
+				if (this.disabled) return;
+        this.#render();
+        this.target = target;
+        this.open = true;
+			});
+			const click = (ev) => {
 				if (!this.contains(ev.target) && !target.contains(ev.target)) {
 					this.open = false;
 				}
-			});
+			};
+      this.#documentClickEvent.push(click)
+      document.addEventListener("click", click);
 		}
 	}
 }

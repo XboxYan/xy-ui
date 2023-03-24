@@ -2,12 +2,13 @@ import Base from "../xy-base.js";
 import style from "./index.css?inline" assert { type: "css" };
 
 export default class XyRadio extends Base {
+	#radio;
 	static get observedAttributes() {
 		return ["disabled", "checked", "required"];
 	}
 
 	focus() {
-		this.radio.focus();
+		this.#radio.focus();
 	}
 
 	constructor() {
@@ -20,7 +21,7 @@ export default class XyRadio extends Base {
           <slot></slot>
       </label>
       `;
-		this.radio = shadowRoot.getElementById("radio");
+		this.#radio = shadowRoot.getElementById("radio");
 	}
 
 	get disabled() {
@@ -52,7 +53,7 @@ export default class XyRadio extends Base {
 	}
 
 	// 按方向键时自动选中
-	focusChecked(dir) {
+	#focusChecked(dir) {
 		const radioGroup = [...this.radioGroup];
 		const index = radioGroup.findIndex((el) => el.checked);
 		let nextIndex = index + dir;
@@ -69,13 +70,13 @@ export default class XyRadio extends Base {
 	}
 
 	// 按 tab 键只聚焦一组radio中的一个，将其他radio设置为不可聚焦，inert = true
-	tabChange() {
+	#tabChange() {
 		const radioGroup = [...this.radioGroup];
 		radioGroup.filter((el) => el !== this).forEach((el) => (el.inert = true));
 	}
 
 	// 按 tab 聚焦到选中的 radio
-	tabFocus() {
+	#tabFocus() {
 		if (!document.activeElement.checked) {
 			const radioGroup = [...this.radioGroup];
 			const current = radioGroup.find((el) => el.checked) || radioGroup[0];
@@ -84,7 +85,7 @@ export default class XyRadio extends Base {
 	}
 
 	// 按 tab 离开时还原 inert = false
-	tabBlur() {
+	#tabBlur() {
 		const radioGroup = [...this.radioGroup];
 		radioGroup.forEach((el) => (el.inert = false));
 	}
@@ -93,43 +94,43 @@ export default class XyRadio extends Base {
 		this.radioGroup = document.querySelectorAll(
 			`xy-radio[name='${this.name}']`
 		);
-		this.radio.addEventListener("change", (ev) => {
+		this.#radio.addEventListener("change", (ev) => {
 			this.checked = ev.target.checked;
 			// this.checkValidity();
 			this.dispatchEvent(new InputEvent("change"));
 		});
-		this.radio.addEventListener("keydown", (ev) => {
+		this.#radio.addEventListener("keydown", (ev) => {
 			if (!this.radioGroup.length) return;
 			switch (ev.key) {
 				case "ArrowRight":
 				case "ArrowDown":
 					ev.preventDefault();
-					this.focusChecked(1);
+					this.#focusChecked(1);
 					break;
 				case "ArrowLeft":
 				case "ArrowUp":
 					ev.preventDefault();
-					this.focusChecked(-1);
+					this.#focusChecked(-1);
 					break;
 				case "Tab":
-					this.tabChange();
+					this.#tabChange();
 					break;
 				default:
 					break;
 			}
 		});
-		this.radio.addEventListener("focus", () => {
+		this.#radio.addEventListener("focus", () => {
 			if (!this.radioGroup.length) return;
-			this.tabFocus();
+			this.#tabFocus();
 		});
-		this.radio.addEventListener("blur", () => {
+		this.#radio.addEventListener("blur", () => {
 			if (!this.radioGroup.length) return;
-			this.tabBlur();
+			this.#tabBlur();
 		});
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
-		this.radio[name] = newValue !== null;
+		this.#radio[name] = newValue !== null;
 		if (name === "checked" && newValue !== null) {
 			// 将其他radio选中态取消
 			if (this.radioGroup?.length) {

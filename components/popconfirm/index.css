@@ -1,0 +1,34 @@
+:host{
+  flex-direction: row;
+  padding: 12px;
+  gap: 8px;
+  align-items: flex-start;
+  min-width: 200px;
+}
+.title{
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+.pane{
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+}
+[name="icon"]{
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  height: 24px;
+  color: var(--waring-color, #faad14);
+}
+.content{
+  font-size: 14px;
+}
+.footer{
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}

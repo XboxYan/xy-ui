@@ -2,6 +2,7 @@ import Base from "../xy-base.js";
 import style from "./index.css?inline" assert { type: "css" };
 
 export default class XyIcon extends Base {
+  #icon;
 	static get observedAttributes() {
 		return ["name", "size", "color", "type", "spin"];
 	}
@@ -11,7 +12,7 @@ export default class XyIcon extends Base {
 		const shadowRoot = this.attachShadow({ mode: "open" });
 		this.adoptedStyle(style);
 		shadowRoot.innerHTML = `<i id="icon" part="icon" class="icon" role="img"></i>`;
-		this.icon = shadowRoot.getElementById("icon");
+		this.#icon = shadowRoot.getElementById("icon");
 	}
 
 	get name() {
@@ -59,14 +60,14 @@ export default class XyIcon extends Base {
 	attributeChangedCallback(name, oldValue, newValue) {
 		if (name === "name" || name === "type") {
       const icon = `${this.icon_cdn}/${this.name.includes('/')?this.name:(this.type+'/'+this.name)}.svg`
-      this.icon.setAttribute("aria-label", this.name)
-      this.icon.style.setProperty('--icon', `url(${icon})`);
+      this.#icon.setAttribute("aria-label", this.name)
+      this.#icon.style.setProperty('--icon', `url(${icon})`);
 		}
 		if (name === "color") {
-			this.icon.style.color = newValue;
+			this.#icon.style.color = newValue;
 		}
 		if (name === "size") {
-			this.icon.style.fontSize = newValue + "px";
+			this.#icon.style.fontSize = newValue + "px";
 		}
 		if (name === "spin") {
 			this.spin = newValue!==null;

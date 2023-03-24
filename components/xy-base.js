@@ -1,6 +1,6 @@
 export default class Base extends HTMLElement {
 
-  adoptedStyle (style) {
+  adoptedStyle (style, dom) {
     let styleSheet = style
     if (!style.type) {
       // vite会把style编译成成字符串

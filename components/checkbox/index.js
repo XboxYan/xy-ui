@@ -2,6 +2,8 @@ import Base from "../xy-base.js";
 import style from "./index.css?inline" assert { type: "css" };
 
 export default class XyCheckbox extends Base {
+  #checkbox;
+  
 	static get observedAttributes() {
 		return ["disabled", "checked", "required"];
 	}
@@ -16,11 +18,11 @@ export default class XyCheckbox extends Base {
           <slot></slot>
       </label>
       `;
-		this.checkbox = shadowRoot.getElementById("checkbox");
+		this.#checkbox = shadowRoot.getElementById("checkbox");
 	}
 
 	focus() {
-		this.checkbox.focus();
+		this.#checkbox.focus();
 	}
 
 	get disabled() {
@@ -36,7 +38,7 @@ export default class XyCheckbox extends Base {
 	}
 
 	get indeterminate() {
-		return this.checkbox.indeterminate;
+		return this.#checkbox.indeterminate;
 	}
 
 	get value() {
@@ -52,7 +54,7 @@ export default class XyCheckbox extends Base {
 	}
 
 	set indeterminate(value) {
-		this.checkbox.indeterminate = value;
+		this.#checkbox.indeterminate = value;
 	}
 
 	set required(value) {
@@ -60,7 +62,7 @@ export default class XyCheckbox extends Base {
 	}
 
 	connectedCallback() {
-		this.checkbox.addEventListener("change", (ev) => {
+		this.#checkbox.addEventListener("change", (ev) => {
 			this.checked = ev.target.checked;
 			// this.checkValidity();
 			this.dispatchEvent(new InputEvent("change"));
@@ -68,7 +70,7 @@ export default class XyCheckbox extends Base {
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
-		this.checkbox[name] = newValue !== null;
+		this.#checkbox[name] = newValue !== null;
 	}
 }
 

@@ -2,6 +2,7 @@ import Base from "../xy-base.js";
 import style from "./index.css?inline" assert { type: "css" };
 
 export default class XyLoading extends Base {
+  #loading;
 	static get observedAttributes() {
 		return ["color", "size"];
 	}
@@ -16,7 +17,7 @@ export default class XyLoading extends Base {
     </svg>
     <slot></slot>
       `;
-		this.loading = shadowRoot.getElementById("loading");
+		this.#loading = shadowRoot.getElementById("loading");
 	}
 
 	get size() {
@@ -40,10 +41,10 @@ export default class XyLoading extends Base {
 	attributeChangedCallback(name, oldValue, newValue) {
 		if (oldValue === newValue) return;
 		if (name === "size") {
-			this.loading.style.fontSize = newValue + "px";
+			this.#loading.style.fontSize = newValue + "px";
 		}
 		if (name === "color") {
-			this.loading.style.color = newValue;
+			this.#loading.style.color = newValue;
 		}
 	}
 }

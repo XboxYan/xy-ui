@@ -5,6 +5,7 @@ import style from "./index.css?inline" assert { type: "css" };
 // 监听属性
 const observedAttributes = ["disabled", "value"];
 export default class XyRadioGroup extends Base {
+	#slots;
 	static get observedAttributes() {
 		return observedAttributes;
 	}
@@ -44,8 +45,8 @@ export default class XyRadioGroup extends Base {
 	}
 
 	connectedCallback() {
-		this.slots = this.shadowRoot.querySelector("slot");
-		this.slots.addEventListener("slotchange", (ev) => {
+		this.#slots = this.shadowRoot.querySelector("slot");
+		this.#slots.addEventListener("slotchange", (ev) => {
 			const radioGroup = ev.target.assignedNodes();
 			radioGroup.forEach((el) => {
 				el.radioGroup = radioGroup;

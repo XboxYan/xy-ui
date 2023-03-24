@@ -2,6 +2,9 @@ import style from "./index.css?inline" assert { type: "css" };
 import Pop from "../pop/index.js";
 
 export default class XyPopOver extends Pop {
+	#mounted;
+	#documentClickEvent = [];
+
 	static get observedAttributes() {
 		return ["open"];
 	}
@@ -14,7 +17,7 @@ export default class XyPopOver extends Pop {
 		`;
 	}
 
-	get targetAll() {
+	get #targetAll() {
 		const target = this.getAttribute('target')
 		if (target) {
 			return [...this.getRootNode().querySelectorAll(target)]
@@ -23,7 +26,8 @@ export default class XyPopOver extends Pop {
 		}
 	}
 
-	bind(target) {
+	#bind(target) {
+		if (!target.clientWidth) return;
 		this.init(target, {
 			dir: this.dir,
 			trigger: this.trigger,
@@ -41,21 +45,29 @@ export default class XyPopOver extends Pop {
 				this.style.top = ev.pageY + 'px'
 				this.open = true
 			})
-			document.addEventListener('click', ev => {
+			const click = (ev) => {
 				if (!this.contains(ev.target)) {
 					this.open = false
 				}
-			})
+			};
+			this.#documentClickEvent.push(click)
+			document.addEventListener('click',click)
 		}
 	}
 
-	connectedCallback() {
+	render(){
+		if (this.#mounted) return
+		this.#mounted = true
 		if (!this.targetList) {
-			this.targetList = this.targetAll
+			this.targetList = this.#targetAll
 		}
 		this.targetList.forEach(target => {
-			this.bind(target)
+			this.#bind(target)
 		});
+	}
+
+	connectedCallback() {
+		this.render()
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
@@ -69,14 +81,14 @@ export default class XyPopOver extends Pop {
 		}
 	}
 
+	disconnectedCallback() {
+		if (this.#documentClickEvent.length && !this.isConnected) {
+			this.#documentClickEvent.forEach(event => {
+				document.removeEventListener("click", event);
+			})
+		}
+	}
 }
-
-/*
-new PopOver(el, {
-  dir : 'top',
-  dir : 'top',
-})
-*/
 
 if (!customElements.get("xy-popover")) {
 	customElements.define("xy-popover", XyPopOver);

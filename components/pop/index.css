@@ -11,7 +11,7 @@
   z-index: 10;
 }
 
-:host(:is([show],[open],:hover)) {
+:host(:is([show],[open],[trigger*=hover]:hover)) {
   transition: var(--transition, .2s);
   --s: 1;
   opacity: 1;
@@ -44,7 +44,7 @@
   transform: translate(-50%, 50%) scaleY(-1);
 }
 
-:host([dir=top]:is([show],[open],:hover)) {
+:host([dir=top]:is([show],[open],[trigger*=hover]:hover)) {
   --y: calc(-100% - var(--pad));
 }
 
@@ -62,7 +62,7 @@
   transform: translate(0%, 50%) scaleY(-1);
 }
 
-:host([dir=TL]:is([show],[open],:hover)) {
+:host([dir=TL]:is([show],[open],[trigger*=hover]:hover)) {
   --y: calc(-100% - var(--pad));
 }
 
@@ -80,7 +80,7 @@
   transform: translate(0%, 50%) scaleY(-1);
 }
 
-:host([dir=TR]:is([show],[open],:hover)) {
+:host([dir=TR]:is([show],[open],[trigger*=hover]:hover)) {
   --y: calc(-100% - var(--pad));
 }
 
@@ -98,7 +98,7 @@
   transform: translate(50%, 0%) rotate(90deg);
 }
 
-:host([dir=LT]:is([show],[open],:hover)) {
+:host([dir=LT]:is([show],[open],[trigger*=hover]:hover)) {
   --x: calc(-100% - var(--pad));
 }
 
@@ -116,7 +116,7 @@
   transform: translate(50%, -50%) rotate(90deg);
 }
 
-:host([dir=left]:is([show],[open],:hover)) {
+:host([dir=left]:is([show],[open],[trigger*=hover]:hover)) {
   --x: calc(-100% - var(--pad));
 }
 
@@ -134,7 +134,7 @@
   transform: translate(50%, 0%) rotate(90deg);
 }
 
-:host([dir=LB]:is([show],[open],:hover)) {
+:host([dir=LB]:is([show],[open],[trigger*=hover]:hover)) {
   --x: calc(-100% - var(--pad));
 }
 
@@ -152,7 +152,7 @@
   transform: translate(-50%, 0%) rotate(-90deg);
 }
 
-:host([dir=RT]:is([show],[open],:hover)) {
+:host([dir=RT]:is([show],[open],[trigger*=hover]:hover)) {
   --x: var(--pad);
 }
 
@@ -170,7 +170,7 @@
   transform: translate(-50%, -50%) rotate(-90deg);
 }
 
-:host([dir=right]:is([show],[open],:hover)) {
+:host([dir=right]:is([show],[open],[trigger*=hover]:hover)) {
   --x: var(--pad);
 }
 
@@ -188,7 +188,7 @@
   transform: translate(-50%, 0%) rotate(-90deg);
 }
 
-:host([dir=RB]:is([show],[open],:hover)) {
+:host([dir=RB]:is([show],[open],[trigger*=hover]:hover)) {
   --x: var(--pad);
 }
 
@@ -206,7 +206,7 @@
   transform: translate(-50%, -50%);
 }
 
-:host([dir=bottom]:is([show],[open],:hover)) {
+:host([dir=bottom]:is([show],[open],[trigger*=hover]:hover)) {
   --y: var(--pad);
 }
 
@@ -224,7 +224,7 @@
   transform: translate(0%, -50%);
 }
 
-:host([dir=BL]:is([show],[open],:hover)) {
+:host([dir=BL]:is([show],[open],[trigger*=hover]:hover)) {
   --y: var(--pad);
 }
 
@@ -242,6 +242,6 @@
   transform: translate(0%, -50%);
 }
 
-:host([dir=BR]:is([show],[open],:hover)) {
+:host([dir=BR]:is([show],[open],[trigger*=hover]:hover)) {
   --y: var(--pad);
 }

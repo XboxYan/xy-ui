@@ -3,6 +3,7 @@ import style from "./index.css?inline" assert { type: "css" };
 import Pop from "../pop/index.js";
 
 export class Tips extends Pop {
+  #documentClickEvent = [];
 	constructor(triggerEl, option) {
 		super();
 		this.adoptedStyle(style);
@@ -30,6 +31,14 @@ export class Tips extends Pop {
 	set color(value) {
 		this.style.setProperty("--tips-bg", value);
 	}
+
+  disconnectedCallback() {
+    if (this.#documentClickEvent.length && !this.isConnected) {
+			this.#documentClickEvent.forEach(event => {
+				document.removeEventListener("click", event);
+			})
+		}
+  }
 }
 
 /*
