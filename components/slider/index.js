@@ -37,6 +37,7 @@ export default class XySlider extends Base {
 			this.#tipsEl.dir = "right";
 			this.#tipsEl.tipEl.auto = "right,left";
 		}
+    this.#tipsEl.tipEl.style.transition = "all var(--transition, .2s), left 0s, top 0s";
 		this.#slider.addEventListener("input", (ev) => {
 			this.renderTip(ev.target.value);
 			// this.dispatchEvent(new InputEvent("input"));
