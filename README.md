@@ -24,3 +24,31 @@
 yarn
 yarn docs:dev
 ```
+
+## TODO
+- [x] button 按钮
+- [x] icon 图标
+- [x] tips 提示
+- [x] loading 加载
+- [x] popover 悬浮
+- [x] switch 开关
+- [x] slider 滑动输入
+- [x] checkbox 多选框
+- [x] radio 单选框
+- [x] rate 评分
+- [x] popconfirm 确认弹出框
+- [ ] select
+- [ ] datelist
+- [ ] dialog
+- [ ] message
+- [ ] progress
+- [ ] pagination
+- [ ] input
+- [ ] textarea
+- [ ] form
+- [ ] img
+- [ ] color-picker
+- [ ] date-picker
+- [ ] text
+
+
