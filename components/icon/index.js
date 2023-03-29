@@ -6,7 +6,7 @@ export default class XyIcon extends Base {
 	static get observedAttributes() {
 		return ["name", "size", "color", "type", "spin"];
 	}
-
+  
 	constructor() {
 		super();
 		const shadowRoot = this.attachShadow({ mode: "open" });
@@ -59,7 +59,7 @@ export default class XyIcon extends Base {
 
 	attributeChangedCallback(name, oldValue, newValue) {
 		if (name === "name" || name === "type") {
-      const icon = `${this.icon_cdn}/${this.name.includes('/')?this.name:(this.type+'/'+this.name)}.svg`
+      const icon = `${this.constructor.urlPrefix}/${this.name.includes('/')?this.name:(this.type+'/'+this.name)}.svg`
       this.#icon.setAttribute("aria-label", this.name)
       this.#icon.style.setProperty('--icon', `url(${icon})`);
 		}

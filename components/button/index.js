@@ -4,9 +4,9 @@ import "../icon/index.js";
 import style from "./index.css?inline" assert { type: "css" };
 
 export default class XyButton extends Base {
-    #btnEl;
-    #iconEl;
-    #loadEl;
+	#btnEl;
+	#iconEl;
+	#loadEl;
 
 	static get observedAttributes() {
 		return [
@@ -35,7 +35,6 @@ export default class XyButton extends Base {
 		} else {
 			shadowRoot.innerHTML = `<button
             class="button" part="button" id="button"
-            ${this.htmltype ? 'type="' + this.htmltype + '"' : ""}
           >
           <slot></slot>
           </button>
@@ -85,7 +84,7 @@ export default class XyButton extends Base {
 	}
 
 	get size() {
-		return this.getAttribute("size") || '';
+		return this.getAttribute("size") || "";
 	}
 
 	get loading() {
@@ -133,37 +132,41 @@ export default class XyButton extends Base {
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
-        if (name === "disabled") {
-            this.#btnEl.toggleAttribute("inert", newValue!==null);
-		    this.#btnEl.toggleAttribute("disabled", newValue!==null);
-            return
+		if (name === "disabled") {
+			this.#btnEl.toggleAttribute("inert", newValue !== null);
+			this.#btnEl.toggleAttribute("disabled", newValue !== null);
+			return;
+		}
+		if (name === "htmltype") {
+			this.#btnEl.type = newValue
+			return;
 		}
 		if (name == "loading") {
 			if (!this.#loadEl) {
-                this.#loadEl = document.createElement("xy-loading");
-                this.#loadEl.style.color = "inherit";
-            }
-            if (newValue!==null) {
-                this.#btnEl.prepend(this.#loadEl);
-                this.#btnEl.toggleAttribute("inert", true);
-            } else {
-                this.#btnEl.removeChild(this.#loadEl);
-                this.#btnEl.toggleAttribute("inert", false);
-            }
-            return
+				this.#loadEl = document.createElement("xy-loading");
+				this.#loadEl.style.color = "inherit";
+			}
+			if (newValue !== null) {
+				this.#btnEl.prepend(this.#loadEl);
+				this.#btnEl.toggleAttribute("inert", true);
+			} else {
+				this.#btnEl.removeChild(this.#loadEl);
+				this.#btnEl.toggleAttribute("inert", false);
+			}
+			return;
 		}
-        if (name == "icon") {
-            if (!this.#iconEl) {
-                this.#iconEl = document.createElement("xy-icon");
-            }
-            if (newValue!==null) {
-                this.#iconEl.name = newValue
-                this.#btnEl.prepend(this.#iconEl);
-            } else {
-                this.#btnEl.removeChild(this.#iconEl);
-            }
-            return
-        }
+		if (name == "icon") {
+			if (!this.#iconEl) {
+				this.#iconEl = document.createElement("xy-icon");
+			}
+			if (newValue !== null) {
+				this.#iconEl.name = newValue;
+				this.#btnEl.prepend(this.#iconEl);
+			} else {
+				this.#btnEl.removeChild(this.#iconEl);
+			}
+			return;
+		}
 		this.#btnEl[name] = newValue;
 	}
 }

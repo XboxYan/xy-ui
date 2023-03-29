@@ -1,12 +1,11 @@
 <script setup>
 import { onMounted } from 'vue'
+// import icon from '../../components/icon/'
+// icon.urlPrefix = 'xx'
 import './index.css'
   onMounted(() => {
-    window.XYConfig = {
-        icon: 'https://cdn.jsdelivr.net/gh/xboxyan/xy-ui-icons'
-    } 
-    import('../../components/icon/')
     import('../../components/checkbox/')
+    import('../../components/icon/')
   })
 </script>
 
@@ -25,6 +24,21 @@ import './index.css'
 </script>
 <!-- 使用 -->
 <xy-icon name="user" size="30" color="orangered"></xy-icon>
+```
+
+## 静态资源路径`urlPrefix`
+
+这是一个静态（`static`）属性，在`new`之前使用（`xy-icon`初始化之前），可以用来设置图标资源路径。默认地址为
+
+```js
+static urlPrefix = 'https://cdn.jsdelivr.net/gh/xboxyan/xy-ui-icons'
+```
+
+如果觉得这个 `cdn` 不稳定，可以将图标放到你自己的服务器上，在`import`后直接自定义
+
+```js
+import icon from '../components/icon/index.js';
+icon.urlPrefix = '自定义静态资源地址'
 ```
 
 ## 名称`name`

@@ -45,6 +45,7 @@ export default defineConfig({
           text: '反馈',
           items: [
             { text: "popconfirm 确认弹出框", link: "/components/popconfirm" },
+            { text: "message 提示信息", link: "/components/message" },
           ]
         }
       ],

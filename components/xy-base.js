@@ -1,5 +1,11 @@
 export default class Base extends HTMLElement {
 
+  static urlPrefix = 'https://cdn.jsdelivr.net/gh/xboxyan/xy-ui-icons'
+
+  constructor() {
+		super();
+	}
+
   adoptedStyle (style, dom) {
     let styleSheet = style
     if (!style.type) {
@@ -8,9 +14,6 @@ export default class Base extends HTMLElement {
 			styleSheet.replace(style);
 		}
     this.shadowRoot.adoptedStyleSheets = [...this.shadowRoot.adoptedStyleSheets, styleSheet];
-  }
-  get icon_cdn () {
-    return globalThis.XYConfig?.icon || 'https://cdn.jsdelivr.net/gh/xboxyan/xy-ui-icons'
   }
   get name () {
     return this.getAttribute('name')

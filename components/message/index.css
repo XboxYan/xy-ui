@@ -1,0 +1,38 @@
+:host {
+  display: flex;
+  width: fit-content;
+  margin-inline: auto;
+  gap: 8px;
+  padding: 9px 12px;
+  margin-top: 10px;
+  align-items: center;
+  line-height: 22px;
+  font-size: var(--font-size, 14px);
+  background: var(--primary-bg, #fff);
+  border-radius: var(--border-radius-lg, 8px);
+  transform: translateY(-100%);
+  box-shadow: var(--shadow, 2px 2px 15px rgba(0,0,0,0.15));
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: all;
+  transition: var(--transition, .2s);
+}
+
+xy-icon{
+  font-size: 16px;
+}
+
+:host([open]) {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+xy-icon:not([name]),
+xy-icon[name=''] {
+  display: none;
+}
+
+xy-loading+xy-icon {
+  display: none;
+}
