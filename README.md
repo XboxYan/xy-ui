@@ -40,7 +40,7 @@ yarn docs:dev
 - [ ] select
 - [ ] datelist
 - [ ] dialog
-- [ ] message
+- [x] message
 - [ ] progress
 - [ ] pagination
 - [ ] input
