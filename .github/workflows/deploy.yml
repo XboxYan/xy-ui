@@ -1,6 +1,8 @@
 name: Deploy
 on:
   workflow_dispatch: {}
+  branch_protection_rule:
+    types: [created, deleted, edited]
   push:
     branches:
       - master
