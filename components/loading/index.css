@@ -11,10 +11,10 @@
   animation: rotate 1s linear infinite;
   background: currentColor;
   -webkit-mask: 
-  radial-gradient( closest-side circle, red 50%, transparent 51% 99%, red 100%),
-  radial-gradient( closest-side circle, red 99%, transparent 100%) center top/25% 25% no-repeat,
-  conic-gradient(transparent 10%, red 90%);
-  -webkit-mask-composite: destination-out, destination-over;
+  radial-gradient( closest-side circle, royalblue 99%, transparent 100%) center top/25% 25% no-repeat,
+  radial-gradient( closest-side circle, transparent 49%, red 50% 99%, transparent 100%),
+  conic-gradient(transparent 10%, royalblue 90%);
+  -webkit-mask-composite: source-over, source-in;
 }
 :host(:not(:empty)) .loading{
   margin:.5em;
