@@ -12,9 +12,7 @@ export default class XyLoading extends Base {
 		const shadowRoot = this.attachShadow({ mode: "open" });
 		this.adoptedStyle(style);
 		shadowRoot.innerHTML = `
-    <svg class="loading" part="loading" id="loading" viewBox="22 22 44 44">
-      <circle class="circle" cx="44" cy="44" r="20" fill="none" stroke-width="4"></circle>
-    </svg>
+    <i class="loading" part="loading" id="loading"></i>
     <slot></slot>
       `;
 		this.#loading = shadowRoot.getElementById("loading");

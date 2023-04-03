@@ -46,6 +46,7 @@ export default defineConfig({
           items: [
             { text: "popconfirm 确认弹出框", link: "/components/popconfirm" },
             { text: "message 提示信息", link: "/components/message" },
+            { text: "dialog 弹窗", link: "/components/dialog" },
           ]
         }
       ],

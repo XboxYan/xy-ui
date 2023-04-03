@@ -3,10 +3,8 @@ import "../icon/index.js";
 import "../loading/index.js";
 import style from "./index.css?inline" assert { type: "css" };
 
-class XyMessage extends Base {
-	#loadEl;
-	#icon;
-	#messageContent;
+class XyDialog extends Base {
+	#dialog;
 
 	static get observedAttributes() {
 		return ["type", "icon", "loading"];
@@ -17,18 +15,22 @@ class XyMessage extends Base {
 		const shadowRoot = this.attachShadow({ mode: "open" });
 		this.adoptedStyle(style);
 		shadowRoot.innerHTML = `
-      <xy-icon id="icon"></xy-icon>
-      <slot></slot>
+      <dialog open>
+        <slot name="icon"><xy-icon name="solid/circle-question"></xy-icon></slot>
+        <form method="dialog">
+          <div class="header">
+            <h3 class="title">
+            </h3>
+            <xy-button type="flat" icon="solid/xmark"></xy-button>
+          </div>
+          <slot class="content"></slot>
+          <slot name="footer" part="footer">
+            <xy-button type="primary"></xy-button>
+          </slot>
+        </form>
+      </dialog>
         `;
-		this.#icon = shadowRoot.getElementById("icon");
-		this.#messageContent = document.getElementById("message-content");
-		if (!this.#messageContent) {
-			this.#messageContent = document.createElement("div");
-			this.#messageContent.id = "message-content";
-			this.#messageContent.style =
-				"position:fixed; pointer-events:none; left:0; right:0; top:10px; z-index:51;";
-			document.body.appendChild(this.#messageContent);
-		}
+		this.#dialog = shadowRoot.getElementById("icon");
 	}
 
 	get open() {
@@ -82,45 +84,39 @@ class XyMessage extends Base {
 		},
 	};
 
-	render() {
-		this.#messageContent.appendChild(this);
-		this.clientWidth;
-		this.open = true;
-	}
-
 	connectedCallback() {
-		this.addEventListener("transitionend", (ev) => {
-			if (ev.propertyName === "transform" && !this.open) {
-				this.dispatchEvent(new Event("close"));
-				this.remove();
-			}
-		});
+		// this.addEventListener("transitionend", (ev) => {
+		// 	if (ev.propertyName === "transform" && !this.open) {
+		// 		this.dispatchEvent(new Event("close"));
+		// 		this.remove();
+		// 	}
+		// });
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
-		if (name == "type") {
-			this.#icon.name = this.#typeMap[newValue].name;
-			this.#icon.color = this.#typeMap[newValue].color;
-		}
-		if (name == "icon") {
-			this.#icon.name = newValue;
-		}
-		if (name == "loading") {
-			if (!this.#loadEl) {
-				this.#loadEl = document.createElement("xy-loading");
-			}
-			this.loading = newValue !== null;
-			if (newValue !== null) {
-				this.shadowRoot.prepend(this.#loadEl);
-			} else {
-				this.shadowRoot.removeChild(this.#loadEl);
-			}
-		}
+	// 	if (name == "type") {
+	// 		this.#icon.name = this.#typeMap[newValue].name;
+	// 		this.#icon.color = this.#typeMap[newValue].color;
+	// 	}
+	// 	if (name == "icon") {
+	// 		this.#icon.name = newValue;
+	// 	}
+	// 	if (name == "loading") {
+	// 		if (!this.#loadEl) {
+	// 			this.#loadEl = document.createElement("xy-loading");
+	// 		}
+	// 		this.loading = newValue !== null;
+	// 		if (newValue !== null) {
+	// 			this.shadowRoot.prepend(this.#loadEl);
+	// 		} else {
+	// 			this.shadowRoot.removeChild(this.#loadEl);
+	// 		}
+	// 	}
 	}
 }
 
-if (!customElements.get("xy-message")) {
-	customElements.define("xy-message", XyMessage);
+if (!customElements.get("xy-dialog")) {
+	customElements.define("xy-dialog", XyDialog);
 }
 
 export const open = (type, text, duration, onclose) => {

@@ -2,6 +2,7 @@
 import { onMounted } from 'vue'
 import './index.css'
   onMounted(() => {
+    import('../../components/button/')
     import('../../components/message/').then((res)=> {
         window.message = res.default
     })
