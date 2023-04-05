@@ -7,7 +7,7 @@ class XyDialog extends Base {
 	#dialog;
 
 	static get observedAttributes() {
-		return ["type", "icon", "loading"];
+		return ["type", "icon", "loading", "open"];
 	}
 
 	constructor() {
@@ -15,22 +15,21 @@ class XyDialog extends Base {
 		const shadowRoot = this.attachShadow({ mode: "open" });
 		this.adoptedStyle(style);
 		shadowRoot.innerHTML = `
-      <dialog open>
-        <slot name="icon"><xy-icon name="solid/circle-question"></xy-icon></slot>
-        <form method="dialog">
-          <div class="header">
-            <h3 class="title">
-            </h3>
-            <xy-button type="flat" icon="solid/xmark"></xy-button>
-          </div>
+      <dialog class="dialog" id="dialog" part="dialog">
+        <slot class="icon" name="icon"><xy-icon name="solid/circle-question"></xy-icon></slot>
+        <form class="form" method="dialog">
+          <xy-button class="close" type="flat" icon="solid/xmark"></xy-button>
+          <h3 class="header" part="header">
+          弹窗
+          </h3>
           <slot class="content"></slot>
-          <slot name="footer" part="footer">
-            <xy-button type="primary"></xy-button>
+          <slot class="footer" name="footer" part="footer">
+            <xy-button type="primary">确定</xy-button>
           </slot>
         </form>
       </dialog>
         `;
-		this.#dialog = shadowRoot.getElementById("icon");
+		this.#dialog = shadowRoot.getElementById("dialog");
 	}
 
 	get open() {
@@ -94,6 +93,13 @@ class XyDialog extends Base {
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
+    if (name === "open") {
+      if (newValue !== null) {
+        this.#dialog.showModal()
+      } else {
+        this.#dialog.close()
+      }
+    }
 	// 	if (name == "type") {
 	// 		this.#icon.name = this.#typeMap[newValue].name;
 	// 		this.#icon.color = this.#typeMap[newValue].color;

@@ -36,7 +36,7 @@ import './index.css'
 
 ## dialog.type
 
-<xy-dialog>dialog</xy-dialog>
+<xy-dialog open>dialog</xy-dialog>
 
 与`xy-message`类似，`dialog`也提供了几个静态`API`方法。
 
