@@ -4,7 +4,7 @@ import PopOver from "../popover/index.js";
 import "../button/index.js";
 import "../icon/index.js";
 
-export default class XyPopConfirm extends PopOver {
+export default class PopConfirm extends PopOver {
   #mounted;
 	#btnCancel; // 取消按钮
 	#btnSubmit; // 确认按钮
@@ -93,5 +93,5 @@ export default class XyPopConfirm extends PopOver {
 }
 
 if (!customElements.get("xy-popconfirm")) {
-	customElements.define("xy-popconfirm", XyPopConfirm);
+	customElements.define("xy-popconfirm", PopConfirm);
 }

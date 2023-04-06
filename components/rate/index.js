@@ -1,8 +1,8 @@
 import Base from "../xy-base.js";
-import { Tips } from "../tips/index.js";
+import tips from "../tips/index.js";
 import style from "./index.css?inline" assert { type: "css" };
 
-export default class XyRate extends Base {
+export default class Rate extends Base {
   #star;
   #rates;
 	static get observedAttributes() {
@@ -80,7 +80,7 @@ export default class XyRate extends Base {
 
 	connectedCallback() {
 		this.#rates.forEach((el, index) => {
-			el.tipsEl = new Tips(el, {
+			el.tipsEl = tips.init(el, {
 				tips: this.tips[index] || "",
 				disabled: !this.tips[index],
 			});
@@ -125,5 +125,5 @@ export default class XyRate extends Base {
 }
 
 if (!customElements.get("xy-rate")) {
-	customElements.define("xy-rate", XyRate);
+	customElements.define("xy-rate", Rate);
 }

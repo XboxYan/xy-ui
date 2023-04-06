@@ -2,7 +2,7 @@ import Base from "../xy-base.js";
 import style from "./index.css?inline" assert { type: "css" };
 import Pop from "../pop/index.js";
 
-export class Tips extends Pop {
+export class Tip extends Pop {
   #documentClickEvent = [];
 	constructor(triggerEl, option) {
 		super();
@@ -49,13 +49,17 @@ new Tips('el, {
 */
 
 if (!customElements.get("xy-tip")) {
-	customElements.define("xy-tip", Tips);
+	customElements.define("xy-tip", Tip);
 }
 
-export default class XyTips extends Base {
+export default class Tips extends Base {
 	static get observedAttributes() {
 		return ["color", "tips", "type", "open", "dir", "offset"];
 	}
+
+  static init(...params){
+    return new Tip(...params)
+  }
 
 	constructor() {
 		super();
@@ -127,7 +131,7 @@ export default class XyTips extends Base {
 	}
 
 	connectedCallback() {
-		this.tipEl = new Tips(this.firstElementChild, {
+		this.tipEl = new Tip(this.firstElementChild, {
 			tips: this.tips,
 			dir: this.dir,
 			color: this.color,
@@ -149,5 +153,5 @@ export default class XyTips extends Base {
 }
 
 if (!customElements.get("xy-tips")) {
-	customElements.define("xy-tips", XyTips);
+	customElements.define("xy-tips", Tips);
 }

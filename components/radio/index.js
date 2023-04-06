@@ -1,7 +1,7 @@
 import Base from "../xy-base.js";
 import style from "./index.css?inline" assert { type: "css" };
 
-export default class XyRadio extends Base {
+export default class Radio extends Base {
 	#radio;
 	static get observedAttributes() {
 		return ["disabled", "checked", "required"];
@@ -146,5 +146,5 @@ export default class XyRadio extends Base {
 }
 
 if (!customElements.get("xy-radio")) {
-	customElements.define("xy-radio", XyRadio);
+	customElements.define("xy-radio", Radio);
 }

@@ -2,7 +2,7 @@ import Base from "../xy-base.js";
 import "../checkbox/index.js";
 import style from "./index.css?inline" assert { type: "css" };
 
-export default class XyCheckBoxGroup extends Base {
+export default class CheckBoxGroup extends Base {
 	#slots;
 	static get observedAttributes() {
 		return ["disabled", "value"];
@@ -72,5 +72,5 @@ export default class XyCheckBoxGroup extends Base {
 }
 
 if (!customElements.get("xy-checkbox-group")) {
-	customElements.define("xy-checkbox-group", XyCheckBoxGroup);
+	customElements.define("xy-checkbox-group", CheckBoxGroup);
 }

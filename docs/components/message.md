@@ -29,9 +29,9 @@ import './index.css'
 如果是在 `vue`、`react`中，可以无需赋值到全局对象
 :::
 
-## message.type
+## message[method]
 
-和一般组件不太一样的一个地方是，该组件更类似于一个`API`，这里提供了`message`的几个静态方法。
+和一般组件不太一样的一个地方是，该组件更类似于一个`API`，这里提供了`message`的几个静态（`static`）方法。
 
 * `message.info(text, duration, onclose)`
 

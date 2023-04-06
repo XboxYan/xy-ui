@@ -3,10 +3,18 @@ import "../icon/index.js";
 import "../loading/index.js";
 import style from "./index.css?inline" assert { type: "css" };
 
-class XyMessage extends Base {
+export default class Message extends Base {
 	#loadEl;
 	#icon;
 	#messageContent;
+
+	static open;
+	static show;
+	static success;
+	static info;
+	static warning;
+	static error;
+	static loading;
 
 	static get observedAttributes() {
 		return ["type", "icon", "loading"];
@@ -120,11 +128,12 @@ class XyMessage extends Base {
 }
 
 if (!customElements.get("xy-message")) {
-	customElements.define("xy-message", XyMessage);
+	customElements.define("xy-message", Message);
 }
 
-export const open = (type, text, duration, onclose) => {
-	const message = new XyMessage();
+// 静态方法
+Message.open = function(type, text, duration, onclose) {
+	const message = new this();
 	message.timer && clearTimeout(message.timer);
 	if (type === "loading") {
 		message.loading = true;
@@ -144,41 +153,30 @@ export const open = (type, text, duration, onclose) => {
 		}
 	}
 	return message;
-};
+}
 
-export const info = (...params) => {
-	return open("info", ...params);
-};
-
-export const success = (...params) => {
-	return open("success", ...params);
-};
-export const warning = (...params) => {
-	return open("warning", ...params);
-};
-export const error = (...params) => {
-	return open("error", ...params);
-};
-export const loading = (...params) => {
-	return open("loading", ...params);
-};
-export const show = ({
-	type = "success",
-	icon,
-	text,
-	duration = 3000,
-	onclose,
-}) => {
-	const message = open(type, text, duration, onclose);
+Message.show = function({ type = "success", icon, text, duration = 3000, onclose }) {
+	const message = this.open(type, text, duration, onclose);
 	message.icon = icon;
 	return message;
-};
+}
 
-export default {
-	info,
-	success,
-	error,
-	warning,
-	loading,
-	show,
-};
+Message.success = function(...params) {
+	return this.open("success", ...params);
+}
+
+Message.info = function(...params) {
+	return this.open("info", ...params);
+}
+
+Message.warning = function(...params) {
+	return this.open("warning", ...params);
+}
+
+Message.error = function(...params) {
+	return this.open("error", ...params);
+}
+
+Message.loading = function(...params) {
+	return this.open("loading", ...params);
+}

@@ -34,9 +34,7 @@ import './index.css'
 如果是在 `vue`、`react`中，可以无需赋值到全局对象
 :::
 
-## dialog.type
-
-<xy-dialog open>dialog</xy-dialog>
+## dialog[method]
 
 与`xy-message`类似，`dialog`也提供了几个静态`API`方法。
 
@@ -57,9 +55,9 @@ import './index.css'
 `config`支持两种类型的参数。
 
 ```js
-XyDialog.alert(title, ok);
+dialog.alert(title, ok);
 //object传入
-XyDialog.alert({
+dialog.alert({
     title:'title',//标题
     oktext:'ok',//确定键文本
     canceltext:'cancel',//取消键文本
@@ -71,18 +69,20 @@ XyDialog.alert({
 
 ```
 
-<xy-button type="primary" onclick="XyDialog.alert('alert')">alert</xy-button>
-<xy-button type="primary" onclick="XyDialog.info('info')">info</xy-button>
-<xy-button type="primary" onclick="XyDialog.success({title:'成功',content:'success',oktext:'send'})">success</xy-button>
-<xy-button type="primary" onclick="XyDialog.error('error')">error</xy-button>
-<xy-button type="primary" onclick="XyDialog.warning('warning')">warning</xy-button>
+<div class="wrap">
+<xy-button type="primary" onclick="dialog.alert('alert')">alert</xy-button>
+<xy-button type="primary" onclick="dialog.info('info')">info</xy-button>
+<xy-button type="primary" onclick="dialog.success({title:'成功',content:'success',oktext:'send'})">success</xy-button>
+<xy-button type="primary" onclick="dialog.error('error')">error</xy-button>
+<xy-button type="primary" onclick="dialog.warning('warning')">warning</xy-button>
+</div>
 
-`XyDialog.confirm`有两个按钮，确定键和取消键
+`dialog.confirm`有两个按钮，确定键和取消键
 
 ```js
-XyDialog.confirm(title, ok, cancel);
+dialog.confirm(title, ok, cancel);
 //object传入
-XyDialog.confirm({
+dialog.confirm({
     title:'title',//标题
     oktext:'ok',//确定键文本
     canceltext:'cancel',//取消键文本
@@ -96,15 +96,15 @@ XyDialog.confirm({
     content:'content',//内容
 });
 ```
-<xy-button type="primary" onclick="XyDialog.confirm('this is a question',()=>{XyMessage.info('ok')},()=>{XyMessage.info('cancel')})">confirm</xy-button>
-<xy-button type="primary" onclick="XyDialog.confirm({type:'error',content:'this is a danger confirm'})">danger confirm</xy-button>
+<xy-button type="primary" onclick="dialog.confirm('this is a question',()=>{XyMessage.info('ok')},()=>{XyMessage.info('cancel')})">confirm</xy-button>
+<xy-button type="primary" onclick="dialog.confirm({type:'error',content:'this is a danger confirm'})">danger confirm</xy-button>
 
-`XyDialog.prompt`用于显示可提示用户进行输入的对话框。
+`dialog.prompt`用于显示可提示用户进行输入的对话框。
 
 ```js
-XyDialog.prompt(title, ok, cancel);
+dialog.prompt(title, ok, cancel);
 //object传入
-XyDialog.prompt({
+dialog.prompt({
     title:'title',//标题
     oktext:'ok',//确定键文本
     ok:function(value){
@@ -119,21 +119,19 @@ XyDialog.prompt({
 });
 ```
 
-<xy-button type="primary" onclick="XyDialog.prompt('',(value)=>{XyMessage.info(value)},()=>{XyMessage.info('cancel')})">prompt</xy-button>
-<xy-button type="primary" onclick="XyDialog.prompt({content:'please input your name',ok:(value)=>{XyMessage.info(value)}})">prompt with content</xy-button>
+<xy-button type="primary" onclick="dialog.prompt('',(value)=>{XyMessage.info(value)},()=>{XyMessage.info('cancel')})">prompt</xy-button>
+<xy-button type="primary" onclick="dialog.prompt({content:'please input your name',ok:(value)=>{XyMessage.info(value)}})">prompt with content</xy-button>
 
 ## 显示`open`
 
-当`XyDialog`内容比较复杂时，可以直接写在页面`body`上，通过`open`属性来控制显示。
+当`dialog`内容比较复杂时，可以直接写在页面`body`上，通过`open`属性来控制显示。
 
-<xy-dialog id="dialog01" title="自定义弹窗内容" oktext="确 定">
-    <xy-tab>
-        <xy-tab-content label="tab1">tab1</xy-tab-content>
-        <xy-tab-content label="tab2">tab2</xy-tab-content>
-        <xy-tab-content label="tab3">tab3</xy-tab-content>
-    </xy-tab>
+<xy-dialog id="dialog01" title="自定义弹窗内容" submittext="确 定">
+    这里是是自定义内容
 </xy-dialog>
+<div class="wrap">
 <xy-button type="primary" onclick="document.getElementById('dialog01').open = true;">open dialog</xy-button>
+</div>
 
 ```html
 <body>
@@ -163,17 +161,19 @@ dialog.setAttribute('open',true);
 
 实际业务中可能会出现异步关闭的情况，可以在`onsubmit`回调中添加`loading`属性，在异步操作结束后主动关闭弹窗。
 
-<xy-dialog id="dialog02" title="标题" oktext="确 定" canceltext="取消" >
+<xy-dialog id="dialog02" title="标题" >
     这是一个异步关闭的弹窗
 </xy-dialog>
-<xy-button type="primary" onclick="window.dialog02 = document.getElementById('dialog02');window.dialog02.open = true;window.dialog02.onsubmit = function(){this.loading = true;setTimeout(()=>{this.open = false;}, 1000);}">open dialog</xy-button>
+<div class="wrap">
+<xy-button type="primary" onclick="window.dialog02 = document.getElementById('dialog02');window.dialog02.open = true;window.dialog02.onsubmit = function(){this.loading = true;setTimeout(()=>{this.open = false;}, 2000);}">open dialog</xy-button>
+</div>
 
 ```js
 dialog.onsubmit = function(){
-    this.loading = true;//添加loading属性后可以阻止关闭
+    this.loading = true;
     setTimeout(()=>{
         this.open = false;
-    }, 1000);
+    }, 2000);
 }
 ```
 
@@ -186,30 +186,6 @@ dialog.loading = true;
 dialog.setAttribute('loading',true);
 ```
 
-## 传送门`portal`
-
-默认情况下，`xy-dialog`会渲染在 html 指定位置，一般情况下不会有什么问题，因为是 fixed 定位。但有时候，`fixed` 定位会受到父级的影响，比如父级有`transform` 属性，fixed 会以该元素为基准，而不再是 body，为此，需要可以指定渲染在指定节点上。
-
-> 只针对于 `<xy-dialog>` 元素，`XyDialog` 命令创建的默认就在根节点
-
-<div>
-    <xy-button type="primary" onclick="document.getElementById('dialog03').open = true;">open dialog</xy-button>
-    <xy-dialog id="dialog03" title="自定义弹窗内容" oktext="确 定" portal="body">
-        我被传送到了 body 节点下
-    </xy-dialog>
-</div>
-
-```html
-<body>
-    <div>
-        <xy-dialog portal="body">
-            我被传送到了 body 节点下
-        </xy-dialog>
-    </div>
-</body>
-```
-
-
 ## 事件`event`
 
 ### onsubmit
@@ -220,7 +196,7 @@ dialog.setAttribute('loading',true);
 
 在点击取消操作时执行。
 
-<xy-button type="primary" onclick="XyDialog.confirm('confirm',()=>{XyMessage.info('submit')},()=>{XyMessage.info('cancel')})">confirm</xy-button>
+<xy-button type="primary" onclick="dialog.confirm('confirm',()=>{XyMessage.info('submit')},()=>{XyMessage.info('cancel')})">confirm</xy-button>
 
 ```js
 dialog.onsubmit = function(){

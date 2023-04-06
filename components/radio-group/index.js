@@ -3,11 +3,10 @@ import "../radio/index.js";
 import style from "./index.css?inline" assert { type: "css" };
 
 // 监听属性
-const observedAttributes = ["disabled", "value"];
-export default class XyRadioGroup extends Base {
+export default class RadioGroup extends Base {
 	#slots;
 	static get observedAttributes() {
-		return observedAttributes;
+		return ["disabled", "value"];
 	}
 
 	constructor() {
@@ -55,7 +54,6 @@ export default class XyRadioGroup extends Base {
 					this.dispatchEvent(new InputEvent("change"));
 				});
 			});
-			observedAttributes.forEach((el) => (this[el] = this[el]));
 		});
 	}
 
@@ -73,5 +71,5 @@ export default class XyRadioGroup extends Base {
 }
 
 if (!customElements.get("xy-radio-group")) {
-	customElements.define("xy-radio-group", XyRadioGroup);
+	customElements.define("xy-radio-group", RadioGroup);
 }

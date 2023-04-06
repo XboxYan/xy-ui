@@ -1,12 +1,12 @@
 import Base from "../xy-base.js";
 import style from "./index.css?inline" assert { type: "css" };
 
-export default class XyIcon extends Base {
+export default class Icon extends Base {
   #icon;
 	static get observedAttributes() {
 		return ["name", "size", "color", "type", "spin"];
 	}
-  
+
 	constructor() {
 		super();
 		const shadowRoot = this.attachShadow({ mode: "open" });
@@ -76,5 +76,5 @@ export default class XyIcon extends Base {
 }
 
 if (!customElements.get("xy-icon")) {
-	customElements.define("xy-icon", XyIcon);
+	customElements.define("xy-icon", Icon);
 }

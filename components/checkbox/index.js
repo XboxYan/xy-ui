@@ -1,9 +1,9 @@
 import Base from "../xy-base.js";
 import style from "./index.css?inline" assert { type: "css" };
 
-export default class XyCheckbox extends Base {
+export default class Checkbox extends Base {
   #checkbox;
-  
+
 	static get observedAttributes() {
 		return ["disabled", "checked", "required"];
 	}
@@ -75,5 +75,5 @@ export default class XyCheckbox extends Base {
 }
 
 if (!customElements.get("xy-checkbox")) {
-	customElements.define("xy-checkbox", XyCheckbox);
+	customElements.define("xy-checkbox", Checkbox);
 }

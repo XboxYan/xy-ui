@@ -1,12 +1,12 @@
 <script setup>
 import { reactive, onMounted } from 'vue'
 import './index.css'
-  let Tip = null
+  let tips = null
   onMounted(() => {
     import('../../components/switch/')
     import('../../components/button/')
-    import('../../components/tips/').then(({Tips}) => {
-      Tip = Tips
+    import('../../components/tips/').then((res) => {
+      tips = res.default
     })
   })
   const state = reactive({
@@ -15,7 +15,7 @@ import './index.css'
   let _tips = null
   const click = (ev) => {
     if (!_tips) {
-      _tips = new Tip(newTips, {
+      _tips = tips.init(newTips, {
         tips : '这是通过new Tip生成的提示',
         type: 'error',
         open: true
@@ -233,14 +233,14 @@ tips.open = false;
 tips.setAttribute('open',true);
 ```
 
-## 命令式方式`new Tips`
+## 命令式静态方法`tips.init()`
 
 除了使用`<xy-tips></xy-tips>`标签外，还可以通过命令式方式进行初始化，参数和前面保持一致
 
 ```js
-import { Tips } from '../../components/tips/index.js'
+import tips from '../components/tips/index.js'
 
-const tips = new Tips(el, {
+const tip = tips.init(el, {
   tips : '提示', // 提示文字
   dir : 'top,bottom', // 方向
   trigger : ['hover'], // 触发方式
@@ -255,17 +255,17 @@ const tips = new Tips(el, {
   <xy-button type="primary" @click="click">点击我出现 tips~</xy-button>
 </div>
 
-使用`new Tips`创建，然后通过`open`属性控制显示
+使用`tips.init`创建，然后通过`open`属性控制显示
 
 ```js
-const tips = new Tips(el, {
+const tip = tips.init(el, {
   tips : '这是通过new Tip生成的提示',
   trigger: 'none',
   open: false,
   type: 'error'
 })
 button.onclick = () => {
-  tips.open = !tips.open
+  tip.open = !tip.open
 }
 ```
 

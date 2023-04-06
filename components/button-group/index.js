@@ -2,7 +2,7 @@ import Base from "../xy-base.js";
 import "../button/index.js";
 import style from "./index.css?inline" assert { type: "css" };
 
-class XyButtonGroup extends Base {
+class ButtonGroup extends Base {
 	static get observedAttributes() {
 		return ["disabled"];
 	}
@@ -38,5 +38,5 @@ class XyButtonGroup extends Base {
 }
 
 if (!customElements.get("xy-button-group")) {
-	customElements.define("xy-button-group", XyButtonGroup);
+	customElements.define("xy-button-group", ButtonGroup);
 }

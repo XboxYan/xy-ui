@@ -3,7 +3,7 @@ import "../loading/index.js";
 import "../icon/index.js";
 import style from "./index.css?inline" assert { type: "css" };
 
-export default class XyButton extends Base {
+export default class Button extends Base {
 	#btnEl;
 	#iconEl;
 	#loadEl;
@@ -172,5 +172,5 @@ export default class XyButton extends Base {
 }
 
 if (!customElements.get("xy-button")) {
-	customElements.define("xy-button", XyButton);
+	customElements.define("xy-button", Button);
 }

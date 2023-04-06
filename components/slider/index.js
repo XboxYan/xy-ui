@@ -2,7 +2,7 @@ import "../tips/index.js";
 import Base from "../xy-base.js";
 import style from "./index.css?inline" assert { type: "css" };
 
-export default class XySlider extends Base {
+export default class Slider extends Base {
   #tipsEl;
   #slider;
 	static get observedAttributes() {
@@ -148,5 +148,5 @@ export default class XySlider extends Base {
 }
 
 if (!customElements.get("xy-slider")) {
-	customElements.define("xy-slider", XySlider);
+	customElements.define("xy-slider", Slider);
 }

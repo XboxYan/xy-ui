@@ -3,11 +3,15 @@ import "../icon/index.js";
 import "../loading/index.js";
 import style from "./index.css?inline" assert { type: "css" };
 
-class XyDialog extends Base {
+export default class Dialog extends Base {
 	#dialog;
+  #title;
+  #btnClose;
+  #btnCancel;
+  #btnSubmit;
 
 	static get observedAttributes() {
-		return ["type", "icon", "loading", "open"];
+		return ["loading", "open", "title", "canceltext", "submittext"];
 	}
 
 	constructor() {
@@ -16,44 +20,49 @@ class XyDialog extends Base {
 		this.adoptedStyle(style);
 		shadowRoot.innerHTML = `
       <dialog class="dialog" id="dialog" part="dialog">
-        <slot class="icon" name="icon"><xy-icon name="solid/circle-question"></xy-icon></slot>
+        <slot class="icon" name="icon"></slot>
         <form class="form" method="dialog">
-          <xy-button class="close" type="flat" icon="solid/xmark"></xy-button>
-          <h3 class="header" part="header">
-          弹窗
-          </h3>
+          <xy-button id="btnClose" class="close" type="flat">
+            <xy-icon></xy-icon>
+          </xy-button>
+          <h4 class="title" id="title" part="title">dialog</h4>
           <slot class="content"></slot>
           <slot class="footer" name="footer" part="footer">
-            <xy-button type="primary">确定</xy-button>
+            <xy-button id="btnCancel" type="flat">取消</xy-button>
+            <xy-button id="btnSubmit" type="primary">确定</xy-button>
           </slot>
         </form>
       </dialog>
         `;
 		this.#dialog = shadowRoot.getElementById("dialog");
+		this.#title = shadowRoot.getElementById("title");
+		this.#btnClose = shadowRoot.getElementById("btnClose");
+		this.#btnCancel = shadowRoot.getElementById("btnCancel");
+		this.#btnSubmit = shadowRoot.getElementById("btnSubmit");
 	}
 
 	get open() {
 		return this.getAttribute("open") !== null;
 	}
 
-	get loading() {
-		return this.getAttribute("loading") !== null;
+  get loading() {
+    return this.getAttribute("loading") !== null;
+  }
+
+	get submittext() {
+		return this.getAttribute("submittext") || "确认";
 	}
 
-	get icon() {
-		return this.getAttribute("icon");
+  get canceltext() {
+		return this.getAttribute("canceltext") || "取消";
 	}
 
-	get type() {
-		return this.getAttribute("type");
+	set submittext(value) {
+		this.setAttribute("submittext", value);
 	}
 
-	set type(value) {
-		this.setAttribute("type", value);
-	}
-
-	set icon(value) {
-		this.setAttribute("icon", value);
+  set canceltext(value) {
+		this.setAttribute("canceltext", value);
 	}
 
 	set open(value) {
@@ -83,104 +92,66 @@ class XyDialog extends Base {
 		},
 	};
 
+  show() {
+    this.open = true
+  }
+
+  close() {
+    this.open = false
+  }
+
 	connectedCallback() {
-		// this.addEventListener("transitionend", (ev) => {
-		// 	if (ev.propertyName === "transform" && !this.open) {
-		// 		this.dispatchEvent(new Event("close"));
-		// 		this.remove();
-		// 	}
-		// });
+    this.#btnClose.addEventListener('click', () => {
+      this.open = false
+      this.dispatchEvent(new Event("cancel"));
+    })
+    this.#dialog.addEventListener('close', () => {
+      this.dispatchEvent(new Event("close"));
+      console.log('close')
+    })
+    this.#dialog.addEventListener('cancel', () => {
+      this.dispatchEvent(new Event("cancel"));
+      console.log('cancel')
+    })
+    if (this.#btnCancel) {
+      this.#btnCancel.addEventListener('click', () => {
+        this.open = false
+        this.dispatchEvent(new Event("cancel"));
+      })
+    }
+    if (this.#btnSubmit) {
+      this.#btnSubmit.addEventListener('click', () => {
+        this.dispatchEvent(new Event("submit"));
+      })
+    }
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
     if (name === "open") {
       if (newValue !== null) {
         this.#dialog.showModal()
+        this.#btnClose.focus()
       } else {
         this.#dialog.close()
+        this.loading = false
       }
     }
-	// 	if (name == "type") {
-	// 		this.#icon.name = this.#typeMap[newValue].name;
-	// 		this.#icon.color = this.#typeMap[newValue].color;
-	// 	}
-	// 	if (name == "icon") {
-	// 		this.#icon.name = newValue;
-	// 	}
-	// 	if (name == "loading") {
-	// 		if (!this.#loadEl) {
-	// 			this.#loadEl = document.createElement("xy-loading");
-	// 		}
-	// 		this.loading = newValue !== null;
-	// 		if (newValue !== null) {
-	// 			this.shadowRoot.prepend(this.#loadEl);
-	// 		} else {
-	// 			this.shadowRoot.removeChild(this.#loadEl);
-	// 		}
-	// 	}
+    if (name === "title") {
+			this.#title.textContent = newValue
+		}
+    if (name === "canceltext") {
+			this.#btnCancel.textContent = newValue;
+		}
+		if (name === "submittext") {
+			this.#btnSubmit.textContent = newValue;
+		}
+    if (name === "loading") {
+			this.#btnSubmit.loading = newValue!==null;
+		}
 	}
 }
 
 if (!customElements.get("xy-dialog")) {
-	customElements.define("xy-dialog", XyDialog);
+	customElements.define("xy-dialog", Dialog);
 }
 
-export const open = (type, text, duration, onclose) => {
-	const message = new XyMessage();
-	message.timer && clearTimeout(message.timer);
-	if (type === "loading") {
-		message.loading = true;
-	} else {
-		message.type = type;
-	}
-	message.textContent = text || "";
-	message.render();
-	if (typeof duration === "function") {
-		duration();
-	} else {
-		message.onclose = onclose;
-		if (duration !== 0 && !message.loading) {
-			message.timer = setTimeout(() => {
-				message.open = false;
-			}, duration || 3000);
-		}
-	}
-	return message;
-};
-
-export const info = (...params) => {
-	return open("info", ...params);
-};
-
-export const success = (...params) => {
-	return open("success", ...params);
-};
-export const warning = (...params) => {
-	return open("warning", ...params);
-};
-export const error = (...params) => {
-	return open("error", ...params);
-};
-export const loading = (...params) => {
-	return open("loading", ...params);
-};
-export const show = ({
-	type = "success",
-	icon,
-	text,
-	duration = 3000,
-	onclose,
-}) => {
-	const message = open(type, text, duration, onclose);
-	message.icon = icon;
-	return message;
-};
-
-export default {
-	info,
-	success,
-	error,
-	warning,
-	loading,
-	show,
-};

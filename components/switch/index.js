@@ -1,7 +1,7 @@
 import Base from "../xy-base.js";
 import style from "./index.css?inline" assert { type: "css" };
 
-export default class XySwitch extends Base {
+export default class Switch extends Base {
   #switch;
 	static get observedAttributes() {
 		return ["disabled", "checked"];
@@ -62,5 +62,5 @@ export default class XySwitch extends Base {
 }
 
 if (!customElements.get("xy-switch")) {
-	customElements.define("xy-switch", XySwitch);
+	customElements.define("xy-switch", Switch);
 }

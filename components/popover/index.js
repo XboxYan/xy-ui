@@ -1,7 +1,7 @@
 import style from "./index.css?inline" assert { type: "css" };
 import Pop from "../pop/index.js";
 
-export default class XyPopOver extends Pop {
+export default class PopOver extends Pop {
 	#mounted;
 	#documentClickEvent = [];
 
@@ -91,5 +91,5 @@ export default class XyPopOver extends Pop {
 }
 
 if (!customElements.get("xy-popover")) {
-	customElements.define("xy-popover", XyPopOver);
+	customElements.define("xy-popover", PopOver);
 }
