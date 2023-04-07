@@ -125,7 +125,7 @@ popconfirm.setAttribute('title','确认要删除吗？');
 
 由于内部结构比较多，这里仅暴露了标题和页脚用来自定义样式
 
- 内部结构如下（可查看控制台）：
+内部结构如下（可查看控制台）：
 
 ```html
 <xy-popconfirm>

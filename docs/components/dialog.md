@@ -41,7 +41,7 @@ import './index.css'
 
 ## dialog[method]
 
-与`xy-message`类似，`dialog`也提供了几个静态`API`方法，其实就是图标不同。
+与[message](./message)类似，`dialog`也提供了几个静态`API`方法，其实就是图标不同。
 
 * `dialog.alert(config)`
 
@@ -202,6 +202,54 @@ dialog.loading = false;
 dialog.loading = true;
 //原生属性操作
 dialog.setAttribute('loading',true);
+```
+
+## 自定义样式`::part(dialog)`，`::part(title)`，`::part(footer)`
+
+由于内部结构比较多，这里暴露了弹窗、标题和页脚用来自定义样式
+
+内部结构如下（可查看控制台）：
+
+```html
+<xy-dialog>
+  # shadow-root
+  <dialog part="dialog">
+    <h4 part="title">
+    <slot></slot>
+    <slot name="footer" part="footer">
+```
+
+比如下面是一个标题和按钮居中的弹窗
+
+<style scoped>
+.custom-dialog::part(dialog){
+    width: 400px;
+}
+.custom-dialog::part(title){
+    text-align: center
+}
+.custom-dialog::part(footer){
+    justify-content: center
+}
+</style>
+
+<xy-dialog class="custom-dialog" id="dialog03" title="标题" >
+    这是一个自定义样式的弹窗
+</xy-dialog>
+<div class="wrap">
+<xy-button type="primary" onclick="document.getElementById('dialog03').open = true">自定义样式的弹窗</xy-button>
+</div>
+
+```css
+xy-dialog::part(dialog){
+    width: 400px;
+}
+xy-dialog::part(title){
+    text-align: center
+}
+xy-dialog::part(footer){
+    justify-content: center
+}
 ```
 
 ## 事件`event`
