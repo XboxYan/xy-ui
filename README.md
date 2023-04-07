@@ -39,7 +39,7 @@ yarn docs:dev
 - [x] popconfirm 确认弹出框
 - [ ] select
 - [ ] datelist
-- [ ] dialog
+- [x] dialog
 - [x] message
 - [ ] progress
 - [ ] pagination

@@ -3,7 +3,6 @@ import Pop from "../pop/index.js";
 
 export default class PopOver extends Pop {
 	#mounted;
-	#documentClickEvent = [];
 
 	static get observedAttributes() {
 		return ["open"];
@@ -50,7 +49,7 @@ export default class PopOver extends Pop {
 					this.open = false
 				}
 			};
-			this.#documentClickEvent.push(click)
+			this._documentClickEvent.push(click)
 			document.addEventListener('click',click)
 		}
 	}
@@ -82,8 +81,9 @@ export default class PopOver extends Pop {
 	}
 
 	disconnectedCallback() {
-		if (this.#documentClickEvent.length && !this.isConnected) {
-			this.#documentClickEvent.forEach(event => {
+		console.log(this._documentClickEvent)
+		if (this._documentClickEvent.length && !this.isConnected) {
+			this._documentClickEvent.forEach(event => {
 				document.removeEventListener("click", event);
 			})
 		}

@@ -2,16 +2,26 @@
   display: contents;
 }
 .dialog{
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
   min-width: 200px;
   border: 0;
   border-radius: var(--border-radius-base, 4px);
   box-shadow: var(--shadow, 2px 2px 15px rgba(0,0,0,0.15));
   padding: 20px 24px;
+  visibility: hidden;
+  opacity: 0;
+  transform: scale(.8) translateY(-50px);
 }
-.dialog:modal{
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
+.dialog::backdrop{
+  background-color: rgba(0,0,0,.45);
+}
+.dialog[open]{
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+  transition: var(--transition, .2s);
 }
 .icon{
   font-size: 22px;
@@ -39,7 +49,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 .footer{
   display: flex;

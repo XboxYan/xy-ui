@@ -2,9 +2,14 @@
 import { onMounted } from 'vue'
 import './index.css'
   onMounted(() => {
+    import('../../components/icon/')
     import('../../components/button/')
+    import('../../components/checkbox/')
     import('../../components/dialog/').then((res)=> {
         window.dialog = res.default
+    })
+    import('../../components/message/').then((res)=> {
+        window.message = res.default
     })
   })
 </script>
@@ -36,9 +41,11 @@ import './index.css'
 
 ## dialog[method]
 
-与`xy-message`类似，`dialog`也提供了几个静态`API`方法。
+与`xy-message`类似，`dialog`也提供了几个静态`API`方法，其实就是图标不同。
 
 * `dialog.alert(config)`
+
+* `dialog.info(config)`
 
 * `dialog.success(config)`
 
@@ -48,102 +55,89 @@ import './index.css'
 
 * `dialog.confirm(config)`
 
-* `dialog.prompt(config)`
 
 所有方法返回均为`<xy-dialog></xy-dialog>`对象。
 
 `config`支持两种类型的参数。
 
 ```js
-dialog.alert(title, ok);
+dialog.alert(title, onsubmit);
+dialog.info(title, onsubmit);
+dialog.success(title, onsubmit);
+dialog.error(title, onsubmit);
+dialog.warning(title, onsubmit);
+```
+
+<div class="wrap">
+<xy-button type="primary" onclick="dialog.alert('这是一个alert弹窗')">alert</xy-button>
+<xy-button type="primary" onclick="dialog.info('这是一个info弹窗')">info</xy-button>
+<xy-button type="primary" onclick="dialog.success('这是一个success弹窗')">success</xy-button>
+<xy-button type="primary" onclick="dialog.error('这是一个error弹窗')">error</xy-button>
+<xy-button type="primary" onclick="dialog.warning('这是一个warning弹窗')">warning</xy-button>
+</div>
+
+还支持`Object`参数类型，好处是可以自定义更多参数
+
+```js
 //object传入
 dialog.alert({
     title:'title',//标题
-    oktext:'ok',//确定键文本
+    submittext:'ok',//确定键文本
     canceltext:'cancel',//取消键文本
-    ok:function(){
+    onsubmit:function(){
         //按确定键的操作
     },
     content:'content',//内容
 });
-
 ```
 
 <div class="wrap">
-<xy-button type="primary" onclick="dialog.alert('alert')">alert</xy-button>
-<xy-button type="primary" onclick="dialog.info('info')">info</xy-button>
-<xy-button type="primary" onclick="dialog.success({title:'成功',content:'success',oktext:'send'})">success</xy-button>
-<xy-button type="primary" onclick="dialog.error('error')">error</xy-button>
-<xy-button type="primary" onclick="dialog.warning('warning')">warning</xy-button>
+<xy-button type="primary" onclick="dialog.success({title:'自定义标题',content:'我是自定义success弹窗', submittext:'自定义确认按钮'})">自定义参数的success</xy-button>
 </div>
+
 
 `dialog.confirm`有两个按钮，确定键和取消键
 
 ```js
-dialog.confirm(title, ok, cancel);
+dialog.confirm(title, onsubmit, oncancel);
 //object传入
 dialog.confirm({
     title:'title',//标题
-    oktext:'ok',//确定键文本
+    submittext:'ok',//确定键文本
     canceltext:'cancel',//取消键文本
-    type:'error',//类型，可选择以上几类
-    ok:function(){
+    onsubmit:function(){
         //按确定键的操作
     },
-    cancel:function(){
+    oncancel:function(){
         //按取消键的操作
     },
     content:'content',//内容
 });
 ```
-<xy-button type="primary" onclick="dialog.confirm('this is a question',()=>{XyMessage.info('ok')},()=>{XyMessage.info('cancel')})">confirm</xy-button>
-<xy-button type="primary" onclick="dialog.confirm({type:'error',content:'this is a danger confirm'})">danger confirm</xy-button>
 
-`dialog.prompt`用于显示可提示用户进行输入的对话框。
-
-```js
-dialog.prompt(title, ok, cancel);
-//object传入
-dialog.prompt({
-    title:'title',//标题
-    oktext:'ok',//确定键文本
-    ok:function(value){
-        console.log(value);
-        //返回输入内容
-        //按确定键的操作
-    },
-    cancel:function(){
-        //按取消键的操作
-    },
-    content:'content',//内容描述
-});
-```
-
-<xy-button type="primary" onclick="dialog.prompt('',(value)=>{XyMessage.info(value)},()=>{XyMessage.info('cancel')})">prompt</xy-button>
-<xy-button type="primary" onclick="dialog.prompt({content:'please input your name',ok:(value)=>{XyMessage.info(value)}})">prompt with content</xy-button>
+<div class="wrap">
+<xy-button type="primary" onclick="dialog.confirm('这是一个 confirm 弹窗',()=>{message.info('submit')},()=>{message.info('cancel')})">confirm</xy-button>
+</div>
 
 ## 显示`open`
 
-当`dialog`内容比较复杂时，可以直接写在页面`body`上，通过`open`属性来控制显示。
+当`dialog`内容比较复杂时，可以直接写在页面上，通过`open`属性来控制显示。
 
 <xy-dialog id="dialog01" title="自定义弹窗内容" submittext="确 定">
     这里是是自定义内容
+    <xy-checkbox>删除历史记录</xy-checkbox>
 </xy-dialog>
 <div class="wrap">
 <xy-button type="primary" onclick="document.getElementById('dialog01').open = true;">open dialog</xy-button>
 </div>
 
 ```html
-<body>
-    <xy-button type="primary" onclick="document.getElementById('dialog01').open = true;">open dialog</xy-button>
-    <xy-dialog id="dialog01" title="自定义弹窗内容" oktext="确 定">
-        <xy-tab>
-            <xy-tab-content label="tab1">tab1</xy-tab-content>
-            <xy-tab-content label="tab2">tab2</xy-tab-content>
-            <xy-tab-content label="tab3">tab3</xy-tab-content>
-        </xy-tab>
-    </xy-dialog>
-</body>
+<xy-dialog title="自定义弹窗内容">
+    <xy-icon slot="icon" name="solid/mug-hot" color="#ff7875"></xy-icon>
+    这里是是自定义内容
+    <xy-checkbox>删除历史记录</xy-checkbox>
+    <xy-button type="primary" slot="footer" danger>删除</xy-button>
+</xy-dialog>
 ```
 
 JavaScript操作`set`
@@ -155,7 +149,31 @@ dialog.open = true;
 dialog.setAttribute('open',true);
 ```
 
-设置`type="confirm"`可出现两个按钮，用法同上。
+## 插槽 `slot=icon`、`slot=footer`
+
+提供两个额外插槽，可以用来自定义图标和页脚（支持多个，比如多个按钮）
+
+<xy-dialog id="dialog1x" title="自定义插槽">
+    <xy-icon slot="icon" name="solid/mug-hot" color="#ff7875"></xy-icon>
+    这里是是自定义内容
+    <xy-button type="flat" slot="footer" close danger>算了</xy-button>
+    <xy-button type="primary" slot="footer" danger>删除</xy-button>
+</xy-dialog>
+
+<div class="wrap">
+<xy-button type="primary" onclick="document.getElementById('dialog1x').open = true;">open dialog</xy-button>
+</div>
+
+```html
+<xy-dialog id="dialog1x" title="自定义插槽">
+    <xy-icon slot="icon" name="solid/mug-hot" color="#ff7875"></xy-icon>
+    这里是是自定义内容
+    <xy-button type="flat" slot="footer" close danger>算了</xy-button>
+    <xy-button type="primary" slot="footer" danger>删除</xy-button>
+</xy-dialog>
+```
+
+> 给按钮添加`close`属性可以自动关闭弹窗
 
 ## 加载`loading`
 
@@ -196,7 +214,7 @@ dialog.setAttribute('loading',true);
 
 在点击取消操作时执行。
 
-<xy-button type="primary" onclick="dialog.confirm('confirm',()=>{XyMessage.info('submit')},()=>{XyMessage.info('cancel')})">confirm</xy-button>
+<xy-button type="primary" onclick="dialog.confirm('confirm',()=>{message.info('submit')},()=>{message.info('cancel')})">confirm</xy-button>
 
 ```js
 dialog.onsubmit = function(){

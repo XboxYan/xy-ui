@@ -1,11 +1,12 @@
 import Base from "../xy-base.js";
 import style from "./index.css?inline" assert { type: "css" };
 export default class Pop extends Base {
-  #documentClickEvent = [];
+  
 	constructor() {
 		super();
 		this.attachShadow({ mode: "open" });
 		this.adoptedStyle(style);
+    this._documentClickEvent = [];
 	}
 
 	get dir() {
@@ -217,12 +218,22 @@ export default class Pop extends Base {
         this.target = target;
         this.open = true;
 			});
+      const autoclose = (ev) => {
+        if (ev.target.closest('[close]')){
+          this.open = false
+        }
+      }
+      this.shadowRoot.addEventListener('click', (ev) => {
+        if (ev.target.closest('[close]')){
+          this.open = false
+        }
+      })
 			const click = (ev) => {
 				if (!this.contains(ev.target) && !target.contains(ev.target)) {
 					this.open = false;
 				}
 			};
-      this.#documentClickEvent.push(click)
+      this._documentClickEvent.push(click)
       document.addEventListener("click", click);
 		}
 	}

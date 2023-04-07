@@ -7,6 +7,7 @@
 .loading{
   width: 1em;
   height: 1em;
+  border-radius: 50%;
   margin: auto;
   animation: rotate 1s linear infinite;
   background: currentColor;
@@ -14,6 +15,7 @@
   radial-gradient( closest-side circle, royalblue 99%, transparent 100%) center top/25% 25% no-repeat,
   radial-gradient( closest-side circle, transparent 49%, red 50% 99%, transparent 100%),
   conic-gradient(transparent 10%, royalblue 90%);
+  mask-composite: add, intersect;
   -webkit-mask-composite: source-over, source-in;
 }
 :host(:not(:empty)) .loading{

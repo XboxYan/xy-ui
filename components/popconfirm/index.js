@@ -22,7 +22,7 @@ export default class PopConfirm extends PopOver {
         <h4 class="title" id="title" part="title"></h4>
         <slot class="content" id="content"></slot>
         <div class="footer" part="footer">
-          <xy-button type="flat" size="small" id="cancel">取消</xy-button>
+          <xy-button type="flat" size="small" id="cancel" close>取消</xy-button>
           <xy-button type="primary" size="small" id="submit">确认</xy-button>
         </div>
       </div>
@@ -65,7 +65,7 @@ export default class PopConfirm extends PopOver {
     if (this.#mounted) return
 		this.#mounted = true
 		this.#btnCancel.addEventListener("click", () => {
-			this.open = false;
+			// this.open = false;
       this.dispatchEvent(new Event('cancel'))
 		});
 		this.#btnSubmit.addEventListener("click", () => {
