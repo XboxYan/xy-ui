@@ -11,6 +11,7 @@ const { Layout } = DefaultTheme
       <div class="giscus">
         <Giscus
           :key="giscus"
+          host="https://giscus.app"
           repo="XboxYan/xy-ui"
           repoId="MDEwOlJlcG9zaXRvcnk2MjYzODgxNA=="
           categoryId="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyOTYxODk2" 
