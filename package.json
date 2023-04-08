@@ -72,5 +72,8 @@
   ],
   "devDependencies": {
     "vitepress": "^1.0.0-alpha.60"
+  },
+  "dependencies": {
+    "@giscus/vue": "^2.2.8"
   }
 }
