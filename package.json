@@ -74,6 +74,7 @@
     "vitepress": "^1.0.0-alpha.60"
   },
   "dependencies": {
-    "@giscus/vue": "^2.2.8"
+    "@giscus/vue": "^2.2.8",
+    "vitepress-plugin-pagefind": "^0.2.1"
   }
 }

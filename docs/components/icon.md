@@ -13,7 +13,9 @@ import './index.css'
 
 语义化的矢量图形。
 
-图标来源：[https://fontawesome.com](https://fontawesome.com/v6/search?o=r&m=free&s=regular%2Csolid) 免费图标
+图标来源：[https://fontawesome.com](https://fontawesome.com/v6/search?o=r&m=free&s=regular%2Csolid) 免费（1553个）图标
+
+![icon-fontawesome](../img/icon-fontawesome.jpg)
 
 ## 使用方式
 
@@ -28,7 +30,13 @@ import './index.css'
 
 ## 静态资源路径`urlPrefix`
 
-这是一个静态（`static`）属性，在`new`之前使用（`xy-icon`初始化之前），可以用来设置图标资源路径。默认地址为
+这是一个静态（`static`）属性，在`new`之前使用（`xy-icon`初始化之前），可以用来设置图标资源路径。
+
+::: tip
+组件本身不包含图标资源，所有图标都来源于一个静态资源 cdn 上
+:::
+
+默认地址为
 
 ```js
 static urlPrefix = 'https://cdn.jsdelivr.net/gh/xboxyan/xy-ui-icons'
@@ -124,6 +132,21 @@ icon.setAttribute('type','solid');
 <xy-icon name="star"></xy-icon>
 <xy-icon name="solid/star"></xy-icon>
 ```
+
+如果使用自己的`cdn`图标资源，需要注意文件夹目录（文件夹对应为`type`，文件名对应为`name`），默认为
+
+```
+── regular
+    ├── a.svg
+    └── b.svg
+── solid
+    ├── a.svg
+    └── b.svg
+```
+
+参考 https://github.com/XboxYan/xy-ui-icons
+![icon](../img/icon-1.jpg)
+
 
 ## 尺寸`size`
 

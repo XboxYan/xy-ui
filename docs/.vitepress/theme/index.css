@@ -1,5 +1,6 @@
 :root {
   --vp-c-brand: #646cff;
+  --vcp-c-brand: var(--vp-c-brand);
   --vp-c-brand-light: #747bff;
   --vp-c-brand-lighter: #9499ff;
   --vp-c-brand-lightest: #bcc0ff;
@@ -42,4 +43,18 @@
 }
 .image{
   transform: scale(.8);
+}
+.blog-search .nav-search-btn-wait svg{
+  stroke-width: 2px;
+  color: var(--vp-c-text-1);
+}
+.blog-search[style*="1"] .nav-search-btn-wait{
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 6px 10px 6px 12px!important;
+  transition: .2s;
+  background-color: var(--vp-c-bg-alt);
+}
+:root .blog-search[style*="0"] .nav-search-btn-wait{
+  border: 0;
 }

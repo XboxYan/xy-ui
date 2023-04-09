@@ -1,4 +1,5 @@
 import { defineConfig } from "vitepress";
+import { pagefindPlugin } from 'vitepress-plugin-pagefind'
 
 export default defineConfig({
   title: "xy-ui",
@@ -54,6 +55,7 @@ export default defineConfig({
   },
   // srcExclude: '../../components',
   vite: {
+    plugins:[pagefindPlugin()],
     publicDir: '../public',
     // optimizeDeps: {
     //   entries: '!../../components'

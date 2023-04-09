@@ -11,12 +11,9 @@
   margin: auto;
   animation: rotate 1s linear infinite;
   background: currentColor;
-  -webkit-mask: 
-  radial-gradient( closest-side circle, royalblue 99%, transparent 100%) center top/25% 25% no-repeat,
-  radial-gradient( closest-side circle, transparent 49%, red 50% 99%, transparent 100%),
-  conic-gradient(transparent 10%, royalblue 90%);
-  mask-composite: add, intersect;
-  -webkit-mask-composite: source-over, source-in;
+  -webkit-mask: conic-gradient( from 36deg, transparent 5%, rgba(0,0,0,.5) 50%, royalblue 90%), url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M14.624 9.08A40 40 0 0 1 40 0c5.523 0 10 4.477 10 10s-4.477 10-10 10a20 20 0 1 0 14.142 5.858l14.142-14.142a40 40 0 1 1-53.66-2.636z' fill='%230170FE'/%3E%3C/svg%3E") 0 0/100% 100%;
+  mask-composite: intersect;
+  -webkit-mask-composite: source-in;
 }
 :host(:not(:empty)) .loading{
   margin:.5em;
