@@ -55,7 +55,18 @@ export default defineConfig({
   },
   // srcExclude: '../../components',
   vite: {
-    plugins:[pagefindPlugin()],
+    plugins:[pagefindPlugin({
+      customSearchQuery(input){
+        // 将搜索的每个中文单字两侧加上空格
+        return input.replace(/[\u4e00-\u9fa5]/g, ' $& ')
+        .replace(/\s+/g,' ')
+        .trim();
+      },
+      btnPlaceholder: '搜索',
+      placeholder: '搜索文档',
+      emptyText: '空空如也',
+      heading: '共计: {{searchResult}} 条结果'
+    })],
     publicDir: '../public',
     // optimizeDeps: {
     //   entries: '!../../components'
