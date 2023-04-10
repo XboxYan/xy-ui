@@ -17,7 +17,7 @@ import './index.css'
 ```html
 <!-- 引入 -->
 <script type="module">
-    import '../components/xy-rate.js';
+    import '../components/rate/index.js';
 </script>
 <!-- 使用 -->
 <xy-rate></xy-rate>

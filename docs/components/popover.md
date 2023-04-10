@@ -348,18 +348,17 @@ popover.toggleAttribute('open',[force]);
 每次都需要主动关闭太麻烦了，可以在需要点击关闭的按钮上添加`close`属性，这样在点击后悬浮层会自动关闭，无需`popover.open = false`
 
 <div class="wrap">
-<xy-button type="primary">点击下拉</xy-button>
+<xy-button type="primary">点击出现下拉</xy-button>
 <xy-popover type="custom" trigger="click">
-    <xy-button type="flat" target="_blank" href="https://github.com/XboxYan/xy-ui" close>github</xy-button>
-    <xy-button type="flat" close>菜单二</xy-button>
-    <xy-button type="flat" close>菜单三</xy-button>
+    <xy-button type="flat">不会自动关闭</xy-button>
+    <xy-button type="flat" close>会自动关闭</xy-button>
 </xy-popover>
 </div>
 
 ```html
 <xy-popover type="custom" trigger="click">
-    <xy-button type="flat" close>菜单一</xy-button>
-    ...
+    <xy-button type="flat">不会自动关闭</xy-button>
+    <xy-button type="flat" close>会自动关闭</xy-button>
 </xy-popover>
 ```
 
