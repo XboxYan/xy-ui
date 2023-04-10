@@ -73,7 +73,7 @@ export default defineConfig({
     // },
     build: {
       // outDir: 'aaa',
-      sourcemap: true,
+      // sourcemap: true,
       assetsDir: 'public',
     },
     server: {

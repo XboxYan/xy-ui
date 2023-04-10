@@ -108,6 +108,7 @@ export default class Dialog extends Base {
       }
     })
     this.#dialog.addEventListener('close', () => {
+      this.open = false
       this.dispatchEvent(new Event("close"));
       console.log('close')
     })
