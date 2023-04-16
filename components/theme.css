@@ -41,6 +41,8 @@
   --height-base: 32px;
   --height-lg: 40px;
   --height-sm: 24px;
+  /* progress */
+  --progress-bg: rgba(0, 0, 0, .06);
   /*disabled*/
   --disabled-color: rgba(0, 0, 0, .25);
   --disabled-bg: rgba(0, 0, 0, .04);

@@ -41,7 +41,7 @@ yarn docs:dev
 - [ ] datelist
 - [x] dialog
 - [x] message
-- [ ] progress
+- [x] progress
 - [ ] pagination
 - [ ] input
 - [ ] textarea

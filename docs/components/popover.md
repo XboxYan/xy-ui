@@ -253,7 +253,7 @@ popover.setAttribute('dir','right');
 
 <div class="wrap">
 <xy-button type="primary">hover</xy-button>
-<xy-popover trigger="hover,focus">
+<xy-popover trigger="hover">
     <p>我是通过 hover 触发的</p>
 </xy-popover>
 <xy-button type="primary">focus</xy-button>

@@ -133,10 +133,8 @@ dialog.confirm({
 
 ```html
 <xy-dialog title="自定义弹窗内容">
-    <xy-icon slot="icon" name="solid/mug-hot" color="#ff7875"></xy-icon>
     这里是是自定义内容
     <xy-checkbox>删除历史记录</xy-checkbox>
-    <xy-button type="primary" slot="footer" danger>删除</xy-button>
 </xy-dialog>
 ```
 

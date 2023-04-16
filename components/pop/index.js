@@ -1,7 +1,10 @@
 import Base from "../xy-base.js";
 import style from "./index.css?inline" assert { type: "css" };
 export default class Pop extends Base {
-  
+
+  #isHover;
+  #timer;
+
 	constructor() {
 		super();
 		this.attachShadow({ mode: "open" });
@@ -182,9 +185,9 @@ export default class Pop extends Base {
 		if (option.trigger.includes("hover")) {
 			target.addEventListener("mouseenter", () => {
 				if (this.disabled || this.open) return;
-				this._hover = true;
-				this._timer && clearTimeout(this._timer);
-				this._timer = setTimeout(() => {
+				this.#isHover = true;
+				this.#timer && clearTimeout(this.#timer);
+				this.#timer = setTimeout(() => {
 					this.#render();
 					this.target = target;
 					this.open = true;
@@ -192,11 +195,11 @@ export default class Pop extends Base {
 			});
 			target.addEventListener("mouseleave", (ev) => {
 				// 是否处于hover
-				if (this._hover) {
-					this._hover = false;
+				if (this.#isHover) {
+					this.#isHover = false;
 					this.open = false;
 				}
-				this._timer && clearTimeout(this._timer);
+				this.#timer && clearTimeout(this.#timer);
 			});
 		}
 		if (option.trigger.includes("focus")) {

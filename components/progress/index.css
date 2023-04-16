@@ -1,0 +1,49 @@
+:host{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: 150px;
+}
+
+.progress{
+  position: relative;
+  border: 0;
+  width: -webkit-fill-available;
+  width: -moz-available;
+  height: 8px;
+  border-radius: 8px;
+  background-color: var(--progress-bg, rgba(0,0,0,.06));
+  overflow: hidden;
+}
+.progress::before{
+  content: '';
+  position: absolute;
+  height: 100%;
+  border-radius: inherit;
+  left: 0;
+  width: var(--percent, 50%);
+  background-color:var(--primary-color,royalblue);
+  transition: var(--transition, .2s);
+}
+.progress[style="--percent:100%;"]::before{
+  background-color: var(--success-color, #52c41a);
+}
+.info{
+  width: 2em;
+  font-size: 14px;
+}
+.progress[style="--percent:100%;"]+.info{
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3C!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc.--%3E%3Cpath d='M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zm113-303L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z'/%3E%3C/svg%3E") 0 center/14px no-repeat;
+  color: transparent;
+  pointer-events: none;
+  background-color: var(--success-color, #52c41a);
+}
+:host([error]) .progress::before{
+  background-color: var(--error-color, #f4615c);
+}
+:host([error]) .info{
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3C!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc.--%3E%3Cpath d='M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zm-81-337c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z'/%3E%3C/svg%3E") 0 center/14px no-repeat;
+  color: transparent;
+  pointer-events: none;
+  background-color: var(--error-color, #f4615c);
+}

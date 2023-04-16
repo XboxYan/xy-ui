@@ -81,7 +81,6 @@ export default class PopOver extends Pop {
 	}
 
 	disconnectedCallback() {
-		console.log(this._documentClickEvent)
 		if (this._documentClickEvent.length && !this.isConnected) {
 			this._documentClickEvent.forEach(event => {
 				document.removeEventListener("click", event);
