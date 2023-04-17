@@ -1,28 +1,35 @@
-:host {
+:host{
+  display: contents;
+  --s: .5;
+  --pad: 12px;
+}
+
+.pop {
   position: absolute;
   display: flex;
   flex-direction: column;
+  overflow: visible;
   visibility: hidden;
+  inset: auto;
+  border: 0;
   opacity: .5;
-  transition: opacity .05s, visibility .05s, transform 0s .1s;
-  --s: .5;
-  --pad: 12px;
+  /* transition: opacity .05s, visibility .05s, transform 0s .1s; */
   transform: translate(var(--x), var(--y)) scale(var(--s));
   z-index: 10;
 }
 
-:host(:is([show],[open],[trigger*=hover]:hover)) {
+:host(:is([show],[open])) .pop{
   transition: var(--transition, .2s);
   --s: 1;
   opacity: 1;
   visibility: visible;
 }
-
-:host(:is(:not([trigger]),[trigger*='hover'])) {
+/* 
+:host(:is(:not([trigger]),[trigger*='hover'])) .pop{
   transition: left 0s, top 0s, opacity .05s, visibility .05s, transform .2s;
-}
+} */
 
-:host::after{
+.pop::after{
   content: '';
   position: absolute;
   inset: calc(var(--pad) * -1);
@@ -30,7 +37,7 @@
 }
 
 /* dir */
-:host([dir=top]) {
+:host([dir=top]) .pop{
   transform-origin: bottom;
   left: calc((var(--left) + var(--right) ) * .5px + var(--offset-x, 0) * 1px);
   top: calc(var(--top) * 1px);
@@ -38,17 +45,17 @@
   --y: -100%;
 }
 
-:host([dir=top])::before{
+:host([dir=top]) .pop::before{
   left: 50%;
   bottom: 0;
   transform: translate(-50%, 50%) scaleY(-1);
 }
 
-:host([dir=top]:is([show],[open],[trigger*=hover]:hover)) {
+:host([dir=top]:is([show],[open])) .pop{
   --y: calc(-100% - var(--pad));
 }
 
-:host([dir=TL]) {
+:host([dir=TL]) .pop{
   transform-origin: left bottom;
   left: calc( var(--left) * 1px);
   top: calc(var(--top) * 1px);
@@ -56,17 +63,17 @@
   --y: -100%;
 }
 
-:host([dir=TL])::before{
+:host([dir=TL]) .pop::before{
   left: 8px;
   bottom: 0;
   transform: translate(0%, 50%) scaleY(-1);
 }
 
-:host([dir=TL]:is([show],[open],[trigger*=hover]:hover)) {
+:host([dir=TL]:is([show],[open])) .pop{
   --y: calc(-100% - var(--pad));
 }
 
-:host([dir=TR]) {
+:host([dir=TR]) .pop{
   transform-origin: right bottom;
   left: calc( var(--right) * 1px);
   top: calc(var(--top) * 1px);
@@ -74,17 +81,17 @@
   --y: -100%;
 }
 
-:host([dir=TR])::before{
+:host([dir=TR]) .pop::before{
   right: 8px;
   bottom: 0;
   transform: translate(0%, 50%) scaleY(-1);
 }
 
-:host([dir=TR]:is([show],[open],[trigger*=hover]:hover)) {
+:host([dir=TR]:is([show],[open])) .pop{
   --y: calc(-100% - var(--pad));
 }
 
-:host([dir=LT]) {
+:host([dir=LT]) .pop{
   transform-origin: right top;
   left: calc( var(--left) * 1px);
   top: calc(var(--top) * 1px);
@@ -92,17 +99,17 @@
   --y: 0%;
 }
 
-:host([dir=LT])::before{
+:host([dir=LT]) .pop::before{
   right: 0;
   top: 8px;
   transform: translate(50%, 0%) rotate(90deg);
 }
 
-:host([dir=LT]:is([show],[open],[trigger*=hover]:hover)) {
+:host([dir=LT]:is([show],[open])) .pop{
   --x: calc(-100% - var(--pad));
 }
 
-:host([dir=left]) {
+:host([dir=left]) .pop{
   transform-origin: right;
   left: calc( var(--left) * 1px);
   top: calc((var(--top) + var(--bottom) ) * .5px + var(--offset-y, 0) * 1px);
@@ -110,17 +117,17 @@
   --y: -50%;
 }
 
-:host([dir=left])::before{
+:host([dir=left]) .pop::before{
   right: 0;
   top: 50%;
   transform: translate(50%, -50%) rotate(90deg);
 }
 
-:host([dir=left]:is([show],[open],[trigger*=hover]:hover)) {
+:host([dir=left]:is([show],[open])) .pop{
   --x: calc(-100% - var(--pad));
 }
 
-:host([dir=LB]) {
+:host([dir=LB]) .pop{
   transform-origin: right top;
   left: calc( var(--left) * 1px);
   top: calc(var(--bottom) * 1px);
@@ -128,17 +135,17 @@
   --y: -100%;
 }
 
-:host([dir=LB])::before{
+:host([dir=LB]) .pop::before{
   right: 0;
   bottom: 8px;
   transform: translate(50%, 0%) rotate(90deg);
 }
 
-:host([dir=LB]:is([show],[open],[trigger*=hover]:hover)) {
+:host([dir=LB]:is([show],[open])) .pop{
   --x: calc(-100% - var(--pad));
 }
 
-:host([dir=RT]) {
+:host([dir=RT]) .pop{
   transform-origin: left top;
   left: calc( var(--right) * 1px);
   top: calc(var(--top) * 1px);
@@ -146,17 +153,17 @@
   --y: 0%;
 }
 
-:host([dir=RT])::before{
+:host([dir=RT]) .pop::before{
   left: 0;
   top: 8px;
   transform: translate(-50%, 0%) rotate(-90deg);
 }
 
-:host([dir=RT]:is([show],[open],[trigger*=hover]:hover)) {
+:host([dir=RT]:is([show],[open])) .pop{
   --x: var(--pad);
 }
 
-:host([dir=right]) {
+:host([dir=right]) .pop{
   transform-origin: left;
   left: calc( var(--right) * 1px);
   top: calc((var(--top) + var(--bottom) ) * .5px + var(--offset-y, 0) * 1px);
@@ -164,17 +171,17 @@
   --y: -50%;
 }
 
-:host([dir=right])::before{
+:host([dir=right]) .pop::before{
   left: 0;
   top: 50%;
   transform: translate(-50%, -50%) rotate(-90deg);
 }
 
-:host([dir=right]:is([show],[open],[trigger*=hover]:hover)) {
+:host([dir=right]:is([show],[open])) .pop{
   --x: var(--pad);
 }
 
-:host([dir=RB]) {
+:host([dir=RB]) .pop{
   transform-origin: left bottom;
   left: calc( var(--right) * 1px);
   top: calc(var(--bottom) * 1px);
@@ -182,17 +189,17 @@
   --y: -100%;
 }
 
-:host([dir=RB])::before{
+:host([dir=RB]) .pop::before{
   left: 0;
   bottom: 8px;
   transform: translate(-50%, 0%) rotate(-90deg);
 }
 
-:host([dir=RB]:is([show],[open],[trigger*=hover]:hover)) {
+:host([dir=RB]:is([show],[open])) .pop{
   --x: var(--pad);
 }
 
-:host([dir=bottom]) {
+:host([dir=bottom]) .pop{
   transform-origin: top;
   left: calc((var(--left) + var(--right) ) * .5px + var(--offset-x, 0) * 1px);
   top: calc(var(--bottom) * 1px);
@@ -200,17 +207,17 @@
   --y: 0%;
 }
 
-:host([dir=bottom])::before{
+:host([dir=bottom]) .pop::before{
   left: 50%;
   top: 0;
   transform: translate(-50%, -50%);
 }
 
-:host([dir=bottom]:is([show],[open],[trigger*=hover]:hover)) {
+:host([dir=bottom]:is([show],[open])) .pop{
   --y: var(--pad);
 }
 
-:host([dir=BL]) {
+:host([dir=BL]) .pop{
   transform-origin: left top;
   left: calc(var(--left) * 1px);
   top: calc(var(--bottom) * 1px);
@@ -218,17 +225,17 @@
   --y: 0%;
 }
 
-:host([dir=BL])::before{
+:host([dir=BL]) .pop::before{
   left: 8px;
   top: 0;
   transform: translate(0%, -50%);
 }
 
-:host([dir=BL]:is([show],[open],[trigger*=hover]:hover)) {
+:host([dir=BL]:is([show],[open])) .pop{
   --y: var(--pad);
 }
 
-:host([dir=BR]) {
+:host([dir=BR]) .pop{
   transform-origin: right top;
   left: calc(var(--right) * 1px);
   top: calc(var(--bottom) * 1px);
@@ -236,12 +243,12 @@
   --y: 0%;
 }
 
-:host([dir=BR])::before{
+:host([dir=BR]) .pop::before{
   right: 8px;
   top: 0;
   transform: translate(0%, -50%);
 }
 
-:host([dir=BR]:is([show],[open],[trigger*=hover]:hover)) {
+:host([dir=BR]:is([show],[open])) .pop{
   --y: var(--pad);
 }

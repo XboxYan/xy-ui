@@ -3,11 +3,10 @@ import style from "./index.css?inline" assert { type: "css" };
 import Pop from "../pop/index.js";
 
 export class Tip extends Pop {
-  #documentClickEvent = [];
 	constructor(triggerEl, option) {
 		super();
 		this.adoptedStyle(style);
-		this.shadowRoot.innerHTML = `<slot></slot>`;
+		// this.shadowRoot.innerHTML = `<slot></slot>`;
 		this.init(triggerEl, {
 			dir: "top,bottom",
 			trigger: ["hover", "focus"],
@@ -33,8 +32,8 @@ export class Tip extends Pop {
 	}
 
   disconnectedCallback() {
-    if (this.#documentClickEvent.length && !this.isConnected) {
-			this.#documentClickEvent.forEach(event => {
+    if (this._documentClickEvent.length && !this.isConnected) {
+			this._documentClickEvent.forEach(event => {
 				document.removeEventListener("click", event);
 			})
 		}
@@ -72,6 +71,7 @@ export default class Tips extends Base {
       </style>
       <slot></slot>
       `;
+      // this.tipEl = shadowRoot.getElementById("tips")
 	}
 
 	get tips() {
@@ -131,6 +131,7 @@ export default class Tips extends Base {
 	}
 
 	connectedCallback() {
+    // this.tipEl.target = this.firstElementChild
 		this.tipEl = new Tip(this.firstElementChild, {
 			tips: this.tips,
 			dir: this.dir,

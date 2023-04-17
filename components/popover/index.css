@@ -1,4 +1,4 @@
-:host {
+.pop {
   border-radius: var(--border-radius-base, 4px);
   background-color: var(--primary-bg, #fff);
   filter: drop-shadow(var(--shadow));
@@ -6,17 +6,17 @@
   padding: 4px;
 }
 
-:host([type=custom]){
+:host([type=custom]) .pop{
   --pad: 10px;
 }
 
-:host([trigger*=contextmenu]){
+:host([trigger*=contextmenu]) .pop{
   --pad: 0;
   transition: 0s;
   width: max-content;
 }
 
-:host(:not([type=custom]))::before {
+:host(:not([type=custom])) .pop::before {
   content: '';
   position: absolute;
   width: 16px;

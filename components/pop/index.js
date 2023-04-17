@@ -3,14 +3,30 @@ import style from "./index.css?inline" assert { type: "css" };
 export default class Pop extends Base {
 
   #isHover;
+  #isHoverPoper;
   #timer;
+  #pop;
 
 	constructor() {
 		super();
 		this.attachShadow({ mode: "open" });
 		this.adoptedStyle(style);
+    this.shadowRoot.innerHTML = `
+    <div id="pop" class="pop" popover="manual">
+      <slot></slot>
+    </div>
+    `
+    this.#pop = this.shadowRoot.getElementById("pop");
     this._documentClickEvent = [];
 	}
+
+  set popHTML(value) {
+    this.#pop.innerHTML = value
+  }
+
+  get isSuportPopOver() {
+    return document.body.popover !== undefined
+  }
 
 	get dir() {
 		return this.getAttribute("dir") || "BL,TL";
@@ -54,6 +70,9 @@ export default class Pop extends Base {
 			this.#setPosition();
 		}
 		this.toggleAttribute("open", value);
+    if (this.isSuportPopOver) {
+      this.#pop.togglePopover(value)
+    }
 	}
 
 	set offset(value) {
@@ -78,8 +97,8 @@ export default class Pop extends Base {
 	}
 
 	#render() {
-		if (!this.isConnected || this.parentNode !== document.body) {
-			document.body.append(this);
+		if (!this.isConnected || (this.parentNode !== document.body && !this.isSuportPopOver)) {
+      document.body.append(this);
 			this.clientWidth;
 		}
 	}
@@ -87,6 +106,7 @@ export default class Pop extends Base {
 	// 设置tips位置
 	#setPosition() {
 		if (this.trigger?.includes("contextmenu")) return;
+    if (!this.node) return
 		const { left, top, right, bottom } = this.node.getBoundingClientRect();
 		this.style.setProperty("--left", parseInt(left + window.pageXOffset));
 		this.style.setProperty("--top", parseInt(top + window.pageYOffset));
@@ -97,8 +117,8 @@ export default class Pop extends Base {
 			const w = window.innerWidth;
 			const h = window.innerHeight;
 			const BOUND = {
-				w: this.offsetWidth + 10,
-				h: this.offsetHeight + 10,
+				w: this.#pop.offsetWidth + 10,
+				h: this.#pop.offsetHeight + 10,
 			};
 			if (top < BOUND.h) {
 				const dir = ["bottom", "BL", "BR"].find((el) => this.auto.includes(el));
@@ -124,13 +144,15 @@ export default class Pop extends Base {
 	}
 
 	// 监听target元素出现
-	#observer() {
+	#observer(open) {
 		const observer = new IntersectionObserver((ioes) => {
 			ioes.forEach((ioe) => {
 				const el = ioe.target;
 				const intersectionRatio = ioe.intersectionRatio;
 				if (intersectionRatio > 0 && intersectionRatio <= 1) {
+          this.#render()
 					this.#setPosition();
+          this.open = open
 					observer.unobserve(el);
 				}
 			});
@@ -162,12 +184,12 @@ export default class Pop extends Base {
 
 	// 初始化
 	init(target, option) {
-		if (!target) return;
+    if (!target) return;
 		if (!target.clientWidth) return;
 		this.target = target;
 		this.#disconnect(target);
 		Object.keys(option).forEach((el) => {
-			if (option[el]) {
+			if (option[el] && el!=='open') {
 				this[el] = option[el];
 			}
 		});
@@ -177,8 +199,8 @@ export default class Pop extends Base {
 		}
 		if (option.open || option.trigger?.includes("none")) {
 			// 如果有 open 属性控制，或者 trigger 为 none，那么不再通过 target 触发
-			this.#observer();
-			this.#render();
+      this.#observer(!!option.open);
+			// this.#render();
 			return;
 		}
 		// hover
@@ -193,13 +215,27 @@ export default class Pop extends Base {
 					this.open = true;
 				}, 200);
 			});
+      this.addEventListener("mouseenter", () => {
+        if (this.#isHover) {
+          this.#isHoverPoper = true;
+          this.open = true;
+        }
+			});
+      this.addEventListener("mouseleave", () => {
+        if (this.#isHoverPoper) {
+          this.open = false;
+          this.#isHoverPoper = false
+        }
+			});
 			target.addEventListener("mouseleave", (ev) => {
 				// 是否处于hover
-				if (this.#isHover) {
-					this.#isHover = false;
-					this.open = false;
-				}
-				this.#timer && clearTimeout(this.#timer);
+        setTimeout(() => {
+				if (this.#isHover && !this.#isHoverPoper) {
+					  this.#isHover = false;
+            this.open = false;
+          }
+          this.#timer && clearTimeout(this.#timer);
+        }, 100);
 			});
 		}
 		if (option.trigger.includes("focus")) {
@@ -220,24 +256,21 @@ export default class Pop extends Base {
         this.#render();
         this.target = target;
         this.open = true;
+        // 注册 document click
+        if (this._documentClickEvent.length) return
+        const click = (ev) => {
+          if (!this.contains(ev.target) && !target.contains(ev.target)) {
+            this.open = false;
+          }
+        };
+        this._documentClickEvent.push(click)
+        document.addEventListener("click", click);
 			});
-      const autoclose = (ev) => {
-        if (ev.target.closest('[close]')){
-          this.open = false
-        }
-      }
       this.shadowRoot.addEventListener('click', (ev) => {
         if (ev.target.closest('[close]')){
           this.open = false
         }
       })
-			const click = (ev) => {
-				if (!this.contains(ev.target) && !target.contains(ev.target)) {
-					this.open = false;
-				}
-			};
-      this._documentClickEvent.push(click)
-      document.addEventListener("click", click);
 		}
 	}
 }

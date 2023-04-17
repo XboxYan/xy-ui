@@ -1,4 +1,4 @@
-:host {
+.pop{
   border-radius: var(--border-radius-base, 4px);
   padding: 6px 8px;
   line-height: 22px;
@@ -10,7 +10,7 @@
   max-width: 200px;
 }
 
-:host::before {
+.pop::before {
   content: '';
   position: absolute;
   width: 16px;
@@ -20,14 +20,14 @@
 }
 
 /* success */
-:host([type=success]){
+:host([type=success]) .pop{
   --tips-bg: var(--success-color,#52c41a);
 }
 /* error */
-:host([type=error]){
+:host([type=error]) .pop{
   --tips-bg: var(--error-color,#f4615c);
 }
 /* warning */
-:host([type=warning]){
+:host([type=warning]) .pop{
   --tips-bg: var(--waring-color,#faad14);
 }

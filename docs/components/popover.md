@@ -136,6 +136,7 @@ import './index.css'
   xy-popover p{
     padding: 0 4px;
     font-size: 14px;
+    margin: 0
   }
 </style>
 

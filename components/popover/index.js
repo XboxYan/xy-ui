@@ -11,9 +11,9 @@ export default class PopOver extends Pop {
 	constructor() {
 		super();
 		this.adoptedStyle(style);
-		this.shadowRoot.innerHTML = `
-		<slot></slot>
-		`;
+		// this.shadowRoot.innerHTML = `
+		// <slot></slot>
+		// `;
 	}
 
 	get #targetAll() {
@@ -36,21 +36,22 @@ export default class PopOver extends Pop {
 			target.addEventListener('contextmenu', ev => {
 				ev.preventDefault();
 				if (this.disabled) return;
-				if (!this.isConnected || this.parentNode !== document.body) {
+				if (!this.isConnected || (this.parentNode !== document.body && !this.isSuportPopOver)) {
 					document.body.append(this);
 					this.clientWidth;
 				}
-				this.style.left = ev.pageX + 'px'
-				this.style.top = ev.pageY + 'px'
+				this.shadowRoot.getElementById('pop').style.left = ev.pageX + 'px'
+				this.shadowRoot.getElementById('pop').style.top = ev.pageY + 'px'
 				this.open = true
+				if (this._documentClickEvent.length) return;
+				const click = (ev) => {
+					if (!this.contains(ev.target)) {
+						this.open = false
+					}
+				};
+				this._documentClickEvent.push(click)
+				document.addEventListener('click',click)
 			})
-			const click = (ev) => {
-				if (!this.contains(ev.target)) {
-					this.open = false
-				}
-			};
-			this._documentClickEvent.push(click)
-			document.addEventListener('click',click)
 		}
 	}
 

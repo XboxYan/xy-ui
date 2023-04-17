@@ -16,7 +16,7 @@ export default class PopConfirm extends PopOver {
 	constructor() {
 		super();
 		this.adoptedStyle(style);
-		this.shadowRoot.innerHTML = `
+		this.popHTML = `
       <slot name="icon"><xy-icon name="solid/circle-question"></xy-icon></slot>
       <div class="pane">
         <h4 class="title" id="title" part="title"></h4>
