@@ -58,6 +58,10 @@ xy-popover:not(:defined){
   visibility: hidden;
 }
 
+html:has(xy-dialog[open]){
+  overflow: hidden;
+}
+
 @supports not (color: color-mix(in srgb, red, pink)) {
   :root {
     --primary-color-opacity-100: rgba(65, 105, 225, 0.1);
