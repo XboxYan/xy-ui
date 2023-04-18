@@ -40,7 +40,7 @@ import './index.css'
 </xy-popconfirm>
 ```
 
-基于`xy-popover`实现，继承所有属性和方法。
+基于[popover](./popover)实现，继承所有属性和方法。
 
 ## 标题`title`、内容`content`
 
