@@ -35,7 +35,6 @@ export default class Base extends HTMLElement {
     if (!this.slots) {
       this.slots = [...this.shadowRoot.querySelectorAll('slot')]
     }
-    console.log(this.slots)
     if (!this.slots.length) return
     return new Promise((resolve) => {
       if (this.#mounted.length === this.slots.length) {
@@ -46,7 +45,7 @@ export default class Base extends HTMLElement {
             this.#mounted[i] = true
           }
           if (this.#mounted.length === this.slots.length) {
-            resolve()
+            setTimeout(resolve, 200);
           }
         }))
       }
