@@ -214,10 +214,10 @@ select.removeAttribute('disabled');
 还可以指定选中文本显示的节点，通过`behavior="selected-value"`指定（没有该属性时默认渲染到`slot="button"`本身）
 
 <style scoped>
-.custom-button::part(button):active{
+.custom-select-button::part(button):active{
     background: transparent;
 }
-.custom-button label{
+.custom-select-button label{
     position: absolute;
     font-size: 12px;
     background: var(--primary-bg);
@@ -229,7 +229,7 @@ select.removeAttribute('disabled');
 
 <div class="wrap">
 <xy-select>
-    <xy-button class="custom-button" slot="button">
+    <xy-button class="custom-select-button" slot="button">
         <label>地区</label>
         <span behavior="selected-value"></span>
     </xy-button>

@@ -5,7 +5,6 @@ import "../button/index.js";
 import "../icon/index.js";
 
 export default class Select extends Base {
-  #valueEl;
 	#slots;
 	#popoverEl;
 	#buttonEl;
@@ -29,7 +28,6 @@ export default class Select extends Base {
 				</div>
 			</xy-popover>
       `;
-		this.#valueEl = this.querySelector("[behavior='selected-value']") || this.querySelector("[slot='button']") || this.shadowRoot.querySelector("[behavior='selected-value']");
 		this.#popoverEl = this.shadowRoot.getElementById("popover");
 		this.#buttonEl = this.shadowRoot.getElementById("button");
 	}
@@ -37,6 +35,10 @@ export default class Select extends Base {
 	focus(options) {
 		const button = this.querySelector("[slot='button']") || this.shadowRoot.querySelector("[behavior='selected-value']")
 		button.focus(options);
+	}
+
+	get #valueEl() {
+		return this.querySelector("[behavior='selected-value']") || this.querySelector("[slot='button']") || this.shadowRoot.querySelector("[behavior='selected-value']");
 	}
 
   get value() {
@@ -88,7 +90,6 @@ export default class Select extends Base {
 	}
 
 	connectedCallback() {
-		this.#valueEl = this.querySelector("[behavior='selected-value']") || this.querySelector("[slot='button']") || this.shadowRoot.querySelector("[behavior='selected-value']");
 		this.#slots = this.shadowRoot.getElementById("slot");
 		this.#slots.addEventListener("slotchange", () => {
 			if (this.#popoverEl.parentNode === document.body) {
