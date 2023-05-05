@@ -6,6 +6,8 @@ export default class Base extends HTMLElement {
 		super();
 	}
 
+  #mounted = [];
+
   adoptedStyle (style, dom) {
     let styleSheet = style
     if (!style.type) {
@@ -31,17 +33,22 @@ export default class Base extends HTMLElement {
   // slot元素渲染完成
   renderSlot() {
     if (!this.slots) {
-      this.slots = this.shadowRoot.querySelector('slot:not([name])')
+      this.slots = [...this.shadowRoot.querySelectorAll('slot')]
     }
-    if (!this.slots) return
+    console.log(this.slots)
+    if (!this.slots.length) return
     return new Promise((resolve) => {
-      if (this.mounted) {
+      if (this.#mounted.length === this.slots.length) {
         resolve()
       } else {
-        this.slots.addEventListener("slotchange", () => {
-          this.mounted = true
-          resolve()
-        })
+        this.slots.forEach((el,i) => el.addEventListener("slotchange", () => {
+          if (!this.#mounted[i]) {
+            this.#mounted[i] = true
+          }
+          if (this.#mounted.length === this.slots.length) {
+            resolve()
+          }
+        }))
       }
     })
   }
