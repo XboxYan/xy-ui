@@ -1,92 +1,149 @@
 import Base from "../xy-base.js";
 import style from "./index.css?inline" assert { type: "css" };
-import PopOver from "../popover/index.js";
+import "../popover/index.js";
 import "../button/index.js";
 import "../icon/index.js";
 
 export default class Select extends Base {
-  #mounted;
-	#btnCancel; // 取消按钮
-	#btnSubmit; // 确认按钮
-  #title; // 标题
-  #content; // 内容
+  #valueEl;
+	#slots;
+	#popoverEl;
+	#buttonEl;
+	#selectNode;
   static get observedAttributes() {
-		return ["title", "content", "submittext", "canceltext", "loading"];
+		return ["value", "disabled"];
 	}
 	constructor() {
 		super();
+		const shadowRoot = this.attachShadow({ mode: "open" });
 		this.adoptedStyle(style);
-		this.shadowRoot.innerHTML = `
-			<xy-button></xy-button>
-			<xy-popover>
-				<slot></slot>
+		shadowRoot.innerHTML = `
+			<div class="button" id="button">
+				<slot name="button">
+					<xy-button part="button" behavior="selected-value"></xy-button>
+				</slot>
+			</div>
+			<xy-popover id="popover" dir="BL,TL" type="custom" trigger="click" target="#button">
+				<div class="listbox">
+					<slot id="slot"></slot>
+				</div>
 			</xy-popover>
       `;
-		this.#title = this.shadowRoot.querySelector("#title");
-		this.#content = this.shadowRoot.querySelector("#content");
-		this.#btnSubmit = this.shadowRoot.querySelector("#submit");
-		this.#btnCancel = this.shadowRoot.querySelector("#cancel");
+		this.#valueEl = this.querySelector("[behavior='selected-value']") || this.querySelector("[slot='button']") || this.shadowRoot.querySelector("[behavior='selected-value']");
+		this.#popoverEl = this.shadowRoot.getElementById("popover");
+		this.#buttonEl = this.shadowRoot.getElementById("button");
 	}
 
-  get submittext() {
-		return this.getAttribute("submittext") || "确认";
+	focus(options) {
+		const button = this.querySelector("[slot='button']") || this.shadowRoot.querySelector("[behavior='selected-value']")
+		button.focus(options);
 	}
 
-  get loading() {
-		return this.getAttribute("loading") !== null;
+  get value() {
+		return this.#valueEl.getAttribute("value");
 	}
 
-  get canceltext() {
-		return this.getAttribute("canceltext") || "取消";
+  get label() {
+		return this.#valueEl.textContent;
 	}
 
-	set submittext(value) {
-		this.setAttribute("submittext", value);
+  get open() {
+		return this.getAttribute("open") !== null;
 	}
 
-  set canceltext(value) {
-		this.setAttribute("canceltext", value);
+  get disabled() {
+		return this.getAttribute("disabled") !== null;
 	}
 
-  set loading(value) {
-		this.toggleAttribute("loading", value);
+  set value(value) {
+		this.#select(value);
+	}
+
+  set open(value) {
+		this.toggleAttribute("open", value)
+	}
+
+  set disabled(value) {
+		this.toggleAttribute("disabled", value)
+	}
+
+	#select(value, node) {
+		if (node) {
+			this.#valueEl.textContent = node.label;
+			this.#valueEl.setAttribute("value", value)
+			node.selected = true
+			this.#selectNode = node
+		} else {
+			const options = this.querySelectorAll('xy-option:not([disabled])');
+			const current = [...options].find(el => el.value == value) || options[0]
+			this.#valueEl.setAttribute("value", current?.value)
+			this.#valueEl.textContent = current?.label
+			current.selected = true
+			this.#selectNode = current
+		}
+	}
+
+	close() {
+		this.#popoverEl.open = false
 	}
 
 	connectedCallback() {
-		this.trigger = "click";
-		this.dir = "top";
-		this.auto = "top,bottom";
-		this.render();
-    if (this.#mounted) return
-		this.#mounted = true
-		this.#btnCancel.addEventListener("click", () => {
-			// this.open = false;
-      this.dispatchEvent(new Event('cancel'))
+		this.#valueEl = this.querySelector("[behavior='selected-value']") || this.querySelector("[slot='button']") || this.shadowRoot.querySelector("[behavior='selected-value']");
+		this.#slots = this.shadowRoot.getElementById("slot");
+		this.#slots.addEventListener("slotchange", () => {
+			if (this.#popoverEl.parentNode === document.body) {
+				this.#popoverEl.innerHTML = this.innerHTML
+				this.#selectNode = this.#popoverEl.querySelector('xy-option[selected]')
+			}
+			const options = this.querySelectorAll('xy-option:not([disabled])');
+			if (!this.value) {
+				this.#select(options[0]?.value, options[0])
+			}
 		});
-		this.#btnSubmit.addEventListener("click", () => {
-			this.dispatchEvent(new Event('submit'))
-		});
+		this.#buttonEl.addEventListener("click", ev => {
+			const openSelects = this.getRootNode().querySelectorAll('xy-select[open]')
+			const other = [...openSelects].filter(el => el !== this)[0]
+			if (other) {
+				other.close()
+			}
+		})
+		this.#popoverEl.addEventListener("click", ev => {
+			const target = ev.target
+			if (target.tagName === 'XY-OPTION' && !target.disabled) {
+				this.#select(target.value, target)
+				this.#popoverEl.open = false
+				this.dispatchEvent(new InputEvent('change'))
+			}
+		})
+		this.#popoverEl.addEventListener("change", (ev) => {
+			const open = ev.target.open
+			this.open = open
+			if (open) {
+				setTimeout(() => {
+					if (!this.#selectNode) return
+					if (!this.#selectNode.selected) {
+						this.#selectNode.selected = true
+					}
+					this.#selectNode.focus({ preventScroll: true })
+				}, 200);
+			} else {
+				this.focus({ preventScroll: true })
+			}
+		})
 	}
 
-	attributeChangedCallback(name, oldValue, newValue) {
-		if (name === "title") {
-			this.#title.textContent = newValue
+	async attributeChangedCallback(name, oldValue, newValue) {
+		await this.renderSlot()
+		if (name === "value") {
+			this.#select(newValue)
 		}
-		if (name === "content") {
-			this.#content.textContent = newValue;
-		}
-		if (name === "canceltext") {
-			this.#btnCancel.textContent = newValue;
-		}
-		if (name === "submittext") {
-			this.#btnSubmit.textContent = newValue;
-		}
-		if (name === "loading") {
-			this.#btnSubmit.loading = newValue!==null;
+		if (name === "disabled") {
+			this.#buttonEl.toggleAttribute("inert", newValue!==null)
+			this.#valueEl.toggleAttribute("disabled", newValue!==null)
 		}
 	}
 }
 
-if (!customElements.get("xy-popconfirm")) {
-	customElements.define("xy-popconfirm", PopConfirm);
+if (!customElements.get("xy-select")) {
+	customElements.define("xy-select", Select);
 }

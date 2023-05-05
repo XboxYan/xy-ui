@@ -1,0 +1,12 @@
+:host{
+  width: min-content;
+}
+label{
+  display: block;
+  padding: 2px 5px;
+  font-size: 12px;
+  color: var(--text-color-secondary, rgba(0, 0, 0, .45));
+}
+::slotted(xy-option){
+  text-indent: 1em;
+}

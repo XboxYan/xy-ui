@@ -7,9 +7,9 @@
 
 @supports not (color: color-mix(in srgb, red, pink)) {
   :host {
-    --primary-color-opacity-100: rgba(255, 119, 117, 0.1);
-    --primary-color-opacity-200: rgba(255, 119, 117, 0.2);
-    --primary-color-opacity-600: rgba(255, 119, 117, 0.6);
+    --primary-color-opacity-100: rgba(65, 105, 225, 0.1);
+    --primary-color-opacity-200: rgba(65, 105, 225, 0.2);
+    --primary-color-opacity-600: rgba(65, 105, 225, 0.6);
   }
 }
 

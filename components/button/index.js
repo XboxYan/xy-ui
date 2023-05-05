@@ -43,8 +43,8 @@ export default class Button extends Base {
 		this.#btnEl = shadowRoot.getElementById("button");
 	}
 
-	focus() {
-		this.#btnEl.focus();
+	focus(options) {
+		this.#btnEl.focus(options);
 	}
 
 	get disabled() {

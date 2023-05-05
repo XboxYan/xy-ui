@@ -1,0 +1,17 @@
+xy-button::part(button){
+  justify-content: flex-start;
+  padding: 4px 12px;
+}
+:host([selected]) xy-button::part(button){
+  background: var(--primary-color-opacity-100);
+  color: var(--primary-color);
+}
+:host([disabled]) xy-button::part(button){
+  background-color: transparent;
+}
+xy-button::part(button):hover,
+xy-button::part(button):focus{
+  color: inherit;
+  background-color: var(--primary-bg-secondary);
+  outline: 0;
+}

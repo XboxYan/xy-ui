@@ -1,34 +1,37 @@
 :host{
-  flex-direction: row;
-  padding: 12px;
-  gap: 8px;
-  align-items: flex-start;
-  min-width: 200px;
+  display: inline-flex;
 }
-.title{
-  font-size: 14px;
-  line-height: 24px;
-  font-weight: bold;
-  margin: 0;
-}
-.pane{
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 8px;
-}
-[name="icon"]{
+.button{
   display: flex;
   align-items: center;
-  font-size: 16px;
-  height: 24px;
-  color: var(--waring-color, #faad14);
+  gap: 4px;
+  min-width: 1px;
 }
-.content{
-  font-size: 14px;
+xy-popover::part(pop){
+  background: none;
+  padding: 0;
+  width: min-content;
 }
-.footer{
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
+[behavior="selected-value"]::part(button)::after{
+  content: '';
+  width: 1em;
+  height: 1em;
+  margin-right: -.5em;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3C!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc.--%3E%3Cpath d='M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z'/%3E%3C/svg%3E") center/ 80% no-repeat;
+  background-color: currentColor;
+  opacity: .8;
+}
+:host([open]) [behavior="selected-value"]::part(button) {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+:host([open]) [behavior="selected-value"]::part(button)::after {
+  transform: scaleY(-1);
+}
+.listbox{
+  box-sizing: border-box;
+  background-color: #fff;
+  padding: 4px;
+  border-radius: var(--border-radius-base, 4px);
+  min-width: calc(var(--width) * 1px);
 }

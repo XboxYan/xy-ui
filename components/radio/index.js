@@ -7,8 +7,8 @@ export default class Radio extends Base {
 		return ["disabled", "checked", "required"];
 	}
 
-	focus() {
-		this.#radio.focus();
+	focus(options) {
+		this.#radio.focus(options);
 	}
 
 	constructor() {

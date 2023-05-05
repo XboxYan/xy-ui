@@ -35,6 +35,7 @@ export default defineConfig({
         {
           text: '表单',
           items: [
+            { text: "select 选择器", link: "/components/select" },
             { text: "switch 开关", link: "/components/switch" },
             { text: "slider 滑动输入", link: "/components/slider" },
             { text: "checkbox 多选框", link: "/components/checkbox" },

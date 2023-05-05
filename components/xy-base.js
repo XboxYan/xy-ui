@@ -31,7 +31,7 @@ export default class Base extends HTMLElement {
   // slot元素渲染完成
   renderSlot() {
     if (!this.slots) {
-      this.slots = this.shadowRoot.querySelector('slot')
+      this.slots = this.shadowRoot.querySelector('slot:not([name])')
     }
     if (!this.slots) return
     return new Promise((resolve) => {

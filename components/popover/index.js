@@ -3,6 +3,7 @@ import Pop from "../pop/index.js";
 
 export default class PopOver extends Pop {
 	#mounted;
+	#pop;
 
 	static get observedAttributes() {
 		return ["open"];
@@ -11,6 +12,7 @@ export default class PopOver extends Pop {
 	constructor() {
 		super();
 		this.adoptedStyle(style);
+		this.#pop = this.shadowRoot.getElementById('pop')
 		// this.shadowRoot.innerHTML = `
 		// <slot></slot>
 		// `;
@@ -40,13 +42,14 @@ export default class PopOver extends Pop {
 					document.body.append(this);
 					this.clientWidth;
 				}
-				this.shadowRoot.getElementById('pop').style.left = ev.pageX + 'px'
-				this.shadowRoot.getElementById('pop').style.top = ev.pageY + 'px'
+				this.#pop.style.left = ev.pageX + 'px'
+				this.#pop.style.top = ev.pageY + 'px'
 				this.open = true
 				if (this._documentClickEvent.length) return;
 				const click = (ev) => {
-					if (!this.contains(ev.target)) {
-						this.open = false
+					const { left, top, right, bottom } = this.#pop.getBoundingClientRect()
+					if (ev.x > right || ev.y > bottom || ev.x < left || ev.y < top) {
+						this.open = false;
 					}
 				};
 				this._documentClickEvent.push(click)
@@ -56,7 +59,10 @@ export default class PopOver extends Pop {
 	}
 
 	render(){
-		if (this.#mounted) return
+		if (this.#mounted) {
+			this.dispatchEvent(new Event('adopt'))
+			return
+		} 
 		this.#mounted = true
 		if (!this.targetList) {
 			this.targetList = this.#targetAll

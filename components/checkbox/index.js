@@ -21,8 +21,8 @@ export default class Checkbox extends Base {
 		this.#checkbox = shadowRoot.getElementById("checkbox");
 	}
 
-	focus() {
-		this.#checkbox.focus();
+	focus(options) {
+		this.#checkbox.focus(options);
 	}
 
 	get disabled() {

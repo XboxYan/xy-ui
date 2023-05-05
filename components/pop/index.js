@@ -12,7 +12,7 @@ export default class Pop extends Base {
 		this.attachShadow({ mode: "open" });
 		this.adoptedStyle(style);
     this.shadowRoot.innerHTML = `
-    <div id="pop" class="pop" popover="manual">
+    <div id="pop" class="pop" popover="manual" part="pop">
       <slot></slot>
     </div>
     `
@@ -107,11 +107,12 @@ export default class Pop extends Base {
 	#setPosition() {
 		if (this.trigger?.includes("contextmenu")) return;
     if (!this.node) return
-		const { left, top, right, bottom } = this.node.getBoundingClientRect();
+		const { left, top, right, bottom, width } = this.node.getBoundingClientRect();
 		this.style.setProperty("--left", parseInt(left + window.pageXOffset));
 		this.style.setProperty("--top", parseInt(top + window.pageYOffset));
 		this.style.setProperty("--right", parseInt(right + window.pageXOffset));
 		this.style.setProperty("--bottom", parseInt(bottom + window.pageYOffset));
+		this.style.setProperty("--width", parseInt(width));
 		if (this.auto.length) {
 			// 自动识别位置
 			const w = window.innerWidth;
@@ -259,9 +260,10 @@ export default class Pop extends Base {
         // 注册 document click
         if (this._documentClickEvent.length) return
         const click = (ev) => {
-          if (!this.contains(ev.target) && !target.contains(ev.target)) {
-            this.open = false;
-          }
+					const { left, top, right, bottom } = this.#pop.getBoundingClientRect()
+					if (ev.x > right || ev.y > bottom || ev.x < left || ev.y < top) {
+						this.open = false;
+					}
         };
         this._documentClickEvent.push(click)
         document.addEventListener("click", click);
@@ -273,6 +275,10 @@ export default class Pop extends Base {
       })
 		}
 	}
+}
+
+if (!customElements.get("xy-pop")) {
+	customElements.define("xy-pop", Pop);
 }
 
 /*
