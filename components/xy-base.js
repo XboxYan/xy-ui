@@ -6,7 +6,7 @@ export default class Base extends HTMLElement {
 		super();
 	}
 
-  #mounted = [];
+  #mounted = false;
 
   adoptedStyle (style, dom) {
     let styleSheet = style
@@ -37,17 +37,19 @@ export default class Base extends HTMLElement {
     }
     if (!this.slots.length) return
     return new Promise((resolve) => {
-      if (this.#mounted.length === this.slots.length) {
+      if (this.#mounted) {
         resolve()
       } else {
-        this.slots.forEach((el,i) => el.addEventListener("slotchange", () => {
-          if (!this.#mounted[i]) {
-            this.#mounted[i] = true
-          }
-          if (this.#mounted.length === this.slots.length) {
-            setTimeout(resolve, 200);
-          }
-        }))
+        Promise.all(this.slots.map(el => new Promise((_resolve, reject) => {
+          el.addEventListener("slotchange", () => {
+            _resolve()
+          })
+        })))
+        .then(() =>{
+          console.log('slot加载完成')
+          this.#mounted = true
+          resolve()
+        })
       }
     })
   }

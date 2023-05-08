@@ -53,13 +53,15 @@
   --tips-color: #fff;
 }
 
-xy-popover:not(:defined){
-  position: absolute;
-  visibility: hidden;
-}
 
 html:has(xy-dialog[open]){
   overflow: hidden;
+}
+
+xy-select:not(:defined) xy-option,
+xy-popover:not(:defined){
+  position: absolute;
+  visibility: hidden;
 }
 
 xy-select xy-button[slot="button"]::part(button)::after{

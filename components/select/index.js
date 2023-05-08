@@ -1,7 +1,7 @@
 import Base from "../xy-base.js";
 import style from "./index.css?inline" assert { type: "css" };
-import "../popover/index.js";
 import "../button/index.js";
+import "../popover/index.js";
 import "../icon/index.js";
 
 export default class Select extends Base {
